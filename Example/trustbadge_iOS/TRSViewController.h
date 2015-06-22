@@ -2,8 +2,8 @@
 //  TRSViewController.h
 //  trustbadge_iOS
 //
-//  Created by Marc Kalmes on 06/22/2015.
-//  Copyright (c) 2014 Marc Kalmes. All rights reserved.
+//  Created by Trusted Shops on 06/22/2015.
+//  Copyright (c) 2014 Trusted Shops. All rights reserved.
 //
 
 @import UIKit;

@@ -2,8 +2,8 @@
 //  trustbadge_iOSTests.m
 //  trustbadge_iOSTests
 //
-//  Created by Marc Kalmes on 06/22/2015.
-//  Copyright (c) 2015 Marc Kalmes. All rights reserved.
+//  Created by Trusted Shops on 06/22/2015.
+//  Copyright (c) 2015 Trusted Shops. All rights reserved.
 //
 
 // https://github.com/Specta/Specta

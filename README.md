@@ -22,7 +22,7 @@ pod "trustbadge_iOS"
 
 ## Author
 
-Marc Kalmes, mkalmes@gmail.com
+[Trusted Shops GmbH](http://www.trustedshops.com)
 
 ## License
 
