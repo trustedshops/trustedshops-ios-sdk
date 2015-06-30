@@ -1,6 +1,7 @@
 # trustbadge_iOS
 
 [![CI Status](https://travis-ci.org/trustedshops/trustbadge_iOS.svg?branch=master)](https://travis-ci.org/trustedshops/trustbadge_iOS)
+[![Coverage Status](https://coveralls.io/repos/trustedshops/trustbadge/badge.svg)](https://coveralls.io/r/trustedshops/trustbadge)
 [![Version](https://img.shields.io/cocoapods/v/trustbadge_iOS.svg?style=flat)](http://cocoapods.org/pods/trustbadge_iOS)
 [![License](https://img.shields.io/cocoapods/l/trustbadge_iOS.svg?style=flat)](http://cocoapods.org/pods/trustbadge_iOS)
 [![Platform](https://img.shields.io/cocoapods/p/trustbadge_iOS.svg?style=flat)](http://cocoapods.org/pods/trustbadge_iOS)
