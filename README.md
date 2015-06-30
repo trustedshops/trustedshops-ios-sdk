@@ -1,6 +1,6 @@
 # trustbadge_iOS
 
-[![CI Status](http://img.shields.io/travis/Marc Kalmes/trustbadge_iOS.svg?style=flat)](https://travis-ci.org/Marc Kalmes/trustbadge_iOS)
+[![CI Status](http://img.shields.io/travis/Marc Kalmes/trustbadge_iOS.svg?style=flat)](https://travis-ci.org/trustedshops/trustbadge_iOS)
 [![Version](https://img.shields.io/cocoapods/v/trustbadge_iOS.svg?style=flat)](http://cocoapods.org/pods/trustbadge_iOS)
 [![License](https://img.shields.io/cocoapods/l/trustbadge_iOS.svg?style=flat)](http://cocoapods.org/pods/trustbadge_iOS)
 [![Platform](https://img.shields.io/cocoapods/p/trustbadge_iOS.svg?style=flat)](http://cocoapods.org/pods/trustbadge_iOS)
