@@ -1,5 +1,9 @@
 language: objective-c
 
+cache:
+- bundler
+- cocoapods
+
 install:
 - bundle install
 - bundle exec pod install --project-directory=Example
