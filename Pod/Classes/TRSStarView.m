@@ -45,6 +45,12 @@
     [self fillPath:starPath];
 }
 
+#pragma mark - UIView (UIConstraintBasedLayoutLayering)
+
+- (CGSize)intrinsicContentSize {
+    return self.bounds.size;
+}
+
 #pragma mark - Helper
 
 - (UIBezierPath *)starPath {
