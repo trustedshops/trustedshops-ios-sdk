@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "TRSProductTableViewController.h"
 
-@interface TRSProductDetailViewController : UIViewController
+@interface TRSProductDetailViewController : UIViewController <TRSProductSelectionDelegate>
 
 @property (nonatomic, copy) NSDictionary *product;
 

@@ -50,4 +50,12 @@ static NSString * const TRSProductTableViewCellReuseIdentifier = @"Product";
     return cell;
 }
 
+#pragma mark - UITableViewDelegate
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (self.delegate) {
+        [self.delegate didSelectNewProduct:self.products[indexPath.row]];
+    }
+}
+
 @end

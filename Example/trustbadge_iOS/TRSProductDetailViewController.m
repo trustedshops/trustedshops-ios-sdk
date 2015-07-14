@@ -39,4 +39,8 @@
     [self refreshUI];
 }
 
+- (void)didSelectNewProduct:(NSDictionary *)newProduct {
+    self.product = newProduct;
+}
+
 @end

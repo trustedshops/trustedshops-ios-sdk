@@ -7,11 +7,25 @@
 //
 
 #import "TRSAppDelegate.h"
+#import "TRSProductDetailViewController.h"
+#import "TRSProductTableViewController.h"
 
 @implementation TRSAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    if ([self.window.rootViewController isKindOfClass:[UISplitViewController class]]) {
+        UISplitViewController *splitViewController = (UISplitViewController *)self.window.rootViewController;
+        UINavigationController *masterNavController = [splitViewController.viewControllers objectAtIndex:0];
+        TRSProductTableViewController *masterViewController = (TRSProductTableViewController *)[masterNavController topViewController];
+        UINavigationController *detailNavController = [splitViewController.viewControllers objectAtIndex:1];
+        TRSProductDetailViewController *detailViewController = (TRSProductDetailViewController *)[detailNavController topViewController];
+
+        masterViewController.delegate = detailViewController;
+
+        detailViewController.product = masterViewController.products[0];
+    }
+
     return YES;
 }
 							
