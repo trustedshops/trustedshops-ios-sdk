@@ -7,6 +7,8 @@
 //
 
 #import "TRSProductTableViewController.h"
+#import "TRSProductDetailViewController.h"
+#import "UIViewController+TRSCompatiblyLayer.h"
 #import "UIViewController+TRSViewControllerShowing.m"
 
 static NSString * const TRSProductTableViewCellReuseIdentifier = @"Product";
@@ -62,9 +64,11 @@ static NSString * const TRSProductTableViewCellReuseIdentifier = @"Product";
 #pragma mark - UITableViewDelegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (self.delegate) {
-        [self.delegate didSelectNewProduct:self.products[indexPath.row]];
-    }
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    TRSProductDetailViewController *viewController = [storyboard instantiateViewControllerWithIdentifier:@"ProductDetail"];
+    viewController.product = self.products[indexPath.row];
+
+    [self tcl_showDetailViewController:viewController sender:self];
 }
 
 @end

@@ -9,7 +9,7 @@
         <!--Product Detail View Controller-->
         <scene sceneID="Mgh-dn-Sd6">
             <objects>
-                <viewController id="ZXO-9t-Lfh" customClass="TRSProductDetailViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ProductDetail" id="ZXO-9t-Lfh" customClass="TRSProductDetailViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="gre-Oy-qjb"/>
                         <viewControllerLayoutGuide type="bottom" id="FRB-Rs-6ry"/>

@@ -23,7 +23,7 @@
         UINavigationController *detailNavController = [splitViewController.viewControllers objectAtIndex:1];
         TRSProductDetailViewController *detailViewController = (TRSProductDetailViewController *)[detailNavController topViewController];
 
-        masterViewController.delegate = detailViewController;
+        masterViewController.productSelectionDelegate = detailViewController;
 
         detailViewController.product = masterViewController.products[0];
     }

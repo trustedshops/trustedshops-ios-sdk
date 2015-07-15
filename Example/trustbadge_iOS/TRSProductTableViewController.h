@@ -20,6 +20,6 @@
 @interface TRSProductTableViewController : UITableViewController
 
 @property (nonatomic, copy, readonly) NSArray *products;
-@property (nonatomic, assign) id <TRSProductSelectionDelegate> delegate;
+@property (nonatomic, assign) id <TRSProductSelectionDelegate> productSelectionDelegate;
 
 @end
