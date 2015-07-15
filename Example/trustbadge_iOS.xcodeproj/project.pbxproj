@@ -22,6 +22,11 @@
 		6003F5B2195388D20070C39A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F591195388D20070C39A /* UIKit.framework */; };
 		6003F5BA195388D20070C39A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6003F5B8195388D20070C39A /* InfoPlist.strings */; };
 		840B2B631B457135009E1D6D /* NSNumber+TRSRatingSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 840B2B611B45712C009E1D6D /* NSNumber+TRSRatingSpec.m */; };
+		845E96D91B5659FB00E799DD /* UISplitViewController+TRSCompatiblyLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 845E96D81B5659FB00E799DD /* UISplitViewController+TRSCompatiblyLayer.m */; };
+		845E96DC1B567BF000E799DD /* UIViewController+TRSViewControllerShowing.m in Sources */ = {isa = PBXBuildFile; fileRef = 845E96DB1B567BF000E799DD /* UIViewController+TRSViewControllerShowing.m */; };
+		845E96DF1B5682D600E799DD /* UIViewController+TRSCompatiblyLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 845E96DE1B5682D600E799DD /* UIViewController+TRSCompatiblyLayer.m */; };
+		84B6D0871B5540F10013CD30 /* TRSProductTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84B6D0861B5540F10013CD30 /* TRSProductTableViewController.m */; };
+		84B6D08A1B55499D0013CD30 /* TRSProductDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84B6D0891B55499D0013CD30 /* TRSProductDetailViewController.m */; };
 		873B8AEB1B1F5CCA007FD442 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 873B8AEA1B1F5CCA007FD442 /* Main.storyboard */; };
 /* End PBXBuildFile section */
 
@@ -60,6 +65,16 @@
 		606FC2411953D9B200FFA9A0 /* Tests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Tests-Prefix.pch"; sourceTree = "<group>"; };
 		80C56FD8266B3717314B9E05 /* trustbadge_iOS.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = trustbadge_iOS.podspec; path = ../trustbadge_iOS.podspec; sourceTree = "<group>"; };
 		840B2B611B45712C009E1D6D /* NSNumber+TRSRatingSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSNumber+TRSRatingSpec.m"; sourceTree = "<group>"; };
+		845E96D71B5659FB00E799DD /* UISplitViewController+TRSCompatiblyLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UISplitViewController+TRSCompatiblyLayer.h"; sourceTree = "<group>"; };
+		845E96D81B5659FB00E799DD /* UISplitViewController+TRSCompatiblyLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UISplitViewController+TRSCompatiblyLayer.m"; sourceTree = "<group>"; };
+		845E96DA1B567BF000E799DD /* UIViewController+TRSViewControllerShowing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+TRSViewControllerShowing.h"; sourceTree = "<group>"; };
+		845E96DB1B567BF000E799DD /* UIViewController+TRSViewControllerShowing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+TRSViewControllerShowing.m"; sourceTree = "<group>"; };
+		845E96DD1B5682D600E799DD /* UIViewController+TRSCompatiblyLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+TRSCompatiblyLayer.h"; sourceTree = "<group>"; };
+		845E96DE1B5682D600E799DD /* UIViewController+TRSCompatiblyLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+TRSCompatiblyLayer.m"; sourceTree = "<group>"; };
+		84B6D0851B5540F10013CD30 /* TRSProductTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TRSProductTableViewController.h; sourceTree = "<group>"; };
+		84B6D0861B5540F10013CD30 /* TRSProductTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TRSProductTableViewController.m; sourceTree = "<group>"; };
+		84B6D0881B55499D0013CD30 /* TRSProductDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TRSProductDetailViewController.h; sourceTree = "<group>"; };
+		84B6D0891B55499D0013CD30 /* TRSProductDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TRSProductDetailViewController.m; sourceTree = "<group>"; };
 		873B8AEA1B1F5CCA007FD442 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		A5D0B7243460D20672FD13F0 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		A68D1847BA5BEE315D4474D5 /* Pods-trustbadge_iOS_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-trustbadge_iOS_Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-trustbadge_iOS_Tests/Pods-trustbadge_iOS_Tests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -130,11 +145,21 @@
 		6003F593195388D20070C39A /* Example for trustbadge_iOS */ = {
 			isa = PBXGroup;
 			children = (
+				873B8AEA1B1F5CCA007FD442 /* Main.storyboard */,
 				6003F59C195388D20070C39A /* TRSAppDelegate.h */,
 				6003F59D195388D20070C39A /* TRSAppDelegate.m */,
-				873B8AEA1B1F5CCA007FD442 /* Main.storyboard */,
+				84B6D0881B55499D0013CD30 /* TRSProductDetailViewController.h */,
+				84B6D0891B55499D0013CD30 /* TRSProductDetailViewController.m */,
+				84B6D0851B5540F10013CD30 /* TRSProductTableViewController.h */,
+				84B6D0861B5540F10013CD30 /* TRSProductTableViewController.m */,
 				6003F5A5195388D20070C39A /* TRSViewController.h */,
 				6003F5A6195388D20070C39A /* TRSViewController.m */,
+				845E96D71B5659FB00E799DD /* UISplitViewController+TRSCompatiblyLayer.h */,
+				845E96D81B5659FB00E799DD /* UISplitViewController+TRSCompatiblyLayer.m */,
+				845E96DD1B5682D600E799DD /* UIViewController+TRSCompatiblyLayer.h */,
+				845E96DE1B5682D600E799DD /* UIViewController+TRSCompatiblyLayer.m */,
+				845E96DA1B567BF000E799DD /* UIViewController+TRSViewControllerShowing.h */,
+				845E96DB1B567BF000E799DD /* UIViewController+TRSViewControllerShowing.m */,
 				6003F5A8195388D20070C39A /* Images.xcassets */,
 				6003F594195388D20070C39A /* Supporting Files */,
 			);
@@ -390,9 +415,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				84B6D08A1B55499D0013CD30 /* TRSProductDetailViewController.m in Sources */,
 				6003F59E195388D20070C39A /* TRSAppDelegate.m in Sources */,
+				845E96DF1B5682D600E799DD /* UIViewController+TRSCompatiblyLayer.m in Sources */,
 				6003F5A7195388D20070C39A /* TRSViewController.m in Sources */,
+				845E96D91B5659FB00E799DD /* UISplitViewController+TRSCompatiblyLayer.m in Sources */,
 				6003F59A195388D20070C39A /* main.m in Sources */,
+				84B6D0871B5540F10013CD30 /* TRSProductTableViewController.m in Sources */,
+				845E96DC1B567BF000E799DD /* UIViewController+TRSViewControllerShowing.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

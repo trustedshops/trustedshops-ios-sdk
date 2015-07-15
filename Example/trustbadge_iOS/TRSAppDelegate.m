@@ -7,12 +7,27 @@
 //
 
 #import "TRSAppDelegate.h"
+#import "TRSProductDetailViewController.h"
+#import "TRSProductTableViewController.h"
+#import "UISplitViewController+TRSCompatiblyLayer.h"
 
 @implementation TRSAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    // Override point for customization after application launch.
+    if ([self.window.rootViewController isKindOfClass:[UISplitViewController class]]) {
+        UISplitViewController *splitViewController = (UISplitViewController *)self.window.rootViewController;
+        [splitViewController tcl_setPreferredDisplayMode:UISplitViewControllerDisplayModeAllVisible];
+        UINavigationController *masterNavController = [splitViewController.viewControllers objectAtIndex:0];
+        TRSProductTableViewController *masterViewController = (TRSProductTableViewController *)[masterNavController topViewController];
+        UINavigationController *detailNavController = [splitViewController.viewControllers objectAtIndex:1];
+        TRSProductDetailViewController *detailViewController = (TRSProductDetailViewController *)[detailNavController topViewController];
+
+        masterViewController.productSelectionDelegate = detailViewController;
+
+        detailViewController.product = masterViewController.products[0];
+    }
+
     return YES;
 }
 							
