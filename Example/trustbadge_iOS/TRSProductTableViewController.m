@@ -7,6 +7,7 @@
 //
 
 #import "TRSProductTableViewController.h"
+#import "UIViewController+TRSViewControllerShowing.m"
 
 static NSString * const TRSProductTableViewCellReuseIdentifier = @"Product";
 
@@ -45,9 +46,17 @@ static NSString * const TRSProductTableViewCellReuseIdentifier = @"Product";
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:TRSProductTableViewCellReuseIdentifier];
+    return [tableView dequeueReusableCellWithIdentifier:TRSProductTableViewCellReuseIdentifier];
+}
+
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
+    if ([self trs_willShowingDetailViewControllerPush]) {
+        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    } else {
+        cell.accessoryType = UITableViewCellAccessoryNone;
+    }
+
     cell.textLabel.text = self.products[indexPath.row][@"title"];
-    return cell;
 }
 
 #pragma mark - UITableViewDelegate

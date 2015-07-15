@@ -23,6 +23,7 @@
 		6003F5BA195388D20070C39A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6003F5B8195388D20070C39A /* InfoPlist.strings */; };
 		840B2B631B457135009E1D6D /* NSNumber+TRSRatingSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 840B2B611B45712C009E1D6D /* NSNumber+TRSRatingSpec.m */; };
 		845E96D91B5659FB00E799DD /* UISplitViewController+TRSCompatiblyLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 845E96D81B5659FB00E799DD /* UISplitViewController+TRSCompatiblyLayer.m */; };
+		845E96DC1B567BF000E799DD /* UIViewController+TRSViewControllerShowing.m in Sources */ = {isa = PBXBuildFile; fileRef = 845E96DB1B567BF000E799DD /* UIViewController+TRSViewControllerShowing.m */; };
 		84B6D0871B5540F10013CD30 /* TRSProductTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84B6D0861B5540F10013CD30 /* TRSProductTableViewController.m */; };
 		84B6D08A1B55499D0013CD30 /* TRSProductDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84B6D0891B55499D0013CD30 /* TRSProductDetailViewController.m */; };
 		873B8AEB1B1F5CCA007FD442 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 873B8AEA1B1F5CCA007FD442 /* Main.storyboard */; };
@@ -65,6 +66,8 @@
 		840B2B611B45712C009E1D6D /* NSNumber+TRSRatingSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSNumber+TRSRatingSpec.m"; sourceTree = "<group>"; };
 		845E96D71B5659FB00E799DD /* UISplitViewController+TRSCompatiblyLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UISplitViewController+TRSCompatiblyLayer.h"; sourceTree = "<group>"; };
 		845E96D81B5659FB00E799DD /* UISplitViewController+TRSCompatiblyLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UISplitViewController+TRSCompatiblyLayer.m"; sourceTree = "<group>"; };
+		845E96DA1B567BF000E799DD /* UIViewController+TRSViewControllerShowing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+TRSViewControllerShowing.h"; sourceTree = "<group>"; };
+		845E96DB1B567BF000E799DD /* UIViewController+TRSViewControllerShowing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+TRSViewControllerShowing.m"; sourceTree = "<group>"; };
 		84B6D0851B5540F10013CD30 /* TRSProductTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TRSProductTableViewController.h; sourceTree = "<group>"; };
 		84B6D0861B5540F10013CD30 /* TRSProductTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TRSProductTableViewController.m; sourceTree = "<group>"; };
 		84B6D0881B55499D0013CD30 /* TRSProductDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TRSProductDetailViewController.h; sourceTree = "<group>"; };
@@ -150,6 +153,8 @@
 				6003F5A6195388D20070C39A /* TRSViewController.m */,
 				845E96D71B5659FB00E799DD /* UISplitViewController+TRSCompatiblyLayer.h */,
 				845E96D81B5659FB00E799DD /* UISplitViewController+TRSCompatiblyLayer.m */,
+				845E96DA1B567BF000E799DD /* UIViewController+TRSViewControllerShowing.h */,
+				845E96DB1B567BF000E799DD /* UIViewController+TRSViewControllerShowing.m */,
 				6003F5A8195388D20070C39A /* Images.xcassets */,
 				6003F594195388D20070C39A /* Supporting Files */,
 			);
@@ -411,6 +416,7 @@
 				845E96D91B5659FB00E799DD /* UISplitViewController+TRSCompatiblyLayer.m in Sources */,
 				6003F59A195388D20070C39A /* main.m in Sources */,
 				84B6D0871B5540F10013CD30 /* TRSProductTableViewController.m in Sources */,
+				845E96DC1B567BF000E799DD /* UIViewController+TRSViewControllerShowing.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
