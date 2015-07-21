@@ -6,6 +6,11 @@
 @interface TRSNetworkAgent : NSObject
 
 /**
+ *  The base URL for the agent.
+ */
+@property (nonatomic, readonly, copy) NSURL *baseURL;
+
+/**
  * @name Creating an Agent
  */
 
@@ -15,6 +20,15 @@
  *  @return A `TRSNetworkAgent` singleton
  */
 + (instancetype)sharedAgent;
+
+/**
+ *  Initializes an `TRSNetworkAgent` with the specified base URL.
+ *
+ *  @param url The base URL for the agent
+ *
+ *  @return An initialized agent
+ */
+- (instancetype)initWithBaseURL:(NSURL *)baseURL;
 
 /**
  * @name Making HTTP Requests

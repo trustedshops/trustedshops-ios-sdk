@@ -1,11 +1,3 @@
-//
-//  TRSNetworkAgentSpec.m
-//  trustbadge_iOS
-//
-//  Created by Marc Kalmes on 7/21/15.
-//  Copyright 2015 Trusted Shops GmbH. All rights reserved.
-//
-
 #import "Specta.h"
 #import "TRSNetworkAgent.h"
 #import <OHHTTPStubs/OHHTTPStubs.h>
@@ -17,11 +9,23 @@ describe(@"TRSNetworkAgent", ^{
 
     __block TRSNetworkAgent *agent;
     beforeAll(^{
-        agent = [TRSNetworkAgent sharedAgent];
+        agent = [[TRSNetworkAgent alloc ] initWithBaseURL:[NSURL URLWithString:@"http://localhost"]];
     });
 
     afterAll(^{
         agent = nil;
+    });
+
+    it(@"has a non-nil agent", ^{
+        expect(agent).toNot.beNil();
+    });
+
+    it(@"has the correct object", ^{
+        expect(agent).to.beKindOf([TRSNetworkAgent class]);
+    });
+
+    it(@"has the correct base URL", ^{
+        expect(agent.baseURL).to.equal([NSURL URLWithString:@"http://localhost"]);
     });
 
     describe(@"-GET:success:failure:", ^{

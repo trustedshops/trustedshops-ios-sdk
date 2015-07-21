@@ -1,5 +1,12 @@
 #import "TRSNetworkAgent.h"
 
+@interface TRSNetworkAgent ()
+
+@property (nonatomic, readwrite) NSURL *baseURL;
+
+@end
+
+
 @implementation TRSNetworkAgent
 
 + (instancetype)sharedAgent {
@@ -12,12 +19,14 @@
     return sharedAgent;
 }
 
-- (instancetype)init {
+- (instancetype)initWithBaseURL:(NSURL *)baseURL {
     self = [super init];
 
     if (!self) {
         return nil;
     }
+
+    _baseURL = baseURL;
 
     return self;
 }
