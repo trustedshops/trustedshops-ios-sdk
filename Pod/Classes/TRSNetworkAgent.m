@@ -1,5 +1,7 @@
 #import "TRSNetworkAgent.h"
 
+static NSString * const TRSNetworkAgentBaseURL = @"https://api.trustedshops.com/";
+
 @interface TRSNetworkAgent ()
 
 @property (nonatomic, readwrite) NSURL *baseURL;
@@ -13,7 +15,7 @@
     static TRSNetworkAgent *sharedAgent;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        sharedAgent = [[self alloc] init];
+        sharedAgent = [[self alloc] initWithBaseURL:[NSURL URLWithString:TRSNetworkAgentBaseURL]];
     });
 
     return sharedAgent;

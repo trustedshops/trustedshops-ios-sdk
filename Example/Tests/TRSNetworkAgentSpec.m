@@ -28,6 +28,14 @@ describe(@"TRSNetworkAgent", ^{
         expect(agent.baseURL).to.equal([NSURL URLWithString:@"http://localhost"]);
     });
 
+    describe(@"+sharedAgent", ^{
+
+        it(@"has the correct base URL", ^{
+            expect([TRSNetworkAgent sharedAgent].baseURL).to.equal([NSURL URLWithString:@"https://api.trustedshops.com/"]);
+        });
+
+    });
+
     describe(@"-GET:success:failure:", ^{
 
         context(@"on success", ^{
