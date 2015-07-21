@@ -9,7 +9,7 @@ describe(@"TRSNetworkAgent", ^{
 
     __block TRSNetworkAgent *agent;
     beforeAll(^{
-        agent = [[TRSNetworkAgent alloc ] initWithBaseURL:[NSURL URLWithString:@"http://localhost"]];
+        agent = [[TRSNetworkAgent alloc] initWithBaseURL:[NSURL URLWithString:@"http://localhost"]];
     });
 
     afterAll(^{
