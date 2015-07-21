@@ -6,6 +6,11 @@
 @interface TRSNetworkAgent : NSObject
 
 /**
+ *  The base URL for the agent.
+ */
+@property (nonatomic, readonly, copy) NSURL *baseURL;
+
+/**
  * @name Creating an Agent
  */
 
@@ -17,16 +22,27 @@
 + (instancetype)sharedAgent;
 
 /**
+ *  Initializes an `TRSNetworkAgent` with the specified base URL.
+ *
+ *  @param url The base URL for the agent
+ *
+ *  @return An initialized agent
+ */
+- (instancetype)initWithBaseURL:(NSURL *)baseURL;
+
+/**
  * @name Making HTTP Requests
  */
 
 /**
- *  Creates and runs an `NSURLSessionDataTask` with a `GET` request.
+ *  Creates and runs an `NSURLSesseionDataTaks` with a `GET` request and returns the task.
  *
- *  @param URLString The URL as a string.
- *  @param success   A block object which will be executed when request finishes successfully. The block has a data argument.
- *  @param failure   A block object which will be executed when request finishes unsuccessfully. The block a an error argument.
+ *  @param path    The path of the URL
+ *  @param success A block object which will be executed when request finishes successfully. The block has a data argument.
+ *  @param failure A block object which will be executed when request finishes successfully. The block has a data argument.
+ *
+ *  @return Initialized `NSURLSessionDataTaks` object
  */
-- (void)GET:(NSString *)URLString success:(void (^)(NSData *data))success failure:(void (^)(NSError *error))failure;
+- (NSURLSessionDataTask *)GET:(NSString *)path success:(void (^)(NSData *data))success failure:(void (^)(NSError *error))failure;
 
 @end

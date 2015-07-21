@@ -1,11 +1,3 @@
-//
-//  TRSNetworkAgentSpec.m
-//  trustbadge_iOS
-//
-//  Created by Marc Kalmes on 7/21/15.
-//  Copyright 2015 Trusted Shops GmbH. All rights reserved.
-//
-
 #import "Specta.h"
 #import "TRSNetworkAgent.h"
 #import <OHHTTPStubs/OHHTTPStubs.h>
@@ -17,14 +9,39 @@ describe(@"TRSNetworkAgent", ^{
 
     __block TRSNetworkAgent *agent;
     beforeAll(^{
-        agent = [TRSNetworkAgent sharedAgent];
+        agent = [[TRSNetworkAgent alloc ] initWithBaseURL:[NSURL URLWithString:@"http://localhost"]];
     });
 
     afterAll(^{
         agent = nil;
     });
 
+    it(@"has a non-nil agent", ^{
+        expect(agent).toNot.beNil();
+    });
+
+    it(@"has the correct object", ^{
+        expect(agent).to.beKindOf([TRSNetworkAgent class]);
+    });
+
+    it(@"has the correct base URL", ^{
+        expect(agent.baseURL).to.equal([NSURL URLWithString:@"http://localhost"]);
+    });
+
+    describe(@"+sharedAgent", ^{
+
+        it(@"has the correct base URL", ^{
+            expect([TRSNetworkAgent sharedAgent].baseURL).to.equal([NSURL URLWithString:@"https://api.trustedshops.com/"]);
+        });
+
+    });
+
     describe(@"-GET:success:failure:", ^{
+
+        it(@"returns a data task", ^{
+            id task = [agent GET:@"foo/bar/baz" success:nil failure:nil];
+            expect(task).to.beKindOf([NSURLSessionDataTask class]);
+        });
 
         context(@"on success", ^{
 
@@ -44,7 +61,7 @@ describe(@"TRSNetworkAgent", ^{
 
             it(@"calls the success block", ^{
                 waitUntil(^(DoneCallback done) {
-                    [agent GET:@"http://localhost"
+                    [agent GET:@"foo/bar/baz"
                        success:^(NSData *data){
                            done();
                        }
@@ -54,7 +71,7 @@ describe(@"TRSNetworkAgent", ^{
 
             it(@"has a data object", ^{
                 waitUntil(^(DoneCallback done) {
-                    [agent GET:@"http://localhost"
+                    [agent GET:@"/foo/bar/baz"
                        success:^(NSData *data){
                            expect(data).notTo.beNil();
                            done();
@@ -69,7 +86,7 @@ describe(@"TRSNetworkAgent", ^{
 
             it(@"calls the failure block", ^{
                 waitUntil(^(DoneCallback done) {
-                    [agent GET:@"http://localhost"
+                    [agent GET:@"/foo/bar/baz"
                        success:nil
                        failure:^(NSError *error){
                            done();
@@ -79,7 +96,7 @@ describe(@"TRSNetworkAgent", ^{
 
             it(@"has an error object", ^{
                 waitUntil(^(DoneCallback done) {
-                    [agent GET:@"http://localhost"
+                    [agent GET:@"/foo/bar/baz"
                        success:nil
                        failure:^(NSError *error){
                            expect(error).notTo.beNil();
