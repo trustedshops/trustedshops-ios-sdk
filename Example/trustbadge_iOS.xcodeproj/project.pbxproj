@@ -25,6 +25,7 @@
 		845E96D91B5659FB00E799DD /* UISplitViewController+TRSCompatiblyLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 845E96D81B5659FB00E799DD /* UISplitViewController+TRSCompatiblyLayer.m */; };
 		845E96DC1B567BF000E799DD /* UIViewController+TRSViewControllerShowing.m in Sources */ = {isa = PBXBuildFile; fileRef = 845E96DB1B567BF000E799DD /* UIViewController+TRSViewControllerShowing.m */; };
 		845E96DF1B5682D600E799DD /* UIViewController+TRSCompatiblyLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 845E96DE1B5682D600E799DD /* UIViewController+TRSCompatiblyLayer.m */; };
+		84795A4E1B5E41A30091EA49 /* TRSNetworkAgentSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 84795A4C1B5E3EDA0091EA49 /* TRSNetworkAgentSpec.m */; };
 		84B6D0871B5540F10013CD30 /* TRSProductTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84B6D0861B5540F10013CD30 /* TRSProductTableViewController.m */; };
 		84B6D08A1B55499D0013CD30 /* TRSProductDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84B6D0891B55499D0013CD30 /* TRSProductDetailViewController.m */; };
 		873B8AEB1B1F5CCA007FD442 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 873B8AEA1B1F5CCA007FD442 /* Main.storyboard */; };
@@ -71,6 +72,7 @@
 		845E96DB1B567BF000E799DD /* UIViewController+TRSViewControllerShowing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+TRSViewControllerShowing.m"; sourceTree = "<group>"; };
 		845E96DD1B5682D600E799DD /* UIViewController+TRSCompatiblyLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+TRSCompatiblyLayer.h"; sourceTree = "<group>"; };
 		845E96DE1B5682D600E799DD /* UIViewController+TRSCompatiblyLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+TRSCompatiblyLayer.m"; sourceTree = "<group>"; };
+		84795A4C1B5E3EDA0091EA49 /* TRSNetworkAgentSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TRSNetworkAgentSpec.m; sourceTree = "<group>"; };
 		84B6D0851B5540F10013CD30 /* TRSProductTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TRSProductTableViewController.h; sourceTree = "<group>"; };
 		84B6D0861B5540F10013CD30 /* TRSProductTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TRSProductTableViewController.m; sourceTree = "<group>"; };
 		84B6D0881B55499D0013CD30 /* TRSProductDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TRSProductDetailViewController.h; sourceTree = "<group>"; };
@@ -183,6 +185,7 @@
 			children = (
 				840B2B611B45712C009E1D6D /* NSNumber+TRSRatingSpec.m */,
 				6003F5B6195388D20070C39A /* Supporting Files */,
+				84795A4C1B5E3EDA0091EA49 /* TRSNetworkAgentSpec.m */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -431,6 +434,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				840B2B631B457135009E1D6D /* NSNumber+TRSRatingSpec.m in Sources */,
+				84795A4E1B5E41A30091EA49 /* TRSNetworkAgentSpec.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
