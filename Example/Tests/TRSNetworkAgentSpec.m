@@ -61,7 +61,7 @@ describe(@"TRSNetworkAgent", ^{
 
             it(@"calls the success block", ^{
                 waitUntil(^(DoneCallback done) {
-                    [agent GET:@"http://localhost"
+                    [agent GET:@"foo/bar/baz"
                        success:^(NSData *data){
                            done();
                        }
@@ -71,7 +71,7 @@ describe(@"TRSNetworkAgent", ^{
 
             it(@"has a data object", ^{
                 waitUntil(^(DoneCallback done) {
-                    [agent GET:@"http://localhost"
+                    [agent GET:@"/foo/bar/baz"
                        success:^(NSData *data){
                            expect(data).notTo.beNil();
                            done();
@@ -86,7 +86,7 @@ describe(@"TRSNetworkAgent", ^{
 
             it(@"calls the failure block", ^{
                 waitUntil(^(DoneCallback done) {
-                    [agent GET:@"http://localhost"
+                    [agent GET:@"/foo/bar/baz"
                        success:nil
                        failure:^(NSError *error){
                            done();
@@ -96,7 +96,7 @@ describe(@"TRSNetworkAgent", ^{
 
             it(@"has an error object", ^{
                 waitUntil(^(DoneCallback done) {
-                    [agent GET:@"http://localhost"
+                    [agent GET:@"/foo/bar/baz"
                        success:nil
                        failure:^(NSError *error){
                            expect(error).notTo.beNil();
