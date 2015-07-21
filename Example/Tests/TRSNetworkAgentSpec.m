@@ -38,6 +38,11 @@ describe(@"TRSNetworkAgent", ^{
 
     describe(@"-GET:success:failure:", ^{
 
+        it(@"returns a data task", ^{
+            id task = [agent GET:@"foo/bar/baz" success:nil failure:nil];
+            expect(task).to.beKindOf([NSURLSessionDataTask class]);
+        });
+
         context(@"on success", ^{
 
             beforeEach(^{
