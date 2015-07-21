@@ -10,4 +10,5 @@ target 'trustbadge_iOS_Tests', :exclusive => true do
 
   pod 'Specta'
   pod 'Expecta'
+  pod 'OHHTTPStubs'
 end
