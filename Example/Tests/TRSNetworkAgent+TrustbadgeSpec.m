@@ -108,7 +108,8 @@ describe(@"TRSNetworkAgent+Trustbadge", ^{
                     [agent getTrustbadgeForTrustedShopsID:@"error"
                                                   success:nil
                                                   failure:^(NSError *error) {
-                                                      expect(error).notTo.beNil();
+                                                      expect(error.domain).to.equal(@"NSURLErrorDomain");
+                                                      expect(error.code).to.equal(NSURLErrorCannotConnectToHost);
                                                       done();
                                                   }];
                 });
