@@ -79,7 +79,7 @@ describe(@"TRSNetworkAgent", ^{
                 waitUntil(^(DoneCallback done) {
                     [agent GET:@"/foo/bar/baz"
                        success:^(NSData *data){
-                           expect(data).notTo.beNil();
+                           expect(data).to.equal([[NSString stringWithFormat:@"success"] dataUsingEncoding:NSUTF8StringEncoding]);
                            done();
                        }
                        failure:nil];
@@ -152,6 +152,17 @@ describe(@"TRSNetworkAgent", ^{
 
                 afterEach(^{
                     [OHHTTPStubs removeAllStubs];
+                });
+
+                it(@"passes a data object", ^{
+                    waitUntil(^(DoneCallback done) {
+                        [agent GET:@"/foo/bar/baz"
+                           success:nil
+                           failure:^(NSData *data, NSHTTPURLResponse *response, NSError *error) {
+                               expect(data).to.equal([[NSString stringWithFormat:@"not found"] dataUsingEncoding:NSUTF8StringEncoding]);
+                               done();
+                           }];
+                    });
                 });
 
                 it(@"passes a response object", ^{
