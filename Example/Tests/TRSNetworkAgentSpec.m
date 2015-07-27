@@ -1,6 +1,6 @@
-#import "Specta.h"
 #import "TRSNetworkAgent.h"
 #import <OHHTTPStubs/OHHTTPStubs.h>
+#import <Specta/Specta.h>
 
 
 SpecBegin(TRSNetworkAgent)
