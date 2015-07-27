@@ -33,7 +33,7 @@ static NSString * const TRSNetworkAgentBaseURL = @"https://api.trustedshops.com/
     return self;
 }
 
-- (NSURLSessionDataTask *)GET:(NSString *)path success:(void (^)(NSData *data))success failure:(void (^)(NSError *error))failure {
+- (NSURLSessionDataTask *)GET:(NSString *)path success:(void (^)(NSData *data))success failure:(void (^)(NSData *data, NSHTTPURLResponse *response, NSError *error))failure {
     NSURLSessionConfiguration *defaultConfiguration = [NSURLSessionConfiguration defaultSessionConfiguration];
     NSURLSession *session = [NSURLSession sessionWithConfiguration:defaultConfiguration delegate:nil delegateQueue:[NSOperationQueue mainQueue]];
 
@@ -41,7 +41,7 @@ static NSString * const TRSNetworkAgentBaseURL = @"https://api.trustedshops.com/
         NSHTTPURLResponse *HTTPURLResponse = (NSHTTPURLResponse *)response;
         if (HTTPURLResponse.statusCode != 200) {
             if (failure) {
-                failure(error);
+                failure(data, HTTPURLResponse, error);
             }
             return;
         }

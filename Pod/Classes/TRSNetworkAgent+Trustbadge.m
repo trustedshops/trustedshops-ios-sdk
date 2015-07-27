@@ -1,4 +1,5 @@
 #import "TRSNetworkAgent+Trustbadge.h"
+#import "TRSErrors.h"
 
 static NSString * const TRSNetworkAgentTrustbadgePath = @"/rest/public/v2/shops/%@/quality";
 
@@ -14,8 +15,30 @@ static NSString * const TRSNetworkAgentTrustbadgePath = @"/rest/public/v2/shops/
         }
     };
 
-    void (^failureBlock)(NSError *error) = ^(NSError *error) {
+    void (^failureBlock)(NSData *data, NSHTTPURLResponse *response, NSError *error) = ^(NSData *data, NSHTTPURLResponse *response, NSError *error) {
         if (failure) {
+            if (!error) {
+                switch (response.statusCode) {
+                    case 400: {
+                        error = [NSError errorWithDomain:TRSErrorDomain
+                                                    code:TRSErrorDomainTrustbadgeInvalidTSID
+                                                userInfo:nil];
+                    } break;
+
+                    case 404: {
+                        error = [NSError errorWithDomain:TRSErrorDomain
+                                                    code:TRSErrorDomainTrustbadgeTSIDNotFound
+                                                userInfo:nil];
+                    } break;
+
+                    default: {
+                        error = [NSError errorWithDomain:TRSErrorDomain
+                                                    code:TRSErrorDomainTrustbadgeUnknownError
+                                                userInfo:nil];
+                    } break;
+                }
+            }
+
             failure(error);
         }
     };
