@@ -130,6 +130,7 @@ describe(@"TRSNetworkAgent", ^{
                        success:nil
                        failure:^(NSData *data, NSHTTPURLResponse *response, NSError *error) {
                            expect(error.domain).to.equal(@"NSURLErrorDomain");
+                           expect(error.code).to.equal(NSURLErrorCannotConnectToHost);
                            done();
                        }];
                 });
