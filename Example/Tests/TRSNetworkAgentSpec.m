@@ -88,21 +88,62 @@ describe(@"TRSNetworkAgent", ^{
                 waitUntil(^(DoneCallback done) {
                     [agent GET:@"/foo/bar/baz"
                        success:nil
-                       failure:^(NSError *error){
+                       failure:^(NSData *data, NSHTTPURLResponse *response, NSError *error) {
                            done();
                        }];
                 });
             });
 
-            it(@"has an error object", ^{
+            it(@"passes a data object", ^{
                 waitUntil(^(DoneCallback done) {
                     [agent GET:@"/foo/bar/baz"
                        success:nil
-                       failure:^(NSError *error){
-                           expect(error).notTo.beNil();
+                       failure:^(NSData *data, NSHTTPURLResponse *response, NSError *error) {
+                           expect(data).notTo.beNil();
                            done();
                        }];
                 });
+            });
+
+            it(@"passes an error object", ^{
+                waitUntil(^(DoneCallback done) {
+                    [agent GET:@"/foo/bar/baz"
+                       success:nil
+                       failure:^(NSData *data, NSHTTPURLResponse *response, NSError *error) {
+                           expect(error.domain).to.equal(@"NSURLErrorDomain");
+                           done();
+                       }];
+                });
+            });
+
+            context(@"with a network response", ^{
+
+                beforeEach(^{
+                    [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+                        return YES;
+                    }
+                                        withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
+                                            return [OHHTTPStubsResponse responseWithData:[[NSString stringWithFormat:@"not found"] dataUsingEncoding:NSUTF8StringEncoding]
+                                                                              statusCode:404
+                                                                                 headers:nil];
+                                        }];
+                });
+
+                afterEach(^{
+                    [OHHTTPStubs removeAllStubs];
+                });
+
+                it(@"passes a response object", ^{
+                    waitUntil(^(DoneCallback done) {
+                        [agent GET:@"/foo/bar/baz"
+                           success:nil
+                           failure:^(NSData *data, NSHTTPURLResponse *response, NSError *error) {
+                               expect(response).to.beKindOf([NSHTTPURLResponse class]);
+                               done();
+                           }];
+                    });
+                });
+
             });
 
         });

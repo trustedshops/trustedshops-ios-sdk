@@ -1,0 +1,9 @@
+HTTP/1.1 404 Not Found
+Date: Mon, 27 Jul 2015 08:01:39 GMT
+Server: Apache
+Access-Control-Allow-Origin: *
+Connection: close
+Transfer-Encoding: chunked
+Content-Type: application/json
+
+{"response":{"code":404,"message":"TS_ID_NOT_FOUND","responseInfo":{"apiVersion":"2.3.10"},"status":"ERROR"}}
