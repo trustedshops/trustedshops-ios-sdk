@@ -1,5 +1,5 @@
-#import "Specta.h"
 #import "NSNumber+TRSRating.h"
+#import <Specta/Specta.h>
 
 
 SpecBegin(NSNumber_TRSRating)
