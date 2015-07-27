@@ -26,12 +26,12 @@ describe(@"TRSNetworkAgent+Trustbadge", ^{
 
         it(@"has the correct URL", ^{
             NSURLSessionDataTask *task = (NSURLSessionDataTask *)[agent getTrustbadgeForTrustedShopsID:@"123" success:nil failure:nil];
-            expect(task.originalRequest.URL).to.equal([NSURL URLWithString:@"http://localhost/public/v2/shops/123/quality"]);
+            expect(task.originalRequest.URL).to.equal([NSURL URLWithString:@"http://localhost/rest/public/v2/shops/123/quality"]);
         });
 
         it(@"calls '-GET:success:failure'", ^{
             id agentMock = OCMPartialMock(agent);
-            OCMExpect([agentMock GET:@"/public/v2/shops/123/quality" success:[OCMArg any] failure:[OCMArg any]]);
+            OCMExpect([agentMock GET:@"/rest/public/v2/shops/123/quality" success:[OCMArg any] failure:[OCMArg any]]);
 
             [agent getTrustbadgeForTrustedShopsID:@"123" success:nil failure:nil];
 

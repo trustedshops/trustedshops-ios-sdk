@@ -1,6 +1,6 @@
 #import "TRSNetworkAgent+Trustbadge.h"
 
-static NSString * const TRSNetworkAgentTrustbadgePath = @"/public/v2/shops/%@/quality";
+static NSString * const TRSNetworkAgentTrustbadgePath = @"/rest/public/v2/shops/%@/quality";
 
 
 @implementation TRSNetworkAgent (Trustbadge)
