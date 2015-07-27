@@ -59,6 +59,13 @@ describe(@"TRSNetworkAgent", ^{
                 [OHHTTPStubs removeAllStubs];
             });
 
+            it(@"accepts JSON", ^{
+                NSURLSessionDataTask *task = (NSURLSessionDataTask *)[agent GET:@"foo/bar/baz" success:nil failure:nil];
+                NSDictionary *headerDictionary = task.originalRequest.allHTTPHeaderFields;
+
+                expect(headerDictionary).to.beSupersetOf(@{@"Accept" : @"application/json"});
+            });
+
             it(@"calls the success block", ^{
                 waitUntil(^(DoneCallback done) {
                     [agent GET:@"foo/bar/baz"

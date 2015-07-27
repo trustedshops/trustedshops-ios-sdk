@@ -52,7 +52,9 @@ static NSString * const TRSNetworkAgentBaseURL = @"https://api.trustedshops.com/
     };
 
     NSURL *requestURL = [NSURL URLWithString:path relativeToURL:self.baseURL];
-    NSURLSessionDataTask *task = [session dataTaskWithURL:requestURL completionHandler:completion];
+    NSMutableURLRequest *mutableRequest = [[NSMutableURLRequest alloc] initWithURL:requestURL];
+    mutableRequest.allHTTPHeaderFields = @{@"Accept" : @"application/json"};
+    NSURLSessionDataTask *task = [session dataTaskWithRequest:[mutableRequest copy] completionHandler:completion];
     [task resume];
 
     return task;
