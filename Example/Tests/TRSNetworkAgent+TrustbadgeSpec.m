@@ -80,7 +80,20 @@ describe(@"TRSNetworkAgent+Trustbadge", ^{
 
         context(@"on failure", ^{
 
-            it(@"executes the failuer block", ^{
+            beforeEach(^{
+                [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+                    return [request.URL.absoluteString isEqualToString:@"http://localhost/foo/bar/baz"];
+                } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
+                    NSError *networkError = [NSError errorWithDomain:NSURLErrorDomain code:NSURLErrorCannotConnectToHost userInfo:nil];
+                    return [OHHTTPStubsResponse responseWithError:networkError];
+                }];
+            });
+            
+            afterEach(^{
+                [OHHTTPStubs removeAllStubs];
+            });
+            
+            it(@"executes the failure block", ^{
                 waitUntil(^(DoneCallback done) {
                     [agent getTrustbadgeForTrustedShopsID:@"error"
                                                   success:nil
