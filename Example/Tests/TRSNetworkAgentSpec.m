@@ -90,6 +90,19 @@ describe(@"TRSNetworkAgent", ^{
 
         context(@"on failure", ^{
 
+            beforeEach(^{
+                [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+                    return [request.URL.absoluteString isEqualToString:@"http://localhost/foo/bar/baz"];
+                } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
+                    NSError *networkError = [NSError errorWithDomain:NSURLErrorDomain code:NSURLErrorCannotConnectToHost userInfo:nil];
+                    return [OHHTTPStubsResponse responseWithError:networkError];
+                }];
+            });
+            
+            afterEach(^{
+                [OHHTTPStubs removeAllStubs];
+            });
+            
             it(@"calls the failure block", ^{
                 waitUntil(^(DoneCallback done) {
                     [agent GET:@"/foo/bar/baz"
