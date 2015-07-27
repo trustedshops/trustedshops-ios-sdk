@@ -2,7 +2,6 @@
 #import <OHHTTPStubs/OHHTTPStubs.h>
 #import <Specta/Specta.h>
 
-
 SpecBegin(TRSNetworkAgent)
 
 describe(@"TRSNetworkAgent", ^{
@@ -32,6 +31,13 @@ describe(@"TRSNetworkAgent", ^{
 
         it(@"has the correct base URL", ^{
             expect([TRSNetworkAgent sharedAgent].baseURL).to.equal([NSURL URLWithString:@"https://api.trustedshops.com/"]);
+        });
+        
+        it(@"returns the same instance", ^{
+            TRSNetworkAgent *agent1 = [TRSNetworkAgent sharedAgent];
+            TRSNetworkAgent *agent2 = [TRSNetworkAgent sharedAgent];
+            
+            expect(agent1).to.equal(agent2);
         });
 
     });
