@@ -53,7 +53,7 @@ describe(@"TRSNetworkAgent", ^{
 
             beforeEach(^{
                 [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
-                    return YES;
+                    return [request.URL.absoluteString isEqualToString:@"http://localhost/foo/bar/baz"];
                 } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
                     return [OHHTTPStubsResponse responseWithData:[[NSString stringWithFormat:@"success"] dataUsingEncoding:NSUTF8StringEncoding]
                                                       statusCode:200
@@ -139,7 +139,7 @@ describe(@"TRSNetworkAgent", ^{
 
                 beforeEach(^{
                     [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
-                        return YES;
+                        return [request.URL.absoluteString isEqualToString:@"http://localhost/foo/bar/baz"];
                     }
                                         withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
                                             return [OHHTTPStubsResponse responseWithData:[[NSString stringWithFormat:@"not found"] dataUsingEncoding:NSUTF8StringEncoding]
