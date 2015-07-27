@@ -119,6 +119,7 @@ describe(@"TRSNetworkAgent", ^{
                        success:nil
                        failure:^(NSData *data, NSHTTPURLResponse *response, NSError *error) {
                            expect(data).notTo.beNil();
+                           expect(data.length).to.equal(0);
                            done();
                        }];
                 });
