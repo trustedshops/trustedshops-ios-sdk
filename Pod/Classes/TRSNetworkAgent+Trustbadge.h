@@ -14,7 +14,7 @@
  *
  *  @param trustedShopsID Trusted Shops ID for the shop
  *  @param success        A block object which will be executed when request finishes successfully. The block has a data argument.
- *  @param failure        A block object which will be executed when request finishes successfully. The block has a data argument.
+ *  @param failure        A block object which will be executed when request finishes unsuccessfully. The block has an error argument.
  *
  *  @return Initialized `NSURLSessionDataTask` object
  */
