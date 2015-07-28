@@ -119,18 +119,38 @@ describe(@"TRSNetworkAgent", ^{
                        success:nil
                        failure:^(NSData *data, NSHTTPURLResponse *response, NSError *error) {
                            expect(data).notTo.beNil();
+                           done();
+                       }];
+                });
+            });
+
+            it(@"passes a data object with a length of 0", ^{
+                waitUntil(^(DoneCallback done) {
+                    [agent GET:@"/foo/bar/baz"
+                       success:nil
+                       failure:^(NSData *data, NSHTTPURLResponse *response, NSError *error) {
                            expect(data.length).to.equal(0);
                            done();
                        }];
                 });
             });
 
-            it(@"passes an error object", ^{
+            it(@"passes an error object with a 'NSURLErrorDomain' error domain", ^{
                 waitUntil(^(DoneCallback done) {
                     [agent GET:@"/foo/bar/baz"
                        success:nil
                        failure:^(NSData *data, NSHTTPURLResponse *response, NSError *error) {
                            expect(error.domain).to.equal(@"NSURLErrorDomain");
+                           done();
+                       }];
+                });
+            });
+
+            it(@"passes an error object with a 'NSURLErrorCannotConnectToHost' error code", ^{
+                waitUntil(^(DoneCallback done) {
+                    [agent GET:@"/foo/bar/baz"
+                       success:nil
+                       failure:^(NSData *data, NSHTTPURLResponse *response, NSError *error) {
                            expect(error.code).to.equal(NSURLErrorCannotConnectToHost);
                            done();
                        }];

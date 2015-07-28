@@ -103,12 +103,22 @@ describe(@"TRSNetworkAgent+Trustbadge", ^{
                 });
             });
 
-            it(@"passes an error object", ^{
+            it(@"passes an error object with a 'NSURLErrorDomain' error domain", ^{
                 waitUntil(^(DoneCallback done) {
                     [agent getTrustbadgeForTrustedShopsID:@"error"
                                                   success:nil
                                                   failure:^(NSError *error) {
                                                       expect(error.domain).to.equal(@"NSURLErrorDomain");
+                                                      done();
+                                                  }];
+                });
+            });
+
+            it(@"passes an error object with a 'NSURLErrorCannotConnectToHost' error code", ^{
+                waitUntil(^(DoneCallback done) {
+                    [agent getTrustbadgeForTrustedShopsID:@"error"
+                                                  success:nil
+                                                  failure:^(NSError *error) {
                                                       expect(error.code).to.equal(NSURLErrorCannotConnectToHost);
                                                       done();
                                                   }];
