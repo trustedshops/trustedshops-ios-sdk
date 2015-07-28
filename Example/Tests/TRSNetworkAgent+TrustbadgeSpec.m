@@ -43,7 +43,7 @@ describe(@"TRSNetworkAgent+Trustbadge", ^{
 
             beforeEach(^{
                 [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
-                    return YES;
+                    return [request.URL.absoluteString isEqualToString:@"http://localhost/rest/public/v2/shops/123/quality"];
                 } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
                     return [OHHTTPStubsResponse responseWithData:[[NSString stringWithFormat:@"success"] dataUsingEncoding:NSUTF8StringEncoding]
                                                       statusCode:200
@@ -80,7 +80,20 @@ describe(@"TRSNetworkAgent+Trustbadge", ^{
 
         context(@"on failure", ^{
 
-            it(@"executes the failuer block", ^{
+            beforeEach(^{
+                [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+                    return [request.URL.absoluteString isEqualToString:@"http://localhost/foo/bar/baz"];
+                } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
+                    NSError *networkError = [NSError errorWithDomain:NSURLErrorDomain code:NSURLErrorCannotConnectToHost userInfo:nil];
+                    return [OHHTTPStubsResponse responseWithError:networkError];
+                }];
+            });
+            
+            afterEach(^{
+                [OHHTTPStubs removeAllStubs];
+            });
+            
+            it(@"executes the failure block", ^{
                 waitUntil(^(DoneCallback done) {
                     [agent getTrustbadgeForTrustedShopsID:@"error"
                                                   success:nil
@@ -90,12 +103,23 @@ describe(@"TRSNetworkAgent+Trustbadge", ^{
                 });
             });
 
-            it(@"passes an error object", ^{
+            it(@"passes an error object with a 'NSURLErrorDomain' error domain", ^{
                 waitUntil(^(DoneCallback done) {
                     [agent getTrustbadgeForTrustedShopsID:@"error"
                                                   success:nil
                                                   failure:^(NSError *error) {
-                                                      expect(error).notTo.beNil();
+                                                      expect(error.domain).to.equal(@"NSURLErrorDomain");
+                                                      done();
+                                                  }];
+                });
+            });
+
+            it(@"passes an error object with a 'NSURLErrorCannotConnectToHost' error code", ^{
+                waitUntil(^(DoneCallback done) {
+                    [agent getTrustbadgeForTrustedShopsID:@"error"
+                                                  success:nil
+                                                  failure:^(NSError *error) {
+                                                      expect(error.code).to.equal(NSURLErrorCannotConnectToHost);
                                                       done();
                                                   }];
                 });
@@ -200,6 +224,17 @@ describe(@"TRSNetworkAgent+Trustbadge", ^{
 
                     afterEach(^{
                         [OHHTTPStubs removeAllStubs];
+                    });
+
+                    it(@"passes a data object", ^{
+                        waitUntil(^(DoneCallback done) {
+                            [agent GET:@"/foo/bar/baz"
+                               success:nil
+                               failure:^(NSData *data, NSHTTPURLResponse *response, NSError *error) {
+                                   expect(data).to.equal([[NSString stringWithFormat:@"not a HTTP status code"] dataUsingEncoding:NSUTF8StringEncoding]);
+                                   done();
+                               }];
+                        });
                     });
 
                     it(@"passes a custom error code", ^{

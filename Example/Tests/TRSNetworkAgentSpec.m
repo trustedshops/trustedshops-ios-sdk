@@ -2,7 +2,6 @@
 #import <OHHTTPStubs/OHHTTPStubs.h>
 #import <Specta/Specta.h>
 
-
 SpecBegin(TRSNetworkAgent)
 
 describe(@"TRSNetworkAgent", ^{
@@ -33,6 +32,13 @@ describe(@"TRSNetworkAgent", ^{
         it(@"has the correct base URL", ^{
             expect([TRSNetworkAgent sharedAgent].baseURL).to.equal([NSURL URLWithString:@"https://api.trustedshops.com/"]);
         });
+        
+        it(@"returns the same instance", ^{
+            TRSNetworkAgent *agent1 = [TRSNetworkAgent sharedAgent];
+            TRSNetworkAgent *agent2 = [TRSNetworkAgent sharedAgent];
+            
+            expect(agent1).to.equal(agent2);
+        });
 
     });
 
@@ -47,7 +53,7 @@ describe(@"TRSNetworkAgent", ^{
 
             beforeEach(^{
                 [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
-                    return YES;
+                    return [request.URL.absoluteString isEqualToString:@"http://localhost/foo/bar/baz"];
                 } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
                     return [OHHTTPStubsResponse responseWithData:[[NSString stringWithFormat:@"success"] dataUsingEncoding:NSUTF8StringEncoding]
                                                       statusCode:200
@@ -80,7 +86,7 @@ describe(@"TRSNetworkAgent", ^{
                 waitUntil(^(DoneCallback done) {
                     [agent GET:@"/foo/bar/baz"
                        success:^(NSData *data){
-                           expect(data).notTo.beNil();
+                           expect(data).to.equal([[NSString stringWithFormat:@"success"] dataUsingEncoding:NSUTF8StringEncoding]);
                            done();
                        }
                        failure:nil];
@@ -91,6 +97,19 @@ describe(@"TRSNetworkAgent", ^{
 
         context(@"on failure", ^{
 
+            beforeEach(^{
+                [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+                    return [request.URL.absoluteString isEqualToString:@"http://localhost/foo/bar/baz"];
+                } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
+                    NSError *networkError = [NSError errorWithDomain:NSURLErrorDomain code:NSURLErrorCannotConnectToHost userInfo:nil];
+                    return [OHHTTPStubsResponse responseWithError:networkError];
+                }];
+            });
+            
+            afterEach(^{
+                [OHHTTPStubs removeAllStubs];
+            });
+            
             it(@"calls the failure block", ^{
                 waitUntil(^(DoneCallback done) {
                     [agent GET:@"/foo/bar/baz"
@@ -112,7 +131,18 @@ describe(@"TRSNetworkAgent", ^{
                 });
             });
 
-            it(@"passes an error object", ^{
+            it(@"passes a data object with a length of 0", ^{
+                waitUntil(^(DoneCallback done) {
+                    [agent GET:@"/foo/bar/baz"
+                       success:nil
+                       failure:^(NSData *data, NSHTTPURLResponse *response, NSError *error) {
+                           expect(data.length).to.equal(0);
+                           done();
+                       }];
+                });
+            });
+
+            it(@"passes an error object with a 'NSURLErrorDomain' error domain", ^{
                 waitUntil(^(DoneCallback done) {
                     [agent GET:@"/foo/bar/baz"
                        success:nil
@@ -123,11 +153,22 @@ describe(@"TRSNetworkAgent", ^{
                 });
             });
 
+            it(@"passes an error object with a 'NSURLErrorCannotConnectToHost' error code", ^{
+                waitUntil(^(DoneCallback done) {
+                    [agent GET:@"/foo/bar/baz"
+                       success:nil
+                       failure:^(NSData *data, NSHTTPURLResponse *response, NSError *error) {
+                           expect(error.code).to.equal(NSURLErrorCannotConnectToHost);
+                           done();
+                       }];
+                });
+            });
+
             context(@"with a network response", ^{
 
                 beforeEach(^{
                     [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
-                        return YES;
+                        return [request.URL.absoluteString isEqualToString:@"http://localhost/foo/bar/baz"];
                     }
                                         withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
                                             return [OHHTTPStubsResponse responseWithData:[[NSString stringWithFormat:@"not found"] dataUsingEncoding:NSUTF8StringEncoding]
@@ -138,6 +179,17 @@ describe(@"TRSNetworkAgent", ^{
 
                 afterEach(^{
                     [OHHTTPStubs removeAllStubs];
+                });
+
+                it(@"passes a data object", ^{
+                    waitUntil(^(DoneCallback done) {
+                        [agent GET:@"/foo/bar/baz"
+                           success:nil
+                           failure:^(NSData *data, NSHTTPURLResponse *response, NSError *error) {
+                               expect(data).to.equal([[NSString stringWithFormat:@"not found"] dataUsingEncoding:NSUTF8StringEncoding]);
+                               done();
+                           }];
+                    });
                 });
 
                 it(@"passes a response object", ^{
