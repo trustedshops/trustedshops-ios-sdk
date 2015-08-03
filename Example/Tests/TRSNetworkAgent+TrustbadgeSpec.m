@@ -182,15 +182,9 @@ describe(@"TRSNetworkAgent+Trustbadge", ^{
                           @"response"       : response };
             });
 
-            it(@"passes a custom trustbadge error domain", ^{
-                waitUntil(^(DoneCallback done) {
-                    [agent getTrustbadgeForTrustedShopsID:@"123123123"
-                                                  success:nil
-                                                  failure:^(NSError *error) {
-                                                      expect(error.domain).to.equal(TRSErrorDomain);
-                                                      done();
-                                                  }];
-                });
+            itShouldBehaveLike(@"a Trustbadge error", ^{
+                return @{ @"trustedShopsID" : trustedShopsID,
+                          @"response"       : response };
             });
 
             it(@"passes a custom error code", ^{
@@ -234,15 +228,9 @@ describe(@"TRSNetworkAgent+Trustbadge", ^{
                           @"response"       : response };
             });
 
-            it(@"passes a custom trustbadge error domain", ^{
-                waitUntil(^(DoneCallback done) {
-                    [agent getTrustbadgeForTrustedShopsID:@"000111222333444555666777888999111"
-                                                  success:nil
-                                                  failure:^(NSError *error) {
-                                                      expect(error.domain).to.equal(TRSErrorDomain);
-                                                      done();
-                                                  }];
-                });
+            itShouldBehaveLike(@"a Trustbadge error", ^{
+                return @{ @"trustedShopsID" : trustedShopsID,
+                          @"response"       : response };
             });
 
             it(@"passes a custom error code", ^{
@@ -286,15 +274,9 @@ describe(@"TRSNetworkAgent+Trustbadge", ^{
                           @"response"       : response };
             });
 
-            it(@"passes a custom error domain", ^{
-                waitUntil(^(DoneCallback done) {
-                    [agent getTrustbadgeForTrustedShopsID:@"000000000000000000000000000000000"
-                                                  success:nil
-                                                  failure:^(NSError *error) {
-                                                      expect(error.domain).to.equal(TRSErrorDomain);
-                                                      done();
-                                                  }];
-                });
+            itShouldBehaveLike(@"a Trustbadge error", ^{
+                return @{ @"trustedShopsID" : trustedShopsID,
+                          @"response"       : response };
             });
 
             it(@"passes a custom error code", ^{
@@ -337,15 +319,9 @@ describe(@"TRSNetworkAgent+Trustbadge", ^{
                           @"response"       : response };
             });
 
-            it(@"passes a custom trustbadge error domain", ^{
-                waitUntil(^(DoneCallback done) {
-                    [agent getTrustbadgeForTrustedShopsID:@"111222333444555666777888999111222"
-                                                  success:nil
-                                                  failure:^(NSError *error) {
-                                                      expect(error.domain).to.equal(TRSErrorDomain);
-                                                      done();
-                                                  }];
-                });
+            itShouldBehaveLike(@"a Trustbadge error", ^{
+                return @{ @"trustedShopsID" : trustedShopsID,
+                          @"response"       : response };
             });
 
             it(@"passes a custom error code", ^{
