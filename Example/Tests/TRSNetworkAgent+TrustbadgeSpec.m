@@ -256,14 +256,20 @@ describe(@"TRSNetworkAgent+Trustbadge", ^{
 
         context(@"when receiving an unkown error", ^{
 
+            __block NSString *trustedShopsID;
+            __block OHHTTPStubsResponse *response;
             beforeEach(^{
+                trustedShopsID = @"000000000000000000000000000000000";
+                response = [OHHTTPStubsResponse responseWithData:[[NSString stringWithFormat:@"not a HTTP status code"] dataUsingEncoding:NSUTF8StringEncoding]
+                                                       statusCode:460
+                                                          headers:nil];
+
                 [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
-                    return YES;
+                    NSString *URLString = [NSString stringWithFormat:@"http://localhost/rest/public/v2/shops/%@/quality", trustedShopsID];
+                    return [request.URL.absoluteString isEqualToString:URLString];
                 }
                                     withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
-                                        return [OHHTTPStubsResponse responseWithData:[[NSString stringWithFormat:@"not a HTTP status code"] dataUsingEncoding:NSUTF8StringEncoding]
-                                                                          statusCode:460
-                                                                             headers:nil];
+                                        return response;
                                     }];
             });
 
@@ -284,7 +290,7 @@ describe(@"TRSNetworkAgent+Trustbadge", ^{
 
             it(@"passes a custom error domain", ^{
                 waitUntil(^(DoneCallback done) {
-                    [agent getTrustbadgeForTrustedShopsID:@"error"
+                    [agent getTrustbadgeForTrustedShopsID:@"000000000000000000000000000000000"
                                                   success:nil
                                                   failure:^(NSError *error) {
                                                       expect(error.domain).to.equal(TRSErrorDomain);
@@ -295,7 +301,7 @@ describe(@"TRSNetworkAgent+Trustbadge", ^{
 
             it(@"passes a custom error code", ^{
                 waitUntil(^(DoneCallback done) {
-                    [agent getTrustbadgeForTrustedShopsID:@"error"
+                    [agent getTrustbadgeForTrustedShopsID:@"000000000000000000000000000000000"
                                                   success:nil
                                                   failure:^(NSError *error) {
                                                       expect(error.code).to.equal(TRSErrorDomainTrustbadgeUnknownError);
