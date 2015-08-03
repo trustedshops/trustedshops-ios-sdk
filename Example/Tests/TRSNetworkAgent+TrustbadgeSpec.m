@@ -19,6 +19,36 @@ describe(@"TRSNetworkAgent+Trustbadge", ^{
         agent = nil;
     });
 
+    sharedExamplesFor(@"an unsuccessful response", ^(NSDictionary *data) {
+
+        beforeEach(^{
+            NSString *URLFormatString = @"http://localhost/rest/public/v2/shops/%@/quality";
+            NSString *URLString = [NSString stringWithFormat:URLFormatString, data[@"trustedShopsID"]];
+            [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+                BOOL shouldStubResponse = [request.URL.absoluteString isEqualToString:URLString];
+                return shouldStubResponse;
+            } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
+                OHHTTPStubsResponse *response = data[@"response"];
+                return response;
+            }];
+        });
+
+        afterEach(^{
+            [OHHTTPStubs removeAllStubs];
+        });
+
+        it(@"executes the failure block", ^{
+            waitUntil(^(DoneCallback done) {
+                [agent getTrustbadgeForTrustedShopsID:data[@"trustedShopsID"]
+                                              success:nil
+                                              failure:^(NSError *error) {
+                                                  done();
+                                              }];
+            });
+        });
+
+    });
+
     describe(@"-getTrustbadgeForTrustedShopsID:success:failure", ^{
 
         it(@"returns a data task", ^{
