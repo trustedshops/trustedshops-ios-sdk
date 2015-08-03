@@ -70,7 +70,7 @@ describe(@"TRSNetworkAgent+Trustbadge", ^{
             OCMVerifyAll(agentMock);
         });
 
-        context(@"on success", ^{
+        context(@"when successful", ^{
 
             beforeEach(^{
                 [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
