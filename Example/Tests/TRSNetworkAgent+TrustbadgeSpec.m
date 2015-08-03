@@ -133,11 +133,11 @@ describe(@"TRSNetworkAgent+Trustbadge", ^{
                     return [OHHTTPStubsResponse responseWithError:networkError];
                 }];
             });
-            
+
             afterEach(^{
                 [OHHTTPStubs removeAllStubs];
             });
-            
+
             it(@"executes the failure block", ^{
                 waitUntil(^(DoneCallback done) {
                     [agent getTrustbadgeForTrustedShopsID:@"error"
@@ -170,131 +170,138 @@ describe(@"TRSNetworkAgent+Trustbadge", ^{
                 });
             });
 
-            context(@"for an API error", ^{
+        });
 
-                context(@"with a HTTP 400 code", ^{
+        context(@"with a HTTP 400 code", ^{
 
-                    beforeEach(^{
-                        [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
-                            return YES;
-                        }
-                                            withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
-                                                NSString *file = OHPathForFileInBundle(@"trustbadge-badrequest.response", [NSBundle bundleForClass:[self class]]);
-                                                NSData *messageData = [NSData dataWithContentsOfFile:file];
-                                                return [OHHTTPStubsResponse responseWithHTTPMessageData:messageData];
-                                            }];
-                    });
+            beforeEach(^{
+                [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+                    return YES;
+                }
+                                    withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
+                                        NSString *file = OHPathForFileInBundle(@"trustbadge-badrequest.response", [NSBundle bundleForClass:[self class]]);
+                                        NSData *messageData = [NSData dataWithContentsOfFile:file];
+                                        return [OHHTTPStubsResponse responseWithHTTPMessageData:messageData];
+                                    }];
+            });
 
-                    afterEach(^{
-                        [OHHTTPStubs removeAllStubs];
-                    });
+            afterEach(^{
+                [OHHTTPStubs removeAllStubs];
+            });
 
-                    it(@"passes a custom trustbadge error domain", ^{
-                        waitUntil(^(DoneCallback done) {
-                            [agent getTrustbadgeForTrustedShopsID:@"123123123"
-                                                          success:nil
-                                                          failure:^(NSError *error) {
-                                                              expect(error.domain).to.equal(TRSErrorDomain);
-                                                              done();
-                                                          }];
-                        });
-                    });
-
-                    it(@"passes a custom error code", ^{
-                        waitUntil(^(DoneCallback done) {
-                            [agent getTrustbadgeForTrustedShopsID:@"123123123"
-                                                          success:nil
-                                                          failure:^(NSError *error) {
-                                                              expect(error.code).to.equal(TRSErrorDomainTrustbadgeInvalidTSID);
-                                                              done();
-                                                          }];
-                        });
-                    });
-
+            it(@"passes a custom trustbadge error domain", ^{
+                waitUntil(^(DoneCallback done) {
+                    [agent getTrustbadgeForTrustedShopsID:@"123123123"
+                                                  success:nil
+                                                  failure:^(NSError *error) {
+                                                      expect(error.domain).to.equal(TRSErrorDomain);
+                                                      done();
+                                                  }];
                 });
+            });
 
-                context(@"with an 404 error", ^{
-
-                    beforeEach(^{
-                        [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
-                            return YES;
-                        }
-                                            withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
-                                                NSString *file = OHPathForFileInBundle(@"trustbadge-notfound.response", [NSBundle bundleForClass:[self class]]);
-                                                NSData *messageData = [NSData dataWithContentsOfFile:file];
-                                                return [OHHTTPStubsResponse responseWithHTTPMessageData:messageData];
-                                            }];
-                    });
-
-                    afterEach(^{
-                        [OHHTTPStubs removeAllStubs];
-                    });
-
-                    it(@"passes a custom trustbadge error domain", ^{
-                        waitUntil(^(DoneCallback done) {
-                            [agent getTrustbadgeForTrustedShopsID:@"000111222333444555666777888999111"
-                                                          success:nil
-                                                          failure:^(NSError *error) {
-                                                              expect(error.domain).to.equal(TRSErrorDomain);
-                                                              done();
-                                                          }];
-                        });
-                    });
-
-                    it(@"passes a custom error code", ^{
-                        waitUntil(^(DoneCallback done) {
-                            [agent getTrustbadgeForTrustedShopsID:@"000111222333444555666777888999111"
-                                                          success:nil
-                                                          failure:^(NSError *error) {
-                                                              expect(error.code).to.equal(TRSErrorDomainTrustbadgeTSIDNotFound);
-                                                              done();
-                                                          }];
-                        });
-                    });
-
+            it(@"passes a custom error code", ^{
+                waitUntil(^(DoneCallback done) {
+                    [agent getTrustbadgeForTrustedShopsID:@"123123123"
+                                                  success:nil
+                                                  failure:^(NSError *error) {
+                                                      expect(error.code).to.equal(TRSErrorDomainTrustbadgeInvalidTSID);
+                                                      done();
+                                                  }];
                 });
+            });
 
-                context(@"with an unkown error", ^{
+        });
 
-                    beforeEach(^{
-                        [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
-                            return YES;
-                        }
-                                            withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
-                                                return [OHHTTPStubsResponse responseWithData:[[NSString stringWithFormat:@"not a HTTP status code"] dataUsingEncoding:NSUTF8StringEncoding]
-                                                                                  statusCode:460
-                                                                                     headers:nil];
-                                            }];
-                    });
+        context(@"with an 404 error", ^{
 
-                    afterEach(^{
-                        [OHHTTPStubs removeAllStubs];
-                    });
+            beforeEach(^{
+                [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+                    return YES;
+                }
+                                    withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
+                                        NSString *file = OHPathForFileInBundle(@"trustbadge-notfound.response", [NSBundle bundleForClass:[self class]]);
+                                        NSData *messageData = [NSData dataWithContentsOfFile:file];
+                                        return [OHHTTPStubsResponse responseWithHTTPMessageData:messageData];
+                                    }];
+            });
 
-                    it(@"passes a custom error domain", ^{
-                        waitUntil(^(DoneCallback done) {
-                            [agent getTrustbadgeForTrustedShopsID:@"error"
-                                                          success:nil
-                                                          failure:^(NSError *error) {
-                                                              expect(error.domain).to.equal(TRSErrorDomain);
-                                                              done();
-                                                          }];
-                        });
-                    });
+            afterEach(^{
+                [OHHTTPStubs removeAllStubs];
+            });
 
-                    it(@"passes a custom error code", ^{
-                        waitUntil(^(DoneCallback done) {
-                            [agent getTrustbadgeForTrustedShopsID:@"error"
-                                                          success:nil
-                                                          failure:^(NSError *error) {
-                                                              expect(error.code).to.equal(TRSErrorDomainTrustbadgeUnknownError);
-                                                              done();
-                                                          }];
-                        });
-                    });
-
+            it(@"passes a custom trustbadge error domain", ^{
+                waitUntil(^(DoneCallback done) {
+                    [agent getTrustbadgeForTrustedShopsID:@"000111222333444555666777888999111"
+                                                  success:nil
+                                                  failure:^(NSError *error) {
+                                                      expect(error.domain).to.equal(TRSErrorDomain);
+                                                      done();
+                                                  }];
                 });
+            });
 
+            it(@"passes a custom error code", ^{
+                waitUntil(^(DoneCallback done) {
+                    [agent getTrustbadgeForTrustedShopsID:@"000111222333444555666777888999111"
+                                                  success:nil
+                                                  failure:^(NSError *error) {
+                                                      expect(error.code).to.equal(TRSErrorDomainTrustbadgeTSIDNotFound);
+                                                      done();
+                                                  }];
+                });
+            });
+
+        });
+
+        context(@"with an unkown error", ^{
+
+            beforeEach(^{
+                [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+                    return YES;
+                }
+                                    withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
+                                        return [OHHTTPStubsResponse responseWithData:[[NSString stringWithFormat:@"not a HTTP status code"] dataUsingEncoding:NSUTF8StringEncoding]
+                                                                          statusCode:460
+                                                                             headers:nil];
+                                    }];
+            });
+
+            afterEach(^{
+                [OHHTTPStubs removeAllStubs];
+            });
+
+            it(@"passes a data object", ^{
+                waitUntil(^(DoneCallback done) {
+                    [agent GET:@"/foo/bar/baz"
+                       success:nil
+                       failure:^(NSData *data, NSHTTPURLResponse *response, NSError *error) {
+                           expect(data).to.equal([[NSString stringWithFormat:@"not a HTTP status code"] dataUsingEncoding:NSUTF8StringEncoding]);
+                           done();
+                       }];
+                });
+            });
+
+            it(@"passes a custom error domain", ^{
+                waitUntil(^(DoneCallback done) {
+                    [agent getTrustbadgeForTrustedShopsID:@"error"
+                                                  success:nil
+                                                  failure:^(NSError *error) {
+                                                      expect(error.domain).to.equal(TRSErrorDomain);
+                                                      done();
+                                                  }];
+                });
+            });
+
+            it(@"passes a custom error code", ^{
+                waitUntil(^(DoneCallback done) {
+                    [agent getTrustbadgeForTrustedShopsID:@"error"
+                                                  success:nil
+                                                  failure:^(NSError *error) {
+                                                      expect(error.code).to.equal(TRSErrorDomainTrustbadgeUnknownError);
+                                                      done();
+                                                  }];
+                });
             });
 
         });
