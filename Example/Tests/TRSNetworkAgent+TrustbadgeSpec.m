@@ -123,55 +123,6 @@ describe(@"TRSNetworkAgent+Trustbadge", ^{
 
         });
 
-        context(@"on failure", ^{
-
-            beforeEach(^{
-                [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
-                    return [request.URL.absoluteString isEqualToString:@"http://localhost/foo/bar/baz"];
-                } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
-                    NSError *networkError = [NSError errorWithDomain:NSURLErrorDomain code:NSURLErrorCannotConnectToHost userInfo:nil];
-                    return [OHHTTPStubsResponse responseWithError:networkError];
-                }];
-            });
-
-            afterEach(^{
-                [OHHTTPStubs removeAllStubs];
-            });
-
-            it(@"executes the failure block", ^{
-                waitUntil(^(DoneCallback done) {
-                    [agent getTrustbadgeForTrustedShopsID:@"error"
-                                                  success:nil
-                                                  failure:^(NSError *error) {
-                                                      done();
-                                                  }];
-                });
-            });
-
-            it(@"passes an error object with a 'NSURLErrorDomain' error domain", ^{
-                waitUntil(^(DoneCallback done) {
-                    [agent getTrustbadgeForTrustedShopsID:@"error"
-                                                  success:nil
-                                                  failure:^(NSError *error) {
-                                                      expect(error.domain).to.equal(@"NSURLErrorDomain");
-                                                      done();
-                                                  }];
-                });
-            });
-
-            it(@"passes an error object with a 'NSURLErrorCannotConnectToHost' error code", ^{
-                waitUntil(^(DoneCallback done) {
-                    [agent getTrustbadgeForTrustedShopsID:@"error"
-                                                  success:nil
-                                                  failure:^(NSError *error) {
-                                                      expect(error.code).to.equal(NSURLErrorCannotConnectToHost);
-                                                      done();
-                                                  }];
-                });
-            });
-
-        });
-
         context(@"when receiving a bad request", ^{
 
             __block NSString *trustedShopsID;
