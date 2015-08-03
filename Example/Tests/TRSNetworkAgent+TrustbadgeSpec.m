@@ -241,17 +241,6 @@ describe(@"TRSNetworkAgent+Trustbadge", ^{
                         [OHHTTPStubs removeAllStubs];
                     });
 
-                    it(@"passes a data object", ^{
-                        waitUntil(^(DoneCallback done) {
-                            [agent GET:@"/foo/bar/baz"
-                               success:nil
-                               failure:^(NSData *data, NSHTTPURLResponse *response, NSError *error) {
-                                   expect(data).to.equal([[NSString stringWithFormat:@"not a HTTP status code"] dataUsingEncoding:NSUTF8StringEncoding]);
-                                   done();
-                               }];
-                        });
-                    });
-
                     it(@"passes a custom error code", ^{
                         waitUntil(^(DoneCallback done) {
                             [agent getTrustbadgeForTrustedShopsID:@"error"
