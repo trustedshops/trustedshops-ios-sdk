@@ -1,5 +1,6 @@
 #import "TRSNetworkAgent+Trustbadge.h"
 #import "TRSErrors.h"
+#import "TRSTrustbadge.h"
 #import <OHHTTPStubs/OHHTTPStubs.h>
 #import <OCMock/OCMock.h>
 #import <Specta/Specta.h>
@@ -45,7 +46,10 @@ describe(@"TRSNetworkAgent+Trustbadge", ^{
                 [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
                     return [request.URL.absoluteString isEqualToString:@"http://localhost/rest/public/v2/shops/123/quality"];
                 } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
-                    return [OHHTTPStubsResponse responseWithData:[[NSString stringWithFormat:@"success"] dataUsingEncoding:NSUTF8StringEncoding]
+                    NSBundle *bundle = [NSBundle bundleForClass:[self class]];
+                    NSString *path = [bundle pathForResource:@"trustbadge" ofType:@"data"];
+                    NSData *data = [NSData dataWithContentsOfFile:path];
+                    return [OHHTTPStubsResponse responseWithData:data
                                                       statusCode:200
                                                          headers:nil];
                 }];
@@ -58,7 +62,7 @@ describe(@"TRSNetworkAgent+Trustbadge", ^{
             it(@"executes the success block", ^{
                 waitUntil(^(DoneCallback done) {
                     [agent getTrustbadgeForTrustedShopsID:@"123"
-                                                  success:^(id trustbadge) {
+                                                  success:^(TRSTrustbadge *trustbadge) {
                                                       done();
                                                   }
                                                   failure:nil];
@@ -68,8 +72,19 @@ describe(@"TRSNetworkAgent+Trustbadge", ^{
             it(@"passes a model object", ^{
                 waitUntil(^(DoneCallback done) {
                     [agent getTrustbadgeForTrustedShopsID:@"123"
-                                                  success:^(id trustbadge) {
+                                                  success:^(TRSTrustbadge *trustbadge) {
                                                       expect(trustbadge).notTo.beNil();
+                                                      done();
+                                                  }
+                                                  failure:nil];
+                });
+            });
+
+            it(@"passes a 'TRSTrustbadge' data model ", ^{
+                waitUntil(^(DoneCallback done) {
+                    [agent getTrustbadgeForTrustedShopsID:@"123"
+                                                  success:^(TRSTrustbadge *trustbadge) {
+                                                      expect(trustbadge).to.beKindOf([TRSTrustbadge class]);
                                                       done();
                                                   }
                                                   failure:nil];
@@ -261,6 +276,56 @@ describe(@"TRSNetworkAgent+Trustbadge", ^{
 
                 });
 
+            });
+
+        });
+
+        context(@"when data is invalid", ^{
+
+            beforeEach(^{
+                [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+                    return [request.URL.absoluteString isEqualToString:@"http://localhost/rest/public/v2/shops/111222333444555666777888999111222/quality"];
+                } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
+                    return [OHHTTPStubsResponse responseWithData:[[NSString stringWithFormat:@"no json data"] dataUsingEncoding:NSUTF8StringEncoding]
+                                                      statusCode:200
+                                                         headers:nil];
+                }];
+            });
+
+            afterEach(^{
+                [OHHTTPStubs removeAllStubs];
+            });
+
+            it(@"executes the failure block", ^{
+                waitUntil(^(DoneCallback done) {
+                    [agent getTrustbadgeForTrustedShopsID:@"error"
+                                                  success:nil
+                                                  failure:^(NSError *error) {
+                                                      done();
+                                                  }];
+                });
+            });
+
+            it(@"passes a custom trustbadge error domain", ^{
+                waitUntil(^(DoneCallback done) {
+                    [agent getTrustbadgeForTrustedShopsID:@"111222333444555666777888999111222"
+                                                  success:nil
+                                                  failure:^(NSError *error) {
+                                                      expect(error.domain).to.equal(TRSErrorDomain);
+                                                      done();
+                                                  }];
+                });
+            });
+
+            it(@"passes a custom error code", ^{
+                waitUntil(^(DoneCallback done) {
+                    [agent getTrustbadgeForTrustedShopsID:@"111222333444555666777888999111222"
+                                                  success:nil
+                                                  failure:^(NSError *error) {
+                                                      expect(error.code).to.equal(TRSErrorDomainTrustbadgeInvalidData);
+                                                      done();
+                                                  }];
+                });
             });
 
         });
