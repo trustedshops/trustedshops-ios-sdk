@@ -241,12 +241,12 @@ describe(@"TRSNetworkAgent+Trustbadge", ^{
                         [OHHTTPStubs removeAllStubs];
                     });
 
-                    it(@"passes a custom error code", ^{
+                    it(@"passes a custom error domain", ^{
                         waitUntil(^(DoneCallback done) {
                             [agent getTrustbadgeForTrustedShopsID:@"error"
                                                           success:nil
                                                           failure:^(NSError *error) {
-                                                              expect(error.code).to.equal(TRSErrorDomainTrustbadgeUnknownError);
+                                                              expect(error.domain).to.equal(TRSErrorDomain);
                                                               done();
                                                           }];
                         });
