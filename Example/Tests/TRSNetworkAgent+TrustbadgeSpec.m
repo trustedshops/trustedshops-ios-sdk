@@ -254,7 +254,7 @@ describe(@"TRSNetworkAgent+Trustbadge", ^{
 
         });
 
-        context(@"with an unkown error", ^{
+        context(@"when receiving an unkown error", ^{
 
             beforeEach(^{
                 [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
