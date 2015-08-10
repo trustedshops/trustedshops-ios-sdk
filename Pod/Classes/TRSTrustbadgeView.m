@@ -8,6 +8,7 @@
 
 @property (nonatomic, copy, readwrite) NSString *trustedShopsID;
 @property (nonatomic, strong) NSNumberFormatter *decimalFormatter;
+@property (nonatomic, strong) UIImage *sealImage;
 
 @end
 
@@ -27,10 +28,12 @@
 
         UILabel *ratingLabel = [self labelForRating:trustbadge.rating];
         UILabel *reviewsLabel = [self labelForReviews:trustbadge.numberOfReviews];
+        UIImageView *sealView = [[UIImageView alloc] initWithImage:self.sealImage];
 
         [self addSubview:ratingView];
         [self addSubview:ratingLabel];
         [self addSubview:reviewsLabel];
+        [self addSubview:sealView];
     };
 
     void (^failure)(NSError *error) = ^(NSError *error) {
@@ -54,6 +57,16 @@
     }
 
     return _decimalFormatter;
+}
+
+- (UIImage *)sealImage {
+    if (!_sealImage) {
+        NSString *bundlePath = [[NSBundle bundleForClass:[self class]] bundlePath];
+        NSBundle *bundle = [NSBundle bundleWithPath:[bundlePath stringByAppendingPathComponent:@"trustbadge.bundle"]];
+        _sealImage = [UIImage imageWithContentsOfFile:[[bundle resourcePath] stringByAppendingPathComponent:@"iOS-SDK-Seal.png"]];
+    }
+
+    return _sealImage;
 }
 
 - (UILabel *)labelForRating:(NSNumber *)rating {
