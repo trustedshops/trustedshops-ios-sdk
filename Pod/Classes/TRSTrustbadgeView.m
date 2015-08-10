@@ -26,9 +26,11 @@
                                                                   rating:trustbadge.rating];
 
         UILabel *ratingLabel = [self labelForRating:trustbadge.rating];
+        UILabel *reviewsLabel = [self labelForReviews:trustbadge.numberOfReviews];
 
         [self addSubview:ratingView];
         [self addSubview:ratingLabel];
+        [self addSubview:reviewsLabel];
     };
 
     void (^failure)(NSError *error) = ^(NSError *error) {
@@ -58,6 +60,13 @@
     UILabel *ratingLabel = [[UILabel alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 80.0f, 18.0f)];
     ratingLabel.attributedText = [self ratingStringForRating:rating];
     return ratingLabel;
+}
+
+- (UILabel *)labelForReviews:(NSUInteger)numberOfReviews {
+    UILabel *reviewsLabel = [[UILabel alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 80.0f, 18.0f)];
+    reviewsLabel.font = [UIFont fontWithName:@"Arial" size:14.0];
+    reviewsLabel.text = [NSString stringWithFormat:@"%lu Reviews", numberOfReviews];
+    return reviewsLabel;
 }
 
 - (NSAttributedString *)ratingStringForRating:(NSNumber *)rating {
