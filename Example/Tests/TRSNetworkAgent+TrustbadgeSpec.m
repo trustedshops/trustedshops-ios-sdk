@@ -21,22 +21,6 @@ describe(@"TRSNetworkAgent+Trustbadge", ^{
 
     sharedExamplesFor(@"an unsuccessful response", ^(NSDictionary *data) {
 
-        beforeEach(^{
-            NSString *URLFormatString = @"http://localhost/rest/public/v2/shops/%@/quality";
-            NSString *URLString = [NSString stringWithFormat:URLFormatString, data[@"trustedShopsID"]];
-            [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
-                BOOL shouldStubResponse = [request.URL.absoluteString isEqualToString:URLString];
-                return shouldStubResponse;
-            } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
-                OHHTTPStubsResponse *response = data[@"response"];
-                return response;
-            }];
-        });
-
-        afterEach(^{
-            [OHHTTPStubs removeAllStubs];
-        });
-
         it(@"executes the failure block", ^{
             waitUntil(^(DoneCallback done) {
                 [agent getTrustbadgeForTrustedShopsID:data[@"trustedShopsID"]
@@ -50,22 +34,6 @@ describe(@"TRSNetworkAgent+Trustbadge", ^{
     });
 
     sharedExamplesFor(@"a Trustbadge error", ^(NSDictionary *data) {
-
-        beforeEach(^{
-            NSString *URLFormatString = @"http://localhost/rest/public/v2/shops/%@/quality";
-            NSString *URLString = [NSString stringWithFormat:URLFormatString, data[@"trustedShopsID"]];
-            [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
-                BOOL shouldStubResponse = [request.URL.absoluteString isEqualToString:URLString];
-                return shouldStubResponse;
-            } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
-                OHHTTPStubsResponse *response = data[@"response"];
-                return response;
-            }];
-        });
-
-        afterEach(^{
-            [OHHTTPStubs removeAllStubs];
-        });
 
         it(@"passes a custom trustbadge error domain", ^{
             waitUntil(^(DoneCallback done) {
@@ -157,12 +125,11 @@ describe(@"TRSNetworkAgent+Trustbadge", ^{
         context(@"when receiving a bad request", ^{
 
             __block NSString *trustedShopsID;
-            __block OHHTTPStubsResponse *response;
             beforeEach(^{
                 trustedShopsID = @"123123123";
                 NSString *file = OHPathForFileInBundle(@"trustbadge-badrequest.response", [NSBundle bundleForClass:[self class]]);
                 NSData *messageData = [NSData dataWithContentsOfFile:file];
-                response = [OHHTTPStubsResponse responseWithHTTPMessageData:messageData];
+                OHHTTPStubsResponse *response = [OHHTTPStubsResponse responseWithHTTPMessageData:messageData];
 
                 [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
                     NSString *URLString = [NSString stringWithFormat:@"http://localhost/rest/public/v2/shops/%@/quality", trustedShopsID];
@@ -178,13 +145,11 @@ describe(@"TRSNetworkAgent+Trustbadge", ^{
             });
 
             itShouldBehaveLike(@"an unsuccessful response", ^{
-                return @{ @"trustedShopsID" : trustedShopsID,
-                          @"response"       : response };
+                return @{ @"trustedShopsID" : trustedShopsID };
             });
 
             itShouldBehaveLike(@"a Trustbadge error", ^{
-                return @{ @"trustedShopsID" : trustedShopsID,
-                          @"response"       : response };
+                return @{ @"trustedShopsID" : trustedShopsID };
             });
 
             it(@"passes a custom error code", ^{
@@ -203,12 +168,11 @@ describe(@"TRSNetworkAgent+Trustbadge", ^{
         context(@"when receiving a not found error", ^{
 
             __block NSString *trustedShopsID;
-            __block OHHTTPStubsResponse *response;
             beforeEach(^{
                 trustedShopsID = @"000111222333444555666777888999111";
                 NSString *file = OHPathForFileInBundle(@"trustbadge-notfound.response", [NSBundle bundleForClass:[self class]]);
                 NSData *messageData = [NSData dataWithContentsOfFile:file];
-                response = [OHHTTPStubsResponse responseWithHTTPMessageData:messageData];
+                OHHTTPStubsResponse *response = [OHHTTPStubsResponse responseWithHTTPMessageData:messageData];
 
                 [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
                     NSString *URLString = [NSString stringWithFormat:@"http://localhost/rest/public/v2/shops/%@/quality", trustedShopsID];
@@ -224,13 +188,11 @@ describe(@"TRSNetworkAgent+Trustbadge", ^{
             });
 
             itShouldBehaveLike(@"an unsuccessful response", ^{
-                return @{ @"trustedShopsID" : trustedShopsID,
-                          @"response"       : response };
+                return @{ @"trustedShopsID" : trustedShopsID };
             });
 
             itShouldBehaveLike(@"a Trustbadge error", ^{
-                return @{ @"trustedShopsID" : trustedShopsID,
-                          @"response"       : response };
+                return @{ @"trustedShopsID" : trustedShopsID };
             });
 
             it(@"passes a custom error code", ^{
@@ -249,10 +211,9 @@ describe(@"TRSNetworkAgent+Trustbadge", ^{
         context(@"when receiving an unkown error", ^{
 
             __block NSString *trustedShopsID;
-            __block OHHTTPStubsResponse *response;
             beforeEach(^{
                 trustedShopsID = @"000000000000000000000000000000000";
-                response = [OHHTTPStubsResponse responseWithData:[[NSString stringWithFormat:@"not a HTTP status code"] dataUsingEncoding:NSUTF8StringEncoding]
+                OHHTTPStubsResponse *response = [OHHTTPStubsResponse responseWithData:[[NSString stringWithFormat:@"not a HTTP status code"] dataUsingEncoding:NSUTF8StringEncoding]
                                                        statusCode:460
                                                           headers:nil];
 
@@ -270,13 +231,11 @@ describe(@"TRSNetworkAgent+Trustbadge", ^{
             });
 
             itShouldBehaveLike(@"an unsuccessful response", ^{
-                return @{ @"trustedShopsID" : trustedShopsID,
-                          @"response"       : response };
+                return @{ @"trustedShopsID" : trustedShopsID };
             });
 
             itShouldBehaveLike(@"a Trustbadge error", ^{
-                return @{ @"trustedShopsID" : trustedShopsID,
-                          @"response"       : response };
+                return @{ @"trustedShopsID" : trustedShopsID };
             });
 
             it(@"passes a custom error code", ^{
@@ -295,10 +254,9 @@ describe(@"TRSNetworkAgent+Trustbadge", ^{
         context(@"when data is invalid", ^{
 
             __block NSString *trustedShopsID;
-            __block OHHTTPStubsResponse *response;
             beforeEach(^{
                 trustedShopsID = @"111222333444555666777888999111222";
-                response = [OHHTTPStubsResponse responseWithData:[[NSString stringWithFormat:@"no json data"] dataUsingEncoding:NSUTF8StringEncoding]
+                OHHTTPStubsResponse *response = [OHHTTPStubsResponse responseWithData:[[NSString stringWithFormat:@"no json data"] dataUsingEncoding:NSUTF8StringEncoding]
                                                       statusCode:200
                                                          headers:nil];
 
@@ -315,13 +273,11 @@ describe(@"TRSNetworkAgent+Trustbadge", ^{
             });
 
             itShouldBehaveLike(@"an unsuccessful response", ^{
-                return @{ @"trustedShopsID" : trustedShopsID,
-                          @"response"       : response };
+                return @{ @"trustedShopsID" : trustedShopsID };
             });
 
             itShouldBehaveLike(@"a Trustbadge error", ^{
-                return @{ @"trustedShopsID" : trustedShopsID,
-                          @"response"       : response };
+                return @{ @"trustedShopsID" : trustedShopsID };
             });
 
             it(@"passes a custom error code", ^{
