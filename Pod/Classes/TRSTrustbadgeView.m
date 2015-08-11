@@ -16,10 +16,12 @@
 
 @end
 
+static CGFloat const TRSTrustbadgePadding = 10.0f;
+
 @implementation TRSTrustbadgeView
 
 - (instancetype)initWithTrustedShopsID:(NSString *)trustedShopsID {
-    self = [super initWithFrame:CGRectMake(0.0f, 0.0f, 200.0f, 36.0f)];
+    self = [super initWithFrame:CGRectMake(0.0f, 0.0f, 200.0f, 56.0f)];
     if (!self) {
         return nil;
     }
@@ -33,11 +35,6 @@
         self.ratingLabel = [self labelForRating:trustbadge.rating];
         self.reviewsLabel = [self labelForReviews:trustbadge.numberOfReviews];
         self.sealView = [[UIImageView alloc] initWithImage:self.sealImage];
-
-        [self addSubview:self.ratingView];
-        [self addSubview:self.ratingLabel];
-        [self addSubview:self.reviewsLabel];
-        [self addSubview:self.sealView];
     };
 
     void (^failure)(NSError *error) = ^(NSError *error) {
@@ -50,6 +47,99 @@
                                   failure:failure];
 
     return self;
+}
+
+#pragma mark - UIView(UIViewHierarchy)
+
+- (void)layoutSubviews {
+    [self createConstraints];
+    [super layoutSubviews];
+}
+
+- (void)createConstraints {
+    {   // Rating View Constraints
+        [self.ratingView setTranslatesAutoresizingMaskIntoConstraints:NO];
+        [self addSubview:self.ratingView];
+
+        [self addConstraint:[NSLayoutConstraint constraintWithItem:self.ratingView
+                                                         attribute:NSLayoutAttributeTop
+                                                         relatedBy:NSLayoutRelationEqual
+                                                            toItem:self
+                                                         attribute:NSLayoutAttributeTop
+                                                        multiplier:1.0f
+                                                          constant:TRSTrustbadgePadding]];
+
+        [self addConstraint:[NSLayoutConstraint constraintWithItem:self.ratingView
+                                                         attribute:NSLayoutAttributeLeading
+                                                         relatedBy:NSLayoutRelationEqual
+                                                            toItem:self
+                                                         attribute:NSLayoutAttributeLeading
+                                                        multiplier:1.0f
+                                                          constant:TRSTrustbadgePadding]];
+    }
+
+    {   // Rating Label Constraints
+        [self.ratingLabel setTranslatesAutoresizingMaskIntoConstraints:NO];
+        [self addSubview:self.ratingLabel];
+
+        [self addConstraint:[NSLayoutConstraint constraintWithItem:self.ratingLabel
+                                                         attribute:NSLayoutAttributeLeading
+                                                         relatedBy:NSLayoutRelationEqual
+                                                            toItem:self.ratingView
+                                                         attribute:NSLayoutAttributeTrailing
+                                                        multiplier:1.0f
+                                                          constant:TRSTrustbadgePadding]];
+
+        [self addConstraint:[NSLayoutConstraint constraintWithItem:self.ratingLabel
+                                                         attribute:NSLayoutAttributeBottom
+                                                         relatedBy:NSLayoutRelationEqual
+                                                            toItem:self.ratingView
+                                                         attribute:NSLayoutAttributeBottom
+                                                        multiplier:1.0f
+                                                          constant:0.0f]];
+    }
+
+    {   // Reviews Label Constraints
+        [self.reviewsLabel setTranslatesAutoresizingMaskIntoConstraints:NO];
+        [self addSubview:self.reviewsLabel];
+
+        [self addConstraint:[NSLayoutConstraint constraintWithItem:self
+                                                         attribute:NSLayoutAttributeBottom
+                                                         relatedBy:NSLayoutRelationEqual
+                                                            toItem:self.reviewsLabel
+                                                         attribute:NSLayoutAttributeBottom
+                                                        multiplier:1.0f
+                                                          constant:TRSTrustbadgePadding]];
+
+        [self addConstraint:[NSLayoutConstraint constraintWithItem:self.reviewsLabel
+                                                         attribute:NSLayoutAttributeLeading
+                                                         relatedBy:NSLayoutRelationEqual
+                                                            toItem:self.ratingView
+                                                         attribute:NSLayoutAttributeLeading
+                                                        multiplier:1.0f
+                                                          constant:0.0f]];
+    }
+
+    {   // Seal View Constraints
+        [self.sealView setTranslatesAutoresizingMaskIntoConstraints:NO];
+        [self addSubview:self.sealView];
+
+        [self addConstraint:[NSLayoutConstraint constraintWithItem:self
+                                                         attribute:NSLayoutAttributeRight
+                                                         relatedBy:NSLayoutRelationEqual
+                                                            toItem:self.sealView
+                                                         attribute:NSLayoutAttributeRight
+                                                        multiplier:1.0f
+                                                          constant:TRSTrustbadgePadding]];
+
+        [self addConstraint:[NSLayoutConstraint constraintWithItem:self.sealView
+                                                         attribute:NSLayoutAttributeCenterY
+                                                         relatedBy:NSLayoutRelationEqual
+                                                            toItem:self
+                                                         attribute:NSLayoutAttributeCenterY
+                                                        multiplier:1.0f
+                                                          constant:0.0f]];
+    }
 }
 
 - (NSNumberFormatter *)decimalFormatter {
