@@ -9,6 +9,10 @@
 @property (nonatomic, copy, readwrite) NSString *trustedShopsID;
 @property (nonatomic, strong) NSNumberFormatter *decimalFormatter;
 @property (nonatomic, strong) UIImage *sealImage;
+@property (nonatomic, strong) TRSRatingView *ratingView;
+@property (nonatomic, strong) UILabel *ratingLabel;
+@property (nonatomic, strong) UILabel *reviewsLabel;
+@property (nonatomic, strong) UIImageView *sealView;
 
 @end
 
@@ -23,17 +27,17 @@
     _trustedShopsID = [trustedShopsID copy];
 
     void (^success)(TRSTrustbadge *trustbadge) = ^(TRSTrustbadge *trustbadge) {
-        TRSRatingView *ratingView = [[TRSRatingView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 86.0f, 18.0f)
+        self.ratingView = [[TRSRatingView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 86.0f, 18.0f)
                                                                   rating:trustbadge.rating];
 
-        UILabel *ratingLabel = [self labelForRating:trustbadge.rating];
-        UILabel *reviewsLabel = [self labelForReviews:trustbadge.numberOfReviews];
-        UIImageView *sealView = [[UIImageView alloc] initWithImage:self.sealImage];
+        self.ratingLabel = [self labelForRating:trustbadge.rating];
+        self.reviewsLabel = [self labelForReviews:trustbadge.numberOfReviews];
+        self.sealView = [[UIImageView alloc] initWithImage:self.sealImage];
 
-        [self addSubview:ratingView];
-        [self addSubview:ratingLabel];
-        [self addSubview:reviewsLabel];
-        [self addSubview:sealView];
+        [self addSubview:self.ratingView];
+        [self addSubview:self.ratingLabel];
+        [self addSubview:self.reviewsLabel];
+        [self addSubview:self.sealView];
     };
 
     void (^failure)(NSError *error) = ^(NSError *error) {
