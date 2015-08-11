@@ -149,6 +149,7 @@ static CGFloat const TRSTrustbadgePadding = 10.0f;
 - (NSNumberFormatter *)decimalFormatter {
     if (!_decimalFormatter) {
         NSNumberFormatter *decimalFormatter = [[NSNumberFormatter alloc] init];
+        decimalFormatter.minimumIntegerDigits = 1;
         decimalFormatter.minimumFractionDigits = 2;
         decimalFormatter.maximumFractionDigits = 2;
         _decimalFormatter = decimalFormatter;
@@ -178,13 +179,13 @@ static CGFloat const TRSTrustbadgePadding = 10.0f;
     reviewsLabel.font = [UIFont fontWithName:@"Arial" size:14.0];
     NSString *bundlePath = [[NSBundle bundleForClass:[self class]] bundlePath];
     NSBundle *bundle = [NSBundle bundleWithPath:[bundlePath stringByAppendingPathComponent:@"trustbadge.bundle"]];
-    reviewsLabel.text = [NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"trustbadge.label.review %lu Reviews", @"trustbadge", bundle, nil), numberOfReviews];
+    reviewsLabel.text = [NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"trustbadge.label.review %lu Reviews", @"trustbadge", bundle, nil), (unsigned long)numberOfReviews];
     return reviewsLabel;
 }
 
 - (NSAttributedString *)ratingStringForRating:(NSNumber *)rating {
     NSString *maxRatingString = [NSString stringWithFormat:@"/%@", [self.decimalFormatter stringFromNumber:@5.0]];
-    NSString *ratingString = [NSString stringWithFormat:@"%@%@", rating, maxRatingString];
+    NSString *ratingString = [NSString stringWithFormat:@"%@%@", [self.decimalFormatter stringFromNumber:rating], maxRatingString];
 
     UIFont *normalFont = [UIFont fontWithName:@"Arial" size:14.0];
     NSDictionary *attributes = @{ NSFontAttributeName : normalFont };
