@@ -40,6 +40,12 @@ static NSUInteger const numberOfStars = 5;
     [super layoutSubviews];
 }
 
+#pragma mark - UIView (UIConstraintBasedLayoutLayering)
+
+- (CGSize)intrinsicContentSize {
+    return self.bounds.size;
+}
+
 #pragma mark - Helper
 
 - (void)setup {
