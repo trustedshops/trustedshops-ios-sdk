@@ -176,7 +176,9 @@ static CGFloat const TRSTrustbadgePadding = 10.0f;
 - (UILabel *)labelForReviews:(NSUInteger)numberOfReviews {
     UILabel *reviewsLabel = [[UILabel alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 80.0f, 18.0f)];
     reviewsLabel.font = [UIFont fontWithName:@"Arial" size:14.0];
-    reviewsLabel.text = [NSString stringWithFormat:@"%lu Reviews", numberOfReviews];
+    NSString *bundlePath = [[NSBundle bundleForClass:[self class]] bundlePath];
+    NSBundle *bundle = [NSBundle bundleWithPath:[bundlePath stringByAppendingPathComponent:@"trustbadge.bundle"]];
+    reviewsLabel.text = [NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"trustbadge.label.review %lu Reviews", @"trustbadge", bundle, nil), numberOfReviews];
     return reviewsLabel;
 }
 
