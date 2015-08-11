@@ -30,13 +30,12 @@ static CGFloat const TRSTrustbadgePadding = 10.0f;
 
     _trustedShopsID = [trustedShopsID copy];
 
-    void (^success)(TRSTrustbadge *trustbadge) = ^(TRSTrustbadge *trustbadge) {
-        self.ratingView = [[TRSRatingView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 86.0f, 18.0f)
-                                                                  rating:trustbadge.rating];
+    self.sealView = [[UIImageView alloc] initWithImage:self.sealImage];
+    [self addEmptyTrustbadgeViews];
 
-        self.ratingLabel = [self labelForRating:trustbadge.rating];
-        self.reviewsLabel = [self labelForReviews:trustbadge.numberOfReviews];
-        self.sealView = [[UIImageView alloc] initWithImage:self.sealImage];
+    void (^success)(TRSTrustbadge *trustbadge) = ^(TRSTrustbadge *trustbadge) {
+        [self removeTrustbadgeViews];
+        [self addTrustbadgeViewWithTrustbadge:trustbadge];
     };
 
     void (^failure)(NSError *error) = ^(NSError *error) {
@@ -59,6 +58,37 @@ static CGFloat const TRSTrustbadgePadding = 10.0f;
 }
 
 #pragma mark - Helper
+
+- (void)addEmptyTrustbadgeViews {
+    [self addTrustbadgeViewWithTrustbadge:nil];
+}
+
+- (void)addTrustbadgeViewWithTrustbadge:(TRSTrustbadge *)trustbadge {
+    NSNumber *rating;
+    NSUInteger numberOfReviews = 0;
+    if (!trustbadge) {
+        rating = @0.0f;
+    } else {
+        rating = trustbadge.rating;
+        numberOfReviews = trustbadge.numberOfReviews;
+    }
+
+    self.ratingView = [[TRSRatingView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 86.0f, 18.0f)
+                                                    rating:rating];
+    self.ratingLabel = [self labelForRating:rating];
+    self.reviewsLabel = [self labelForReviews:numberOfReviews];
+}
+
+- (void)removeTrustbadgeViews {
+    [self.ratingView removeFromSuperview];
+    self.ratingView = nil;
+
+    [self.ratingLabel removeFromSuperview];
+    self.ratingLabel = nil;
+
+    [self.reviewsLabel removeFromSuperview];
+    self.reviewsLabel = nil;
+}
 
 - (void)createConstraints {
     {   // Rating View Constraints
