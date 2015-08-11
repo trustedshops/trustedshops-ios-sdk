@@ -83,6 +83,8 @@
 		845E96DE1B5682D600E799DD /* UIViewController+TRSCompatiblyLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+TRSCompatiblyLayer.m"; sourceTree = "<group>"; };
 		84795A4C1B5E3EDA0091EA49 /* TRSNetworkAgentSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TRSNetworkAgentSpec.m; sourceTree = "<group>"; };
 		84795A531B5E68EC0091EA49 /* TRSNetworkAgent+TrustbadgeSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "TRSNetworkAgent+TrustbadgeSpec.m"; sourceTree = "<group>"; };
+		8485B6351B7A05AA00D22F1E /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		8485B6361B7A05AA00D22F1E /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		84B6D0851B5540F10013CD30 /* TRSProductTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TRSProductTableViewController.h; sourceTree = "<group>"; };
 		84B6D0861B5540F10013CD30 /* TRSProductTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TRSProductTableViewController.m; sourceTree = "<group>"; };
 		84B6D0881B55499D0013CD30 /* TRSProductDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TRSProductDetailViewController.h; sourceTree = "<group>"; };
@@ -313,6 +315,7 @@
 			knownRegions = (
 				en,
 				Base,
+				de,
 			);
 			mainGroup = 6003F581195388D10070C39A;
 			productRefGroup = 6003F58B195388D20070C39A /* Products */;
@@ -485,6 +488,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				6003F597195388D20070C39A /* en */,
+				8485B6351B7A05AA00D22F1E /* de */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -493,6 +497,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				6003F5B9195388D20070C39A /* en */,
+				8485B6361B7A05AA00D22F1E /* de */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
