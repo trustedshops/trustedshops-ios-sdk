@@ -20,6 +20,8 @@ static CGFloat const TRSTrustbadgePadding = 10.0f;
 
 @implementation TRSTrustbadgeView
 
+#pragma mark - Initialization
+
 - (instancetype)initWithTrustedShopsID:(NSString *)trustedShopsID {
     self = [super initWithFrame:CGRectMake(0.0f, 0.0f, 200.0f, 56.0f)];
     if (!self) {
@@ -55,6 +57,8 @@ static CGFloat const TRSTrustbadgePadding = 10.0f;
     [self createConstraints];
     [super layoutSubviews];
 }
+
+#pragma mark - Helper
 
 - (void)createConstraints {
     {   // Rating View Constraints
