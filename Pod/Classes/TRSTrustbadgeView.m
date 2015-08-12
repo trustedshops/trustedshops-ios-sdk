@@ -28,6 +28,9 @@ static CGFloat const TRSTrustbadgePadding = 10.0f;
         return nil;
     }
 
+    if (!trustedShopsID) {
+        return nil;
+    }
     _trustedShopsID = [trustedShopsID copy];
 
     self.sealView = [[UIImageView alloc] initWithImage:self.sealImage];
