@@ -15,4 +15,8 @@
     return [UIColor trs_white];
 }
 
++ (UIColor *)trs_trustbadgeBorderColor {
+    return [UIColor trs_ananas];
+}
+
 @end
