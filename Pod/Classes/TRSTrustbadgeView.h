@@ -14,7 +14,7 @@
  *
  *  @param trustedShopsID The Trusted Shops ID for the desired Trustbadge.
  *
- *  @return A fully initialized view object for the provided Trusted Shops ID.
+ *  @return A fully initialized view object for the provided Trusted Shops ID. If `trustedShopsID` is `nil` return `nil` instead.
  */
 - (instancetype)initWithTrustedShopsID:(NSString *)trustedShopsID;
 

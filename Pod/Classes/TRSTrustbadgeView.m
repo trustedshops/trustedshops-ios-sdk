@@ -2,6 +2,7 @@
 #import "TRSNetworkAgent+Trustbadge.h"
 #import "TRSRatingView.h"
 #import "TRSTrustbadge.h"
+#import "TRSErrors.h"
 
 
 @interface TRSTrustbadgeView ()
@@ -28,6 +29,9 @@ static CGFloat const TRSTrustbadgePadding = 10.0f;
         return nil;
     }
 
+    if (!trustedShopsID) {
+        return nil;
+    }
     _trustedShopsID = [trustedShopsID copy];
 
     self.sealView = [[UIImageView alloc] initWithImage:self.sealImage];
@@ -39,7 +43,28 @@ static CGFloat const TRSTrustbadgePadding = 10.0f;
     };
 
     void (^failure)(NSError *error) = ^(NSError *error) {
+        if (![error.domain isEqualToString:TRSErrorDomain]) {
+            return;
+        }
 
+        switch (error.code) {
+            case TRSErrorDomainTrustbadgeInvalidTSID:
+                NSLog(@"[trustbadge] The provided TSID is not correct.");
+                break;
+
+            case TRSErrorDomainTrustbadgeTSIDNotFound:
+                NSLog(@"[trustbadge] The provided TSID could not be found.");
+                break;
+
+            case TRSErrorDomainTrustbadgeInvalidData:
+                NSLog(@"[trustbadge] The received data is corrupt.");
+                break;
+
+            case TRSErrorDomainTrustbadgeUnknownError:
+            default:
+                NSLog(@"[trustbadge] An unkown error occured.");
+                break;
+        }
     };
 
     TRSNetworkAgent *agent = [TRSNetworkAgent sharedAgent];

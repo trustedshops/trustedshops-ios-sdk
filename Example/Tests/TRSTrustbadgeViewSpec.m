@@ -61,6 +61,23 @@ describe(@"TRSTrustbadgeView", ^{
 
         });
 
+        context(@"with a nil-object", ^{
+
+            __block TRSTrustbadgeView *view;
+            beforeEach(^{
+                view = [[TRSTrustbadgeView alloc] initWithTrustedShopsID:nil];
+            });
+
+            afterEach(^{
+                view = nil;
+            });
+
+            it(@"returns nil", ^{
+                expect(view).to.beNil();
+            });
+
+        });
+
         context(@"with an unknown Trusted Shops ID", ^{
         });
 
