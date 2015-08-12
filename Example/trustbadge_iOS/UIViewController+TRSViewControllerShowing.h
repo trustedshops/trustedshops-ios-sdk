@@ -10,6 +10,6 @@
 
 @interface UIViewController (TRSViewControllerShowing)
 
-- (BOOL)trs_willShowingDetailViewController;
+- (BOOL)trs_willShowingDetailViewControllerPush;
 
 @end
