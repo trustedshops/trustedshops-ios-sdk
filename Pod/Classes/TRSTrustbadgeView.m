@@ -11,6 +11,8 @@
 @property (nonatomic, copy, readwrite) NSString *trustedShopsID;
 @property (nonatomic, strong) NSNumberFormatter *decimalFormatter;
 @property (nonatomic, strong) UIView *canvasView;
+@property (nonatomic, strong) UIImageView *triangleView;
+@property (nonatomic, strong) UIImage *triangleImage;
 @property (nonatomic, strong) UIImage *sealImage;
 @property (nonatomic, strong) TRSRatingView *ratingView;
 @property (nonatomic, strong) UILabel *ratingLabel;
@@ -39,7 +41,7 @@ static CGFloat const TRSTrustbadgePadding = 10.0f;
     self.backgroundColor = [UIColor trs_trustbadgeBorderColor];
     self.canvasView = [[UIView alloc ] initWithFrame:CGRectZero];
     self.canvasView.backgroundColor = [UIColor whiteColor];
-
+    self.triangleView = [[UIImageView alloc] initWithImage:self.triangleImage];
     self.sealView = [[UIImageView alloc] initWithImage:self.sealImage];
     [self addEmptyTrustbadgeViews];
 
@@ -242,6 +244,27 @@ static CGFloat const TRSTrustbadgePadding = 10.0f;
                                                         multiplier:1.0f
                                                           constant:0.0f]];
     }
+
+    {   // Triangle View Constraints
+        [self.triangleView setTranslatesAutoresizingMaskIntoConstraints:NO];
+        [self.canvasView addSubview:self.triangleView];
+
+        [self addConstraint:[NSLayoutConstraint constraintWithItem:self.canvasView
+                                                         attribute:NSLayoutAttributeRight
+                                                         relatedBy:NSLayoutRelationEqual
+                                                            toItem:self.triangleView
+                                                         attribute:NSLayoutAttributeRight
+                                                        multiplier:1.0f
+                                                          constant:TRSTrustbadgePadding]];
+
+        [self addConstraint:[NSLayoutConstraint constraintWithItem:self.triangleView
+                                                         attribute:NSLayoutAttributeTop
+                                                         relatedBy:NSLayoutRelationEqual
+                                                            toItem:self.canvasView
+                                                         attribute:NSLayoutAttributeBottom
+                                                        multiplier:1.0f
+                                                          constant:0.0f]];
+    }
 }
 
 - (NSNumberFormatter *)decimalFormatter {
@@ -264,6 +287,16 @@ static CGFloat const TRSTrustbadgePadding = 10.0f;
     }
 
     return _sealImage;
+}
+
+- (UIImage *)triangleImage {
+    if (!_triangleImage) {
+        NSString *bundlePath = [[NSBundle bundleForClass:[self class]] bundlePath];
+        NSBundle *bundle = [NSBundle bundleWithPath:[bundlePath stringByAppendingPathComponent:@"trustbadge.bundle"]];
+        _triangleImage = [UIImage imageWithContentsOfFile:[[bundle resourcePath] stringByAppendingPathComponent:@"iOS-SDK-Triangle.png"]];
+    }
+
+    return _triangleImage;
 }
 
 - (UILabel *)labelForRating:(NSNumber *)rating {
