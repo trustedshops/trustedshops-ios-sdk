@@ -3,6 +3,7 @@
 #import "TRSNetworkAgent+Trustbadge.h"
 #import "TRSRatingView.h"
 #import "TRSTrustbadge.h"
+#import "TRSTrustbadgeSDKPrivate.h"
 #import "UIColor+TRSColors.h"
 
 
@@ -281,9 +282,7 @@ static CGFloat const TRSTrustbadgePadding = 10.0f;
 
 - (UIImage *)sealImage {
     if (!_sealImage) {
-        NSString *bundlePath = [[NSBundle bundleForClass:[self class]] bundlePath];
-        NSBundle *bundle = [NSBundle bundleWithPath:[bundlePath stringByAppendingPathComponent:@"trustbadge.bundle"]];
-        _sealImage = [UIImage imageWithContentsOfFile:[[bundle resourcePath] stringByAppendingPathComponent:@"iOS-SDK-Seal.png"]];
+        _sealImage = [UIImage imageWithContentsOfFile:[[TRSTrustbadgeBundle() resourcePath] stringByAppendingPathComponent:@"iOS-SDK-Seal.png"]];
     }
 
     return _sealImage;
@@ -291,9 +290,7 @@ static CGFloat const TRSTrustbadgePadding = 10.0f;
 
 - (UIImage *)triangleImage {
     if (!_triangleImage) {
-        NSString *bundlePath = [[NSBundle bundleForClass:[self class]] bundlePath];
-        NSBundle *bundle = [NSBundle bundleWithPath:[bundlePath stringByAppendingPathComponent:@"trustbadge.bundle"]];
-        _triangleImage = [UIImage imageWithContentsOfFile:[[bundle resourcePath] stringByAppendingPathComponent:@"iOS-SDK-Triangle.png"]];
+        _triangleImage = [UIImage imageWithContentsOfFile:[[TRSTrustbadgeBundle() resourcePath] stringByAppendingPathComponent:@"iOS-SDK-Triangle.png"]];
     }
 
     return _triangleImage;
@@ -308,9 +305,7 @@ static CGFloat const TRSTrustbadgePadding = 10.0f;
 - (UILabel *)labelForReviews:(NSUInteger)numberOfReviews {
     UILabel *reviewsLabel = [[UILabel alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 80.0f, 18.0f)];
     reviewsLabel.font = [UIFont fontWithName:@"Arial" size:14.0];
-    NSString *bundlePath = [[NSBundle bundleForClass:[self class]] bundlePath];
-    NSBundle *bundle = [NSBundle bundleWithPath:[bundlePath stringByAppendingPathComponent:@"trustbadge.bundle"]];
-    reviewsLabel.text = [NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"trustbadge.label.review %lu Reviews", @"trustbadge", bundle, nil), (unsigned long)numberOfReviews];
+    reviewsLabel.text = [NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"trustbadge.label.review %lu Reviews", @"trustbadge", TRSTrustbadgeBundle(), nil), (unsigned long)numberOfReviews];
     return reviewsLabel;
 }
 
