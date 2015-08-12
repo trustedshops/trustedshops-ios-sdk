@@ -67,10 +67,9 @@ static CGFloat const TRSTrustbadgePadding = 10.0f;
         }
     };
 
-    TRSNetworkAgent *agent = [TRSNetworkAgent sharedAgent];
-    [agent getTrustbadgeForTrustedShopsID:_trustedShopsID
-                                  success:success
-                                  failure:failure];
+    [[TRSNetworkAgent sharedAgent] getTrustbadgeForTrustedShopsID:_trustedShopsID
+                                                          success:success
+                                                          failure:failure];
 
     return self;
 }
