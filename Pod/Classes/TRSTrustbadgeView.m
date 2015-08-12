@@ -1,14 +1,16 @@
 #import "TRSTrustbadgeView.h"
+#import "TRSErrors.h"
 #import "TRSNetworkAgent+Trustbadge.h"
 #import "TRSRatingView.h"
 #import "TRSTrustbadge.h"
-#import "TRSErrors.h"
+#import "UIColor+TRSColors.h"
 
 
 @interface TRSTrustbadgeView ()
 
 @property (nonatomic, copy, readwrite) NSString *trustedShopsID;
 @property (nonatomic, strong) NSNumberFormatter *decimalFormatter;
+@property (nonatomic, strong) UIView *canvasView;
 @property (nonatomic, strong) UIImage *sealImage;
 @property (nonatomic, strong) TRSRatingView *ratingView;
 @property (nonatomic, strong) UILabel *ratingLabel;
@@ -24,7 +26,7 @@ static CGFloat const TRSTrustbadgePadding = 10.0f;
 #pragma mark - Initialization
 
 - (instancetype)initWithTrustedShopsID:(NSString *)trustedShopsID {
-    self = [super initWithFrame:CGRectMake(0.0f, 0.0f, 200.0f, 56.0f)];
+    self = [super initWithFrame:CGRectMake(0.0f, 0.0f, 200.0f, 64.0f)];
     if (!self) {
         return nil;
     }
@@ -34,12 +36,17 @@ static CGFloat const TRSTrustbadgePadding = 10.0f;
     }
     _trustedShopsID = [trustedShopsID copy];
 
+    self.backgroundColor = [UIColor trs_trustbadgeBorderColor];
+    self.canvasView = [[UIView alloc ] initWithFrame:CGRectZero];
+    self.canvasView.backgroundColor = [UIColor whiteColor];
+
     self.sealView = [[UIImageView alloc] initWithImage:self.sealImage];
     [self addEmptyTrustbadgeViews];
 
     void (^success)(TRSTrustbadge *trustbadge) = ^(TRSTrustbadge *trustbadge) {
         [self removeTrustbadgeViews];
         [self addTrustbadgeViewWithTrustbadge:trustbadge];
+        [self createConstraints];
     };
 
     void (^failure)(NSError *error) = ^(NSError *error) {
@@ -115,14 +122,51 @@ static CGFloat const TRSTrustbadgePadding = 10.0f;
 }
 
 - (void)createConstraints {
+    {   // Canvas Constraints
+        [self.canvasView setTranslatesAutoresizingMaskIntoConstraints:NO];
+        [self addSubview:self.canvasView];
+
+        [self addConstraint:[NSLayoutConstraint constraintWithItem:self.canvasView
+                                                         attribute:NSLayoutAttributeWidth
+                                                         relatedBy:NSLayoutRelationEqual
+                                                            toItem:self
+                                                         attribute:NSLayoutAttributeWidth
+                                                        multiplier:1.0f
+                                                          constant:0.0f]];
+
+        [self addConstraint:[NSLayoutConstraint constraintWithItem:self.canvasView
+                                                         attribute:NSLayoutAttributeHeight
+                                                         relatedBy:NSLayoutRelationEqual
+                                                            toItem:nil
+                                                         attribute:NSLayoutAttributeHeight
+                                                        multiplier:1.0f
+                                                          constant:56.0f]];
+
+        [self addConstraint:[NSLayoutConstraint constraintWithItem:self.canvasView
+                                                         attribute:NSLayoutAttributeLeading
+                                                         relatedBy:NSLayoutRelationEqual
+                                                            toItem:self
+                                                         attribute:NSLayoutAttributeLeading
+                                                        multiplier:1.0f
+                                                          constant:0.0f]];
+
+        [self addConstraint:[NSLayoutConstraint constraintWithItem:self.canvasView
+                                                         attribute:NSLayoutAttributeTop
+                                                         relatedBy:NSLayoutRelationEqual
+                                                            toItem:self
+                                                         attribute:NSLayoutAttributeTop
+                                                        multiplier:1.0f
+                                                          constant:0.0f]];
+    }
+
     {   // Rating View Constraints
         [self.ratingView setTranslatesAutoresizingMaskIntoConstraints:NO];
-        [self addSubview:self.ratingView];
+        [self.canvasView addSubview:self.ratingView];
 
         [self addConstraint:[NSLayoutConstraint constraintWithItem:self.ratingView
                                                          attribute:NSLayoutAttributeTop
                                                          relatedBy:NSLayoutRelationEqual
-                                                            toItem:self
+                                                            toItem:self.canvasView
                                                          attribute:NSLayoutAttributeTop
                                                         multiplier:1.0f
                                                           constant:TRSTrustbadgePadding]];
@@ -130,7 +174,7 @@ static CGFloat const TRSTrustbadgePadding = 10.0f;
         [self addConstraint:[NSLayoutConstraint constraintWithItem:self.ratingView
                                                          attribute:NSLayoutAttributeLeading
                                                          relatedBy:NSLayoutRelationEqual
-                                                            toItem:self
+                                                            toItem:self.canvasView
                                                          attribute:NSLayoutAttributeLeading
                                                         multiplier:1.0f
                                                           constant:TRSTrustbadgePadding]];
@@ -138,7 +182,7 @@ static CGFloat const TRSTrustbadgePadding = 10.0f;
 
     {   // Rating Label Constraints
         [self.ratingLabel setTranslatesAutoresizingMaskIntoConstraints:NO];
-        [self addSubview:self.ratingLabel];
+        [self.canvasView addSubview:self.ratingLabel];
 
         [self addConstraint:[NSLayoutConstraint constraintWithItem:self.ratingLabel
                                                          attribute:NSLayoutAttributeLeading
@@ -159,9 +203,9 @@ static CGFloat const TRSTrustbadgePadding = 10.0f;
 
     {   // Reviews Label Constraints
         [self.reviewsLabel setTranslatesAutoresizingMaskIntoConstraints:NO];
-        [self addSubview:self.reviewsLabel];
+        [self.canvasView addSubview:self.reviewsLabel];
 
-        [self addConstraint:[NSLayoutConstraint constraintWithItem:self
+        [self addConstraint:[NSLayoutConstraint constraintWithItem:self.canvasView
                                                          attribute:NSLayoutAttributeBottom
                                                          relatedBy:NSLayoutRelationEqual
                                                             toItem:self.reviewsLabel
@@ -180,9 +224,9 @@ static CGFloat const TRSTrustbadgePadding = 10.0f;
 
     {   // Seal View Constraints
         [self.sealView setTranslatesAutoresizingMaskIntoConstraints:NO];
-        [self addSubview:self.sealView];
+        [self.canvasView addSubview:self.sealView];
 
-        [self addConstraint:[NSLayoutConstraint constraintWithItem:self
+        [self addConstraint:[NSLayoutConstraint constraintWithItem:self.canvasView
                                                          attribute:NSLayoutAttributeRight
                                                          relatedBy:NSLayoutRelationEqual
                                                             toItem:self.sealView
@@ -193,7 +237,7 @@ static CGFloat const TRSTrustbadgePadding = 10.0f;
         [self addConstraint:[NSLayoutConstraint constraintWithItem:self.sealView
                                                          attribute:NSLayoutAttributeCenterY
                                                          relatedBy:NSLayoutRelationEqual
-                                                            toItem:self
+                                                            toItem:self.canvasView
                                                          attribute:NSLayoutAttributeCenterY
                                                         multiplier:1.0f
                                                           constant:0.0f]];
