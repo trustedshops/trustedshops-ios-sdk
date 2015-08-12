@@ -8,4 +8,6 @@
 
 + (UIColor *)trs_backgroundStarColor;
 
++ (UIColor *)trs_trustbadgeBorderColor;
+
 @end
