@@ -2,4 +2,6 @@
 
 @interface TRSTrustbadgeSDKPrivate : NSObject
 
+NSBundle *TRSTrustbadgeBundle(void);
+
 @end
