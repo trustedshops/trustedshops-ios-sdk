@@ -10,9 +10,12 @@ Pod::Spec.new do |s|
   s.author           = "Trusted Shops GmbH"
   s.source           = { :git => "https://github.com/trustedshops/trustbadge_iOS.git", :tag => s.version.to_s }
 
+  s.module_name = 'Trustbadge'
+
   s.platform     = :ios, '7.0'
   s.requires_arc = true
 
-  s.source_files = 'Pod/Classes/**/*'
-  s.ios.resource_bundle = { 'trustbadge' => ['Pod/Assets/*'] }
+  s.source_files        = 'Pod/Classes/**/*'
+  s.public_header_files = 'Pod/Classes/Public/*.h'
+  s.ios.resource_bundle = { 'TrustbadgeResources' => ['Pod/Assets/*'] }
 end
