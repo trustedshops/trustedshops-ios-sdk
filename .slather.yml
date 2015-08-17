@@ -1,3 +1,3 @@
 coverage_service: coveralls
-xcodeproj: Example/trustbadge_iOS.xcodeproj
+xcodeproj: Example/Trustbadge.xcodeproj
 source_directory: Pod/Classes
