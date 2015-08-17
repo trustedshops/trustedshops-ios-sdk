@@ -10,6 +10,7 @@
 #import "TRSProductDetailViewController.h"
 #import "UIViewController+TRSCompatiblyLayer.h"
 #import "UIViewController+TRSViewControllerShowing.m"
+#import <Trustbadge/Trustbadge.h>
 
 static NSString * const TRSProductTableViewCellReuseIdentifier = @"Product";
 
@@ -39,6 +40,9 @@ static NSString * const TRSProductTableViewCellReuseIdentifier = @"Product";
                           @"description" : @"Construct your own railroad with ACME Railroad Ties (also see ACME Railroad Track)" }];
 
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:TRSProductTableViewCellReuseIdentifier];
+
+#warning Add your Trusted Shops ID
+    self.tableView.tableHeaderView = [[TRSTrustbadgeView alloc] initWithTrustedShopsID:@"CHANGEME"];
 }
 
 #pragma mark - UITableViewDataSource
