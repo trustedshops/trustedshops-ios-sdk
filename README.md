@@ -1,4 +1,4 @@
-# trustbadge_iOS
+# Trustbadge
 
 [![CI Status](https://travis-ci.org/trustedshops/trustbadge_iOS.svg?branch=master)](https://travis-ci.org/trustedshops/trustbadge_iOS)
 [![Coverage Status](https://coveralls.io/repos/trustedshops/trustbadge_iOS/badge.svg?branch=master&service=github)](https://coveralls.io/github/trustedshops/trustbadge_iOS?branch=master)
@@ -8,9 +8,7 @@
 
 ## Usage
 
-To run the example project, clone the repo, and run `pod install` from the Example directory first.
-
-## Requirements
+To run the example project, clone the repo, and run `pod install` from the Example directory first. You can use `pod try Trustbadge` to try out the trustbadge.
 
 ## Installation
 
