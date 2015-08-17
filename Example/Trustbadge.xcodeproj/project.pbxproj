@@ -7,35 +7,36 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0384339685C0FDADA3D20CBD /* Pods_trustbadge_iOS_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FCC6A74C3E4B6F36826F4320 /* Pods_trustbadge_iOS_Example.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
-		09DD67113F36CEFC00D6C497 /* Pods_trustbadge_iOS_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 48FA79AE7BBBB9C88F043847 /* Pods_trustbadge_iOS_Tests.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		16061A0419CE78518B6D5092 /* Pods_Trustbadge_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65E964664B285004286E6DA4 /* Pods_Trustbadge_Tests.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		6003F58E195388D20070C39A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58D195388D20070C39A /* Foundation.framework */; };
 		6003F590195388D20070C39A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58F195388D20070C39A /* CoreGraphics.framework */; };
 		6003F592195388D20070C39A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F591195388D20070C39A /* UIKit.framework */; };
-		6003F598195388D20070C39A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6003F596195388D20070C39A /* InfoPlist.strings */; };
-		6003F59A195388D20070C39A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6003F599195388D20070C39A /* main.m */; };
-		6003F59E195388D20070C39A /* TRSAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6003F59D195388D20070C39A /* TRSAppDelegate.m */; };
-		6003F5A7195388D20070C39A /* TRSViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6003F5A6195388D20070C39A /* TRSViewController.m */; };
-		6003F5A9195388D20070C39A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6003F5A8195388D20070C39A /* Images.xcassets */; };
 		6003F5B0195388D20070C39A /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F5AF195388D20070C39A /* XCTest.framework */; };
 		6003F5B1195388D20070C39A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58D195388D20070C39A /* Foundation.framework */; };
 		6003F5B2195388D20070C39A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F591195388D20070C39A /* UIKit.framework */; };
 		6003F5BA195388D20070C39A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6003F5B8195388D20070C39A /* InfoPlist.strings */; };
+		840574671B821067006F9778 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 840574511B821067006F9778 /* InfoPlist.strings */; };
+		840574681B821067006F9778 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 840574541B821067006F9778 /* Images.xcassets */; };
+		840574691B821067006F9778 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 840574551B821067006F9778 /* main.m */; };
+		8405746A1B821067006F9778 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 840574561B821067006F9778 /* Main.storyboard */; };
+		8405746B1B821067006F9778 /* TRSAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 840574581B821067006F9778 /* TRSAppDelegate.m */; };
+		8405746C1B821067006F9778 /* TRSProductDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8405745A1B821067006F9778 /* TRSProductDetailViewController.m */; };
+		8405746D1B821067006F9778 /* TRSProductTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8405745C1B821067006F9778 /* TRSProductTableViewController.m */; };
+		8405746E1B821067006F9778 /* TRSViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8405745E1B821067006F9778 /* TRSViewController.m */; };
+		840574701B821067006F9778 /* UISplitViewController+TRSCompatiblyLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 840574621B821067006F9778 /* UISplitViewController+TRSCompatiblyLayer.m */; };
+		840574711B821067006F9778 /* UIViewController+TRSCompatiblyLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 840574641B821067006F9778 /* UIViewController+TRSCompatiblyLayer.m */; };
+		840574721B821067006F9778 /* UIViewController+TRSViewControllerShowing.m in Sources */ = {isa = PBXBuildFile; fileRef = 840574661B821067006F9778 /* UIViewController+TRSViewControllerShowing.m */; };
 		8409D6851B66205700001627 /* trustbadge-badrequest.response in Resources */ = {isa = PBXBuildFile; fileRef = 8409D6811B66204800001627 /* trustbadge-badrequest.response */; };
 		8409D6861B66205700001627 /* trustbadge-notfound.response in Resources */ = {isa = PBXBuildFile; fileRef = 8409D6821B66204800001627 /* trustbadge-notfound.response */; };
 		840B0C4A1B678CF400CB8E39 /* trustbadge.data in Resources */ = {isa = PBXBuildFile; fileRef = 840B0C491B678CF400CB8E39 /* trustbadge.data */; };
 		840B2B631B457135009E1D6D /* NSNumber+TRSRatingSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 840B2B611B45712C009E1D6D /* NSNumber+TRSRatingSpec.m */; };
 		845E62DA1B7B80D40051329C /* TRSTrustbadgeSDKPrivatSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 845E62D91B7B80D40051329C /* TRSTrustbadgeSDKPrivatSpec.m */; };
-		845E96D91B5659FB00E799DD /* UISplitViewController+TRSCompatiblyLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 845E96D81B5659FB00E799DD /* UISplitViewController+TRSCompatiblyLayer.m */; };
-		845E96DC1B567BF000E799DD /* UIViewController+TRSViewControllerShowing.m in Sources */ = {isa = PBXBuildFile; fileRef = 845E96DB1B567BF000E799DD /* UIViewController+TRSViewControllerShowing.m */; };
-		845E96DF1B5682D600E799DD /* UIViewController+TRSCompatiblyLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 845E96DE1B5682D600E799DD /* UIViewController+TRSCompatiblyLayer.m */; };
 		84795A4E1B5E41A30091EA49 /* TRSNetworkAgentSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 84795A4C1B5E3EDA0091EA49 /* TRSNetworkAgentSpec.m */; };
 		84795A551B5E6B800091EA49 /* TRSNetworkAgent+TrustbadgeSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 84795A531B5E68EC0091EA49 /* TRSNetworkAgent+TrustbadgeSpec.m */; };
-		84B6D0871B5540F10013CD30 /* TRSProductTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84B6D0861B5540F10013CD30 /* TRSProductTableViewController.m */; };
-		84B6D08A1B55499D0013CD30 /* TRSProductDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84B6D0891B55499D0013CD30 /* TRSProductDetailViewController.m */; };
+		848CFD731B82140A00CEEE1E /* Trustbadge-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 848CFD721B82140A00CEEE1E /* Trustbadge-Info.plist */; };
 		84C2BC2F1B78C25000F54653 /* TRSTrustbadgeViewSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 84C2BC2E1B78C25000F54653 /* TRSTrustbadgeViewSpec.m */; };
 		84D2C8791B678694005AE982 /* TRSTrustbadgeSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 84D2C8781B678693005AE982 /* TRSTrustbadgeSpec.m */; };
-		873B8AEB1B1F5CCA007FD442 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 873B8AEA1B1F5CCA007FD442 /* Main.storyboard */; };
+		EB2149F0C7BD28BFCE1F4A5B /* Pods_Trustbadge_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1CA5AD3059E7771ECEAF3C7 /* Pods_Trustbadge_Example.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,55 +50,55 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		0E702B0613B0D9B61E967BB6 /* Pods-trustbadge_iOS_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-trustbadge_iOS_Example.debug.xcconfig"; path = "Pods/Target Support Files/Pods-trustbadge_iOS_Example/Pods-trustbadge_iOS_Example.debug.xcconfig"; sourceTree = "<group>"; };
-		1EE5EB6C11E9EA07383C4DC0 /* Pods-trustbadge_iOS_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-trustbadge_iOS_Example.release.xcconfig"; path = "Pods/Target Support Files/Pods-trustbadge_iOS_Example/Pods-trustbadge_iOS_Example.release.xcconfig"; sourceTree = "<group>"; };
-		48FA79AE7BBBB9C88F043847 /* Pods_trustbadge_iOS_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_trustbadge_iOS_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		4BCE34786B13526BE49D2457 /* Pods-Trustbadge_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Trustbadge_Example.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Trustbadge_Example/Pods-Trustbadge_Example.debug.xcconfig"; sourceTree = "<group>"; };
 		548E069DBE3AB3FF43F6F24B /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
-		6003F58A195388D20070C39A /* trustbadge_iOS_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = trustbadge_iOS_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		6003F58A195388D20070C39A /* Trustbadge_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Trustbadge_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6003F58D195388D20070C39A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		6003F58F195388D20070C39A /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		6003F591195388D20070C39A /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
-		6003F595195388D20070C39A /* trustbadge_iOS-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "trustbadge_iOS-Info.plist"; sourceTree = "<group>"; };
-		6003F597195388D20070C39A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		6003F599195388D20070C39A /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		6003F59B195388D20070C39A /* trustbadge_iOS-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "trustbadge_iOS-Prefix.pch"; sourceTree = "<group>"; };
-		6003F59C195388D20070C39A /* TRSAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TRSAppDelegate.h; sourceTree = "<group>"; };
-		6003F59D195388D20070C39A /* TRSAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TRSAppDelegate.m; sourceTree = "<group>"; };
-		6003F5A5195388D20070C39A /* TRSViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TRSViewController.h; sourceTree = "<group>"; };
-		6003F5A6195388D20070C39A /* TRSViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TRSViewController.m; sourceTree = "<group>"; };
-		6003F5A8195388D20070C39A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		6003F5AE195388D20070C39A /* trustbadge_iOS_Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = trustbadge_iOS_Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		6003F5AE195388D20070C39A /* Trustbadge_Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Trustbadge_Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		6003F5AF195388D20070C39A /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		6003F5B7195388D20070C39A /* Tests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Tests-Info.plist"; sourceTree = "<group>"; };
 		6003F5B9195388D20070C39A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		606FC2411953D9B200FFA9A0 /* Tests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Tests-Prefix.pch"; sourceTree = "<group>"; };
+		65E964664B285004286E6DA4 /* Pods_Trustbadge_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Trustbadge_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		7632682AC0D8F9C6220AD3E7 /* Pods-Trustbadge_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Trustbadge_Example.release.xcconfig"; path = "Pods/Target Support Files/Pods-Trustbadge_Example/Pods-Trustbadge_Example.release.xcconfig"; sourceTree = "<group>"; };
 		80C56FD8266B3717314B9E05 /* trustbadge_iOS.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = trustbadge_iOS.podspec; path = ../trustbadge_iOS.podspec; sourceTree = "<group>"; };
+		840574521B821067006F9778 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		840574531B821067006F9778 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		840574541B821067006F9778 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		840574551B821067006F9778 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		840574561B821067006F9778 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		840574571B821067006F9778 /* TRSAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TRSAppDelegate.h; sourceTree = "<group>"; };
+		840574581B821067006F9778 /* TRSAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TRSAppDelegate.m; sourceTree = "<group>"; };
+		840574591B821067006F9778 /* TRSProductDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TRSProductDetailViewController.h; sourceTree = "<group>"; };
+		8405745A1B821067006F9778 /* TRSProductDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TRSProductDetailViewController.m; sourceTree = "<group>"; };
+		8405745B1B821067006F9778 /* TRSProductTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TRSProductTableViewController.h; sourceTree = "<group>"; };
+		8405745C1B821067006F9778 /* TRSProductTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TRSProductTableViewController.m; sourceTree = "<group>"; };
+		8405745D1B821067006F9778 /* TRSViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TRSViewController.h; sourceTree = "<group>"; };
+		8405745E1B821067006F9778 /* TRSViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TRSViewController.m; sourceTree = "<group>"; };
+		840574611B821067006F9778 /* UISplitViewController+TRSCompatiblyLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UISplitViewController+TRSCompatiblyLayer.h"; sourceTree = "<group>"; };
+		840574621B821067006F9778 /* UISplitViewController+TRSCompatiblyLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UISplitViewController+TRSCompatiblyLayer.m"; sourceTree = "<group>"; };
+		840574631B821067006F9778 /* UIViewController+TRSCompatiblyLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+TRSCompatiblyLayer.h"; sourceTree = "<group>"; };
+		840574641B821067006F9778 /* UIViewController+TRSCompatiblyLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+TRSCompatiblyLayer.m"; sourceTree = "<group>"; };
+		840574651B821067006F9778 /* UIViewController+TRSViewControllerShowing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+TRSViewControllerShowing.h"; sourceTree = "<group>"; };
+		840574661B821067006F9778 /* UIViewController+TRSViewControllerShowing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+TRSViewControllerShowing.m"; sourceTree = "<group>"; };
 		8409D6811B66204800001627 /* trustbadge-badrequest.response */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "trustbadge-badrequest.response"; sourceTree = "<group>"; };
 		8409D6821B66204800001627 /* trustbadge-notfound.response */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "trustbadge-notfound.response"; sourceTree = "<group>"; };
 		840B0C491B678CF400CB8E39 /* trustbadge.data */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = trustbadge.data; sourceTree = "<group>"; };
 		840B2B611B45712C009E1D6D /* NSNumber+TRSRatingSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSNumber+TRSRatingSpec.m"; sourceTree = "<group>"; };
 		845E62D91B7B80D40051329C /* TRSTrustbadgeSDKPrivatSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TRSTrustbadgeSDKPrivatSpec.m; sourceTree = "<group>"; };
-		845E96D71B5659FB00E799DD /* UISplitViewController+TRSCompatiblyLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UISplitViewController+TRSCompatiblyLayer.h"; sourceTree = "<group>"; };
-		845E96D81B5659FB00E799DD /* UISplitViewController+TRSCompatiblyLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UISplitViewController+TRSCompatiblyLayer.m"; sourceTree = "<group>"; };
-		845E96DA1B567BF000E799DD /* UIViewController+TRSViewControllerShowing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+TRSViewControllerShowing.h"; sourceTree = "<group>"; };
-		845E96DB1B567BF000E799DD /* UIViewController+TRSViewControllerShowing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+TRSViewControllerShowing.m"; sourceTree = "<group>"; };
-		845E96DD1B5682D600E799DD /* UIViewController+TRSCompatiblyLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+TRSCompatiblyLayer.h"; sourceTree = "<group>"; };
-		845E96DE1B5682D600E799DD /* UIViewController+TRSCompatiblyLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+TRSCompatiblyLayer.m"; sourceTree = "<group>"; };
 		84795A4C1B5E3EDA0091EA49 /* TRSNetworkAgentSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TRSNetworkAgentSpec.m; sourceTree = "<group>"; };
 		84795A531B5E68EC0091EA49 /* TRSNetworkAgent+TrustbadgeSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "TRSNetworkAgent+TrustbadgeSpec.m"; sourceTree = "<group>"; };
-		8485B6351B7A05AA00D22F1E /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		8485B6361B7A05AA00D22F1E /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		84B6D0851B5540F10013CD30 /* TRSProductTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TRSProductTableViewController.h; sourceTree = "<group>"; };
-		84B6D0861B5540F10013CD30 /* TRSProductTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TRSProductTableViewController.m; sourceTree = "<group>"; };
-		84B6D0881B55499D0013CD30 /* TRSProductDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TRSProductDetailViewController.h; sourceTree = "<group>"; };
-		84B6D0891B55499D0013CD30 /* TRSProductDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TRSProductDetailViewController.m; sourceTree = "<group>"; };
+		848CFD721B82140A00CEEE1E /* Trustbadge-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Trustbadge-Info.plist"; sourceTree = "<group>"; };
+		848CFD741B82141900CEEE1E /* Trustbadge-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Trustbadge-Prefix.pch"; sourceTree = "<group>"; };
 		84C2BC2E1B78C25000F54653 /* TRSTrustbadgeViewSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TRSTrustbadgeViewSpec.m; sourceTree = "<group>"; };
 		84D2C8781B678693005AE982 /* TRSTrustbadgeSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TRSTrustbadgeSpec.m; sourceTree = "<group>"; };
-		873B8AEA1B1F5CCA007FD442 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		A1CA5AD3059E7771ECEAF3C7 /* Pods_Trustbadge_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Trustbadge_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A5D0B7243460D20672FD13F0 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
-		A68D1847BA5BEE315D4474D5 /* Pods-trustbadge_iOS_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-trustbadge_iOS_Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-trustbadge_iOS_Tests/Pods-trustbadge_iOS_Tests.debug.xcconfig"; sourceTree = "<group>"; };
-		A902289D42383015AF8C2326 /* Pods-trustbadge_iOS_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-trustbadge_iOS_Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-trustbadge_iOS_Tests/Pods-trustbadge_iOS_Tests.release.xcconfig"; sourceTree = "<group>"; };
-		FCC6A74C3E4B6F36826F4320 /* Pods_trustbadge_iOS_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_trustbadge_iOS_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		A7E543C1C81905B3C9C3C66B /* Pods-Trustbadge_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Trustbadge_Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-Trustbadge_Tests/Pods-Trustbadge_Tests.release.xcconfig"; sourceTree = "<group>"; };
+		B345D279C87FB7B0EA8DE8FE /* Pods-Trustbadge_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Trustbadge_Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Trustbadge_Tests/Pods-Trustbadge_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -108,7 +109,7 @@
 				6003F590195388D20070C39A /* CoreGraphics.framework in Frameworks */,
 				6003F592195388D20070C39A /* UIKit.framework in Frameworks */,
 				6003F58E195388D20070C39A /* Foundation.framework in Frameworks */,
-				0384339685C0FDADA3D20CBD /* Pods_trustbadge_iOS_Example.framework in Frameworks */,
+				EB2149F0C7BD28BFCE1F4A5B /* Pods_Trustbadge_Example.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -119,7 +120,7 @@
 				6003F5B0195388D20070C39A /* XCTest.framework in Frameworks */,
 				6003F5B2195388D20070C39A /* UIKit.framework in Frameworks */,
 				6003F5B1195388D20070C39A /* Foundation.framework in Frameworks */,
-				09DD67113F36CEFC00D6C497 /* Pods_trustbadge_iOS_Tests.framework in Frameworks */,
+				16061A0419CE78518B6D5092 /* Pods_Trustbadge_Tests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -130,7 +131,7 @@
 			isa = PBXGroup;
 			children = (
 				60FF7A9C1954A5C5007DD14C /* Podspec Metadata */,
-				6003F593195388D20070C39A /* Example for trustbadge_iOS */,
+				840574501B821067006F9778 /* Example for Trustbadge */,
 				6003F5B5195388D20070C39A /* Tests */,
 				6003F58C195388D20070C39A /* Frameworks */,
 				6003F58B195388D20070C39A /* Products */,
@@ -141,8 +142,8 @@
 		6003F58B195388D20070C39A /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				6003F58A195388D20070C39A /* trustbadge_iOS_Example.app */,
-				6003F5AE195388D20070C39A /* trustbadge_iOS_Tests.xctest */,
+				6003F58A195388D20070C39A /* Trustbadge_Example.app */,
+				6003F5AE195388D20070C39A /* Trustbadge_Tests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -154,46 +155,10 @@
 				6003F58F195388D20070C39A /* CoreGraphics.framework */,
 				6003F591195388D20070C39A /* UIKit.framework */,
 				6003F5AF195388D20070C39A /* XCTest.framework */,
-				FCC6A74C3E4B6F36826F4320 /* Pods_trustbadge_iOS_Example.framework */,
-				48FA79AE7BBBB9C88F043847 /* Pods_trustbadge_iOS_Tests.framework */,
+				A1CA5AD3059E7771ECEAF3C7 /* Pods_Trustbadge_Example.framework */,
+				65E964664B285004286E6DA4 /* Pods_Trustbadge_Tests.framework */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		6003F593195388D20070C39A /* Example for trustbadge_iOS */ = {
-			isa = PBXGroup;
-			children = (
-				873B8AEA1B1F5CCA007FD442 /* Main.storyboard */,
-				6003F59C195388D20070C39A /* TRSAppDelegate.h */,
-				6003F59D195388D20070C39A /* TRSAppDelegate.m */,
-				84B6D0881B55499D0013CD30 /* TRSProductDetailViewController.h */,
-				84B6D0891B55499D0013CD30 /* TRSProductDetailViewController.m */,
-				84B6D0851B5540F10013CD30 /* TRSProductTableViewController.h */,
-				84B6D0861B5540F10013CD30 /* TRSProductTableViewController.m */,
-				6003F5A5195388D20070C39A /* TRSViewController.h */,
-				6003F5A6195388D20070C39A /* TRSViewController.m */,
-				845E96D71B5659FB00E799DD /* UISplitViewController+TRSCompatiblyLayer.h */,
-				845E96D81B5659FB00E799DD /* UISplitViewController+TRSCompatiblyLayer.m */,
-				845E96DD1B5682D600E799DD /* UIViewController+TRSCompatiblyLayer.h */,
-				845E96DE1B5682D600E799DD /* UIViewController+TRSCompatiblyLayer.m */,
-				845E96DA1B567BF000E799DD /* UIViewController+TRSViewControllerShowing.h */,
-				845E96DB1B567BF000E799DD /* UIViewController+TRSViewControllerShowing.m */,
-				6003F5A8195388D20070C39A /* Images.xcassets */,
-				6003F594195388D20070C39A /* Supporting Files */,
-			);
-			name = "Example for trustbadge_iOS";
-			path = trustbadge_iOS;
-			sourceTree = "<group>";
-		};
-		6003F594195388D20070C39A /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				6003F595195388D20070C39A /* trustbadge_iOS-Info.plist */,
-				6003F596195388D20070C39A /* InfoPlist.strings */,
-				6003F599195388D20070C39A /* main.m */,
-				6003F59B195388D20070C39A /* trustbadge_iOS-Prefix.pch */,
-			);
-			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
 		6003F5B5195388D20070C39A /* Tests */ = {
@@ -231,6 +196,42 @@
 			name = "Podspec Metadata";
 			sourceTree = "<group>";
 		};
+		840574501B821067006F9778 /* Example for Trustbadge */ = {
+			isa = PBXGroup;
+			children = (
+				840574541B821067006F9778 /* Images.xcassets */,
+				840574561B821067006F9778 /* Main.storyboard */,
+				840574571B821067006F9778 /* TRSAppDelegate.h */,
+				840574581B821067006F9778 /* TRSAppDelegate.m */,
+				840574591B821067006F9778 /* TRSProductDetailViewController.h */,
+				8405745A1B821067006F9778 /* TRSProductDetailViewController.m */,
+				8405745B1B821067006F9778 /* TRSProductTableViewController.h */,
+				8405745C1B821067006F9778 /* TRSProductTableViewController.m */,
+				8405745D1B821067006F9778 /* TRSViewController.h */,
+				8405745E1B821067006F9778 /* TRSViewController.m */,
+				840574611B821067006F9778 /* UISplitViewController+TRSCompatiblyLayer.h */,
+				840574621B821067006F9778 /* UISplitViewController+TRSCompatiblyLayer.m */,
+				840574631B821067006F9778 /* UIViewController+TRSCompatiblyLayer.h */,
+				840574641B821067006F9778 /* UIViewController+TRSCompatiblyLayer.m */,
+				840574651B821067006F9778 /* UIViewController+TRSViewControllerShowing.h */,
+				840574661B821067006F9778 /* UIViewController+TRSViewControllerShowing.m */,
+				840574731B8210A5006F9778 /* Supporting Files */,
+			);
+			name = "Example for Trustbadge";
+			path = Trustbadge;
+			sourceTree = "<group>";
+		};
+		840574731B8210A5006F9778 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				848CFD721B82140A00CEEE1E /* Trustbadge-Info.plist */,
+				840574511B821067006F9778 /* InfoPlist.strings */,
+				840574551B821067006F9778 /* main.m */,
+				848CFD741B82141900CEEE1E /* Trustbadge-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
 		8409D6801B66204800001627 /* Fixtures */ = {
 			isa = PBXGroup;
 			children = (
@@ -244,10 +245,10 @@
 		A03E61BB4D59CE1F067DC814 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				0E702B0613B0D9B61E967BB6 /* Pods-trustbadge_iOS_Example.debug.xcconfig */,
-				1EE5EB6C11E9EA07383C4DC0 /* Pods-trustbadge_iOS_Example.release.xcconfig */,
-				A68D1847BA5BEE315D4474D5 /* Pods-trustbadge_iOS_Tests.debug.xcconfig */,
-				A902289D42383015AF8C2326 /* Pods-trustbadge_iOS_Tests.release.xcconfig */,
+				4BCE34786B13526BE49D2457 /* Pods-Trustbadge_Example.debug.xcconfig */,
+				7632682AC0D8F9C6220AD3E7 /* Pods-Trustbadge_Example.release.xcconfig */,
+				B345D279C87FB7B0EA8DE8FE /* Pods-Trustbadge_Tests.debug.xcconfig */,
+				A7E543C1C81905B3C9C3C66B /* Pods-Trustbadge_Tests.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -255,9 +256,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		6003F589195388D20070C39A /* trustbadge_iOS_Example */ = {
+		6003F589195388D20070C39A /* Trustbadge_Example */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 6003F5BF195388D20070C39A /* Build configuration list for PBXNativeTarget "trustbadge_iOS_Example" */;
+			buildConfigurationList = 6003F5BF195388D20070C39A /* Build configuration list for PBXNativeTarget "Trustbadge_Example" */;
 			buildPhases = (
 				3E0B96D71D2FD64535566AB8 /* Check Pods Manifest.lock */,
 				6003F586195388D20070C39A /* Sources */,
@@ -270,14 +271,14 @@
 			);
 			dependencies = (
 			);
-			name = trustbadge_iOS_Example;
+			name = Trustbadge_Example;
 			productName = trustbadge_iOS;
-			productReference = 6003F58A195388D20070C39A /* trustbadge_iOS_Example.app */;
+			productReference = 6003F58A195388D20070C39A /* Trustbadge_Example.app */;
 			productType = "com.apple.product-type.application";
 		};
-		6003F5AD195388D20070C39A /* trustbadge_iOS_Tests */ = {
+		6003F5AD195388D20070C39A /* Trustbadge_Tests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 6003F5C2195388D20070C39A /* Build configuration list for PBXNativeTarget "trustbadge_iOS_Tests" */;
+			buildConfigurationList = 6003F5C2195388D20070C39A /* Build configuration list for PBXNativeTarget "Trustbadge_Tests" */;
 			buildPhases = (
 				8F68B45390943950CA30A55C /* Check Pods Manifest.lock */,
 				6003F5AA195388D20070C39A /* Sources */,
@@ -291,9 +292,9 @@
 			dependencies = (
 				6003F5B4195388D20070C39A /* PBXTargetDependency */,
 			);
-			name = trustbadge_iOS_Tests;
+			name = Trustbadge_Tests;
 			productName = trustbadge_iOSTests;
-			productReference = 6003F5AE195388D20070C39A /* trustbadge_iOS_Tests.xctest */;
+			productReference = 6003F5AE195388D20070C39A /* Trustbadge_Tests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -311,7 +312,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 6003F585195388D10070C39A /* Build configuration list for PBXProject "trustbadge_iOS" */;
+			buildConfigurationList = 6003F585195388D10070C39A /* Build configuration list for PBXProject "Trustbadge" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -325,8 +326,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				6003F589195388D20070C39A /* trustbadge_iOS_Example */,
-				6003F5AD195388D20070C39A /* trustbadge_iOS_Tests */,
+				6003F589195388D20070C39A /* Trustbadge_Example */,
+				6003F5AD195388D20070C39A /* Trustbadge_Tests */,
 			);
 		};
 /* End PBXProject section */
@@ -336,9 +337,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				873B8AEB1B1F5CCA007FD442 /* Main.storyboard in Resources */,
-				6003F5A9195388D20070C39A /* Images.xcassets in Resources */,
-				6003F598195388D20070C39A /* InfoPlist.strings in Resources */,
+				8405746A1B821067006F9778 /* Main.storyboard in Resources */,
+				848CFD731B82140A00CEEE1E /* Trustbadge-Info.plist in Resources */,
+				840574671B821067006F9778 /* InfoPlist.strings in Resources */,
+				840574681B821067006F9778 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -368,7 +370,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-trustbadge_iOS_Tests/Pods-trustbadge_iOS_Tests-frameworks.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Trustbadge_Tests/Pods-Trustbadge_Tests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		3E0B96D71D2FD64535566AB8 /* Check Pods Manifest.lock */ = {
@@ -413,7 +415,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-trustbadge_iOS_Tests/Pods-trustbadge_iOS_Tests-resources.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Trustbadge_Tests/Pods-Trustbadge_Tests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		D039EFF73E6FF106F9C33BCC /* Embed Pods Frameworks */ = {
@@ -428,7 +430,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-trustbadge_iOS_Example/Pods-trustbadge_iOS_Example-frameworks.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Trustbadge_Example/Pods-Trustbadge_Example-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		F0C36EB26FCF21FDBF4FE0EC /* Copy Pods Resources */ = {
@@ -443,7 +445,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-trustbadge_iOS_Example/Pods-trustbadge_iOS_Example-resources.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Trustbadge_Example/Pods-Trustbadge_Example-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -453,14 +455,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				84B6D08A1B55499D0013CD30 /* TRSProductDetailViewController.m in Sources */,
-				6003F59E195388D20070C39A /* TRSAppDelegate.m in Sources */,
-				845E96DF1B5682D600E799DD /* UIViewController+TRSCompatiblyLayer.m in Sources */,
-				6003F5A7195388D20070C39A /* TRSViewController.m in Sources */,
-				845E96D91B5659FB00E799DD /* UISplitViewController+TRSCompatiblyLayer.m in Sources */,
-				6003F59A195388D20070C39A /* main.m in Sources */,
-				84B6D0871B5540F10013CD30 /* TRSProductTableViewController.m in Sources */,
-				845E96DC1B567BF000E799DD /* UIViewController+TRSViewControllerShowing.m in Sources */,
+				8405746B1B821067006F9778 /* TRSAppDelegate.m in Sources */,
+				840574711B821067006F9778 /* UIViewController+TRSCompatiblyLayer.m in Sources */,
+				8405746E1B821067006F9778 /* TRSViewController.m in Sources */,
+				8405746C1B821067006F9778 /* TRSProductDetailViewController.m in Sources */,
+				840574701B821067006F9778 /* UISplitViewController+TRSCompatiblyLayer.m in Sources */,
+				840574721B821067006F9778 /* UIViewController+TRSViewControllerShowing.m in Sources */,
+				840574691B821067006F9778 /* main.m in Sources */,
+				8405746D1B821067006F9778 /* TRSProductTableViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -482,26 +484,26 @@
 /* Begin PBXTargetDependency section */
 		6003F5B4195388D20070C39A /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 6003F589195388D20070C39A /* trustbadge_iOS_Example */;
+			target = 6003F589195388D20070C39A /* Trustbadge_Example */;
 			targetProxy = 6003F5B3195388D20070C39A /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		6003F596195388D20070C39A /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				6003F597195388D20070C39A /* en */,
-				8485B6351B7A05AA00D22F1E /* de */,
-			);
-			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
 		6003F5B8195388D20070C39A /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
 				6003F5B9195388D20070C39A /* en */,
 				8485B6361B7A05AA00D22F1E /* de */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		840574511B821067006F9778 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				840574521B821067006F9778 /* de */,
+				840574531B821067006F9778 /* en */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -583,13 +585,13 @@
 		};
 		6003F5C0195388D20070C39A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 0E702B0613B0D9B61E967BB6 /* Pods-trustbadge_iOS_Example.debug.xcconfig */;
+			baseConfigurationReference = 4BCE34786B13526BE49D2457 /* Pods-Trustbadge_Example.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "trustbadge_iOS/trustbadge_iOS-Prefix.pch";
-				INFOPLIST_FILE = "trustbadge_iOS/trustbadge_iOS-Info.plist";
+				GCC_PREFIX_HEADER = "Trustbadge/Trustbadge-Prefix.pch";
+				INFOPLIST_FILE = "Trustbadge/Trustbadge-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MODULE_NAME = ExampleApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -599,13 +601,13 @@
 		};
 		6003F5C1195388D20070C39A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 1EE5EB6C11E9EA07383C4DC0 /* Pods-trustbadge_iOS_Example.release.xcconfig */;
+			baseConfigurationReference = 7632682AC0D8F9C6220AD3E7 /* Pods-Trustbadge_Example.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "trustbadge_iOS/trustbadge_iOS-Prefix.pch";
-				INFOPLIST_FILE = "trustbadge_iOS/trustbadge_iOS-Info.plist";
+				GCC_PREFIX_HEADER = "Trustbadge/Trustbadge-Prefix.pch";
+				INFOPLIST_FILE = "Trustbadge/Trustbadge-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MODULE_NAME = ExampleApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -615,7 +617,7 @@
 		};
 		6003F5C3195388D20070C39A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = A68D1847BA5BEE315D4474D5 /* Pods-trustbadge_iOS_Tests.debug.xcconfig */;
+			baseConfigurationReference = B345D279C87FB7B0EA8DE8FE /* Pods-Trustbadge_Tests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -636,14 +638,14 @@
 				);
 				INFOPLIST_FILE = "Tests/Tests-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/trustbadge_iOS_Example.app/trustbadge_iOS_Example";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Trustbadge_Example.app/Trustbadge_Example";
 				WRAPPER_EXTENSION = xctest;
 			};
 			name = Debug;
 		};
 		6003F5C4195388D20070C39A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = A902289D42383015AF8C2326 /* Pods-trustbadge_iOS_Tests.release.xcconfig */;
+			baseConfigurationReference = A7E543C1C81905B3C9C3C66B /* Pods-Trustbadge_Tests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -660,7 +662,7 @@
 				);
 				INFOPLIST_FILE = "Tests/Tests-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/trustbadge_iOS_Example.app/trustbadge_iOS_Example";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Trustbadge_Example.app/Trustbadge_Example";
 				WRAPPER_EXTENSION = xctest;
 			};
 			name = Release;
@@ -668,7 +670,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		6003F585195388D10070C39A /* Build configuration list for PBXProject "trustbadge_iOS" */ = {
+		6003F585195388D10070C39A /* Build configuration list for PBXProject "Trustbadge" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				6003F5BD195388D20070C39A /* Debug */,
@@ -677,7 +679,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		6003F5BF195388D20070C39A /* Build configuration list for PBXNativeTarget "trustbadge_iOS_Example" */ = {
+		6003F5BF195388D20070C39A /* Build configuration list for PBXNativeTarget "Trustbadge_Example" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				6003F5C0195388D20070C39A /* Debug */,
@@ -686,7 +688,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		6003F5C2195388D20070C39A /* Build configuration list for PBXNativeTarget "trustbadge_iOS_Tests" */ = {
+		6003F5C2195388D20070C39A /* Build configuration list for PBXNativeTarget "Trustbadge_Tests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				6003F5C3195388D20070C39A /* Debug */,

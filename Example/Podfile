@@ -1,11 +1,11 @@
 source 'https://github.com/CocoaPods/Specs.git'
 use_frameworks!
 
-target 'trustbadge_iOS_Example', :exclusive => true do
+target 'Trustbadge_Example', :exclusive => true do
   pod "Trustbadge", :path => "../"
 end
 
-target 'trustbadge_iOS_Tests', :exclusive => true do
+target 'Trustbadge_Tests', :exclusive => true do
   pod "Trustbadge", :path => "../"
 
   pod 'Specta',      '~> 1.0.3'
