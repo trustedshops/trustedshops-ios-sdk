@@ -16,7 +16,7 @@ trustbadge_iOS is available through [CocoaPods](http://cocoapods.org). To instal
 it, simply add the following line to your Podfile:
 
 ```ruby
-pod "trustbadge_iOS"
+pod "Trustbadge"
 ```
 
 ## Author
