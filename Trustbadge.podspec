@@ -1,5 +1,5 @@
 Pod::Spec.new do |s|
-  s.name             = "trustbadge_iOS"
+  s.name             = "Trustbadge"
   s.version          = "0.1.0-alpha.1"
   s.summary          = "Trustbadge for iOS"
   s.description      = <<-DESC
@@ -9,8 +9,6 @@ Pod::Spec.new do |s|
   s.license          = 'MIT'
   s.author           = "Trusted Shops GmbH"
   s.source           = { :git => "https://github.com/trustedshops/trustbadge_iOS.git", :tag => s.version.to_s }
-
-  s.module_name = 'Trustbadge'
 
   s.platform     = :ios, '7.0'
   s.requires_arc = true

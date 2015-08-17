@@ -632,7 +632,7 @@
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
-					"\"${PODS_ROOT}/Headers/Private/trustbadge_iOS\"",
+					"\"${PODS_ROOT}/Headers/Private/Trustbadge\"",
 				);
 				INFOPLIST_FILE = "Tests/Tests-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -656,7 +656,7 @@
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
-					"\"${PODS_ROOT}/Headers/Private/trustbadge_iOS\"",
+					"\"${PODS_ROOT}/Headers/Private/Trustbadge\"",
 				);
 				INFOPLIST_FILE = "Tests/Tests-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
