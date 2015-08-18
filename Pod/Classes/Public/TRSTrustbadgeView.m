@@ -1,4 +1,5 @@
 #import "TRSTrustbadgeView.h"
+#import "NSNumberFormatter+TRSFormatter.h"
 #import "TRSErrors.h"
 #import "TRSNetworkAgent+Trustbadge.h"
 #import "TRSRatingView.h"
@@ -310,8 +311,8 @@ static CGFloat const TRSTrustbadgePadding = 10.0f;
 }
 
 - (NSAttributedString *)ratingStringForRating:(NSNumber *)rating {
-    NSString *maxRatingString = [NSString stringWithFormat:@"/%@", [self.decimalFormatter stringFromNumber:@5.0]];
-    NSString *ratingString = [NSString stringWithFormat:@"%@%@", [self.decimalFormatter stringFromNumber:rating], maxRatingString];
+    NSString *maxRatingString = [NSString stringWithFormat:@"/%@", [[NSNumberFormatter trs_trustbadgeRatingFormatter] stringFromNumber:@5.0]];
+    NSString *ratingString = [NSString stringWithFormat:@"%@%@", [[NSNumberFormatter trs_trustbadgeRatingFormatter] stringFromNumber:rating], maxRatingString];
 
     UIFont *normalFont = [UIFont fontWithName:@"Arial" size:14.0];
     NSDictionary *attributes = @{ NSFontAttributeName : normalFont };
