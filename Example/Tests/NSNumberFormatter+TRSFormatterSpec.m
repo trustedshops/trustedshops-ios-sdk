@@ -42,6 +42,17 @@ describe(@"NSNumberFormatter+TRSFormatter", ^{
 
     describe(@"+trs_trustbadgeRatingFormatter", ^{
 
+        it(@"returns a `NSNumberFormatter` object", ^{
+            NSNumberFormatter *formatter = [NSNumberFormatter trs_trustbadgeRatingFormatter];
+            expect(formatter).to.beKindOf([NSNumberFormatter class]);
+        });
+
+        it(@"returns the same `NSNumberFormatter` object", ^{
+            NSNumberFormatter *aFormatter = [NSNumberFormatter trs_trustbadgeRatingFormatter];
+            NSNumberFormatter *otherFormatter = [NSNumberFormatter trs_trustbadgeRatingFormatter];
+            expect(aFormatter).to.equal(otherFormatter);
+        });
+
         context(@"for en_US locale", ^{
 
             __block id localeMock;
