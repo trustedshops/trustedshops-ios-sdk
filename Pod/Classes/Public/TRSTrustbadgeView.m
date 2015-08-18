@@ -1,4 +1,5 @@
 #import "TRSTrustbadgeView.h"
+#import "NSNumberFormatter+TRSFormatter.h"
 #import "TRSErrors.h"
 #import "TRSNetworkAgent+Trustbadge.h"
 #import "TRSRatingView.h"
@@ -10,7 +11,6 @@
 @interface TRSTrustbadgeView ()
 
 @property (nonatomic, copy, readwrite) NSString *trustedShopsID;
-@property (nonatomic, strong) NSNumberFormatter *decimalFormatter;
 @property (nonatomic, strong) UIView *canvasView;
 @property (nonatomic, strong) UIImageView *triangleView;
 @property (nonatomic, strong) UIImage *triangleImage;
@@ -268,18 +268,6 @@ static CGFloat const TRSTrustbadgePadding = 10.0f;
     }
 }
 
-- (NSNumberFormatter *)decimalFormatter {
-    if (!_decimalFormatter) {
-        NSNumberFormatter *decimalFormatter = [[NSNumberFormatter alloc] init];
-        decimalFormatter.minimumIntegerDigits = 1;
-        decimalFormatter.minimumFractionDigits = 2;
-        decimalFormatter.maximumFractionDigits = 2;
-        _decimalFormatter = decimalFormatter;
-    }
-
-    return _decimalFormatter;
-}
-
 - (UIImage *)sealImage {
     if (!_sealImage) {
         _sealImage = [UIImage imageWithContentsOfFile:[[TRSTrustbadgeBundle() resourcePath] stringByAppendingPathComponent:@"iOS-SDK-Seal.png"]];
@@ -310,8 +298,8 @@ static CGFloat const TRSTrustbadgePadding = 10.0f;
 }
 
 - (NSAttributedString *)ratingStringForRating:(NSNumber *)rating {
-    NSString *maxRatingString = [NSString stringWithFormat:@"/%@", [self.decimalFormatter stringFromNumber:@5.0]];
-    NSString *ratingString = [NSString stringWithFormat:@"%@%@", [self.decimalFormatter stringFromNumber:rating], maxRatingString];
+    NSString *maxRatingString = [NSString stringWithFormat:@"/%@", [[NSNumberFormatter trs_trustbadgeRatingFormatter] stringFromNumber:@5.0]];
+    NSString *ratingString = [NSString stringWithFormat:@"%@%@", [[NSNumberFormatter trs_trustbadgeRatingFormatter] stringFromNumber:rating], maxRatingString];
 
     UIFont *normalFont = [UIFont fontWithName:@"Arial" size:14.0];
     NSDictionary *attributes = @{ NSFontAttributeName : normalFont };
