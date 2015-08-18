@@ -7,12 +7,15 @@ SpecBegin(NSNumberFormatter_TRSFormatter)
 
 describe(@"NSNumberFormatter+TRSFormatter", ^{
 
+    __block NSNumberFormatter *formatter;
     __block NSNumber *rating;
     beforeAll(^{
+        formatter = [NSNumberFormatter trs_trustbadgeRatingFormatter];
         rating = @4.42;
     });
 
     afterAll(^{
+        formatter = nil;
         rating = nil;
     });
 
@@ -43,14 +46,12 @@ describe(@"NSNumberFormatter+TRSFormatter", ^{
     describe(@"+trs_trustbadgeRatingFormatter", ^{
 
         it(@"returns a `NSNumberFormatter` object", ^{
-            NSNumberFormatter *formatter = [NSNumberFormatter trs_trustbadgeRatingFormatter];
             expect(formatter).to.beKindOf([NSNumberFormatter class]);
         });
 
         it(@"returns the same `NSNumberFormatter` object", ^{
-            NSNumberFormatter *aFormatter = [NSNumberFormatter trs_trustbadgeRatingFormatter];
             NSNumberFormatter *otherFormatter = [NSNumberFormatter trs_trustbadgeRatingFormatter];
-            expect(aFormatter).to.equal(otherFormatter);
+            expect(formatter).to.equal(otherFormatter);
         });
 
         context(@"for en_US locale", ^{
@@ -67,21 +68,16 @@ describe(@"NSNumberFormatter+TRSFormatter", ^{
             });
 
             itShouldBehaveLike(@"decimal seperator", ^{
-                NSNumberFormatter *formatter = [NSNumberFormatter trs_trustbadgeRatingFormatter];
-                NSString *formattedNumberString = [formatter stringFromNumber:rating];
-
-                return @{@"formattedNumberString" : formattedNumberString};
+                return @{@"formattedNumberString" : [formatter stringFromNumber:rating]};
             });
 
             itShouldBehaveLike(@"integer digits", ^{
-                NSNumberFormatter *formatter = [NSNumberFormatter trs_trustbadgeRatingFormatter];
                 NSString *formattedNumberString = [formatter stringFromNumber:rating];
 
                 return @{@"formattedNumberString" : [[formattedNumberString componentsSeparatedByString:@"."] firstObject]};
             });
 
             itShouldBehaveLike(@"fraction digits", ^{
-                NSNumberFormatter *formatter = [NSNumberFormatter trs_trustbadgeRatingFormatter];
                 NSString *formattedNumberString = [formatter stringFromNumber:rating];
 
                 return @{@"formattedNumberString" : [[formattedNumberString componentsSeparatedByString:@"."] lastObject]};
@@ -103,21 +99,16 @@ describe(@"NSNumberFormatter+TRSFormatter", ^{
             });
 
             itShouldBehaveLike(@"decimal seperator", ^{
-                NSNumberFormatter *formatter = [NSNumberFormatter trs_trustbadgeRatingFormatter];
-                NSString *formattedNumberString = [formatter stringFromNumber:rating];
-
-                return @{@"formattedNumberString" : formattedNumberString};
+                return @{@"formattedNumberString" : [formatter stringFromNumber:rating]};
             });
 
             itShouldBehaveLike(@"integer digits", ^{
-                NSNumberFormatter *formatter = [NSNumberFormatter trs_trustbadgeRatingFormatter];
                 NSString *formattedNumberString = [formatter stringFromNumber:rating];
 
                 return @{@"formattedNumberString" : [[formattedNumberString componentsSeparatedByString:@"."] firstObject]};
             });
 
             itShouldBehaveLike(@"fraction digits", ^{
-                NSNumberFormatter *formatter = [NSNumberFormatter trs_trustbadgeRatingFormatter];
                 NSString *formattedNumberString = [formatter stringFromNumber:rating];
 
                 return @{@"formattedNumberString" : [[formattedNumberString componentsSeparatedByString:@"."] lastObject]};
@@ -139,21 +130,16 @@ describe(@"NSNumberFormatter+TRSFormatter", ^{
             });
 
             itShouldBehaveLike(@"decimal seperator", ^{
-                NSNumberFormatter *formatter = [NSNumberFormatter trs_trustbadgeRatingFormatter];
-                NSString *formattedNumberString = [formatter stringFromNumber:rating];
-
-                return @{@"formattedNumberString" : formattedNumberString};
+                return @{@"formattedNumberString" : [formatter stringFromNumber:rating]};
             });
 
             itShouldBehaveLike(@"integer digits", ^{
-                NSNumberFormatter *formatter = [NSNumberFormatter trs_trustbadgeRatingFormatter];
                 NSString *formattedNumberString = [formatter stringFromNumber:rating];
 
                 return @{@"formattedNumberString" : [[formattedNumberString componentsSeparatedByString:@"."] firstObject]};
             });
 
             itShouldBehaveLike(@"fraction digits", ^{
-                NSNumberFormatter *formatter = [NSNumberFormatter trs_trustbadgeRatingFormatter];
                 NSString *formattedNumberString = [formatter stringFromNumber:rating];
 
                 return @{@"formattedNumberString" : [[formattedNumberString componentsSeparatedByString:@"."] lastObject]};
