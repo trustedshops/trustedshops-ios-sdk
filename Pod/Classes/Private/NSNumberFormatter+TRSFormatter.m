@@ -7,7 +7,7 @@
     decimalFormatter.minimumIntegerDigits = 1;
     decimalFormatter.minimumFractionDigits = 2;
     decimalFormatter.maximumFractionDigits = 2;
-    decimalFormatter.locale = [NSLocale currentLocale];
+    decimalFormatter.decimalSeparator = @".";
 
     return decimalFormatter;
 }

@@ -16,6 +16,14 @@ describe(@"NSNumberFormatter+TRSFormatter", ^{
         rating = nil;
     });
 
+    sharedExamplesFor(@"decimal seperator", ^(NSDictionary *data) {
+
+        it(@"it uses a `.` as a decimal seperator", ^{
+            expect(data[@"formattedNumberString"]).to.equal(@"4.42");
+        });
+
+    });
+
     sharedExamplesFor(@"integer digits", ^(NSDictionary *data) {
 
         it(@"it formats the number with one integer digit", ^{
@@ -47,6 +55,13 @@ describe(@"NSNumberFormatter+TRSFormatter", ^{
                 localeMock = nil;
             });
 
+            itShouldBehaveLike(@"decimal seperator", ^{
+                NSNumberFormatter *formatter = [NSNumberFormatter trs_trustbadgeRatingFormatter];
+                NSString *formattedNumberString = [formatter stringFromNumber:rating];
+
+                return @{@"formattedNumberString" : formattedNumberString};
+            });
+
             itShouldBehaveLike(@"integer digits", ^{
                 NSNumberFormatter *formatter = [NSNumberFormatter trs_trustbadgeRatingFormatter];
                 NSString *formattedNumberString = [formatter stringFromNumber:rating];
@@ -59,13 +74,6 @@ describe(@"NSNumberFormatter+TRSFormatter", ^{
                 NSString *formattedNumberString = [formatter stringFromNumber:rating];
 
                 return @{@"formattedNumberString" : [[formattedNumberString componentsSeparatedByString:@"."] lastObject]};
-            });
-
-            it(@"formats the number for the current locale", ^{
-                NSNumberFormatter *formatter = [NSNumberFormatter trs_trustbadgeRatingFormatter];
-                NSString *formattedNumberString = [formatter stringFromNumber:rating];
-
-                expect(formattedNumberString).to.equal(@"4.42");
             });
 
         });
@@ -83,25 +91,25 @@ describe(@"NSNumberFormatter+TRSFormatter", ^{
                 localeMock = nil;
             });
 
+            itShouldBehaveLike(@"decimal seperator", ^{
+                NSNumberFormatter *formatter = [NSNumberFormatter trs_trustbadgeRatingFormatter];
+                NSString *formattedNumberString = [formatter stringFromNumber:rating];
+
+                return @{@"formattedNumberString" : formattedNumberString};
+            });
+
             itShouldBehaveLike(@"integer digits", ^{
                 NSNumberFormatter *formatter = [NSNumberFormatter trs_trustbadgeRatingFormatter];
                 NSString *formattedNumberString = [formatter stringFromNumber:rating];
 
-                return @{@"formattedNumberString" : [[formattedNumberString componentsSeparatedByString:@","] firstObject]};
+                return @{@"formattedNumberString" : [[formattedNumberString componentsSeparatedByString:@"."] firstObject]};
             });
 
             itShouldBehaveLike(@"fraction digits", ^{
                 NSNumberFormatter *formatter = [NSNumberFormatter trs_trustbadgeRatingFormatter];
                 NSString *formattedNumberString = [formatter stringFromNumber:rating];
 
-                return @{@"formattedNumberString" : [[formattedNumberString componentsSeparatedByString:@","] lastObject]};
-            });
-
-            it(@"formats the number for the current locale", ^{
-                NSNumberFormatter *formatter = [NSNumberFormatter trs_trustbadgeRatingFormatter];
-                NSString *formattedNumberString = [formatter stringFromNumber:rating];
-
-                expect(formattedNumberString).to.equal(@"4,42");
+                return @{@"formattedNumberString" : [[formattedNumberString componentsSeparatedByString:@"."] lastObject]};
             });
 
         });
@@ -119,25 +127,25 @@ describe(@"NSNumberFormatter+TRSFormatter", ^{
                 localeMock = nil;
             });
 
+            itShouldBehaveLike(@"decimal seperator", ^{
+                NSNumberFormatter *formatter = [NSNumberFormatter trs_trustbadgeRatingFormatter];
+                NSString *formattedNumberString = [formatter stringFromNumber:rating];
+
+                return @{@"formattedNumberString" : formattedNumberString};
+            });
+
             itShouldBehaveLike(@"integer digits", ^{
                 NSNumberFormatter *formatter = [NSNumberFormatter trs_trustbadgeRatingFormatter];
                 NSString *formattedNumberString = [formatter stringFromNumber:rating];
 
-                return @{@"formattedNumberString" : [[formattedNumberString componentsSeparatedByString:@","] firstObject]};
+                return @{@"formattedNumberString" : [[formattedNumberString componentsSeparatedByString:@"."] firstObject]};
             });
 
             itShouldBehaveLike(@"fraction digits", ^{
                 NSNumberFormatter *formatter = [NSNumberFormatter trs_trustbadgeRatingFormatter];
                 NSString *formattedNumberString = [formatter stringFromNumber:rating];
 
-                return @{@"formattedNumberString" : [[formattedNumberString componentsSeparatedByString:@","] lastObject]};
-            });
-
-            it(@"formats the number for the current locale", ^{
-                NSNumberFormatter *formatter = [NSNumberFormatter trs_trustbadgeRatingFormatter];
-                NSString *formattedNumberString = [formatter stringFromNumber:rating];
-
-                expect(formattedNumberString).to.equal(@"4,42");
+                return @{@"formattedNumberString" : [[formattedNumberString componentsSeparatedByString:@"."] lastObject]};
             });
 
         });
