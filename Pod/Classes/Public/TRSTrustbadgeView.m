@@ -11,7 +11,6 @@
 @interface TRSTrustbadgeView ()
 
 @property (nonatomic, copy, readwrite) NSString *trustedShopsID;
-@property (nonatomic, strong) NSNumberFormatter *decimalFormatter;
 @property (nonatomic, strong) UIView *canvasView;
 @property (nonatomic, strong) UIImageView *triangleView;
 @property (nonatomic, strong) UIImage *triangleImage;
@@ -267,18 +266,6 @@ static CGFloat const TRSTrustbadgePadding = 10.0f;
                                                         multiplier:1.0f
                                                           constant:0.0f]];
     }
-}
-
-- (NSNumberFormatter *)decimalFormatter {
-    if (!_decimalFormatter) {
-        NSNumberFormatter *decimalFormatter = [[NSNumberFormatter alloc] init];
-        decimalFormatter.minimumIntegerDigits = 1;
-        decimalFormatter.minimumFractionDigits = 2;
-        decimalFormatter.maximumFractionDigits = 2;
-        _decimalFormatter = decimalFormatter;
-    }
-
-    return _decimalFormatter;
 }
 
 - (UIImage *)sealImage {
