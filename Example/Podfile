@@ -8,8 +8,9 @@ end
 target 'Trustbadge_Tests', :exclusive => true do
   pod "Trustbadge", :path => "../"
 
-  pod 'Specta',      '~> 1.0.3'
-  pod 'Expecta',     '~> 1.0.2'
-  pod 'OCMock',      '~> 3.1.2'
-  pod 'OHHTTPStubs', '~> 4.1.0'
+  pod 'Specta',                  '~> 1.0.3'
+  pod 'Expecta',                 '~> 1.0.2'
+  pod 'OCMock',                  '~> 3.1.2'
+  pod 'OHHTTPStubs',             '~> 4.2.0'
+  pod 'OHHTTPStubs/HTTPMessage', '~> 4.2.0'
 end
