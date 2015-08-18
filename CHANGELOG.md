@@ -1,5 +1,9 @@
 # Trustbadge
 
+## Version 0.1.0
+
+* Use fixed decimal separator
+
 ## Version 0.1.0-beta
 
 * Rename Pod to Trustbadge
