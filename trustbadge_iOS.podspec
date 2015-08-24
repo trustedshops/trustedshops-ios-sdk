@@ -18,4 +18,7 @@ Pod::Spec.new do |s|
   s.source_files        = 'Pod/Classes/**/*'
   s.public_header_files = 'Pod/Classes/Public/*.h'
   s.ios.resource_bundle = { 'TrustbadgeResources' => ['Pod/Assets/*'] }
+
+  s.deprecated_in_favor_of = 'Trustbadge'
+
 end
