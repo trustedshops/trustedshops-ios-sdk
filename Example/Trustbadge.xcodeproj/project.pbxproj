@@ -35,6 +35,7 @@
 		84795A4E1B5E41A30091EA49 /* TRSNetworkAgentSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 84795A4C1B5E3EDA0091EA49 /* TRSNetworkAgentSpec.m */; };
 		84795A551B5E6B800091EA49 /* TRSNetworkAgent+TrustbadgeSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 84795A531B5E68EC0091EA49 /* TRSNetworkAgent+TrustbadgeSpec.m */; };
 		848CFD731B82140A00CEEE1E /* Trustbadge-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 848CFD721B82140A00CEEE1E /* Trustbadge-Info.plist */; };
+		849B99851B8B600D007EA5EB /* UIColor+TRSColorsInternalSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 849B99841B8B600D007EA5EB /* UIColor+TRSColorsInternalSpec.m */; };
 		84C2BC2F1B78C25000F54653 /* TRSTrustbadgeViewSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 84C2BC2E1B78C25000F54653 /* TRSTrustbadgeViewSpec.m */; };
 		84D2C8791B678694005AE982 /* TRSTrustbadgeSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 84D2C8781B678693005AE982 /* TRSTrustbadgeSpec.m */; };
 		EB2149F0C7BD28BFCE1F4A5B /* Pods_Trustbadge_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1CA5AD3059E7771ECEAF3C7 /* Pods_Trustbadge_Example.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
@@ -105,6 +106,7 @@
 		8485B6361B7A05AA00D22F1E /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		848CFD721B82140A00CEEE1E /* Trustbadge-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Trustbadge-Info.plist"; sourceTree = "<group>"; };
 		848CFD741B82141900CEEE1E /* Trustbadge-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Trustbadge-Prefix.pch"; sourceTree = "<group>"; };
+		849B99841B8B600D007EA5EB /* UIColor+TRSColorsInternalSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+TRSColorsInternalSpec.m"; sourceTree = "<group>"; };
 		84C2BC2E1B78C25000F54653 /* TRSTrustbadgeViewSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TRSTrustbadgeViewSpec.m; sourceTree = "<group>"; };
 		84D2C8781B678693005AE982 /* TRSTrustbadgeSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TRSTrustbadgeSpec.m; sourceTree = "<group>"; };
 		A1CA5AD3059E7771ECEAF3C7 /* Pods_Trustbadge_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Trustbadge_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -185,6 +187,7 @@
 				84D2C8781B678693005AE982 /* TRSTrustbadgeSpec.m */,
 				84C2BC2E1B78C25000F54653 /* TRSTrustbadgeViewSpec.m */,
 				845E83DC1B8323C3001D5EDC /* NSNumberFormatter+TRSFormatterSpec.m */,
+				849B99841B8B600D007EA5EB /* UIColor+TRSColorsInternalSpec.m */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -493,6 +496,7 @@
 				84795A4E1B5E41A30091EA49 /* TRSNetworkAgentSpec.m in Sources */,
 				845E62DA1B7B80D40051329C /* TRSTrustbadgeSDKPrivatSpec.m in Sources */,
 				84795A551B5E6B800091EA49 /* TRSNetworkAgent+TrustbadgeSpec.m in Sources */,
+				849B99851B8B600D007EA5EB /* UIColor+TRSColorsInternalSpec.m in Sources */,
 				84C2BC2F1B78C25000F54653 /* TRSTrustbadgeViewSpec.m in Sources */,
 				84D2C8791B678694005AE982 /* TRSTrustbadgeSpec.m in Sources */,
 			);
