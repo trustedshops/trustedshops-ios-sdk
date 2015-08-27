@@ -30,6 +30,7 @@
 		8409D6861B66205700001627 /* trustbadge-notfound.response in Resources */ = {isa = PBXBuildFile; fileRef = 8409D6821B66204800001627 /* trustbadge-notfound.response */; };
 		840B0C4A1B678CF400CB8E39 /* trustbadge.data in Resources */ = {isa = PBXBuildFile; fileRef = 840B0C491B678CF400CB8E39 /* trustbadge.data */; };
 		840B2B631B457135009E1D6D /* NSNumber+TRSRatingSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 840B2B611B45712C009E1D6D /* NSNumber+TRSRatingSpec.m */; };
+		8441C4AD1B8F13DD004290C0 /* TRSRatingViewSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 8441C4AC1B8F13DD004290C0 /* TRSRatingViewSpec.m */; };
 		845E62DA1B7B80D40051329C /* TRSTrustbadgeSDKPrivatSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 845E62D91B7B80D40051329C /* TRSTrustbadgeSDKPrivatSpec.m */; };
 		845E83DD1B8323C3001D5EDC /* NSNumberFormatter+TRSFormatterSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 845E83DC1B8323C3001D5EDC /* NSNumberFormatter+TRSFormatterSpec.m */; };
 		84795A4E1B5E41A30091EA49 /* TRSNetworkAgentSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 84795A4C1B5E3EDA0091EA49 /* TRSNetworkAgentSpec.m */; };
@@ -99,6 +100,7 @@
 		84177FC81B821D78002B2D08 /* nl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		84177FC91B821D82002B2D08 /* pl-PL */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pl-PL"; path = "pl-PL.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		84177FCA1B821D82002B2D08 /* pl-PL */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pl-PL"; path = "pl-PL.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
+		8441C4AC1B8F13DD004290C0 /* TRSRatingViewSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TRSRatingViewSpec.m; sourceTree = "<group>"; };
 		845E62D91B7B80D40051329C /* TRSTrustbadgeSDKPrivatSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TRSTrustbadgeSDKPrivatSpec.m; sourceTree = "<group>"; };
 		845E83DC1B8323C3001D5EDC /* NSNumberFormatter+TRSFormatterSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSNumberFormatter+TRSFormatterSpec.m"; sourceTree = "<group>"; };
 		84795A4C1B5E3EDA0091EA49 /* TRSNetworkAgentSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TRSNetworkAgentSpec.m; sourceTree = "<group>"; };
@@ -180,13 +182,14 @@
 			children = (
 				8409D6801B66204800001627 /* Fixtures */,
 				840B2B611B45712C009E1D6D /* NSNumber+TRSRatingSpec.m */,
+				845E83DC1B8323C3001D5EDC /* NSNumberFormatter+TRSFormatterSpec.m */,
 				6003F5B6195388D20070C39A /* Supporting Files */,
 				84795A531B5E68EC0091EA49 /* TRSNetworkAgent+TrustbadgeSpec.m */,
 				84795A4C1B5E3EDA0091EA49 /* TRSNetworkAgentSpec.m */,
+				8441C4AC1B8F13DD004290C0 /* TRSRatingViewSpec.m */,
 				845E62D91B7B80D40051329C /* TRSTrustbadgeSDKPrivatSpec.m */,
 				84D2C8781B678693005AE982 /* TRSTrustbadgeSpec.m */,
 				84C2BC2E1B78C25000F54653 /* TRSTrustbadgeViewSpec.m */,
-				845E83DC1B8323C3001D5EDC /* NSNumberFormatter+TRSFormatterSpec.m */,
 				849B99841B8B600D007EA5EB /* UIColor+TRSColorsInternalSpec.m */,
 			);
 			path = Tests;
@@ -494,6 +497,7 @@
 				840B2B631B457135009E1D6D /* NSNumber+TRSRatingSpec.m in Sources */,
 				845E83DD1B8323C3001D5EDC /* NSNumberFormatter+TRSFormatterSpec.m in Sources */,
 				84795A4E1B5E41A30091EA49 /* TRSNetworkAgentSpec.m in Sources */,
+				8441C4AD1B8F13DD004290C0 /* TRSRatingViewSpec.m in Sources */,
 				845E62DA1B7B80D40051329C /* TRSTrustbadgeSDKPrivatSpec.m in Sources */,
 				84795A551B5E6B800091EA49 /* TRSNetworkAgent+TrustbadgeSpec.m in Sources */,
 				849B99851B8B600D007EA5EB /* UIColor+TRSColorsInternalSpec.m in Sources */,
