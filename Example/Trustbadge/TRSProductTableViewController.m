@@ -42,7 +42,8 @@ static NSString * const TRSProductTableViewCellReuseIdentifier = @"Product";
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:TRSProductTableViewCellReuseIdentifier];
 
 #warning Add your Trusted Shops ID
-    self.tableView.tableHeaderView = [[TRSTrustbadgeView alloc] initWithTrustedShopsID:@"CHANGEME"];
+	NSString *shopID = @"CHANGEME";
+    self.tableView.tableHeaderView = [[TRSTrustbadgeView alloc] initWithTrustedShopsID:shopID];
 }
 
 #pragma mark - UITableViewDataSource
