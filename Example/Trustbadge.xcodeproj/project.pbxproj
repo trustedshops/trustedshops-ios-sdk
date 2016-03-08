@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		16061A0419CE78518B6D5092 /* Pods_Trustbadge_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65E964664B285004286E6DA4 /* Pods_Trustbadge_Tests.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		16061A0419CE78518B6D5092 /* Pods_Trustbadge_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65E964664B285004286E6DA4 /* Pods_Trustbadge_Tests.framework */; };
 		6003F58E195388D20070C39A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58D195388D20070C39A /* Foundation.framework */; };
 		6003F590195388D20070C39A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58F195388D20070C39A /* CoreGraphics.framework */; };
 		6003F592195388D20070C39A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F591195388D20070C39A /* UIKit.framework */; };
@@ -36,11 +36,10 @@
 		845E83DD1B8323C3001D5EDC /* NSNumberFormatter+TRSFormatterSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 845E83DC1B8323C3001D5EDC /* NSNumberFormatter+TRSFormatterSpec.m */; };
 		84795A4E1B5E41A30091EA49 /* TRSNetworkAgentSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 84795A4C1B5E3EDA0091EA49 /* TRSNetworkAgentSpec.m */; };
 		84795A551B5E6B800091EA49 /* TRSNetworkAgent+TrustbadgeSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 84795A531B5E68EC0091EA49 /* TRSNetworkAgent+TrustbadgeSpec.m */; };
-		848CFD731B82140A00CEEE1E /* Trustbadge-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 848CFD721B82140A00CEEE1E /* Trustbadge-Info.plist */; };
 		849B99851B8B600D007EA5EB /* UIColor+TRSColorsInternalSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 849B99841B8B600D007EA5EB /* UIColor+TRSColorsInternalSpec.m */; };
 		84C2BC2F1B78C25000F54653 /* TRSTrustbadgeViewSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 84C2BC2E1B78C25000F54653 /* TRSTrustbadgeViewSpec.m */; };
 		84D2C8791B678694005AE982 /* TRSTrustbadgeSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 84D2C8781B678693005AE982 /* TRSTrustbadgeSpec.m */; };
-		EB2149F0C7BD28BFCE1F4A5B /* Pods_Trustbadge_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1CA5AD3059E7771ECEAF3C7 /* Pods_Trustbadge_Example.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		EB2149F0C7BD28BFCE1F4A5B /* Pods_Trustbadge_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1CA5AD3059E7771ECEAF3C7 /* Pods_Trustbadge_Example.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -326,7 +325,7 @@
 			isa = PBXProject;
 			attributes = {
 				CLASSPREFIX = TRS;
-				LastUpgradeCheck = 0510;
+				LastUpgradeCheck = 0720;
 				ORGANIZATIONNAME = "Trusted Shops GmbH";
 				TargetAttributes = {
 					6003F5AD195388D20070C39A = {
@@ -365,7 +364,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				8405746A1B821067006F9778 /* Main.storyboard in Resources */,
-				848CFD731B82140A00CEEE1E /* Trustbadge-Info.plist in Resources */,
 				840574671B821067006F9778 /* InfoPlist.strings in Resources */,
 				840574681B821067006F9778 /* Images.xcassets in Resources */,
 			);
@@ -570,6 +568,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -584,7 +583,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -617,7 +616,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
@@ -633,8 +632,9 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Trustbadge/Trustbadge-Prefix.pch";
 				INFOPLIST_FILE = "Trustbadge/Trustbadge-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				MODULE_NAME = ExampleApp;
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.demo.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -649,8 +649,9 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Trustbadge/Trustbadge-Prefix.pch";
 				INFOPLIST_FILE = "Trustbadge/Trustbadge-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				MODULE_NAME = ExampleApp;
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.demo.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -661,11 +662,7 @@
 			baseConfigurationReference = B345D279C87FB7B0EA8DE8FE /* Pods-Trustbadge_Tests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-					"$(DEVELOPER_FRAMEWORKS_DIR)",
-				);
+				FRAMEWORK_SEARCH_PATHS = "";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Tests/Tests-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -678,6 +675,7 @@
 					"\"${PODS_ROOT}/Headers/Private/Trustbadge\"",
 				);
 				INFOPLIST_FILE = "Tests/Tests-Info.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.demo.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Trustbadge_Example.app/Trustbadge_Example";
 				WRAPPER_EXTENSION = xctest;
@@ -689,11 +687,7 @@
 			baseConfigurationReference = A7E543C1C81905B3C9C3C66B /* Pods-Trustbadge_Tests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-					"$(DEVELOPER_FRAMEWORKS_DIR)",
-				);
+				FRAMEWORK_SEARCH_PATHS = "";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Tests/Tests-Prefix.pch";
 				HEADER_SEARCH_PATHS = (
@@ -702,6 +696,7 @@
 					"\"${PODS_ROOT}/Headers/Private/Trustbadge\"",
 				);
 				INFOPLIST_FILE = "Tests/Tests-Info.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.demo.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Trustbadge_Example.app/Trustbadge_Example";
 				WRAPPER_EXTENSION = xctest;

@@ -1,4 +1,5 @@
 source 'https://github.com/CocoaPods/Specs.git'
+platform :ios, '8.1'
 use_frameworks!
 
 target 'Trustbadge_Example', :exclusive => true do
@@ -7,6 +8,8 @@ end
 
 target 'Trustbadge_Tests', :exclusive => true do
   pod "Trustbadge", :path => "../"
+  
+  pod 'NBMaterialDialogIOS',	 '~> 0.2.1'
 
   pod 'Expecta',                 '~> 1.0.2'
   pod 'Expecta+Snapshots',       '~> 2.0.0'
