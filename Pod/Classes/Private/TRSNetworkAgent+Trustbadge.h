@@ -22,4 +22,9 @@
  */
 - (NSURLSessionDataTask *)getTrustbadgeForTrustedShopsID:(NSString *)trustedShopsID success:(void (^)(TRSTrustbadge *trustbadge))success failure:(void (^)(NSError *error))failure;
 
+- (NSURLSessionDataTask *)getTrustbadgeForTrustedShopsID:(NSString *)trustedShopsID
+												apiToken:(NSString *)apiToken
+												 success:(void (^)(TRSTrustbadge *trustbadge))success
+												 failure:(void (^)(NSError *error))failure;
+
 @end

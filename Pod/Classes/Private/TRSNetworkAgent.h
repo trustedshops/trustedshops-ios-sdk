@@ -24,7 +24,7 @@
 /**
  *  Initializes an `TRSNetworkAgent` with the specified base URL.
  *
- *  @param url The base URL for the agent
+ *  @param baseURL The base URL for the agent
  *
  *  @return An initialized agent
  */
@@ -44,5 +44,11 @@
  *  @return Initialized `NSURLSessionDataTaks` object
  */
 - (NSURLSessionDataTask *)GET:(NSString *)path success:(void (^)(NSData *data))success failure:(void (^)(NSData *data, NSHTTPURLResponse *response, NSError *error))failure;
+
+
+- (NSURLSessionDataTask *)GET:(NSString *)path
+					authToken:(NSString *)token
+					  success:(void (^)(NSData *data))success
+					  failure:(void (^)(NSData *data, NSHTTPURLResponse *response, NSError *error))failure;
 
 @end
