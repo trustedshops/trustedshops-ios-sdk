@@ -112,8 +112,11 @@
 			failure(error);
 			return;
 		}
-		// TODO: check whether these errors cover all we need with the api change
 		switch (error.code) {
+			case TRSErrorDomainTrustbadgeInvalidAPIToken:
+				NSLog(@"[trustbadge] The provided API token is not correct");
+				break;
+				
 			case TRSErrorDomainTrustbadgeInvalidTSID:
 				NSLog(@"[trustbadge] The provided TSID is not correct.");
 				break;
@@ -135,6 +138,14 @@
 		// we give back the error even if we could pre-handle it here
 		failure(error);
 	};
+	
+	if (!self.apiToken || !self.trustedShopsID) {
+		NSError *myError = [NSError errorWithDomain:TRSErrorDomain
+											   code:TRSErrorDomainTrustbadgeMissingTSIDOrAPIToken
+										   userInfo:nil];
+		NSLog(@"[trustbadge] There is no API token or TSID provided to contact the API.");
+		failure(myError);
+	}
 	
 	[[TRSNetworkAgent sharedAgent] getTrustbadgeForTrustedShopsID:_trustedShopsID
 														 apiToken:_apiToken

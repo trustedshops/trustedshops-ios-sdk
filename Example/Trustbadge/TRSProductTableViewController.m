@@ -55,7 +55,7 @@ static NSString * const TRSProductTableViewCellReuseIdentifier = @"Product";
 	// Alternative 1 to fully activate the badge
 //	[trsTrustbadgeView loadTrustbadgeWithSuccessBlock:^{
 //		NSLog(@"Yup, you're right, dear SDK: You got something. Thank you!");
-//		self.tableView.tableHeaderView = trsTrustbadgeView; // watch out: We're doing this on the delegate queue now
+//		self.tableView.tableHeaderView = trsTrustbadgeView;
 //	} failureBlock:^(NSError *error) {
 //		NSLog(@"Error handling in example app: Error: %@", error);
 //	}];

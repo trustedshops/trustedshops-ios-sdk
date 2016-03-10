@@ -60,7 +60,8 @@
  *		fully active. It uses a background http request to do so. Once the data is retreived, it hides the "OFFLINE"
  *		label from the view and enables it to react to touches (to display the trustcard).
  *
- *		Note that the success and failure blocks are called on the delegate queue.
+ *		Note that the success and failure blocks are called on the main thread since you're probably interested in
+ *		doing additional UI setup with the result.
  *	@param failure A block that is executed in case the view was unable to retreive the shop & certificate data.
  *	@param success A block that is executed once the data is successfully retreived.
  */
