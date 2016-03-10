@@ -24,7 +24,8 @@ describe(@"TRSNetworkAgent+Trustbadge", ^{
         it(@"executes the failure block", ^{
             waitUntil(^(DoneCallback done) {
                 [agent getTrustbadgeForTrustedShopsID:data[@"trustedShopsID"]
-                                              success:nil
+											 apiToken:data[@"apiToken"]
+											  success:nil
                                               failure:^(NSError *error) {
                                                   done();
                                               }];
@@ -38,6 +39,7 @@ describe(@"TRSNetworkAgent+Trustbadge", ^{
         it(@"passes a custom trustbadge error domain", ^{
             waitUntil(^(DoneCallback done) {
                 [agent getTrustbadgeForTrustedShopsID:data[@"trustedShopsID"]
+											 apiToken:data[@"apiToken"]
                                               success:nil
                                               failure:^(NSError *error) {
                                                   expect(error.domain).to.equal(TRSErrorDomain);
@@ -48,23 +50,37 @@ describe(@"TRSNetworkAgent+Trustbadge", ^{
 
     });
 
-    describe(@"-getTrustbadgeForTrustedShopsID:success:failure", ^{
+    describe(@"-getTrustbadgeForTrustedShopsID:apiToken:success:failure", ^{
 
-        it(@"returns a data task", ^{
-            id task = [agent getTrustbadgeForTrustedShopsID:nil success:nil failure:nil];
-            expect(task).to.beKindOf([NSURLSessionDataTask class]);
+        it(@"returns nil for nil ID and token", ^{
+            id task = [agent getTrustbadgeForTrustedShopsID:nil apiToken:nil success:nil failure:nil];
+            expect(task).to.beNil();
         });
 
-        it(@"has the correct URL", ^{
-            NSURLSessionDataTask *task = (NSURLSessionDataTask *)[agent getTrustbadgeForTrustedShopsID:@"123" success:nil failure:nil];
-            expect(task.originalRequest.URL).to.equal([NSURL URLWithString:@"http://localhost/rest/public/v2/shops/123/quality"]);
+		it(@"returns nil for nil ID and token", ^{
+			id task = [agent getTrustbadgeForTrustedShopsID:@"ID" apiToken:@"token" success:nil failure:nil];
+			expect(task).to.beKindOf([NSURLSessionDataTask class]);
+		});
+
+		it(@"has the correct URL", ^{
+            NSURLSessionDataTask *task = (NSURLSessionDataTask *)[agent getTrustbadgeForTrustedShopsID:@"123"
+																							  apiToken:@"apiToken"
+																							   success:nil
+																							   failure:nil];
+            expect(task.originalRequest.URL).to.equal([NSURL URLWithString:@"http://localhost/rest/internal/v2/shops/123/trustmarks.json"]);
         });
 
         it(@"calls '-GET:success:failure'", ^{
             id agentMock = OCMPartialMock(agent);
-            OCMExpect([agentMock GET:@"/rest/public/v2/shops/123/quality" success:[OCMArg any] failure:[OCMArg any]]);
+			OCMExpect([agentMock GET:@"/rest/internal/v2/shops/123/trustmarks.json"
+						   authToken:@"authToken"
+							 success:[OCMArg any]
+							 failure:[OCMArg any]]);
 
-            [agent getTrustbadgeForTrustedShopsID:@"123" success:nil failure:nil];
+			[agent getTrustbadgeForTrustedShopsID:@"123"
+										 apiToken:@"authToken"
+										  success:nil
+										  failure:nil];
 
             OCMVerifyAll(agentMock);
         });
@@ -73,7 +89,7 @@ describe(@"TRSNetworkAgent+Trustbadge", ^{
 
             beforeEach(^{
                 [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
-                    return [request.URL.absoluteString isEqualToString:@"http://localhost/rest/public/v2/shops/123/quality"];
+                    return [request.URL.absoluteString isEqualToString:@"http://localhost/rest/internal/v2/shops/123/trustmarks.json"];
                 } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
                     NSBundle *bundle = [NSBundle bundleForClass:[self class]];
                     NSString *path = [bundle pathForResource:@"trustbadge" ofType:@"data"];
@@ -90,7 +106,8 @@ describe(@"TRSNetworkAgent+Trustbadge", ^{
 
             it(@"executes the success block", ^{
                 waitUntil(^(DoneCallback done) {
-                    [agent getTrustbadgeForTrustedShopsID:@"123"
+					[agent getTrustbadgeForTrustedShopsID:@"123"
+												 apiToken:@"apiToken"
                                                   success:^(TRSTrustbadge *trustbadge) {
                                                       done();
                                                   }
@@ -101,6 +118,7 @@ describe(@"TRSNetworkAgent+Trustbadge", ^{
             it(@"passes a model object", ^{
                 waitUntil(^(DoneCallback done) {
                     [agent getTrustbadgeForTrustedShopsID:@"123"
+												 apiToken:@"apiToken"
                                                   success:^(TRSTrustbadge *trustbadge) {
                                                       expect(trustbadge).notTo.beNil();
                                                       done();
@@ -112,7 +130,8 @@ describe(@"TRSNetworkAgent+Trustbadge", ^{
             it(@"passes a 'TRSTrustbadge' data model ", ^{
                 waitUntil(^(DoneCallback done) {
                     [agent getTrustbadgeForTrustedShopsID:@"123"
-                                                  success:^(TRSTrustbadge *trustbadge) {
+												 apiToken:@"apiToken"
+												  success:^(TRSTrustbadge *trustbadge) {
                                                       expect(trustbadge).to.beKindOf([TRSTrustbadge class]);
                                                       done();
                                                   }
@@ -132,7 +151,7 @@ describe(@"TRSNetworkAgent+Trustbadge", ^{
                 OHHTTPStubsResponse *response = [OHHTTPStubsResponse responseWithHTTPMessageData:messageData];
 
                 [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
-                    NSString *URLString = [NSString stringWithFormat:@"http://localhost/rest/public/v2/shops/%@/quality", trustedShopsID];
+                    NSString *URLString = [NSString stringWithFormat:@"http://localhost/rest/internal/v2/shops/%@/trustmarks.json", trustedShopsID];
                     return [request.URL.absoluteString isEqualToString:URLString];
                 }
                                     withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
@@ -155,7 +174,8 @@ describe(@"TRSNetworkAgent+Trustbadge", ^{
             it(@"passes a custom error code", ^{
                 waitUntil(^(DoneCallback done) {
                     [agent getTrustbadgeForTrustedShopsID:@"123123123"
-                                                  success:nil
+												 apiToken:@"apiToken"
+												  success:nil
                                                   failure:^(NSError *error) {
                                                       expect(error.code).to.equal(TRSErrorDomainTrustbadgeInvalidTSID);
                                                       done();
@@ -175,7 +195,7 @@ describe(@"TRSNetworkAgent+Trustbadge", ^{
                 OHHTTPStubsResponse *response = [OHHTTPStubsResponse responseWithHTTPMessageData:messageData];
 
                 [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
-                    NSString *URLString = [NSString stringWithFormat:@"http://localhost/rest/public/v2/shops/%@/quality", trustedShopsID];
+                    NSString *URLString = [NSString stringWithFormat:@"http://localhost/rest/internal/v2/shops/%@/trustmarks.json", trustedShopsID];
                     return [request.URL.absoluteString isEqualToString:URLString];
                 }
                                     withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
@@ -198,6 +218,7 @@ describe(@"TRSNetworkAgent+Trustbadge", ^{
             it(@"passes a custom error code", ^{
                 waitUntil(^(DoneCallback done) {
                     [agent getTrustbadgeForTrustedShopsID:@"000111222333444555666777888999111"
+												 apiToken:@"apiToken"
                                                   success:nil
                                                   failure:^(NSError *error) {
                                                       expect(error.code).to.equal(TRSErrorDomainTrustbadgeTSIDNotFound);
@@ -218,7 +239,7 @@ describe(@"TRSNetworkAgent+Trustbadge", ^{
                                                           headers:nil];
 
                 [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
-                    NSString *URLString = [NSString stringWithFormat:@"http://localhost/rest/public/v2/shops/%@/quality", trustedShopsID];
+                    NSString *URLString = [NSString stringWithFormat:@"http://localhost/rest/internal/v2/shops/%@/trustmarks.json", trustedShopsID];
                     return [request.URL.absoluteString isEqualToString:URLString];
                 }
                                     withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
@@ -241,6 +262,7 @@ describe(@"TRSNetworkAgent+Trustbadge", ^{
             it(@"passes a custom error code", ^{
                 waitUntil(^(DoneCallback done) {
                     [agent getTrustbadgeForTrustedShopsID:@"000000000000000000000000000000000"
+												 apiToken:@"apiToken"
                                                   success:nil
                                                   failure:^(NSError *error) {
                                                       expect(error.code).to.equal(TRSErrorDomainTrustbadgeUnknownError);
@@ -261,7 +283,7 @@ describe(@"TRSNetworkAgent+Trustbadge", ^{
                                                          headers:nil];
 
                 [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
-                    NSString *URLString = [NSString stringWithFormat:@"http://localhost/rest/public/v2/shops/%@/quality", trustedShopsID];
+                    NSString *URLString = [NSString stringWithFormat:@"http://localhost/rest/internal/v2/shops/%@/trustmarks.json", trustedShopsID];
                     return [request.URL.absoluteString isEqualToString:URLString];
                 } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
                     return response;
@@ -283,6 +305,7 @@ describe(@"TRSNetworkAgent+Trustbadge", ^{
             it(@"passes a custom error code", ^{
                 waitUntil(^(DoneCallback done) {
                     [agent getTrustbadgeForTrustedShopsID:@"111222333444555666777888999111222"
+												 apiToken:@"apiToken"
                                                   success:nil
                                                   failure:^(NSError *error) {
                                                       expect(error.code).to.equal(TRSErrorDomainTrustbadgeInvalidData);

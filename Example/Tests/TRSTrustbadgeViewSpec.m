@@ -29,9 +29,10 @@ describe(@"TRSTrustbadgeView", ^{
             __block TRSTrustbadgeView *view;
             beforeEach(^{
                 NSString *trustedShopsID = @"999888777666555444333222111000999";
+				NSString *thisIsAFakeToken = @"24124nw2rwoedsfweslefq2121wsdaaf326480349nsdlk7883nw123nvsle5d3";
 
                 [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
-                    NSString *URLString = [NSString stringWithFormat:@"http://localhost/rest/public/v2/shops/%@/quality", trustedShopsID];
+                    NSString *URLString = [NSString stringWithFormat:@"http://localhost/rest/internal/v2/shops/%@/trustmarks.json", trustedShopsID];
                     BOOL shouldStubRequest = [request.URL.absoluteString isEqualToString:URLString];
                     return shouldStubRequest;
                 } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
@@ -43,7 +44,7 @@ describe(@"TRSTrustbadgeView", ^{
                                                          headers:nil];
                 }];
 
-                view = [[TRSTrustbadgeView alloc] initWithTrustedShopsID:trustedShopsID];
+                view = [[TRSTrustbadgeView alloc] initWithTrustedShopsID:trustedShopsID apiToken:thisIsAFakeToken];
             });
 
             afterEach(^{
@@ -55,7 +56,7 @@ describe(@"TRSTrustbadgeView", ^{
                 expect(view).to.beKindOf([TRSTrustbadgeView class]);
             });
 
-            it(@"retruns the same ID", ^{
+            it(@"returns the same ID", ^{
                 expect(view.trustedShopsID).to.equal(@"999888777666555444333222111000999");
             });
 
@@ -65,16 +66,24 @@ describe(@"TRSTrustbadgeView", ^{
 
             __block TRSTrustbadgeView *view;
             beforeEach(^{
-                view = [[TRSTrustbadgeView alloc] initWithTrustedShopsID:nil];
+                view = [[TRSTrustbadgeView alloc] initWithTrustedShopsID:nil apiToken:nil];
             });
 
             afterEach(^{
                 view = nil;
             });
+			
+			it(@"returns a `TRSTrustbadgeView` object", ^{
+				expect(view).to.beKindOf([TRSTrustbadgeView class]);
+			});
 
-            it(@"returns nil", ^{
-                expect(view).to.beNil();
-            });
+			it(@"returns nil as the ID", ^{
+				expect(view.trustedShopsID).to.beNil();
+			});
+
+			it(@"returns nil as the api token", ^{
+				expect(view.apiToken).to.beNil();
+			});
 
         });
 

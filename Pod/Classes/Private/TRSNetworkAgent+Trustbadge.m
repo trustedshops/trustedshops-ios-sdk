@@ -2,7 +2,7 @@
 #import "TRSTrustbadge.h"
 #import <Trustbadge/Trustbadge.h>
 
-static NSString * const TRSNetworkAgentTrustbadgePath = @"/rest/public/v2/shops/%@/quality";
+//static NSString * const TRSNetworkAgentTrustbadgePath = @"/rest/public/v2/shops/%@/quality";
 static NSString * const TRSNetworkAgentInternalTrustbadgePath = @"/rest/internal/v2/shops/%@/trustmarks.json";
 
 
@@ -18,12 +18,16 @@ static NSString * const TRSNetworkAgentInternalTrustbadgePath = @"/rest/internal
 												 success:(void (^)(TRSTrustbadge *trustbadge))success
 												 failure:(void (^)(NSError *error))failure {
 	
-	NSString *path;
-	if (apiToken)
-		path = [NSString stringWithFormat:TRSNetworkAgentInternalTrustbadgePath, trustedShopsID];
-	else
-		path = [NSString stringWithFormat:TRSNetworkAgentTrustbadgePath, trustedShopsID];
+	if (!trustedShopsID || !apiToken) {
+		NSError *myError = [NSError errorWithDomain:TRSErrorDomain
+											   code:TRSErrorDomainTrustbadgeMissingTSIDOrAPIToken
+										   userInfo:nil];
+		if (failure)
+			failure(myError);
+		return nil;
+	}
 	
+	NSString *path = [NSString stringWithFormat:TRSNetworkAgentInternalTrustbadgePath, trustedShopsID];
 	
 	void (^successBlock)(NSData *data) = ^(NSData *data) {
 		TRSTrustbadge *trustbadge = [[TRSTrustbadge alloc] initWithData:data];
