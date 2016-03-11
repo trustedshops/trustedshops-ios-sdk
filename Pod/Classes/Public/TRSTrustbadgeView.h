@@ -65,7 +65,7 @@
  *	@param failure A block that is executed in case the view was unable to retreive the shop & certificate data.
  *	@param success A block that is executed once the data is successfully retreived.
  */
-- (void)loadTrustbadgeWithSuccessBlock:(void (^)())success failureBlock:(void (^)(NSError *error))failure;
+- (void)loadTrustbadgeWithSuccessBlock:(void (^)(void))success failureBlock:(void (^)(NSError *error))failure;
 
 /**
  *	Loads the certificate and shop data from the remote API.

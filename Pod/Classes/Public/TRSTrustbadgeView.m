@@ -74,8 +74,8 @@
 - (instancetype)finishInit:(NSString *)trustedShopsID apiToken:(NSString *)apiToken {
 	
 	// first get the image, we'll need that in any case:
-	UIImage *sealImage = [UIImage imageWithContentsOfFile:[[TRSTrustbadgeBundle() resourcePath]
-													   stringByAppendingPathComponent:@"iOS-SDK-Seal.png"]];
+	UIImage *sealImage = [UIImage imageWithContentsOfFile:
+						  [TRSTrustbadgeBundle() pathForResource:@"iOS-SDK-Seal" ofType:@"png"]];
 	self.sealImageView = [[UIImageView alloc] initWithImage:sealImage];
 	[self addSubview:self.sealImageView];
 	// also set the offline marker label view, but then make it invisible
@@ -99,7 +99,7 @@
 
 #pragma mark - Getting certificate & shop data from remote API
 
-- (void)loadTrustbadgeWithSuccessBlock:(void (^)())success failureBlock:(void (^)(NSError *error))failure {
+- (void)loadTrustbadgeWithSuccessBlock:(void (^)(void))success failureBlock:(void (^)(NSError *error))failure {
 	void (^wins)(TRSTrustbadge *theTrustbadge) = ^(TRSTrustbadge *theTrustbadge) {
 		[self displaySealAsOffline:NO afterDelay:0.0];
 		
@@ -112,7 +112,7 @@
 	
 	void (^fails)(NSError *error) = ^(NSError *error) {
 		if (![error.domain isEqualToString:TRSErrorDomain]) {
-			failure(error);
+			if (failure) failure(error);
 			return;
 		}
 		switch (error.code) {
@@ -139,7 +139,7 @@
 		}
 		
 		// we give back the error even if we could pre-handle it here
-		failure(error);
+		if (failure) failure(error);
 	};
 	
 	if (!self.apiToken || !self.trustedShopsID) {
@@ -147,7 +147,7 @@
 											   code:TRSErrorDomainTrustbadgeMissingTSIDOrAPIToken
 										   userInfo:nil];
 		NSLog(@"[trustbadge] There is no API token or TSID provided to contact the API.");
-		failure(myError);
+		if (failure) failure(myError);
 	}
 	
 	// the returned task is not important for now...
