@@ -15,7 +15,7 @@
 @property (nonatomic, strong) UIImageView *sealImageView;
 @property (nonatomic, strong) UILabel *offlineMarker;
 @property (nonatomic, assign) BOOL hasSealStateChangePending;
-@property (nonatomic, strong) TRSTrustbadge *theTrustbadge;
+@property (nonatomic, strong) TRSTrustbadge *trustbadge;
 
 // needed for xib loading (don't be confused about two designated initializers...)
 - (instancetype)initWithCoder:(NSCoder *)aDecoder NS_DESIGNATED_INITIALIZER;
@@ -100,8 +100,11 @@
 #pragma mark - Getting certificate & shop data from remote API
 
 - (void)loadTrustbadgeWithSuccessBlock:(void (^)())success failureBlock:(void (^)(NSError *error))failure {
-	void (^wins)(TRSTrustbadge *trustbadge) = ^(TRSTrustbadge *trustbadge) {
+	void (^wins)(TRSTrustbadge *theTrustbadge) = ^(TRSTrustbadge *theTrustbadge) {
 		[self displaySealAsOffline:NO afterDelay:0.0];
+		
+		self.trustbadge = theTrustbadge;
+		
 		if (success) { // don't these lines look kinda sick? shifting brackets... :)
 			success();
 		}

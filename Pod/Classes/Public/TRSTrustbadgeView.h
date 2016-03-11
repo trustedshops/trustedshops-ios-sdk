@@ -85,4 +85,5 @@
  */
 @property (nonatomic, copy, readonly) NSString *apiToken;
 
+// TODO: add a logging property & logging functionality like on Android. Also add Icon color
 @end

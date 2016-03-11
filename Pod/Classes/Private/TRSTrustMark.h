@@ -14,4 +14,6 @@
 @property (nonatomic, strong) NSDate 	*validFrom;
 @property (nonatomic, strong) NSDate 	*validTo;
 
+- (instancetype)initWithDictionary:(NSDictionary *)trustMarkInfo NS_DESIGNATED_INITIALIZER;
+
 @end

@@ -27,8 +27,6 @@ static NSString * const TRSNetworkAgentInternalTrustbadgePath = @"/rest/internal
 		return nil;
 	}
 	
-	NSString *path = [NSString stringWithFormat:TRSNetworkAgentInternalTrustbadgePath, trustedShopsID];
-	
 	void (^successBlock)(NSData *data) = ^(NSData *data) {
 		TRSTrustbadge *trustbadge = [[TRSTrustbadge alloc] initWithData:data];
 		
@@ -36,12 +34,10 @@ static NSString * const TRSNetworkAgentInternalTrustbadgePath = @"/rest/internal
 			if (!failure) {
 				return;
 			}
-			
 			NSError *error = [NSError errorWithDomain:TRSErrorDomain
 												 code:TRSErrorDomainTrustbadgeInvalidData
 											 userInfo:nil];
 			failure(error);
-			
 			return;
 		}
 		
@@ -80,7 +76,10 @@ static NSString * const TRSNetworkAgentInternalTrustbadgePath = @"/rest/internal
 		}
 	};
 	
-	return [self GET:path authToken:apiToken success:successBlock failure:failureBlock];
+	return [self GET:[NSString stringWithFormat:TRSNetworkAgentInternalTrustbadgePath, trustedShopsID]
+		   authToken:apiToken
+			 success:successBlock
+			 failure:failureBlock];
 
 }
 

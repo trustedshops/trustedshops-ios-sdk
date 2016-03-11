@@ -26,14 +26,6 @@ describe(@"TRSTrustbadge", ^{
                 expect(trustbadge).notTo.beNil();
             });
 
-            it(@"has 67 reviews ", ^{
-                expect(trustbadge.numberOfReviews).to.equal(67);
-            });
-
-            it(@"has a rating of 4.63", ^{
-                expect(trustbadge.rating).to.equal(@4.63);
-            });
-
         });
 
         context(@"with invalid data", ^{

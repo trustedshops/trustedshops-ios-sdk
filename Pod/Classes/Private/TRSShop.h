@@ -18,4 +18,6 @@
 @property (nonatomic, strong) NSString		*targetMarketISO3;	// defaults to @"EUO" on init
 @property (nonatomic, strong) TRSTrustMark	*trustMark;
 
+- (instancetype)initWithDictionary:(NSDictionary *)shopInfo NS_DESIGNATED_INITIALIZER;
+
 @end
