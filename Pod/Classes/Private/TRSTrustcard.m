@@ -45,8 +45,8 @@
 
 - (void)showInLightbox {
 	// to come...
-//	NSLog(@"Would show now...");
-	NBMaterialDialog *lightbox = [[NBMaterialDialog alloc] init];
+	NSLog(@"Would show now...");
+//	NBMaterialDialog *lightbox = [[NBMaterialDialog alloc] init];
 	UIWindow *mainWindow = [[[UIApplication sharedApplication] delegate] window];
 	// fallback for the unlikely case the delegate doesn't have the window set:
 	if (!mainWindow) {
