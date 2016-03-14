@@ -20,6 +20,8 @@
  */
 - (instancetype)initWithData:(NSData *)data;
 
+- (void)showTrustcard;
+
 @property (nonatomic, strong) TRSShop *shop;
 
 @end

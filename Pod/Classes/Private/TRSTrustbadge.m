@@ -1,11 +1,13 @@
 #import "TRSTrustbadge.h"
 #import "TRSShop.h"
+#import "TRSTrustcard.h"
 
 
 @interface TRSTrustbadge ()
 
-@end
+@property (nonatomic, strong) TRSTrustcard *trustcard;
 
+@end
 
 @implementation TRSTrustbadge
 
@@ -30,6 +32,15 @@
 
 	self.shop = [[TRSShop alloc] initWithDictionary:json[@"response"][@"data"][@"shop"]];
     return self;
+}
+
+- (void)showTrustcard {
+	// lazy load the trustcard class
+	if (!self.trustcard) {
+		self.trustcard = [[TRSTrustcard alloc] init];
+	}
+	
+	[self.trustcard showInLightbox];
 }
 
 @end

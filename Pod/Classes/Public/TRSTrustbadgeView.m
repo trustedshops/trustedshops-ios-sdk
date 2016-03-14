@@ -93,7 +93,7 @@
 	
 	// TODO: Check whether this really needs to be delayed (to avoid it flashing up even if the data is loaded immediately)
 	[self displaySealAsOffline:YES afterDelay:1.0];
-
+	
 	return self;
 }
 
@@ -160,6 +160,35 @@
 
 - (void)loadTrustbadgeWithFailureBlock:(void (^)(NSError *error))failure {
 	[self loadTrustbadgeWithSuccessBlock:nil failureBlock:failure];
+}
+
+#pragma mark - Touch detection
+
+- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+	if (![self.offlineMarker isHidden]) {
+		[super touchesBegan:touches withEvent:event];
+	}
+}
+
+- (void)touchesMoved:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+	if (![self.offlineMarker isHidden]) {
+		[super touchesBegan:touches withEvent:event];
+	}
+}
+
+- (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+	if (![self.offlineMarker isHidden]) {
+		[super touchesBegan:touches withEvent:event];
+	} else {
+		// Show the dialogue!
+		[self.trustbadge showTrustcard];
+	}
+}
+
+- (void)touchesCancelled:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+	if (![self.offlineMarker isHidden]) {
+		[super touchesBegan:touches withEvent:event];
+	}
 }
 
 #pragma mark - Helper

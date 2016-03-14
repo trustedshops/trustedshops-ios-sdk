@@ -10,4 +10,6 @@
 
 @interface TRSTrustcard : NSObject
 
+- (void)showInLightbox;
+
 @end
