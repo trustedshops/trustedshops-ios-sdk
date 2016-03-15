@@ -33,31 +33,39 @@
 
 @implementation TRSTrustcard
 
-- (instancetype)init
-{
-	self = [super init];
-	if (self) {
+- (void)reloadView {
+	if (!self.cardView) {
 		[TRSTrustbadgeBundle() loadNibNamed:@"Trustcard" owner:self options:nil];
-		self.cardView.frame = CGRectMake(0.0f, 0.0f, 270.0f, 291.0f);
 	}
-	return self;
 }
 
 - (void)showInLightbox {
-	// to come...
-	NSLog(@"Would show now...");
-//	NBMaterialDialog *lightbox = [[NBMaterialDialog alloc] init];
 	UIWindow *mainWindow = [[[UIApplication sharedApplication] delegate] window];
 	// fallback for the unlikely case the delegate doesn't have the window set:
 	if (!mainWindow) {
 		mainWindow = [[[UIApplication sharedApplication] windows] firstObject];
 	}
 	
-
+	[self reloadView];
 	
-//	[lightbox showDialog:mainWindow title:@"" content:self.cardView dialogHeight:291.0f okButtonTitle:@"OK"];
+	void (^myAction)(BOOL myBool) = ^void(BOOL myBool) {
+		if (myBool) {
+//			NSLog(@"Canceled/Certificate");
+			// open certificate in mobile browser
+		}
+//		NSLog(@"OKed");
+	};
 	
-//	showDialog(windowView: UIView, title: String?, content: UIView, dialogHeight: CGFloat?, okButtonTitle: String?, action: ((isOtherButton: Bool) -> Void)?) -> NBMaterialDialog
+	NBMaterialDialog *lightbox = [[NBMaterialDialog alloc] init];
+	// TODO: set the color of the buttons (NBMaterialDialog needs an update for that)
+	// since the dialog lib is still a bit wonky I must provide a height. 300.0f works well on all sizes/rotations
+	[lightbox showDialog:mainWindow
+				   title:nil
+				 content:self.cardView
+			dialogHeight:300.0f
+		   okButtonTitle:@"OK"
+				  action:myAction
+	   cancelButtonTitle:@"CERTIFICATE"];
 }
 
 @end
