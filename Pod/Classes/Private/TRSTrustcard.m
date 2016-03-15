@@ -10,6 +10,7 @@
 #import "TRSTrustbadgeSDKPrivate.h"
 @import NBMaterialDialogIOS;
 #import <Trustbadge/Trustbadge-Swift.h>
+@import CoreText;
 
 @interface TRSTrustcard ()
 
@@ -39,6 +40,14 @@
 		[TRSTrustbadgeBundle() loadNibNamed:@"Trustcard" owner:self options:nil];
 		
 		// TODO: load font (if needed) and replace placeholder text with correct symbols & internationalized text
+		CGFloat fontSize = self.checkmark.font.pointSize;
+		UIFont *theFont = [TRSTrustcard openFontAwesomeWithSize:fontSize];
+		self.checkmark.font = theFont;
+		self.lockmark.font = theFont;
+		self.bubblesmark.font = theFont;
+		self.checkmark.text = @"\uf00c";
+		self.lockmark.text = @"\uf023";
+		self.bubblesmark.text = @"\uf0e6";
 	}
 }
 
@@ -71,5 +80,41 @@
 						  action:myAction
 			   cancelButtonTitle:@"CERTIFICATE"];
 }
+
+#pragma mark Font helper methods
+
++ (UIFont *)openFontAwesomeWithSize:(CGFloat)size
+{
+	NSString *fontName = @"fontawesome";
+	UIFont *font = [UIFont fontWithName:fontName size:size];
+	if (!font) {
+		[[self class] dynamicallyLoadFontNamed:fontName];
+		font = [UIFont fontWithName:fontName size:size];
+		
+		// safe fallback
+		if (!font) font = [UIFont systemFontOfSize:size];
+	}
+	
+	return font;
+}
+
++ (void)dynamicallyLoadFontNamed:(NSString *)name
+{
+	NSURL *url = [TRSTrustbadgeBundle() URLForResource:name withExtension:@"ttf"];
+	NSData *fontData = [NSData dataWithContentsOfURL:url];
+	if (fontData) {
+		CFErrorRef error;
+		CGDataProviderRef provider = CGDataProviderCreateWithCFData((CFDataRef)fontData);
+		CGFontRef font = CGFontCreateWithDataProvider(provider);
+		if (! CTFontManagerRegisterGraphicsFont(font, &error)) {
+			CFStringRef errorDescription = CFErrorCopyDescription(error);
+			NSLog(@"Failed to load font: %@", errorDescription);
+			CFRelease(errorDescription);
+		}
+		CFRelease(font);
+		CFRelease(provider);
+	}
+}
+
 
 @end
