@@ -9,6 +9,7 @@
 #import "TRSTrustcard.h"
 #import "TRSTrustbadgeSDKPrivate.h"
 @import NBMaterialDialogIOS;
+#import <Trustbadge/Trustbadge-Swift.h>
 
 @interface TRSTrustcard ()
 
@@ -36,6 +37,8 @@
 - (void)reloadView {
 	if (!self.cardView) {
 		[TRSTrustbadgeBundle() loadNibNamed:@"Trustcard" owner:self options:nil];
+		
+		// TODO: load font (if needed) and replace placeholder text with correct symbols & internationalized text
 	}
 }
 
@@ -50,22 +53,23 @@
 	
 	void (^myAction)(BOOL myBool) = ^void(BOOL myBool) {
 		if (myBool) {
-//			NSLog(@"Canceled/Certificate");
+			NSLog(@"Canceled/Certificate");
 			// open certificate in mobile browser
 		}
-//		NSLog(@"OKed");
+		else NSLog(@"OKed");
 	};
 	
-	NBMaterialDialog *lightbox = [[NBMaterialDialog alloc] init];
-	// TODO: set the color of the buttons (NBMaterialDialog needs an update for that)
+	NBMaterialDialogObCFix *lightbox = [[NBMaterialDialogObCFix alloc] init];
+	lightbox.customBtnColor = [UIColor colorWithRed:247.0f/255.0f green:132.0f/255.0f blue:0.0f/255.0f alpha:1.0f];
 	// since the dialog lib is still a bit wonky I must provide a height. 300.0f works well on all sizes/rotations
-	[lightbox showDialog:mainWindow
-				   title:nil
-				 content:self.cardView
-			dialogHeight:300.0f
-		   okButtonTitle:@"OK"
-				  action:myAction
-	   cancelButtonTitle:@"CERTIFICATE"];
+	// note that the color setting ONLY works with this workaround for now. See NBMaterialDialogObCFix.swift
+	[lightbox showFromObjCDialog:mainWindow
+						   title:nil
+						 content:self.cardView
+					dialogHeight:300.0f
+				   okButtonTitle:@"OK"
+						  action:myAction
+			   cancelButtonTitle:@"CERTIFICATE"];
 }
 
 @end
