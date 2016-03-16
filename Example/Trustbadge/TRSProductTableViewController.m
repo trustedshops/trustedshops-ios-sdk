@@ -41,33 +41,23 @@ static NSString * const TRSProductTableViewCellReuseIdentifier = @"Product";
 
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:TRSProductTableViewCellReuseIdentifier];
 
-//#warning Add your Trusted Shops ID
+#warning Add your Trusted Shops ID & api token
 	NSString *shopID = @"CHANGEME";
 	NSString *apiToken = @"CHANGEMETOO";
-//	TRSTrustbadgeView *trsTrustbadgeView = [[TRSTrustbadgeView alloc] initWithTrustedShopsID:shopID];
 	TRSTrustbadgeView *trsTrustbadgeView = [[TRSTrustbadgeView alloc] initWithTrustedShopsID:shopID apiToken:apiToken];
 	
 	// Alternative 1 to fully activate the badge
-//	self.tableView.tableHeaderView = trsTrustbadgeView;
-//	[trsTrustbadgeView loadTrustbadgeWithFailureBlock:^(NSError *error) {
-//		NSLog(@"Error handling in example app: Error: %@", error);
-//	}];
-	// Alternative 1 to fully activate the badge
+	self.tableView.tableHeaderView = trsTrustbadgeView;
+	[trsTrustbadgeView loadTrustbadgeWithFailureBlock:^(NSError *error) {
+		NSLog(@"Error handling in example app: Error: %@", error);
+	}];
+	// Alternative 2 to fully activate the badge
 //	[trsTrustbadgeView loadTrustbadgeWithSuccessBlock:^{
-//		NSLog(@"Yup, you're right, dear SDK: You got something. Thank you!");
+//		NSLog(@"Success handling in example app. Loaded trustbadge, put it in table header now.");
 //		self.tableView.tableHeaderView = trsTrustbadgeView;
 //	} failureBlock:^(NSError *error) {
 //		NSLog(@"Error handling in example app: Error: %@", error);
 //	}];
-	
-	// Playground:...
-	self.tableView.tableHeaderView = trsTrustbadgeView;
-	
-	dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-		[trsTrustbadgeView loadTrustbadgeWithFailureBlock:^(NSError *error) {
-			NSLog(@"Error handling in example app: Error: %@", error);
-		}];
-	});
 }
 
 #pragma mark - UITableViewDataSource
