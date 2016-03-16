@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = "trustbadge_iOS"
-  s.version          = "0.2.0-alpha"
+  s.version          = "0.1.0-alpha.2"
   s.summary          = "Trustbadge for iOS"
   s.description      = <<-DESC
                        Use the Trustbadge in your iOS app.
@@ -12,7 +12,7 @@ Pod::Spec.new do |s|
 
   s.module_name = 'Trustbadge'
 
-  s.platform     = :ios, '8.1'
+  s.platform     = :ios, '7.0'
   s.requires_arc = true
 
   s.source_files        = 'Pod/Classes/**/*'
