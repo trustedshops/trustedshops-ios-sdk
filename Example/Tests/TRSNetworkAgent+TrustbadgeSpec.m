@@ -1,6 +1,7 @@
 #import "TRSNetworkAgent+Trustbadge.h"
 #import "TRSErrors.h"
 #import "TRSTrustbadge.h"
+#import "NSURL+TRSURLExtensions.h"
 #import <OHHTTPStubs/OHHTTPStubs.h>
 #import <OCMock/OCMock.h>
 #import <Specta/Specta.h>
@@ -12,7 +13,7 @@ describe(@"TRSNetworkAgent+Trustbadge", ^{
 
     __block TRSNetworkAgent *agent;
     beforeAll(^{
-        agent = [[TRSNetworkAgent alloc] initWithBaseURL:[NSURL URLWithString:@"http://localhost/"]];
+        agent = [[TRSNetworkAgent alloc] init];
     });
 
     afterAll(^{
@@ -52,7 +53,22 @@ describe(@"TRSNetworkAgent+Trustbadge", ^{
 
     describe(@"-getTrustbadgeForTrustedShopsID:apiToken:success:failure", ^{
 
-        it(@"returns nil for nil ID and token", ^{
+		beforeEach(^{
+			[OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+				NSURL *usedInAgent = [NSURL trustMarkAPIURLForTSID:@"123" andAPIEndPoint:TRSAPIEndPoint];
+				return [request.URL isEqual:usedInAgent];
+			} withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
+				return [OHHTTPStubsResponse responseWithData:[[NSString stringWithFormat:@"success"] dataUsingEncoding:NSUTF8StringEncoding]
+												  statusCode:200
+													 headers:nil];
+			}];
+		});
+		
+		afterEach(^{
+			[OHHTTPStubs removeAllStubs];
+		});
+
+		it(@"returns nil for nil ID and token", ^{
             id task = [agent getTrustbadgeForTrustedShopsID:nil apiToken:nil success:nil failure:nil];
             expect(task).to.beNil();
         });
@@ -67,12 +83,12 @@ describe(@"TRSNetworkAgent+Trustbadge", ^{
 																							  apiToken:@"apiToken"
 																							   success:nil
 																							   failure:nil];
-            expect(task.originalRequest.URL).to.equal([NSURL URLWithString:@"http://localhost/rest/internal/v2/shops/123/trustmarks.json"]);
+            expect(task.originalRequest.URL).to.equal([NSURL trustMarkAPIURLForTSID:@"123" andAPIEndPoint:TRSAPIEndPoint]);
         });
 
         it(@"calls '-GET:success:failure'", ^{
             id agentMock = OCMPartialMock(agent);
-			OCMExpect([agentMock GET:@"/rest/internal/v2/shops/123/trustmarks.json"
+			OCMExpect([agentMock GET:[NSURL trustMarkAPIURLForTSID:@"123" andAPIEndPoint:TRSAPIEndPoint]
 						   authToken:@"authToken"
 							 success:[OCMArg any]
 							 failure:[OCMArg any]]);
@@ -89,7 +105,7 @@ describe(@"TRSNetworkAgent+Trustbadge", ^{
 
             beforeEach(^{
                 [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
-                    return [request.URL.absoluteString isEqualToString:@"http://localhost/rest/internal/v2/shops/123/trustmarks.json"];
+                    return [request.URL isEqual:[NSURL trustMarkAPIURLForTSID:@"123" andAPIEndPoint:TRSAPIEndPoint]];
                 } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
                     NSBundle *bundle = [NSBundle bundleForClass:[self class]];
                     NSString *path = [bundle pathForResource:@"trustbadge" ofType:@"data"];
@@ -151,8 +167,7 @@ describe(@"TRSNetworkAgent+Trustbadge", ^{
                 OHHTTPStubsResponse *response = [OHHTTPStubsResponse responseWithHTTPMessageData:messageData];
 
                 [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
-                    NSString *URLString = [NSString stringWithFormat:@"http://localhost/rest/internal/v2/shops/%@/trustmarks.json", trustedShopsID];
-                    return [request.URL.absoluteString isEqualToString:URLString];
+                    return [request.URL isEqual:[NSURL trustMarkAPIURLForTSID:@"123123123" andAPIEndPoint:TRSAPIEndPoint]];
                 }
                                     withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
                                         return response;
@@ -195,8 +210,7 @@ describe(@"TRSNetworkAgent+Trustbadge", ^{
                 OHHTTPStubsResponse *response = [OHHTTPStubsResponse responseWithHTTPMessageData:messageData];
 
                 [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
-                    NSString *URLString = [NSString stringWithFormat:@"http://localhost/rest/internal/v2/shops/%@/trustmarks.json", trustedShopsID];
-                    return [request.URL.absoluteString isEqualToString:URLString];
+                    return [request.URL isEqual:[NSURL trustMarkAPIURLForTSID:@"000111222333444555666777888999111" andAPIEndPoint:TRSAPIEndPoint]];
                 }
                                     withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
                                         return response;
@@ -239,8 +253,7 @@ describe(@"TRSNetworkAgent+Trustbadge", ^{
                                                           headers:nil];
 
                 [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
-                    NSString *URLString = [NSString stringWithFormat:@"http://localhost/rest/internal/v2/shops/%@/trustmarks.json", trustedShopsID];
-                    return [request.URL.absoluteString isEqualToString:URLString];
+                    return [request.URL isEqual:[NSURL trustMarkAPIURLForTSID:@"000000000000000000000000000000000" andAPIEndPoint:TRSAPIEndPoint]];
                 }
                                     withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
                                         return response;
@@ -283,8 +296,7 @@ describe(@"TRSNetworkAgent+Trustbadge", ^{
                                                          headers:nil];
 
                 [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
-                    NSString *URLString = [NSString stringWithFormat:@"http://localhost/rest/internal/v2/shops/%@/trustmarks.json", trustedShopsID];
-                    return [request.URL.absoluteString isEqualToString:URLString];
+                    return [request.URL isEqual:[NSURL trustMarkAPIURLForTSID:@"111222333444555666777888999111222" andAPIEndPoint:TRSAPIEndPoint]];
                 } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
                     return response;
                 }];

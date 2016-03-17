@@ -7,7 +7,9 @@
 //
 
 #import "TRSTrustcard.h"
+#import "TRSTrustbadge.h"
 #import "TRSTrustbadgeSDKPrivate.h"
+#import "NSURL+TRSURLExtensions.h"
 @import NBMaterialDialogIOS;
 #import <Trustbadge/Trustbadge-Swift.h>
 @import CoreText;
@@ -39,7 +41,6 @@
 	if (!self.cardView) {
 		[TRSTrustbadgeBundle() loadNibNamed:@"Trustcard" owner:self options:nil];
 		
-		// TODO: load font (if needed) and replace placeholder text with correct symbols & internationalized text
 		CGFloat fontSize = self.checkmark.font.pointSize;
 		UIFont *theFont = [TRSTrustcard openFontAwesomeWithSize:fontSize];
 		self.checkmark.font = theFont;
@@ -51,7 +52,7 @@
 	}
 }
 
-- (void)showInLightbox {
+- (void)showInLightboxForTrustbadge:(TRSTrustbadge *)trustbadge {
 	UIWindow *mainWindow = [[[UIApplication sharedApplication] delegate] window];
 	// fallback for the unlikely case the delegate doesn't have the window set:
 	if (!mainWindow) {
@@ -62,10 +63,10 @@
 	
 	void (^myAction)(BOOL myBool) = ^void(BOOL myBool) {
 		if (myBool) {
-			NSLog(@"Canceled/Certificate");
 			// open certificate in mobile browser
+			NSURL *targetURL = [NSURL profileURLForShop:trustbadge.shop];
+			[[UIApplication sharedApplication] openURL:targetURL];
 		}
-		else NSLog(@"OKed");
 	};
 	
 	NBMaterialDialogObCFix *lightbox = [[NBMaterialDialogObCFix alloc] init];

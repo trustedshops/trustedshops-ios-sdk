@@ -28,4 +28,8 @@
 	return self;
 }
 
+- (NSURL *)shopProfileURL {
+	return nil;
+}
+
 @end

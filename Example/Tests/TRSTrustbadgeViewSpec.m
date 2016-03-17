@@ -12,7 +12,7 @@ describe(@"TRSTrustbadgeView", ^{
     __block TRSNetworkAgent *agent;
     __block id networkMock;
     beforeAll(^{
-        agent = [[TRSNetworkAgent alloc] initWithBaseURL:[NSURL URLWithString:@"http://localhost/"]];
+        agent = [[TRSNetworkAgent alloc] init];
         networkMock = OCMClassMock([TRSNetworkAgent class]);
         OCMStub([networkMock sharedAgent]).andReturn(agent);
     });

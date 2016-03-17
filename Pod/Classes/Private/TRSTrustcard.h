@@ -7,9 +7,10 @@
 //
 
 #import <Foundation/Foundation.h>
+@class TRSTrustbadge;
 
 @interface TRSTrustcard : NSObject
 
-- (void)showInLightbox;
+- (void)showInLightboxForTrustbadge:(TRSTrustbadge *)trustbadge;
 
 @end

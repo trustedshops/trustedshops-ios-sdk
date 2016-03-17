@@ -1,5 +1,6 @@
 #import "TRSNetworkAgent.h"
 
+FOUNDATION_EXPORT NSString * const TRSAPIEndPoint;
 
 @class TRSTrustbadge;
 

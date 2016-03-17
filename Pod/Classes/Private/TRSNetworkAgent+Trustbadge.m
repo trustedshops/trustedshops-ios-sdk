@@ -1,9 +1,10 @@
 #import "TRSNetworkAgent+Trustbadge.h"
 #import "TRSTrustbadge.h"
+#import "NSURL+TRSURLExtensions.h"
 #import <Trustbadge/Trustbadge.h>
 
 //static NSString * const TRSNetworkAgentTrustbadgePath = @"/rest/public/v2/shops/%@/quality";
-static NSString * const TRSNetworkAgentInternalTrustbadgePath = @"/rest/internal/v2/shops/%@/trustmarks.json";
+NSString * const TRSAPIEndPoint = @"api-qa.trustedshops.com";
 
 
 @implementation TRSNetworkAgent (Trustbadge)
@@ -76,7 +77,7 @@ static NSString * const TRSNetworkAgentInternalTrustbadgePath = @"/rest/internal
 		}
 	};
 	
-	return [self GET:[NSString stringWithFormat:TRSNetworkAgentInternalTrustbadgePath, trustedShopsID]
+	return [self GET:[NSURL trustMarkAPIURLForTSID:trustedShopsID andAPIEndPoint:TRSAPIEndPoint]
 		   authToken:apiToken
 			 success:successBlock
 			 failure:failureBlock];

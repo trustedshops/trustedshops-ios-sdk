@@ -40,7 +40,7 @@
 		self.trustcard = [[TRSTrustcard alloc] init];
 	}
 	
-	[self.trustcard showInLightbox];
+	[self.trustcard showInLightboxForTrustbadge:self];
 }
 
 @end

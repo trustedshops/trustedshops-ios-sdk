@@ -1,12 +1,12 @@
 #import "TRSNetworkAgent.h"
 
-static NSString * const TRSNetworkAgentBaseURL = @"https://api-qa.trustedshops.com/";
+//static NSString * const TRSNetworkAgentBaseURL = @"https://api-qa.trustedshops.com/";
 
-@interface TRSNetworkAgent ()
-
-@property (nonatomic, readwrite) NSURL *baseURL;
-
-@end
+//@interface TRSNetworkAgent ()
+//
+//@property (nonatomic, readwrite) NSURL *baseURL;
+//
+//@end
 
 
 @implementation TRSNetworkAgent
@@ -15,30 +15,30 @@ static NSString * const TRSNetworkAgentBaseURL = @"https://api-qa.trustedshops.c
     static TRSNetworkAgent *sharedAgent;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        sharedAgent = [[self alloc] initWithBaseURL:[NSURL URLWithString:TRSNetworkAgentBaseURL]];
+        sharedAgent = [[self alloc] init];
     });
 
     return sharedAgent;
 }
 
-- (instancetype)initWithBaseURL:(NSURL *)baseURL {
-    self = [super init];
+//- (instancetype)initWithBaseURL:(NSURL *)baseURL {
+//    self = [super init];
+//
+//    if (!self) {
+//        return nil;
+//    }
+//
+//    _baseURL = baseURL;
+//
+//    return self;
+//}
 
-    if (!self) {
-        return nil;
-    }
-
-    _baseURL = baseURL;
-
-    return self;
-}
-
-- (NSURLSessionDataTask *)GET:(NSString *)path success:(void (^)(NSData *data))success failure:(void (^)(NSData *data, NSHTTPURLResponse *response, NSError *error))failure {
+- (NSURLSessionDataTask *)GET:(NSURL *)url success:(void (^)(NSData *data))success failure:(void (^)(NSData *data, NSHTTPURLResponse *response, NSError *error))failure {
 	
-	return [self GET:path authToken:nil success:success failure:failure];
+	return [self GET:url authToken:nil success:success failure:failure];
 }
 
-- (NSURLSessionDataTask *)GET:(NSString *)path
+- (NSURLSessionDataTask *)GET:(NSURL *)url
 					authToken:(NSString *)token
 					  success:(void (^)(NSData *data))success
 					  failure:(void (^)(NSData *data, NSHTTPURLResponse *response, NSError *error))failure {
@@ -60,8 +60,8 @@ static NSString * const TRSNetworkAgentBaseURL = @"https://api-qa.trustedshops.c
 		}
 	};
 	
-	NSURL *requestURL = [NSURL URLWithString:path relativeToURL:self.baseURL];
-	NSMutableURLRequest *mutableRequest = [[NSMutableURLRequest alloc] initWithURL:requestURL];
+//	NSURL *requestURL = [NSURL URLWithString:path relativeToURL:self.baseURL];
+	NSMutableURLRequest *mutableRequest = [[NSMutableURLRequest alloc] initWithURL:url];
 	mutableRequest.allHTTPHeaderFields = @{@"Accept" : @"application/json"};
 	if (token) {
 		[mutableRequest addValue:token forHTTPHeaderField:@"client-token"];
