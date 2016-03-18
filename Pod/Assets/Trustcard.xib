@@ -13,18 +13,20 @@
                 <outlet property="bubblesmark" destination="v3T-fB-oES" id="fWW-xu-2vU"/>
                 <outlet property="cardHeader" destination="Va1-iH-zur" id="ZNO-oD-FbV"/>
                 <outlet property="cardView" destination="iN0-l3-epB" id="Kqg-cr-4V9"/>
+                <outlet property="certButton" destination="TXm-Kr-Jfe" id="62M-az-POr"/>
                 <outlet property="checkHeader" destination="bDq-Ga-cq3" id="6eM-6x-OSN"/>
                 <outlet property="checkText" destination="F1D-dN-rrl" id="jfM-nG-mbN"/>
                 <outlet property="checkmark" destination="6mZ-EP-1n3" id="gKo-zf-Aou"/>
                 <outlet property="lockHeader" destination="UF9-1O-Vze" id="ueh-OA-Bs4"/>
                 <outlet property="lockText" destination="fc5-Mv-iLZ" id="GCH-qw-GHA"/>
                 <outlet property="lockmark" destination="fAQ-z3-4M3" id="84z-8e-wz1"/>
+                <outlet property="okButton" destination="esv-fR-Fyr" id="8F1-fN-qLE"/>
                 <outlet property="sealImage" destination="apr-FC-TXi" id="jSE-ID-xT7"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" id="iN0-l3-epB">
-            <rect key="frame" x="0.0" y="0.0" width="196" height="230"/>
+            <rect key="frame" x="0.0" y="0.0" width="196" height="268"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TQz-5X-NTW">
@@ -155,6 +157,20 @@
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <edgeInsets key="layoutMargins" top="0.0" left="0.0" bottom="0.0" right="0.0"/>
                 </view>
+                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="esv-fR-Fyr">
+                    <rect key="frame" x="166" y="238" width="30" height="30"/>
+                    <state key="normal" title="OK"/>
+                    <connections>
+                        <action selector="buttonTapped:" destination="-1" eventType="touchUpInside" id="Sar-dv-05d"/>
+                    </connections>
+                </button>
+                <button opaque="NO" tag="1" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TXm-Kr-Jfe">
+                    <rect key="frame" x="67" y="238" width="91" height="30"/>
+                    <state key="normal" title="CERTIFICATE"/>
+                    <connections>
+                        <action selector="buttonTapped:" destination="-1" eventType="touchUpInside" id="fqi-6V-Gt2"/>
+                    </connections>
+                </button>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
@@ -167,7 +183,7 @@
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <edgeInsets key="layoutMargins" top="0.0" left="0.0" bottom="0.0" right="0.0"/>
-            <point key="canvasLocation" x="222" y="174"/>
+            <point key="canvasLocation" x="222" y="193"/>
         </view>
     </objects>
     <resources>
