@@ -73,7 +73,7 @@ describe(@"TRSNetworkAgent+Trustbadge", ^{
             expect(task).to.beNil();
         });
 
-		it(@"returns nil for nil ID and token", ^{
+		it(@"returns a NSURLSessionDataTask object for a given ID and token", ^{
 			id task = [agent getTrustbadgeForTrustedShopsID:@"ID" apiToken:@"token" success:nil failure:nil];
 			expect(task).to.beKindOf([NSURLSessionDataTask class]);
 		});
@@ -179,14 +179,14 @@ describe(@"TRSNetworkAgent+Trustbadge", ^{
             });
 
             itShouldBehaveLike(@"an unsuccessful response", ^{
-                return @{ @"trustedShopsID" : trustedShopsID };
+				return @{ @"trustedShopsID" : trustedShopsID, @"apiToken" : @"apiToken" };
             });
 
             itShouldBehaveLike(@"a Trustbadge error", ^{
-                return @{ @"trustedShopsID" : trustedShopsID };
+                return @{ @"trustedShopsID" : trustedShopsID, @"apiToken" : @"apiToken" };
             });
 
-            it(@"passes a custom error code", ^{
+            it(@"passes a custom error code (Invalid TSID)", ^{
                 waitUntil(^(DoneCallback done) {
                     [agent getTrustbadgeForTrustedShopsID:@"123123123"
 												 apiToken:@"apiToken"
@@ -222,14 +222,14 @@ describe(@"TRSNetworkAgent+Trustbadge", ^{
             });
 
             itShouldBehaveLike(@"an unsuccessful response", ^{
-                return @{ @"trustedShopsID" : trustedShopsID };
+                return @{ @"trustedShopsID" : trustedShopsID, @"apiToken" : @"apiToken"  };
             });
 
             itShouldBehaveLike(@"a Trustbadge error", ^{
-                return @{ @"trustedShopsID" : trustedShopsID };
+                return @{ @"trustedShopsID" : trustedShopsID, @"apiToken" : @"apiToken"  };
             });
 
-            it(@"passes a custom error code", ^{
+            it(@"passes a custom error code (TSID not found)", ^{
                 waitUntil(^(DoneCallback done) {
                     [agent getTrustbadgeForTrustedShopsID:@"000111222333444555666777888999111"
 												 apiToken:@"apiToken"
@@ -265,14 +265,14 @@ describe(@"TRSNetworkAgent+Trustbadge", ^{
             });
 
             itShouldBehaveLike(@"an unsuccessful response", ^{
-                return @{ @"trustedShopsID" : trustedShopsID };
+                return @{ @"trustedShopsID" : trustedShopsID, @"apiToken" : @"apiToken"  };
             });
 
             itShouldBehaveLike(@"a Trustbadge error", ^{
-                return @{ @"trustedShopsID" : trustedShopsID };
+                return @{ @"trustedShopsID" : trustedShopsID, @"apiToken" : @"apiToken"  };
             });
 
-            it(@"passes a custom error code", ^{
+            it(@"passes a custom error code (unknown error)", ^{
                 waitUntil(^(DoneCallback done) {
                     [agent getTrustbadgeForTrustedShopsID:@"000000000000000000000000000000000"
 												 apiToken:@"apiToken"
@@ -307,14 +307,14 @@ describe(@"TRSNetworkAgent+Trustbadge", ^{
             });
 
             itShouldBehaveLike(@"an unsuccessful response", ^{
-                return @{ @"trustedShopsID" : trustedShopsID };
+                return @{ @"trustedShopsID" : trustedShopsID, @"apiToken" : @"apiToken"  };
             });
 
             itShouldBehaveLike(@"a Trustbadge error", ^{
-                return @{ @"trustedShopsID" : trustedShopsID };
+                return @{ @"trustedShopsID" : trustedShopsID, @"apiToken" : @"apiToken"  };
             });
 
-            it(@"passes a custom error code", ^{
+            it(@"passes a custom error code (Invalid data)", ^{
                 waitUntil(^(DoneCallback done) {
                     [agent getTrustbadgeForTrustedShopsID:@"111222333444555666777888999111222"
 												 apiToken:@"apiToken"

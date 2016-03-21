@@ -5,9 +5,6 @@
  */
 @interface TRSNetworkAgent : NSObject
 
-// deprecated
-// @property (nonatomic, readonly, copy) NSURL *baseURL;
-
 /**
  * @name Creating an Agent
  */

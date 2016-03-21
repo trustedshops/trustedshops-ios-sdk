@@ -36,7 +36,7 @@ describe(@"TRSNetworkAgent", ^{
 
     });
 
-    describe(@"-GET:success:failure:", ^{
+    describe(@"-GET:authToken:success:failure:", ^{
 
         it(@"returns a data task", ^{
 			id task = [agent GET:[NSURL URLWithString:@"foo/bar/baz"] authToken:@"authToken" success:nil failure:nil];
@@ -47,7 +47,7 @@ describe(@"TRSNetworkAgent", ^{
 
             beforeEach(^{
                 [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
-                    return [request.URL.absoluteString isEqualToString:@"http://localhost/foo/bar/baz"];
+                    return [request.URL.absoluteString isEqualToString:@"https://localhost/foo/bar/baz"];
                 } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
                     return [OHHTTPStubsResponse responseWithData:[[NSString stringWithFormat:@"success"] dataUsingEncoding:NSUTF8StringEncoding]
                                                       statusCode:200
@@ -58,20 +58,52 @@ describe(@"TRSNetworkAgent", ^{
             afterEach(^{
                 [OHHTTPStubs removeAllStubs];
             });
+			
+			it(@"calls the success block", ^{
+				waitUntil(^(DoneCallback done) {
+					[agent GET:[NSURL URLWithString:@"https://localhost/foo/bar/baz"]
+					 authToken:@"authToken"
+					   success:^(NSData *data) {
+						   done();
+					   } failure:nil];
+				});
+			});
+			
+			it(@"passes a data object", ^{
+				waitUntil(^(DoneCallback done) {
+					[agent GET:[NSURL URLWithString:@"https://localhost/foo/bar/baz"]
+					 authToken:@"authToken"
+					   success:^(NSData *data) {
+						   expect(data).toNot.beNil;
+						   done();
+					   } failure:nil];
+				});
+
+			});
 
             it(@"accepts JSON", ^{
-				NSURLSessionDataTask *task = (NSURLSessionDataTask *)[agent GET:[NSURL URLWithString:@"http://localhost/foo/bar/baz"]
-																	  authToken:@"authToken"
-																		success:nil
-																		failure:nil];
+				NSURLSessionDataTask *task = [agent GET:[NSURL URLWithString:@"https://localhost/foo/bar/baz"]
+											  authToken:@"authToken"
+												success:nil
+												failure:nil];
                 NSDictionary *headerDictionary = task.originalRequest.allHTTPHeaderFields;
 
                 expect(headerDictionary).to.beSupersetOf(@{@"Accept" : @"application/json"});
             });
+			
+			it(@"has auth Token", ^{
+				NSURLSessionDataTask *task = [agent GET:[NSURL URLWithString:@"https://localhost/foo/bar/baz"]
+											  authToken:@"authToken"
+												success:nil
+												failure:nil];
+				NSDictionary *headerDictionary = task.originalRequest.allHTTPHeaderFields;
+				
+				expect(headerDictionary).to.beSupersetOf(@{@"client-token" : @"authToken"});
+			});
 
             it(@"calls the success block", ^{
                 waitUntil(^(DoneCallback done) {
-					[agent GET:[NSURL URLWithString:@"http://localhost/foo/bar/baz"]
+					[agent GET:[NSURL URLWithString:@"https://localhost/foo/bar/baz"]
 					 authToken:@"authToken"
                        success:^(NSData *data){
                            done();
@@ -82,7 +114,7 @@ describe(@"TRSNetworkAgent", ^{
 
             it(@"has a data object", ^{
                 waitUntil(^(DoneCallback done) {
-                    [agent GET:[NSURL URLWithString:@"http://localhost/foo/bar/baz"]
+                    [agent GET:[NSURL URLWithString:@"https://localhost/foo/bar/baz"]
 					 authToken:@"authToken"
                        success:^(NSData *data){
                            expect(data).to.equal([[NSString stringWithFormat:@"success"] dataUsingEncoding:NSUTF8StringEncoding]);
@@ -98,7 +130,7 @@ describe(@"TRSNetworkAgent", ^{
 
             beforeEach(^{
                 [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
-                    return [request.URL.absoluteString isEqualToString:@"http://localhost/foo/bar/baz"];
+                    return [request.URL.absoluteString isEqualToString:@"https://localhost/foo/bar/baz"];
                 } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
                     NSError *networkError = [NSError errorWithDomain:NSURLErrorDomain code:NSURLErrorCannotConnectToHost userInfo:nil];
                     return [OHHTTPStubsResponse responseWithError:networkError];
@@ -146,7 +178,7 @@ describe(@"TRSNetworkAgent", ^{
 
             it(@"passes an error object with a 'NSURLErrorCannotConnectToHost' error code", ^{
                 waitUntil(^(DoneCallback done) {
-                    [agent GET:[NSURL URLWithString:@"http://localhost/foo/bar/baz"]
+                    [agent GET:[NSURL URLWithString:@"https://localhost/foo/bar/baz"]
 					 authToken:@"authToken"
                        success:nil
                        failure:^(NSData *data, NSHTTPURLResponse *response, NSError *error) {
@@ -160,7 +192,7 @@ describe(@"TRSNetworkAgent", ^{
 
                 beforeEach(^{
                     [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
-                        return [request.URL.absoluteString isEqualToString:@"http://localhost/foo/bar/baz"];
+                        return [request.URL.absoluteString isEqualToString:@"https://localhost/foo/bar/baz"];
                     }
                                         withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
                                             return [OHHTTPStubsResponse responseWithData:[[NSString stringWithFormat:@"not found"] dataUsingEncoding:NSUTF8StringEncoding]
@@ -175,7 +207,7 @@ describe(@"TRSNetworkAgent", ^{
 
                 it(@"passes a data object", ^{
                     waitUntil(^(DoneCallback done) {
-                        [agent GET:[NSURL URLWithString:@"http://localhost/foo/bar/baz"]
+                        [agent GET:[NSURL URLWithString:@"https://localhost/foo/bar/baz"]
 						 authToken:@"authToken"
                            success:nil
                            failure:^(NSData *data, NSHTTPURLResponse *response, NSError *error) {
@@ -187,7 +219,7 @@ describe(@"TRSNetworkAgent", ^{
 
                 it(@"passes a response object", ^{
                     waitUntil(^(DoneCallback done) {
-                        [agent GET:[NSURL URLWithString:@"http://localhost/foo/bar/baz"]
+                        [agent GET:[NSURL URLWithString:@"https://localhost/foo/bar/baz"]
 						 authToken:@"authToken"
                            success:nil
                            failure:^(NSData *data, NSHTTPURLResponse *response, NSError *error) {

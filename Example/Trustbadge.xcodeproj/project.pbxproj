@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		16061A0419CE78518B6D5092 /* Pods_Trustbadge_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65E964664B285004286E6DA4 /* Pods_Trustbadge_Tests.framework */; };
+		1DEFBAEC1CA0049A00B61B05 /* NSURL+TRSURLExtensionsSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DEFBAEB1CA0049A00B61B05 /* NSURL+TRSURLExtensionsSpec.m */; };
+		1DEFBAEE1CA048F700B61B05 /* TRSShopSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DEFBAED1CA048F700B61B05 /* TRSShopSpec.m */; };
 		6003F58E195388D20070C39A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58D195388D20070C39A /* Foundation.framework */; };
 		6003F590195388D20070C39A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58F195388D20070C39A /* CoreGraphics.framework */; };
 		6003F592195388D20070C39A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F591195388D20070C39A /* UIKit.framework */; };
@@ -53,6 +55,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1DEFBAEB1CA0049A00B61B05 /* NSURL+TRSURLExtensionsSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSURL+TRSURLExtensionsSpec.m"; sourceTree = "<group>"; };
+		1DEFBAED1CA048F700B61B05 /* TRSShopSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TRSShopSpec.m; sourceTree = "<group>"; };
 		2B8E1DF01C9946010051505A /* Trustbadge.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; name = Trustbadge.podspec; path = ../Trustbadge.podspec; sourceTree = "<group>"; };
 		4BCE34786B13526BE49D2457 /* Pods-Trustbadge_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Trustbadge_Example.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Trustbadge_Example/Pods-Trustbadge_Example.debug.xcconfig"; sourceTree = "<group>"; };
 		548E069DBE3AB3FF43F6F24B /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
@@ -184,10 +188,12 @@
 				8409D6801B66204800001627 /* Fixtures */,
 				840B2B611B45712C009E1D6D /* NSNumber+TRSRatingSpec.m */,
 				845E83DC1B8323C3001D5EDC /* NSNumberFormatter+TRSFormatterSpec.m */,
+				1DEFBAEB1CA0049A00B61B05 /* NSURL+TRSURLExtensionsSpec.m */,
 				6003F5B6195388D20070C39A /* Supporting Files */,
 				84795A531B5E68EC0091EA49 /* TRSNetworkAgent+TrustbadgeSpec.m */,
 				84795A4C1B5E3EDA0091EA49 /* TRSNetworkAgentSpec.m */,
 				8441C4AC1B8F13DD004290C0 /* TRSRatingViewSpec.m */,
+				1DEFBAED1CA048F700B61B05 /* TRSShopSpec.m */,
 				845E62D91B7B80D40051329C /* TRSTrustbadgeSDKPrivatSpec.m */,
 				84D2C8781B678693005AE982 /* TRSTrustbadgeSpec.m */,
 				84C2BC2E1B78C25000F54653 /* TRSTrustbadgeViewSpec.m */,
@@ -496,6 +502,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				840B2B631B457135009E1D6D /* NSNumber+TRSRatingSpec.m in Sources */,
+				1DEFBAEC1CA0049A00B61B05 /* NSURL+TRSURLExtensionsSpec.m in Sources */,
+				1DEFBAEE1CA048F700B61B05 /* TRSShopSpec.m in Sources */,
 				845E83DD1B8323C3001D5EDC /* NSNumberFormatter+TRSFormatterSpec.m in Sources */,
 				84795A4E1B5E41A30091EA49 /* TRSNetworkAgentSpec.m in Sources */,
 				843196D31B8F28B000CFC072 /* TRSStarViewSpec.m in Sources */,

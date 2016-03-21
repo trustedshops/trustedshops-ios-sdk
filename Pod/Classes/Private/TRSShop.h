@@ -20,6 +20,4 @@
 
 - (instancetype)initWithDictionary:(NSDictionary *)shopInfo NS_DESIGNATED_INITIALIZER;
 
-- (NSURL *)shopProfileURL;
-
 @end
