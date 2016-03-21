@@ -3,7 +3,6 @@
 #import "NSURL+TRSURLExtensions.h"
 #import <Trustbadge/Trustbadge.h>
 
-//static NSString * const TRSNetworkAgentTrustbadgePath = @"/rest/public/v2/shops/%@/quality";
 NSString * const TRSAPIEndPoint = @"api-qa.trustedshops.com";
 
 

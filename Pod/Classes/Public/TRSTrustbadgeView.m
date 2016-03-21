@@ -1,11 +1,8 @@
 #import "TRSTrustbadgeView.h"
-#import "NSNumberFormatter+TRSFormatter.h"
 #import "TRSErrors.h"
 #import "TRSNetworkAgent+Trustbadge.h"
-#import "TRSRatingView.h"
 #import "TRSTrustbadge.h"
 #import "TRSTrustbadgeSDKPrivate.h"
-#import "UIColor+TRSColors.h"
 
 
 @interface TRSTrustbadgeView ()

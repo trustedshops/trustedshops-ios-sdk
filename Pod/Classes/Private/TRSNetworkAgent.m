@@ -1,14 +1,5 @@
 #import "TRSNetworkAgent.h"
 
-//static NSString * const TRSNetworkAgentBaseURL = @"https://api-qa.trustedshops.com/";
-
-//@interface TRSNetworkAgent ()
-//
-//@property (nonatomic, readwrite) NSURL *baseURL;
-//
-//@end
-
-
 @implementation TRSNetworkAgent
 
 + (instancetype)sharedAgent {
@@ -20,18 +11,6 @@
 
     return sharedAgent;
 }
-
-//- (instancetype)initWithBaseURL:(NSURL *)baseURL {
-//    self = [super init];
-//
-//    if (!self) {
-//        return nil;
-//    }
-//
-//    _baseURL = baseURL;
-//
-//    return self;
-//}
 
 - (NSURLSessionDataTask *)GET:(NSURL *)url success:(void (^)(NSData *data))success failure:(void (^)(NSData *data, NSHTTPURLResponse *response, NSError *error))failure {
 	
@@ -60,7 +39,6 @@
 		}
 	};
 	
-//	NSURL *requestURL = [NSURL URLWithString:path relativeToURL:self.baseURL];
 	NSMutableURLRequest *mutableRequest = [[NSMutableURLRequest alloc] initWithURL:url];
 	mutableRequest.allHTTPHeaderFields = @{@"Accept" : @"application/json"};
 	if (token) {

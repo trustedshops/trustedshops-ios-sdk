@@ -13,9 +13,6 @@ FOUNDATION_EXPORT NSString * const TRSAPIEndPoint;
  *  @name Making Trustbadge Requests
  */
 
-// Method is deprecated
-//- (NSURLSessionDataTask *)getTrustbadgeForTrustedShopsID:(NSString *)trustedShopsID success:(void (^)(TRSTrustbadge *trustbadge))success failure:(void (^)(NSError *error))failure;
-
 /**
  *	Creates and runs a request to fetch Trustbadge
  *	@discussion	Test

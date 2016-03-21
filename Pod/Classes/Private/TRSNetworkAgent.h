@@ -19,15 +19,9 @@
  */
 + (instancetype)sharedAgent;
 
-// deprecated
-//- (instancetype)initWithBaseURL:(NSURL *)baseURL;
-
 /**
  * @name Making HTTP Requests
  */
-
-// This method is deprecated and will no longer be called.
-// - (NSURLSessionDataTask *)GET:(NSString *)path success:(void (^)(NSData *data))success failure:(void (^)(NSData *data, NSHTTPURLResponse *response, NSError *error))failure;
 
 /**
  *	Creates and runs an @c NSURLSesseionDataTaks with a @c GET request and returns the task.
