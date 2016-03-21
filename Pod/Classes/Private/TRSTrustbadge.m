@@ -39,6 +39,10 @@
 	if (!self.trustcard) { // init the VC displaying the card. it will figure everything out
 		self.trustcard = [[TRSTrustcard alloc] initWithNibName:@"Trustcard" bundle:TRSTrustbadgeBundle()];
 	}
+	
+	// Test: This path won't be the final one. Note we only supply the folder where the trustinfos.html file is located
+	self.trustcard.remoteCertLocationFolder = @"https://widgets.trustedshops.com/sdktest";
+	
 	// tell it to display the data (the trustbadge is a weak property, so we're fine)
 	[self.trustcard showInLightboxForTrustbadge:self];
 }

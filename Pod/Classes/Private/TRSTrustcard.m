@@ -6,6 +6,9 @@
 //
 //
 
+static NSString * const TRSCertLocalFallback = @"trustcardfallback";
+static NSString * const TRSCertHTMLName = @"trustinfos";
+
 #import "TRSTrustcard.h"
 #import "TRSTrustbadge.h"
 #import "TRSTrustbadgeSDKPrivate.h"
@@ -30,7 +33,18 @@
 - (void)viewDidLoad {
 	[super viewDidLoad];
 	// this request should allow us caching
-	NSMutableURLRequest *myrequest = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:@"https://www.google.de"]
+	NSURL *cardURL;
+	if (self.remoteCertLocationFolder) {
+		// TODO: do the remote loading here
+		cardURL = [[[NSURL URLWithString:self.remoteCertLocationFolder]
+					URLByAppendingPathComponent:TRSCertHTMLName] URLByAppendingPathExtension:@"html"];
+	}
+	if (!cardURL) {
+		cardURL = [TRSTrustbadgeBundle() URLForResource:TRSCertHTMLName
+										  withExtension:@"html"
+										   subdirectory:TRSCertLocalFallback];
+	}
+	NSMutableURLRequest *myrequest = [[NSMutableURLRequest alloc] initWithURL:cardURL
 																  cachePolicy:NSURLRequestUseProtocolCachePolicy
 															  timeoutInterval:10.0];
 	[self.webView loadRequest:myrequest];
