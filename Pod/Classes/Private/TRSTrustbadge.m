@@ -1,6 +1,7 @@
 #import "TRSTrustbadge.h"
 #import "TRSShop.h"
 #import "TRSTrustcard.h"
+#import "TRSTrustbadgeSDKPrivate.h"
 
 
 @interface TRSTrustbadge ()
@@ -35,11 +36,10 @@
 }
 
 - (void)showTrustcard {
-	// lazy load the trustcard class
-	if (!self.trustcard) {
-		self.trustcard = [[TRSTrustcard alloc] init];
+	if (!self.trustcard) { // init the VC displaying the card. it will figure everything out
+		self.trustcard = [[TRSTrustcard alloc] initWithNibName:@"Trustcard" bundle:TRSTrustbadgeBundle()];
 	}
-	
+	// tell it to display the data (the trustbadge is a weak property, so we're fine)
 	[self.trustcard showInLightboxForTrustbadge:self];
 }
 
