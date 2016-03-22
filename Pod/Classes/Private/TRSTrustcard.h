@@ -15,5 +15,6 @@
 @property (nonatomic, copy) NSString *remoteCertLocationFolder;
 
 - (void)showInLightboxForTrustbadge:(TRSTrustbadge *)trustbadge;
+- (IBAction)buttonTapped:(id)sender;
 
 @end

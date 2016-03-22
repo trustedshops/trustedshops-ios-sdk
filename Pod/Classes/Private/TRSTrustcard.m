@@ -25,17 +25,16 @@ static NSString * const TRSCertHTMLName = @"trustinfos";
 // TODO: switch to the newer WKWebView class, but beware of Interface Builder when doing so
 
 @property (weak, nonatomic) TRSTrustbadge *displayedTrustbadge;
+// this is weak to avoid a retain cycle (it's our owner), used for temporary stuff
 
 @end
 
 @implementation TRSTrustcard
 
-- (void)viewDidLoad {
-	[super viewDidLoad];
-	// this request should allow us caching
+- (void)viewDidAppear:(BOOL)animated {
+	[super viewDidAppear:animated];
 	NSURL *cardURL;
 	if (self.remoteCertLocationFolder) {
-		// TODO: do the remote loading here
 		cardURL = [[[NSURL URLWithString:self.remoteCertLocationFolder]
 					URLByAppendingPathComponent:TRSCertHTMLName] URLByAppendingPathExtension:@"html"];
 	}
@@ -48,6 +47,7 @@ static NSString * const TRSCertHTMLName = @"trustinfos";
 																  cachePolicy:NSURLRequestUseProtocolCachePolicy
 															  timeoutInterval:10.0];
 	[self.webView loadRequest:myrequest];
+	// TODO: ensure the caching works as expected, even for app-restart etc.
 }
 
 - (IBAction)buttonTapped:(id)sender {
@@ -55,7 +55,8 @@ static NSString * const TRSCertHTMLName = @"trustinfos";
 		NSURL *targetURL = [NSURL profileURLForShop:self.displayedTrustbadge.shop];
 		[[UIApplication sharedApplication] openURL:targetURL];
 	}
-	[self dismissViewControllerAnimated:YES completion:nil];
+	// this does nothing unless the view is modally presented (otherwise presenting VC is nil)
+	[self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)showInLightboxForTrustbadge:(TRSTrustbadge *)trustbadge {	
@@ -66,7 +67,9 @@ static NSString * const TRSCertHTMLName = @"trustinfos";
 	self.modalPresentationStyle = UIModalPresentationPageSheet;
 	UIViewController *rootVC = mainWindow.rootViewController;
 	// TODO: check what happens if there is no root VC. work that out
-	[rootVC presentViewController:self animated:YES completion:nil];
+	[rootVC presentViewController:self animated:YES completion:^{
+		self.displayedTrustbadge = nil; // not necessary, but we wanna be nice & cleaned up
+	}];
 }
 
 #pragma mark Font helper methods
