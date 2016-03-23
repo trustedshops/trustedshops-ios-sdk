@@ -23,5 +23,6 @@
 - (void)showTrustcard;
 
 @property (nonatomic, strong) TRSShop *shop;
+@property (nonatomic, weak) UIColor *customColor;
 
 @end

@@ -75,6 +75,14 @@
  */
 - (void)loadTrustbadgeWithFailureBlock:(void (^)(NSError *error))failure;
 
+/**
+ *	Defines a custom color for the trustcard look.
+ *	@discussion This property defines a custom color that is used on the trustcard (which appears when the user taps
+ *				the the @c TRSTrustbadgeView). This color is used for the buttons at the card's bottom and
+ *				for the checkmark, lock and discussion symbols. The default color to use is #F37000
+ */
+@property (nonatomic, strong) UIColor *customColor;
+
 /** The TrustedShopsID. Set this before calling @c loadTrustbadgeWithSuccessBlock:failureBlock:
  *		or @c loadTrustbadgeWithFailureBlock:
  */

@@ -19,4 +19,13 @@
     return [UIColor trs_ananas];
 }
 
+- (NSString *)hexString {
+	CGFloat red, green, blue, alpha;
+	
+	[self getRed:&red green:&green blue:&blue alpha:&alpha];
+	
+	return [NSString stringWithFormat:@"%02x%02x%02x",
+			(NSInteger)(255.0 * red), (NSInteger)(255.0 * green), (NSInteger)(255.0 * blue)];
+}
+
 @end

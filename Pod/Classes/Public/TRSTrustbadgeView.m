@@ -84,6 +84,9 @@
 	[self.offlineMarker setHidden:YES];
 	[self addSubview:self.offlineMarker];
 	
+	// set the default color:
+	_customColor = [UIColor colorWithRed:(243.0 / 255.0) green:(112.0 / 255.0) blue:(0.0 / 255.0) alpha:1.0];
+	
 	// next save our id and token. this will also determine if we show an "offline" label or something over the seal
 	_trustedShopsID = [trustedShopsID copy];
 	_apiToken = [apiToken copy];
@@ -101,6 +104,7 @@
 		[self displaySealAsOffline:NO afterDelay:0.0];
 		
 		self.trustbadge = theTrustbadge;
+		self.trustbadge.customColor = _customColor;
 		
 		if (success) { // don't these lines look kinda sick? shifting brackets... :)
 			success();
@@ -185,6 +189,15 @@
 - (void)touchesCancelled:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
 	if (![self.offlineMarker isHidden]) {
 		[super touchesBegan:touches withEvent:event];
+	}
+}
+
+#pragma mark - Special setter for the custom Color
+
+- (void)setCustomColor:(UIColor *)customColor {
+	_customColor = customColor;
+	if (self.trustbadge) { // if the trustbadge is already loaded, set it's custom color to ours.
+		self.trustbadge.customColor = _customColor;
 	}
 }
 

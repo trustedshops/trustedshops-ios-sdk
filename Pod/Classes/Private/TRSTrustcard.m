@@ -8,11 +8,13 @@
 
 static NSString * const TRSCertLocalFallback = @"trustcardfallback";
 static NSString * const TRSCertHTMLName = @"trustinfos";
+// http://shared.taxi-rechner.de/ts-sdk/trustinfos.php?color_highlights=36CB76
 
 #import "TRSTrustcard.h"
 #import "TRSTrustbadge.h"
 #import "TRSTrustbadgeSDKPrivate.h"
 #import "NSURL+TRSURLExtensions.h"
+#import "UIColor+TRSColors.h"
 @import CoreText;
 //@import WebKit;
 
@@ -35,10 +37,15 @@ static NSString * const TRSCertHTMLName = @"trustinfos";
 	[super viewDidAppear:animated];
 	NSURL *cardURL;
 	if (self.remoteCertLocationFolder) {
-		cardURL = [[[NSURL URLWithString:self.remoteCertLocationFolder]
-					URLByAppendingPathComponent:TRSCertHTMLName] URLByAppendingPathExtension:@"html"];
+		NSString *colorString = @"";
+		if (self.themeColor) {
+			colorString = [[self.themeColor hexString] capitalizedString];
+		}
+		NSString *urlString = [NSString stringWithFormat:@"%@/%@.php?color_highlights=%@",
+							   self.remoteCertLocationFolder, TRSCertHTMLName, colorString];
+		cardURL = [NSURL URLWithString:urlString];
 	}
-	if (!cardURL) {
+	if (!cardURL) { // fallback, color is ignored here for now...
 		cardURL = [TRSTrustbadgeBundle() URLForResource:TRSCertHTMLName
 										  withExtension:@"html"
 										   subdirectory:TRSCertLocalFallback];
@@ -48,6 +55,12 @@ static NSString * const TRSCertHTMLName = @"trustinfos";
 															  timeoutInterval:10.0];
 	[self.webView loadRequest:myrequest];
 	// TODO: ensure the caching works as expected, even for app-restart etc.
+	
+	// set the color of the buttons
+	if (self.themeColor) {
+		self.certButton.titleLabel.textColor = self.themeColor;
+		self.okButton.titleLabel.textColor = self.themeColor;
+	}
 }
 
 - (IBAction)buttonTapped:(id)sender {
