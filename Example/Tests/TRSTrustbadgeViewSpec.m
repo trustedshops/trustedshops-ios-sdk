@@ -1,5 +1,7 @@
 #import "TRSTrustbadgeView.h"
 #import "TRSNetworkAgent+Trustbadge.h"
+#import "NSURL+TRSURLExtensions.h"
+#import "TRSErrors.h"
 #import <OCMock/OCMock.h>
 #import <OHHTTPStubs/OHHTTPStubs.h>
 #import <Specta/Specta.h>
@@ -21,20 +23,50 @@ describe(@"TRSTrustbadgeView", ^{
         agent = nil;
         networkMock = nil;
     });
-
-    describe(@"-initWithTrustedShopsID:", ^{
+	
+    describe(@"-initWithTrustedShopsID:apiToken", ^{
+		
+		sharedExamplesFor(@"an initialized TRSTrustbadgeView", ^(NSDictionary *data) {
+			it(@"returns a `TRSTrustbadgeView` object", ^{
+				expect(data[@"trustbadgeView"]).to.beKindOf([TRSTrustbadgeView class]);
+			});
+			it(@"has a default color", ^{
+				expect([data[@"trustbadgeView"] customColor]).toNot.beNil;
+			});
+		});
+		
+		sharedExamplesFor(@"a failing load", ^(NSDictionary *data) {
+			
+			it(@"executes the failure block", ^{
+				waitUntil(^(DoneCallback done) {
+					[data[@"trustbadgeView"] loadTrustbadgeWithSuccessBlock:nil
+															   failureBlock:^(NSError *error) {
+																   done();
+															   }];
+				});
+			});
+			
+			it(@"passes a custom trustbadge error domain", ^{
+				waitUntil(^(DoneCallback done) {
+					[data[@"trustbadgeView"] loadTrustbadgeWithSuccessBlock:nil
+															   failureBlock:^(NSError *error) {
+																   expect(error.domain).to.equal(TRSErrorDomain);
+																   done();
+															   }];
+				});
+			});
+		});
 
         context(@"with a valid Trusted Shops ID", ^{
 
-            __block TRSTrustbadgeView *view;
+			__block TRSTrustbadgeView *view;
             beforeEach(^{
                 NSString *trustedShopsID = @"999888777666555444333222111000999";
 				NSString *thisIsAFakeToken = @"24124nw2rwoedsfweslefq2121wsdaaf326480349nsdlk7883nw123nvsle5d3";
 
                 [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
-                    NSString *URLString = [NSString stringWithFormat:@"http://localhost/rest/internal/v2/shops/%@/trustmarks.json", trustedShopsID];
-                    BOOL shouldStubRequest = [request.URL.absoluteString isEqualToString:URLString];
-                    return shouldStubRequest;
+					NSURL *usedInAgent = [NSURL trustMarkAPIURLForTSID:trustedShopsID andAPIEndPoint:TRSAPIEndPoint];
+					return [request.URL isEqual:usedInAgent];
                 } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
                     NSBundle *bundle = [NSBundle bundleForClass:[self class]];
                     NSString *path = [bundle pathForResource:@"trustbadge" ofType:@"data"];
@@ -51,15 +83,30 @@ describe(@"TRSTrustbadgeView", ^{
                 [OHHTTPStubs removeAllStubs];
                 view = nil;
             });
-
-            it(@"returns a `TRSTrustbadgeView` object", ^{
-                expect(view).to.beKindOf([TRSTrustbadgeView class]);
-            });
-
+			
             it(@"returns the same ID", ^{
                 expect(view.trustedShopsID).to.equal(@"999888777666555444333222111000999");
             });
-
+			
+			it(@"returns the same api token", ^{
+				expect(view.apiToken).to.equal(@"24124nw2rwoedsfweslefq2121wsdaaf326480349nsdlk7883nw123nvsle5d3");
+			});
+			
+			itShouldBehaveLike(@"an initialized TRSTrustbadgeView", ^{
+				return @{@"trustbadgeView" : view};
+			});
+			
+			describe(@"-loadTrustbadgeWithSuccessBlock:failureBlock:", ^{
+				
+				it(@"executes the success block", ^{
+					waitUntil(^(DoneCallback done) {
+						[view loadTrustbadgeWithSuccessBlock:^{
+							done();
+						}
+												failureBlock:nil];
+					});
+				});
+			});
         });
 
         context(@"with a nil-object", ^{
@@ -73,8 +120,8 @@ describe(@"TRSTrustbadgeView", ^{
                 view = nil;
             });
 			
-			it(@"returns a `TRSTrustbadgeView` object", ^{
-				expect(view).to.beKindOf([TRSTrustbadgeView class]);
+			itShouldBehaveLike(@"an initialized TRSTrustbadgeView", ^{
+				return @{@"trustbadgeView" : view};
 			});
 
 			it(@"returns nil as the ID", ^{
@@ -85,13 +132,191 @@ describe(@"TRSTrustbadgeView", ^{
 				expect(view.apiToken).to.beNil();
 			});
 
+			describe(@"-loadTrustbadgeWithSuccessBlock:failureBlock:", ^{
+				
+				itShouldBehaveLike(@"a failing load", ^{
+					return @{@"trustbadgeView" : view};
+				});
+				
+				it(@"returns a TRSErrorDomainTrustbadgeMissingTSIDOrAPIToken error code", ^{
+					waitUntil(^(DoneCallback done) {
+						[view loadTrustbadgeWithSuccessBlock:nil
+												failureBlock:^(NSError *error) {
+													expect(error.code).to.equal(TRSErrorDomainTrustbadgeMissingTSIDOrAPIToken);
+													done();
+												}];
+					});
+				});
+			});
         });
 
         context(@"with an unknown Trusted Shops ID", ^{
-        });
+			
+			__block TRSTrustbadgeView *view;
+			beforeEach(^{
+				NSString *trustedShopsID = @"000111222333444555666777888999111";
+				NSString *thisIsAFakeToken = @"24124nw2rwoedsfweslefq2121wsdaaf326480349nsdlk7883nw123nvsle5d3";
+				
+				NSString *file = OHPathForFileInBundle(@"trustbadge-notfound.response", [NSBundle bundleForClass:[self class]]);
+				NSData *messageData = [NSData dataWithContentsOfFile:file];
+				OHHTTPStubsResponse *response = [OHHTTPStubsResponse responseWithHTTPMessageData:messageData];
+				
+				[OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+					NSURL *usedInAgent = [NSURL trustMarkAPIURLForTSID:trustedShopsID andAPIEndPoint:TRSAPIEndPoint];
+					return [request.URL isEqual:usedInAgent];
+				} withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
+					return response;
+				}];
+				
+				view = [[TRSTrustbadgeView alloc] initWithTrustedShopsID:trustedShopsID apiToken:thisIsAFakeToken];
+			});
+			
+			afterEach(^{
+				[OHHTTPStubs removeAllStubs];
+				view = nil;
+			});
+			
+			itShouldBehaveLike(@"an initialized TRSTrustbadgeView", ^{
+				return @{@"trustbadgeView" : view};
+			});
+			
+			it(@"returns the same ID", ^{
+				expect(view.trustedShopsID).to.equal(@"000111222333444555666777888999111");
+			});
+			
+			it(@"returns the same api token", ^{
+				expect(view.apiToken).to.equal(@"24124nw2rwoedsfweslefq2121wsdaaf326480349nsdlk7883nw123nvsle5d3");
+			});
+
+			describe(@"-loadTrustbadgeWithSuccessBlock:failureBlock:", ^{
+				
+				itShouldBehaveLike(@"a failing load", ^{
+					return @{@"trustbadgeView" : view};
+				});
+				
+				it(@"returns a TRSErrorDomainTrustbadgeTSIDNotFound error code", ^{
+					waitUntil(^(DoneCallback done) {
+						[view loadTrustbadgeWithSuccessBlock:nil
+												failureBlock:^(NSError *error) {
+													expect(error.code).to.equal(TRSErrorDomainTrustbadgeTSIDNotFound);
+													done();
+												}];
+					});
+				});
+			});
+			
+       });
 
         context(@"with an invalid Trusted Shops ID", ^{
-        });
+			
+			__block TRSTrustbadgeView *view;
+			beforeEach(^{
+				NSString *trustedShopsID = @"123123123";
+				NSString *thisIsAFakeToken = @"24124nw2rwoedsfweslefq2121wsdaaf326480349nsdlk7883nw123nvsle5d3";
+				
+				NSString *file = OHPathForFileInBundle(@"trustbadge-badrequest.response", [NSBundle bundleForClass:[self class]]);
+				NSData *messageData = [NSData dataWithContentsOfFile:file];
+				OHHTTPStubsResponse *response = [OHHTTPStubsResponse responseWithHTTPMessageData:messageData];
+
+				[OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+					NSURL *usedInAgent = [NSURL trustMarkAPIURLForTSID:trustedShopsID andAPIEndPoint:TRSAPIEndPoint];
+					return [request.URL isEqual:usedInAgent];
+				} withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
+					return response;
+				}];
+				
+				view = [[TRSTrustbadgeView alloc] initWithTrustedShopsID:trustedShopsID apiToken:thisIsAFakeToken];
+			});
+			
+			afterEach(^{
+				[OHHTTPStubs removeAllStubs];
+				view = nil;
+			});
+			
+			itShouldBehaveLike(@"an initialized TRSTrustbadgeView", ^{
+				return @{@"trustbadgeView" : view};
+			});
+			
+			it(@"returns the same ID", ^{
+				expect(view.trustedShopsID).to.equal(@"123123123");
+			});
+			
+			it(@"returns the same api token", ^{
+				expect(view.apiToken).to.equal(@"24124nw2rwoedsfweslefq2121wsdaaf326480349nsdlk7883nw123nvsle5d3");
+			});
+			
+			describe(@"-loadTrustbadgeWithSuccessBlock:failureBlock:", ^{
+				
+				itShouldBehaveLike(@"a failing load", ^{
+					return @{@"trustbadgeView" : view};
+				});
+				
+				it(@"returns a TRSErrorDomainTrustbadgeInvalidTSID error code", ^{
+					waitUntil(^(DoneCallback done) {
+						[view loadTrustbadgeWithSuccessBlock:nil
+												failureBlock:^(NSError *error) {
+													expect(error.code).to.equal(TRSErrorDomainTrustbadgeInvalidTSID);
+													done();
+												}];
+					});
+				});
+			});
+		});
+		
+		context(@"with an invalid apiToken", ^{
+			__block TRSTrustbadgeView *view;
+			beforeEach(^{
+				NSString *trustedShopsID = @"999888777666555444333222111000999";
+				NSString *thisIsAFakeToken = @"badToken";
+				
+				NSString *file = OHPathForFileInBundle(@"trustbadge-badtoken.response", [NSBundle bundleForClass:[self class]]);
+				NSData *messageData = [NSData dataWithContentsOfFile:file];
+				OHHTTPStubsResponse *response = [OHHTTPStubsResponse responseWithHTTPMessageData:messageData];
+
+				[OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+					NSURL *usedInAgent = [NSURL trustMarkAPIURLForTSID:trustedShopsID andAPIEndPoint:TRSAPIEndPoint];
+					return [request.URL isEqual:usedInAgent];
+				} withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
+					return response;
+				}];
+				
+				view = [[TRSTrustbadgeView alloc] initWithTrustedShopsID:trustedShopsID apiToken:thisIsAFakeToken];
+			});
+			
+			afterEach(^{
+				[OHHTTPStubs removeAllStubs];
+				view = nil;
+			});
+			
+			itShouldBehaveLike(@"an initialized TRSTrustbadgeView", ^{
+				return @{@"trustbadgeView" : view};
+			});
+			
+			it(@"returns the same ID", ^{
+				expect(view.trustedShopsID).to.equal(@"999888777666555444333222111000999");
+			});
+			
+			it(@"returns the same api token", ^{
+				expect(view.apiToken).to.equal(@"badToken");
+			});
+			
+			describe(@"-loadTrustbadgeWithSuccessBlock:failureBlock:", ^{
+				
+				itShouldBehaveLike(@"a failing load", ^{
+					return @{@"trustbadgeView" : view};
+				});
+				
+				it(@"returns a TRSErrorDomainTrustbadgeInvalidAPIToken error code", ^{
+					waitUntil(^(DoneCallback done) {
+						[view loadTrustbadgeWithSuccessBlock:nil
+												failureBlock:^(NSError *error) {
+													expect(error.code).to.equal(TRSErrorDomainTrustbadgeInvalidAPIToken);
+													done();
+												}];
+					});
+				});
+			});
+		});
 
     });
 

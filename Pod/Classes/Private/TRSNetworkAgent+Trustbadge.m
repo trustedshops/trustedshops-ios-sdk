@@ -58,6 +58,12 @@ NSString * const TRSAPIEndPoint = @"api-qa.trustedshops.com";
 												userInfo:nil];
 					} break;
 						
+					case 401: {
+						error = [NSError errorWithDomain:TRSErrorDomain
+													code:TRSErrorDomainTrustbadgeInvalidAPIToken
+												userInfo:nil];
+					} break;
+						
 					case 404: {
 						error = [NSError errorWithDomain:TRSErrorDomain
 													code:TRSErrorDomainTrustbadgeTSIDNotFound

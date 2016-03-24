@@ -1,0 +1,9 @@
+HTTP/1.1 401 Unauthorized
+Date: Thu, 23 Mar 2016 13:53:16 GMT
+Server: Apache
+Access-Control-Allow-Origin: *
+Connection: close
+Transfer-Encoding: identity
+Content-Type: application/json
+
+{"response":{"code":401,"message":"UNAUTHORIZED","responseInfo":{"apiVersion":"2.4.5"},"status":"ERROR"}}

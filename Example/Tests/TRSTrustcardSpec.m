@@ -59,13 +59,7 @@ describe(@"TRSTrustcard", ^{
 			OCMVerifyAll(cardMock);
 		});
 		
-		// this test fails atm, needs rework (method is called asynchronously)
-//		it(@"calls viewDidAppear:", ^{
-//			id cardMock = OCMPartialMock(testCard);
-//			OCMExpect([cardMock viewDidAppear:YES]);
-//			[testCard showInLightboxForTrustbadge:testBadge];
-//			OCMVerifyAll(cardMock);
-//		});
+		// note: for now I don't test for viewDidAppear:, because it is called asynchronously and that's a pain
 	});
 	
 	describe(@"-buttonTapped:", ^{

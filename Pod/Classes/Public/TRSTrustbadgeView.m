@@ -38,7 +38,7 @@
 }
 
 - (instancetype)initWithTrustedShopsID:(NSString *)trustedShopsID {
-	return [self initWithFrame:CGRectMake(0.0f, 0.0f, 64.0f, 64.0f) TrustedShopsID:nil apiToken:nil];
+	return [self initWithFrame:CGRectMake(0.0f, 0.0f, 64.0f, 64.0f) TrustedShopsID:trustedShopsID apiToken:nil];
 }
 
 - (instancetype)initWithTrustedShopsID:(NSString *)trustedShopsID apiToken:(NSString *)apiToken {
