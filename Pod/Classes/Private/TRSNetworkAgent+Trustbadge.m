@@ -3,7 +3,7 @@
 #import "NSURL+TRSURLExtensions.h"
 #import <Trustbadge/Trustbadge.h>
 
-NSString * const TRSAPIEndPoint = @"api-qa.trustedshops.com";
+NSString * const TRSAPIEndPoint = @"cdn1.api.trustedshops.com";
 
 
 @implementation TRSNetworkAgent (Trustbadge)

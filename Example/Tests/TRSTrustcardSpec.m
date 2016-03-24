@@ -59,7 +59,7 @@ describe(@"TRSTrustcard", ^{
 			OCMVerifyAll(cardMock);
 		});
 		
-		// note: for now I don't test for viewDidAppear:, because it is called asynchronously and that's a pain
+		// note: for now I don't test for viewWillAppear:, because it is called asynchronously and that's a pain
 	});
 	
 	describe(@"-buttonTapped:", ^{

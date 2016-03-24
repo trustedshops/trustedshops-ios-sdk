@@ -41,7 +41,7 @@
 
 + (NSURL *)trustMarkAPIURLForTSID:(NSString *)tsID andAPIEndPoint:(NSString *)apiEndPoint {
 	return [NSURL URLWithString:
-			[NSString stringWithFormat:@"https://%@/rest/internal/v2/shops/%@/trustmarks.json", apiEndPoint, tsID]];
+			[NSString stringWithFormat:@"https://%@/shops/%@/mobiles/v1/sdks/trustmarks.json", apiEndPoint, tsID]];
 }
 
 @end

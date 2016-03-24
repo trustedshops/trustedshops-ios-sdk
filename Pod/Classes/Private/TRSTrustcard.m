@@ -33,8 +33,8 @@ static NSString * const TRSCertHTMLName = @"trustinfos";
 
 @implementation TRSTrustcard
 
-- (void)viewDidAppear:(BOOL)animated {
-	[super viewDidAppear:animated];
+- (void)viewWillAppear:(BOOL)animated {
+	[super viewWillAppear:animated];
 	NSURL *cardURL;
 	if (self.remoteCertLocationFolder) {
 		NSString *colorString = @"";
@@ -55,11 +55,11 @@ static NSString * const TRSCertHTMLName = @"trustinfos";
 															  timeoutInterval:10.0];
 	[self.webView loadRequest:myrequest];
 	// TODO: ensure the caching works as expected, even for app-restart etc.
-	
+
 	// set the color of the buttons
 	if (self.themeColor) {
-		self.certButton.titleLabel.textColor = self.themeColor;
-		self.okButton.titleLabel.textColor = self.themeColor;
+		[self.okButton setTitleColor:self.themeColor forState:UIControlStateNormal];
+		[self.certButton setTitleColor:self.themeColor forState:UIControlStateNormal];
 	}
 }
 
@@ -69,7 +69,9 @@ static NSString * const TRSCertHTMLName = @"trustinfos";
 		[[UIApplication sharedApplication] openURL:targetURL];
 	}
 	// this does nothing unless the view is modally presented (otherwise presenting VC is nil)
-	[self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+	[self.presentingViewController dismissViewControllerAnimated:YES completion:^{
+		self.displayedTrustbadge = nil; // not necessary, but we wanna be nice & cleaned up
+	}];
 }
 
 - (void)showInLightboxForTrustbadge:(TRSTrustbadge *)trustbadge {	
@@ -80,9 +82,7 @@ static NSString * const TRSCertHTMLName = @"trustinfos";
 	self.modalPresentationStyle = UIModalPresentationPageSheet;
 	UIViewController *rootVC = mainWindow.rootViewController;
 	// TODO: check what happens if there is no root VC. work that out
-	[rootVC presentViewController:self animated:YES completion:^{
-		self.displayedTrustbadge = nil; // not necessary, but we wanna be nice & cleaned up
-	}];
+	[rootVC presentViewController:self animated:YES completion:nil];
 }
 
 #pragma mark Font helper methods
