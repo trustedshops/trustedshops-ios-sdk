@@ -8,8 +8,8 @@
 
 Integrate your Trustbadge within your shopping app. Show the Trusted Shops trustmark together with your seller rating and stars to new and existing customers when they use your app.
 
-![](https://github.com/trustedshops/trustbadge_iOS/blob/master/Screenshots/trustbadge_sdk-portrait.png)
-![](https://github.com/trustedshops/trustbadge_iOS/blob/master/Screenshots/trustbadge_sdk-landscape.png)
+![](https://github.com/trustedshops/trustbadge_iOS/blob/master/Screenshots/iPhone-example_portrait.png)
+![](https://github.com/trustedshops/trustbadge_iOS/blob/master/Screenshots/iPad-example_landscape.png)
 
 ## Usage
 
@@ -35,10 +35,22 @@ pod "Trustbadge", "~> 0.1.0"
 2. Initialize the view with your Trusted Shops ID
 
 	```objc
-	[[TRSTrustbadgeView alloc] initWithTrustedShopsID:@"YOUR-TRUSTED-SHOPS-ID"];
+	TRSTrustbadgeView *myTrustbadgeView = [[TRSTrustbadgeView alloc] initWithTrustedShopsID:@"YOUR-TRUSTED-SHOPS-ID" apiToken:@"THIS-IS-NOT-NEEDED-ATM"];
 	```
 
-3. There is no step 3
+3. Load the trustbadge data from our backend to properly display the view.
+
+	```objc
+	[myTrustbadgeView loadTrustbadgeWithFailureBlock:nil];
+	```
+	or
+	```objc
+	[myTrustbadgeView loadTrustbadgeWithSuccessBlock:nil failureBlock:nil];
+	```
+
+You may provide a blocks that are called on success and/or failure (the failure block expects an `NSError` parameter).
+You can also specify a `UIColor` to customize the appearance of the trustcard that is displayed when the user taps on the trustbadge.
+The trustbadge also has a debug property that sets it to load data from the Trusted Shops development API instead of our production API.
 
 ## Documentation
 

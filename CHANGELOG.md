@@ -1,5 +1,16 @@
 # Trustbadge
 
+## Version 0.2.0-beta
+
+* Completely reworked the trustbadge to mimic the trustbadge behaviour (simple view, tap opens trustcard)
+* Changed API
+* Star view and ratig view are not in use at the moment
+* Included model classes for shop and trustmark
+* Reworked URL handling, added needed stuff for the new concept
+* Refactored tests to accomodate for new concept
+* Implemented way to handle possible client-token for API
+* Updated documentation in header files
+
 ## Version 0.1.0
 
 * Use fixed decimal separator
