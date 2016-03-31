@@ -152,18 +152,6 @@ describe(@"TRSNetworkAgent", ^{
                 });
             });
 
-            it(@"passes no data object", ^{
-                waitUntil(^(DoneCallback done) {
-                    [agent GET:[NSURL URLWithString:@"foo/bar/baz"]
-					 authToken:@"authToken"
-                       success:nil
-                       failure:^(NSData *data, NSHTTPURLResponse *response, NSError *error) {
-                           expect(data).to.beNil();
-                           done();
-                       }];
-                });
-            });
-
             it(@"passes an error object with a 'NSURLErrorDomain' error domain", ^{
                 waitUntil(^(DoneCallback done) {
                     [agent GET:[NSURL URLWithString:@"foo/bar/baz"]
