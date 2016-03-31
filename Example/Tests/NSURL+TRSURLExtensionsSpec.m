@@ -25,7 +25,7 @@ describe(@"NSURL+TRSURLExtensions", ^{
 		NSDictionary *shopData = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
 		testShop = [[TRSShop alloc] initWithDictionary:shopData[@"response"][@"data"][@"shop"]];
 		profileURL = [NSURL profileURLForShop:testShop];
-		trustMarkURL = [NSURL trustMarkAPIURLForTSID:testShop.tsId andAPIEndPoint:TRSAPIEndPoint];
+		trustMarkURL = [NSURL trustMarkAPIURLForTSID:testShop.tsId debug:YES];
 	});
 	
 	afterAll(^{
@@ -58,12 +58,12 @@ describe(@"NSURL+TRSURLExtensions", ^{
 	describe(@"+trustMarkAPIURLForTSID:andAPIEndPoint:", ^{
 		
 		it(@"returns an NSURL", ^{
-			expect([NSURL trustMarkAPIURLForTSID:testShop.tsId andAPIEndPoint:TRSAPIEndPoint]).to.beKindOf([NSURL class]);
+			expect([NSURL trustMarkAPIURLForTSID:testShop.tsId debug:YES]).to.beKindOf([NSURL class]);
 		});
 		
 		it(@"has the correct prefix", ^{
 			NSString *urlString = [trustMarkURL absoluteString];
-			expect([urlString hasPrefix:[NSString stringWithFormat:@"https://%@", TRSAPIEndPoint]]).to.equal(YES);
+			expect([urlString hasPrefix:[NSString stringWithFormat:@"https://%@", TRSAPIEndPointDebug]]).to.equal(YES);
 		});
 		
 		it(@"contains the shop's TSID", ^{

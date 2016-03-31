@@ -42,9 +42,6 @@
 	
 	self.trustcard.themeColor = self.customColor;
 	
-	// Test: This path won't be the final one. Note we only supply the folder where the trustinfos.html file is located
-	self.trustcard.remoteCertLocationFolder = @"http://shared.taxi-rechner.de/ts-sdk"; // allow an exception for this...
-	
 	// tell it to display the data (the trustbadge is a weak property, so we're fine)
 	[self.trustcard showInLightboxForTrustbadge:self];
 }

@@ -93,5 +93,10 @@
  */
 @property (nonatomic, copy, readonly) NSString *apiToken;
 
+/**	A debug flag. Set this to true to only load data from the Trusted Shops test API URLs. Defaults to NO.
+ *		Set this before calling @c loadTrustbadgeWithSuccessBlock:failureBlock: or @c loadTrustbadgeWithFailureBlock:
+ */
+@property (nonatomic, assign) BOOL debugMode;
+
 // TODO: add a logging property & logging functionality like on Android. Also add Icon color
 @end

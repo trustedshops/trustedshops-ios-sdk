@@ -38,11 +38,11 @@
 }
 
 - (instancetype)initWithTrustedShopsID:(NSString *)trustedShopsID {
-	return [self initWithFrame:CGRectMake(0.0f, 0.0f, 64.0f, 64.0f) TrustedShopsID:trustedShopsID apiToken:nil];
+	return [self initWithFrame:CGRectMake(0.0, 0.0, 64.0, 64.0) TrustedShopsID:trustedShopsID apiToken:nil];
 }
 
 - (instancetype)initWithTrustedShopsID:(NSString *)trustedShopsID apiToken:(NSString *)apiToken {
-	return [self initWithFrame:CGRectMake(0.0f, 0.0f, 64.0f, 64.0f) TrustedShopsID:trustedShopsID apiToken:apiToken];
+	return [self initWithFrame:CGRectMake(0.0, 0.0, 64.0, 64.0) TrustedShopsID:trustedShopsID apiToken:apiToken];
 }
 
 // properly overwrite the designated initializers of the superclass
@@ -53,7 +53,7 @@
 
 - (instancetype)init
 {
-	return [self initWithFrame:CGRectMake(0.0f, 0.0f, 64.0f, 64.0f)];
+	return [self initWithFrame:CGRectMake(0.0, 0.0, 64.0, 64.0)];
 }
 
 - (instancetype)initWithCoder:(NSCoder *)aDecoder {
@@ -192,12 +192,22 @@
 	}
 }
 
-#pragma mark - Special setter for the custom Color
+#pragma mark - Special setter for the custom Color & debug mode
 
 - (void)setCustomColor:(UIColor *)customColor {
+	if (_customColor == customColor) { // save some nanoseconds...
+		return;
+	}
 	_customColor = customColor;
 	if (self.trustbadge) { // if the trustbadge is already loaded, set it's custom color to ours.
 		self.trustbadge.customColor = _customColor;
+	}
+}
+
+- (void)setDebugMode:(BOOL)debugMode {
+	if (_debugMode != debugMode) {
+		_debugMode = debugMode;
+		[[TRSNetworkAgent sharedAgent] setDebugMode:_debugMode];
 	}
 }
 
@@ -220,12 +230,14 @@
 		if (wasDelayed && !self.hasSealStateChangePending) {
 			return;
 		}
-		if (off) {
-			[self.sealImageView setAlpha:0.3f];
-			[self.offlineMarker setHidden:NO];
+		if (off) { // the old idea was to fade it and display "OFFLINE", but we will completely hide it instead now
+//			[self.sealImageView setAlpha:0.3];
+//			[self.offlineMarker setHidden:NO];
+			self.hidden = YES;
 		} else {
-			[self.sealImageView setAlpha:1.0f];
-			[self.offlineMarker setHidden:YES];
+//			[self.sealImageView setAlpha:1.0];
+//			[self.offlineMarker setHidden:YES];
+			self.hidden = NO;
 		}
 		[self setNeedsDisplay];
 	};

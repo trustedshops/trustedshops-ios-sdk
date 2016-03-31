@@ -40,10 +40,6 @@ describe(@"TRSTrustcard", ^{
 			expect(testCard).to.beKindOf([TRSTrustcard class]);
 		});
 		
-		it(@"has a remoteCerLocationFolder property that's nil", ^{
-			expect(testCard.remoteCertLocationFolder).toNot.beNil;
-		});
-		
 	});
 	
 	describe(@"-showInLightboxForTrustbadge:", ^{

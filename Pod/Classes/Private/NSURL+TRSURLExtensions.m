@@ -9,6 +9,11 @@
 #import "NSURL+TRSURLExtensions.h"
 #import "TRSShop.h"
 
+NSString * const TRSAPIEndPoint = @"cdn1.api.trustedshops.com";
+NSString * const TRSTrustcardTemplateURLString = @"https://www.trustedshops.com/trustbadge/trustbadgesdk/certificatedialog_%ll_%cccccc.html";
+NSString * const TRSAPIEndPointDebug = @"cdn1.api-qa.trustedshops.com";
+NSString * const TRSTrustcardTemplateURLStringDebug = @"https://qa.trustedshops.com/trustbadge/trustbadgesdk/certificatedialog_%ll_%cccccc.html";
+
 @implementation NSURL (TRSURLExtensions)
 
 + (NSDictionary *)urlList {
@@ -42,6 +47,28 @@
 + (NSURL *)trustMarkAPIURLForTSID:(NSString *)tsID andAPIEndPoint:(NSString *)apiEndPoint {
 	return [NSURL URLWithString:
 			[NSString stringWithFormat:@"https://%@/shops/%@/mobiles/v1/sdks/trustmarks.json", apiEndPoint, tsID]];
+}
+
++ (NSURL *)trustMarkAPIURLForTSID:(NSString *)tsID debug:(BOOL)debug {
+	if (debug) {
+		return [NSURL trustMarkAPIURLForTSID:tsID andAPIEndPoint:TRSAPIEndPointDebug];
+	} else {
+		return [NSURL trustMarkAPIURLForTSID:tsID andAPIEndPoint:TRSAPIEndPoint];
+	}
+}
+
++ (NSURL *)localizedTrustcardURLWithColorString:(NSString *)hexString debug:(BOOL)debug {
+	NSString *preferredLocalization = [[[NSBundle mainBundle] preferredLocalizations] firstObject];
+	NSDictionary *languageDic = [NSLocale componentsFromLocaleIdentifier:preferredLocalization];
+	NSString *langCode = [languageDic objectForKey:kCFLocaleLanguageCode];
+	// note: In the demo application this will always be simply @"en", because we don't have other (full) localizations.
+	
+	NSString *urlString;
+	urlString = debug ? TRSTrustcardTemplateURLStringDebug : TRSTrustcardTemplateURLString;
+	urlString = [urlString stringByReplacingOccurrencesOfString:@"%ll" withString:langCode];
+	urlString = [urlString stringByReplacingOccurrencesOfString:@"%cccccc" withString:hexString];
+	
+	return [NSURL URLWithString:urlString];
 }
 
 @end

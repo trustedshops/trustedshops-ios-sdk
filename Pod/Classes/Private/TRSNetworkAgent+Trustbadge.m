@@ -3,8 +3,6 @@
 #import "NSURL+TRSURLExtensions.h"
 #import <Trustbadge/Trustbadge.h>
 
-NSString * const TRSAPIEndPoint = @"cdn1.api.trustedshops.com";
-
 
 @implementation TRSNetworkAgent (Trustbadge)
 
@@ -82,11 +80,19 @@ NSString * const TRSAPIEndPoint = @"cdn1.api.trustedshops.com";
 		}
 	};
 	
-	return [self GET:[NSURL trustMarkAPIURLForTSID:trustedShopsID andAPIEndPoint:TRSAPIEndPoint]
+	return [self GET:[NSURL trustMarkAPIURLForTSID:trustedShopsID debug:self.debugMode]
 		   authToken:apiToken
 			 success:successBlock
 			 failure:failureBlock];
 
+}
+
+- (NSMutableURLRequest *)localizedURLRequestForTrustcardWithColorString:(NSString *)hexString {
+	NSURL *cardURL = [NSURL localizedTrustcardURLWithColorString:hexString
+														   debug:self.debugMode];
+	return [[NSMutableURLRequest alloc] initWithURL:cardURL
+										cachePolicy:NSURLRequestUseProtocolCachePolicy
+									timeoutInterval:10.0];
 }
 
 @end

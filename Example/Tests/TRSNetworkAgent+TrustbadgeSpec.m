@@ -14,6 +14,7 @@ describe(@"TRSNetworkAgent+Trustbadge", ^{
     __block TRSNetworkAgent *agent;
     beforeAll(^{
         agent = [[TRSNetworkAgent alloc] init];
+		agent.debugMode = YES; // note: we don't test (yet) for non debug. not necessary
     });
 
     afterAll(^{
@@ -55,7 +56,7 @@ describe(@"TRSNetworkAgent+Trustbadge", ^{
 
 		beforeEach(^{
 			[OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
-				NSURL *usedInAgent = [NSURL trustMarkAPIURLForTSID:@"123" andAPIEndPoint:TRSAPIEndPoint];
+				NSURL *usedInAgent = [NSURL trustMarkAPIURLForTSID:@"123" debug:YES];
 				return [request.URL isEqual:usedInAgent];
 			} withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
 				return [OHHTTPStubsResponse responseWithData:[[NSString stringWithFormat:@"success"] dataUsingEncoding:NSUTF8StringEncoding]
@@ -83,12 +84,12 @@ describe(@"TRSNetworkAgent+Trustbadge", ^{
 																							  apiToken:@"apiToken"
 																							   success:nil
 																							   failure:nil];
-            expect(task.originalRequest.URL).to.equal([NSURL trustMarkAPIURLForTSID:@"123" andAPIEndPoint:TRSAPIEndPoint]);
+            expect(task.originalRequest.URL).to.equal([NSURL trustMarkAPIURLForTSID:@"123" debug:YES]);
         });
 
         it(@"calls '-GET:success:failure'", ^{
             id agentMock = OCMPartialMock(agent);
-			OCMExpect([agentMock GET:[NSURL trustMarkAPIURLForTSID:@"123" andAPIEndPoint:TRSAPIEndPoint]
+			OCMExpect([agentMock GET:[NSURL trustMarkAPIURLForTSID:@"123" debug:YES]
 						   authToken:@"authToken"
 							 success:[OCMArg any]
 							 failure:[OCMArg any]]);
@@ -105,7 +106,7 @@ describe(@"TRSNetworkAgent+Trustbadge", ^{
 
             beforeEach(^{
                 [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
-                    return [request.URL isEqual:[NSURL trustMarkAPIURLForTSID:@"123" andAPIEndPoint:TRSAPIEndPoint]];
+                    return [request.URL isEqual:[NSURL trustMarkAPIURLForTSID:@"123" debug:YES]];
                 } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
                     NSBundle *bundle = [NSBundle bundleForClass:[self class]];
                     NSString *path = [bundle pathForResource:@"trustbadge" ofType:@"data"];
@@ -167,7 +168,7 @@ describe(@"TRSNetworkAgent+Trustbadge", ^{
                 OHHTTPStubsResponse *response = [OHHTTPStubsResponse responseWithHTTPMessageData:messageData];
 
                 [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
-                    return [request.URL isEqual:[NSURL trustMarkAPIURLForTSID:@"123123123" andAPIEndPoint:TRSAPIEndPoint]];
+                    return [request.URL isEqual:[NSURL trustMarkAPIURLForTSID:@"123123123" debug:YES]];
                 }
                                     withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
                                         return response;
@@ -210,7 +211,7 @@ describe(@"TRSNetworkAgent+Trustbadge", ^{
                 OHHTTPStubsResponse *response = [OHHTTPStubsResponse responseWithHTTPMessageData:messageData];
 
                 [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
-                    return [request.URL isEqual:[NSURL trustMarkAPIURLForTSID:@"000111222333444555666777888999111" andAPIEndPoint:TRSAPIEndPoint]];
+                    return [request.URL isEqual:[NSURL trustMarkAPIURLForTSID:@"000111222333444555666777888999111" debug:YES]];
                 }
                                     withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
                                         return response;
@@ -253,7 +254,7 @@ describe(@"TRSNetworkAgent+Trustbadge", ^{
                                                           headers:nil];
 
                 [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
-                    return [request.URL isEqual:[NSURL trustMarkAPIURLForTSID:@"000000000000000000000000000000000" andAPIEndPoint:TRSAPIEndPoint]];
+                    return [request.URL isEqual:[NSURL trustMarkAPIURLForTSID:@"000000000000000000000000000000000" debug:YES]];
                 }
                                     withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
                                         return response;
@@ -296,7 +297,7 @@ describe(@"TRSNetworkAgent+Trustbadge", ^{
                                                          headers:nil];
 
                 [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
-                    return [request.URL isEqual:[NSURL trustMarkAPIURLForTSID:@"111222333444555666777888999111222" andAPIEndPoint:TRSAPIEndPoint]];
+                    return [request.URL isEqual:[NSURL trustMarkAPIURLForTSID:@"111222333444555666777888999111222" debug:YES]];
                 } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
                     return response;
                 }];

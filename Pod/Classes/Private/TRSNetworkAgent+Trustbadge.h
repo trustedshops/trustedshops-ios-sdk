@@ -1,7 +1,5 @@
 #import "TRSNetworkAgent.h"
 
-FOUNDATION_EXPORT NSString * const TRSAPIEndPoint;
-
 @class TRSTrustbadge;
 
 /**
@@ -31,5 +29,7 @@ FOUNDATION_EXPORT NSString * const TRSAPIEndPoint;
 												apiToken:(NSString *)apiToken
 												 success:(void (^)(TRSTrustbadge *trustbadge))success
 												 failure:(void (^)(NSError *error))failure;
+
+- (NSMutableURLRequest *)localizedURLRequestForTrustcardWithColorString:(NSString *)hexString;
 
 @end

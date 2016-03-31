@@ -35,4 +35,10 @@
 					  success:(void (^)(NSData *data))success
 					  failure:(void (^)(NSData *data, NSHTTPURLResponse *response, NSError *error))failure;
 
+/**
+ *	A debug flag. Determines whether to load from the debug (QA) API or the production API.
+ *	Defaults to NO.
+ */
+@property (nonatomic, assign) BOOL debugMode;
+
 @end

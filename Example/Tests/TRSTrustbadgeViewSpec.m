@@ -15,6 +15,7 @@ describe(@"TRSTrustbadgeView", ^{
     __block id networkMock;
     beforeAll(^{
         agent = [[TRSNetworkAgent alloc] init];
+		agent.debugMode = YES;
         networkMock = OCMClassMock([TRSNetworkAgent class]);
         OCMStub([networkMock sharedAgent]).andReturn(agent);
     });
@@ -65,7 +66,7 @@ describe(@"TRSTrustbadgeView", ^{
 				NSString *thisIsAFakeToken = @"24124nw2rwoedsfweslefq2121wsdaaf326480349nsdlk7883nw123nvsle5d3";
 
                 [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
-					NSURL *usedInAgent = [NSURL trustMarkAPIURLForTSID:trustedShopsID andAPIEndPoint:TRSAPIEndPoint];
+					NSURL *usedInAgent = [NSURL trustMarkAPIURLForTSID:trustedShopsID debug:YES];
 					return [request.URL isEqual:usedInAgent];
                 } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
                     NSBundle *bundle = [NSBundle bundleForClass:[self class]];
@@ -162,7 +163,7 @@ describe(@"TRSTrustbadgeView", ^{
 				OHHTTPStubsResponse *response = [OHHTTPStubsResponse responseWithHTTPMessageData:messageData];
 				
 				[OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
-					NSURL *usedInAgent = [NSURL trustMarkAPIURLForTSID:trustedShopsID andAPIEndPoint:TRSAPIEndPoint];
+					NSURL *usedInAgent = [NSURL trustMarkAPIURLForTSID:trustedShopsID debug:YES];
 					return [request.URL isEqual:usedInAgent];
 				} withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
 					return response;
@@ -219,7 +220,7 @@ describe(@"TRSTrustbadgeView", ^{
 				OHHTTPStubsResponse *response = [OHHTTPStubsResponse responseWithHTTPMessageData:messageData];
 
 				[OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
-					NSURL *usedInAgent = [NSURL trustMarkAPIURLForTSID:trustedShopsID andAPIEndPoint:TRSAPIEndPoint];
+					NSURL *usedInAgent = [NSURL trustMarkAPIURLForTSID:trustedShopsID debug:YES];
 					return [request.URL isEqual:usedInAgent];
 				} withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
 					return response;
@@ -274,7 +275,7 @@ describe(@"TRSTrustbadgeView", ^{
 				OHHTTPStubsResponse *response = [OHHTTPStubsResponse responseWithHTTPMessageData:messageData];
 
 				[OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
-					NSURL *usedInAgent = [NSURL trustMarkAPIURLForTSID:trustedShopsID andAPIEndPoint:TRSAPIEndPoint];
+					NSURL *usedInAgent = [NSURL trustMarkAPIURLForTSID:trustedShopsID debug:YES];
 					return [request.URL isEqual:usedInAgent];
 				} withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
 					return response;

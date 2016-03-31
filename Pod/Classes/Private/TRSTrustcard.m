@@ -6,15 +6,15 @@
 //
 //
 
-static NSString * const TRSCertLocalFallback = @"trustcardfallback";
-static NSString * const TRSCertHTMLName = @"trustinfos";
-// http://shared.taxi-rechner.de/ts-sdk/trustinfos.php?color_highlights=36CB76
+static NSString * const TRSCertLocalFallback = @"trustcardfallback"; // not used atm
+static NSString * const TRSCertHTMLName = @"trustinfos"; // not used atm
 
 #import "TRSTrustcard.h"
 #import "TRSTrustbadge.h"
 #import "TRSTrustbadgeSDKPrivate.h"
 #import "NSURL+TRSURLExtensions.h"
 #import "UIColor+TRSColors.h"
+#import "TRSNetworkAgent+Trustbadge.h"
 @import CoreText;
 //@import WebKit;
 
@@ -35,26 +35,17 @@ static NSString * const TRSCertHTMLName = @"trustinfos";
 
 - (void)viewWillAppear:(BOOL)animated {
 	[super viewWillAppear:animated];
-	NSURL *cardURL;
-	if (self.remoteCertLocationFolder) {
-		NSString *colorString = @"";
-		if (self.themeColor) {
-			colorString = [[self.themeColor hexString] capitalizedString];
-		}
-		NSString *urlString = [NSString stringWithFormat:@"%@/%@.php?color_highlights=%@",
-							   self.remoteCertLocationFolder, TRSCertHTMLName, colorString];
-		cardURL = [NSURL URLWithString:urlString];
+	
+	NSString *colorString = @"F37000"; // fallback value: our orange
+	if (self.themeColor) {
+		colorString = [[self.themeColor hexString] capitalizedString];
 	}
-	if (!cardURL) { // fallback, color is ignored here for now...
-		cardURL = [TRSTrustbadgeBundle() URLForResource:TRSCertHTMLName
-										  withExtension:@"html"
-										   subdirectory:TRSCertLocalFallback];
-	}
-	NSMutableURLRequest *myrequest = [[NSMutableURLRequest alloc] initWithURL:cardURL
-																  cachePolicy:NSURLRequestUseProtocolCachePolicy
-															  timeoutInterval:10.0];
+	
+	NSMutableURLRequest *myrequest = [[TRSNetworkAgent sharedAgent] localizedURLRequestForTrustcardWithColorString:colorString];
 	[self.webView loadRequest:myrequest];
 	// TODO: ensure the caching works as expected, even for app-restart etc.
+	
+	// TODO: implement fallback mechanism if the URL is not reachable, also update local files
 
 	// set the color of the buttons
 	if (self.themeColor) {
