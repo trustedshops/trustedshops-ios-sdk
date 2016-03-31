@@ -29,7 +29,7 @@
 		NSHTTPURLResponse *HTTPURLResponse = (NSHTTPURLResponse *)response;
 		if (HTTPURLResponse.statusCode != 200) {
 			if (failure) {
-				failure(data, HTTPURLResponse, error);
+				failure(nil, HTTPURLResponse, error);
 			}
 			return;
 		}
