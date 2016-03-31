@@ -1,13 +1,14 @@
 #import "TRSTrustbadge.h"
+#import "TRSShop.h"
+#import "TRSTrustcard.h"
+#import "TRSTrustbadgeSDKPrivate.h"
 
 
 @interface TRSTrustbadge ()
 
-@property (nonatomic, readwrite) NSUInteger numberOfReviews;
-@property (nonatomic, readwrite, strong) NSNumber *rating;
+@property (nonatomic, strong) TRSTrustcard *trustcard;
 
 @end
-
 
 @implementation TRSTrustbadge
 
@@ -30,22 +31,19 @@
         return nil;
     }
 
-    id activeReviewCount = json[@"response"][@"data"][@"shop"][@"qualityIndicators"][@"reviewIndicator"][@"activeReviewCount"];
-    _numberOfReviews = [(NSNumber *)activeReviewCount unsignedIntegerValue];
-
-    id overallMark = json[@"response"][@"data"][@"shop"][@"qualityIndicators"][@"reviewIndicator"][@"overallMark"];
-    _rating = (NSNumber *)overallMark;
-
-
+	self.shop = [[TRSShop alloc] initWithDictionary:json[@"response"][@"data"][@"shop"]];
     return self;
 }
 
-- (NSUInteger)numberOfReviews {
-    return _numberOfReviews;
-}
-
-- (NSNumber *)rating {
-    return _rating;
+- (void)showTrustcard {
+	if (!self.trustcard) { // init the VC displaying the card. it will figure everything out
+		self.trustcard = [[TRSTrustcard alloc] initWithNibName:@"Trustcard" bundle:TRSTrustbadgeBundle()];
+	}
+	
+	self.trustcard.themeColor = self.customColor;
+	
+	// tell it to display the data (the trustbadge is a weak property, so we're fine)
+	[self.trustcard showInLightboxForTrustbadge:self];
 }
 
 @end

@@ -10,4 +10,6 @@
 
 + (UIColor *)trs_trustbadgeBorderColor;
 
+- (NSString *)hexString;
+
 @end

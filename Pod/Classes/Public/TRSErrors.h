@@ -6,5 +6,7 @@ typedef NS_ENUM(NSUInteger, TRSErrorCode) {
     TRSErrorDomainTrustbadgeUnknownError = 1000,
     TRSErrorDomainTrustbadgeInvalidTSID,
     TRSErrorDomainTrustbadgeTSIDNotFound,
-    TRSErrorDomainTrustbadgeInvalidData
+    TRSErrorDomainTrustbadgeInvalidData,
+	TRSErrorDomainTrustbadgeInvalidAPIToken,
+	TRSErrorDomainTrustbadgeMissingTSIDOrAPIToken
 };

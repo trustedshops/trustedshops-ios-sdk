@@ -3,7 +3,7 @@
 @class TRSTrustbadge;
 
 /**
- *  `TRSNetworkAgent+Trustbadge` is a category of `TRSNetworkAgent` to handle network requests for Trustbadge.
+ *	@c TRSNetworkAgent+Trustbadge is a category of @c TRSNetworkAgent to handle network requests for Trustbadge.
  */
 @interface TRSNetworkAgent (Trustbadge)
 
@@ -12,14 +12,24 @@
  */
 
 /**
- *  Creates and runs a request to fetch Trustbadge
+ *	Creates and runs a request to fetch Trustbadge
+ *	@discussion	Test
  *
- *  @param trustedShopsID Trusted Shops ID for the shop
- *  @param success        A block object which will be executed when request finishes successfully. The block has a 'TRSTrustbadge' object argument.
- *  @param failure        A block object which will be executed when request finishes unsuccessfully. The block has an error argument.
+ *	@param trustedShopsID	Trusted Shops ID for the shop
+ *	@param apiToken			The token required to connect to the API
+ *	@param success			A block object which will be executed when request finishes successfully. 
+ *								The block has a @c TRSTrustbadge object argument.
+ *	@param failure			A block object which will be executed when request finishes unsuccessfully. 
+ *								The block has an @c NSError object argument.
  *
- *  @return Initialized `NSURLSessionDataTask` object
+ *	@return Initialized @c NSURLSessionDataTask object or @c nil if either @c trustedShopsID or @c apiToken is missing.
  */
-- (NSURLSessionDataTask *)getTrustbadgeForTrustedShopsID:(NSString *)trustedShopsID success:(void (^)(TRSTrustbadge *trustbadge))success failure:(void (^)(NSError *error))failure;
+
+- (NSURLSessionDataTask *)getTrustbadgeForTrustedShopsID:(NSString *)trustedShopsID
+												apiToken:(NSString *)apiToken
+												 success:(void (^)(TRSTrustbadge *trustbadge))success
+												 failure:(void (^)(NSError *error))failure;
+
+- (NSMutableURLRequest *)localizedURLRequestForTrustcardWithColorString:(NSString *)hexString;
 
 @end

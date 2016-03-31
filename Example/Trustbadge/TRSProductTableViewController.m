@@ -41,8 +41,29 @@ static NSString * const TRSProductTableViewCellReuseIdentifier = @"Product";
 
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:TRSProductTableViewCellReuseIdentifier];
 
-#warning Add your Trusted Shops ID
-    self.tableView.tableHeaderView = [[TRSTrustbadgeView alloc] initWithTrustedShopsID:@"CHANGEME"];
+#warning Add your Trusted Shops ID & api token
+	NSString *shopID = @"CHANGEME";
+	NSString *apiToken = @"CHANGEMETOO";
+	TRSTrustbadgeView *trsTrustbadgeView = [[TRSTrustbadgeView alloc] initWithTrustedShopsID:shopID apiToken:apiToken];
+	
+	// Alternative 1 to fully activate the badge
+	self.tableView.tableHeaderView = trsTrustbadgeView;
+	trsTrustbadgeView.customColor = [UIColor colorWithRed:(54.0 / 255.0) green:(203.0 / 255.0) blue:(118.0 / 255.0) alpha:1.0];
+	trsTrustbadgeView.debugMode = YES;
+	[trsTrustbadgeView loadTrustbadgeWithFailureBlock:^(NSError *error) {
+		NSLog(@"Error handling in example app: Error: %@", error);
+	}];
+	// Alternative 2 to fully activate the badge (note the preprocessor macro use!)
+//	[trsTrustbadgeView loadTrustbadgeWithSuccessBlock:^{
+//		NSLog(@"Success handling in example app. Loaded trustbadge, put it in table header now.");
+//		trsTrustbadgeView.customColor = [UIColor colorWithRed:(54.0 / 255.0) green:(203.0 / 255.0) blue:(118.0 / 255.0) alpha:1.0];
+//#ifdef DEBUG
+//		trsTrustbadgeView.debugMode = YES;
+//#endif
+//		self.tableView.tableHeaderView = trsTrustbadgeView;
+//	} failureBlock:^(NSError *error) {
+//		NSLog(@"Error handling in example app: Error: %@", error);
+//	}];
 }
 
 #pragma mark - UITableViewDataSource

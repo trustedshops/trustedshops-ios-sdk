@@ -1,5 +1,6 @@
 #import "TRSTrustbadge.h"
 #import <Specta/Specta.h>
+#import "TRSShop.h"
 
 
 SpecBegin(TRSTrustbadge)
@@ -25,14 +26,14 @@ describe(@"TRSTrustbadge", ^{
             it(@"returns an initialized object", ^{
                 expect(trustbadge).notTo.beNil();
             });
-
-            it(@"has 67 reviews ", ^{
-                expect(trustbadge.numberOfReviews).to.equal(67);
-            });
-
-            it(@"has a rating of 4.63", ^{
-                expect(trustbadge.rating).to.equal(@4.63);
-            });
+			
+			it(@"has a non nil shop property", ^{
+				expect(trustbadge.shop).toNot.beNil;
+			});
+			
+			it(@"has a TRSShop as shop property", ^{
+				expect(trustbadge.shop).to.beKindOf([TRSShop class]);
+			});
 
         });
 
@@ -72,7 +73,7 @@ describe(@"TRSTrustbadge", ^{
         });
 
     });
-
+	
 });
 
 SpecEnd

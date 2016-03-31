@@ -1,7 +1,9 @@
 #import <Foundation/Foundation.h>
 
+@class TRSShop;
+
 /**
- *  `TRSTrustbadge` is the underlying model of a Trustbadge.
+ *  @c TRSTrustbadge is the underlying model of a Trustbadge.
  */
 @interface TRSTrustbadge : NSObject
 
@@ -10,22 +12,17 @@
  */
 
 /**
- *  Initialize a `TRSTrustbadge` with the provided data.
+ *  Initialize a @c TRSTrustbadge with the provided data.
  *
  *  @param data The data provided by the API as JSON
  *
- *  @return An initialized object if the provided data object was valid; `nil` otherwise.
+ *  @return An initialized object if the provided data object was valid; @c nil otherwise.
  */
 - (instancetype)initWithData:(NSData *)data;
 
-/**
- *  The number of reviews for this Trustbadge.
- */
-@property (nonatomic, readonly) NSUInteger numberOfReviews;
+- (void)showTrustcard;
 
-/**
- *  The rating for this Trustbadge.
- */
-@property (nonatomic, readonly, strong) NSNumber *rating;
+@property (nonatomic, strong) TRSShop *shop;
+@property (nonatomic, weak) UIColor *customColor;
 
 @end

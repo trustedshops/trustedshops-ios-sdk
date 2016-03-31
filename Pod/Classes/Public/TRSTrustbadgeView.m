@@ -1,324 +1,256 @@
 #import "TRSTrustbadgeView.h"
-#import "NSNumberFormatter+TRSFormatter.h"
 #import "TRSErrors.h"
 #import "TRSNetworkAgent+Trustbadge.h"
-#import "TRSRatingView.h"
 #import "TRSTrustbadge.h"
 #import "TRSTrustbadgeSDKPrivate.h"
-#import "UIColor+TRSColors.h"
 
 
 @interface TRSTrustbadgeView ()
 
 @property (nonatomic, copy, readwrite) NSString *trustedShopsID;
-@property (nonatomic, strong) UIView *canvasView;
-@property (nonatomic, strong) UIImageView *triangleView;
-@property (nonatomic, strong) UIImage *triangleImage;
-@property (nonatomic, strong) UIImage *sealImage;
-@property (nonatomic, strong) TRSRatingView *ratingView;
-@property (nonatomic, strong) UILabel *ratingLabel;
-@property (nonatomic, strong) UILabel *reviewsLabel;
-@property (nonatomic, strong) UIImageView *sealView;
+@property (nonatomic, copy, readwrite) NSString *apiToken;
+@property (nonatomic, strong) UIImageView *sealImageView;
+@property (nonatomic, strong) UILabel *offlineMarker;
+@property (nonatomic, assign) BOOL hasSealStateChangePending;
+@property (nonatomic, strong) TRSTrustbadge *trustbadge;
+
+// needed for xib loading (don't be confused about two designated initializers...)
+- (instancetype)initWithCoder:(NSCoder *)aDecoder NS_DESIGNATED_INITIALIZER;
 
 @end
-
-static CGFloat const TRSTrustbadgePadding = 10.0f;
 
 @implementation TRSTrustbadgeView
 
 #pragma mark - Initialization
 
-- (instancetype)initWithTrustedShopsID:(NSString *)trustedShopsID {
-    self = [super initWithFrame:CGRectMake(0.0f, 0.0f, 200.0f, 64.0f)];
-    if (!self) {
-        return nil;
-    }
-
-    if (!trustedShopsID) {
-        return nil;
-    }
-    _trustedShopsID = [trustedShopsID copy];
-
-    self.backgroundColor = [UIColor trs_trustbadgeBorderColor];
-    self.canvasView = [[UIView alloc ] initWithFrame:CGRectZero];
-    self.canvasView.backgroundColor = [UIColor whiteColor];
-    self.triangleView = [[UIImageView alloc] initWithImage:self.triangleImage];
-    self.sealView = [[UIImageView alloc] initWithImage:self.sealImage];
-    [self addEmptyTrustbadgeViews];
-
-    void (^success)(TRSTrustbadge *trustbadge) = ^(TRSTrustbadge *trustbadge) {
-        [self removeTrustbadgeViews];
-        [self addTrustbadgeViewWithTrustbadge:trustbadge];
-        [self createConstraints];
-    };
-
-    void (^failure)(NSError *error) = ^(NSError *error) {
-        if (![error.domain isEqualToString:TRSErrorDomain]) {
-            return;
-        }
-
-        switch (error.code) {
-            case TRSErrorDomainTrustbadgeInvalidTSID:
-                NSLog(@"[trustbadge] The provided TSID is not correct.");
-                break;
-
-            case TRSErrorDomainTrustbadgeTSIDNotFound:
-                NSLog(@"[trustbadge] The provided TSID could not be found.");
-                break;
-
-            case TRSErrorDomainTrustbadgeInvalidData:
-                NSLog(@"[trustbadge] The received data is corrupt.");
-                break;
-
-            case TRSErrorDomainTrustbadgeUnknownError:
-            default:
-                NSLog(@"[trustbadge] An unkown error occured.");
-                break;
-        }
-    };
-
-    [[TRSNetworkAgent sharedAgent] getTrustbadgeForTrustedShopsID:_trustedShopsID
-                                                          success:success
-                                                          failure:failure];
-
-    return self;
+- (instancetype)initWithFrame:(CGRect)aRect
+			   TrustedShopsID:(NSString *)trustedShopsID
+					 apiToken:(NSString *)apiToken {
+	
+	self = [super initWithFrame:aRect];
+	if (!self) {
+		return nil;
+	}
+	
+	[self finishInit:trustedShopsID apiToken:apiToken];
+	
+	return self;
 }
 
-#pragma mark - UIView(UIViewHierarchy)
+- (instancetype)initWithTrustedShopsID:(NSString *)trustedShopsID {
+	return [self initWithFrame:CGRectMake(0.0, 0.0, 64.0, 64.0) TrustedShopsID:trustedShopsID apiToken:nil];
+}
 
-- (void)layoutSubviews {
-    [self createConstraints];
-    [super layoutSubviews];
+- (instancetype)initWithTrustedShopsID:(NSString *)trustedShopsID apiToken:(NSString *)apiToken {
+	return [self initWithFrame:CGRectMake(0.0, 0.0, 64.0, 64.0) TrustedShopsID:trustedShopsID apiToken:apiToken];
+}
+
+// properly overwrite the designated initializers of the superclass
+- (instancetype)initWithFrame:(CGRect)frame
+{
+	return [self initWithFrame:frame TrustedShopsID:nil apiToken:nil];
+}
+
+- (instancetype)init
+{
+	return [self initWithFrame:CGRectMake(0.0, 0.0, 64.0, 64.0)];
+}
+
+- (instancetype)initWithCoder:(NSCoder *)aDecoder {
+	
+	self = [super initWithCoder:aDecoder];
+	if (!self) {
+		return nil;
+	}
+	
+	[self finishInit:nil apiToken:nil]; // when being loaded from a xib, we won't have these (for now)
+	
+	return self;
+}
+
+- (instancetype)finishInit:(NSString *)trustedShopsID apiToken:(NSString *)apiToken {
+	
+	// first get the image, we'll need that in any case:
+	UIImage *sealImage = [UIImage imageWithContentsOfFile:
+						  [TRSTrustbadgeBundle() pathForResource:@"iOS-SDK-Seal" ofType:@"png"]];
+	self.sealImageView = [[UIImageView alloc] initWithImage:sealImage];
+	[self addSubview:self.sealImageView];
+	// also set the offline marker label view, but then make it invisible
+	self.offlineMarker = [[UILabel alloc] init];
+	self.offlineMarker.text = @"OFFLINE";
+	[self.offlineMarker setFrame:self.sealImageView.frame];
+	[self.offlineMarker setTextAlignment:NSTextAlignmentCenter];
+	[self.offlineMarker setAdjustsFontSizeToFitWidth:YES];
+	[self.offlineMarker setHidden:YES];
+	[self addSubview:self.offlineMarker];
+	
+	// set the default color:
+	_customColor = [UIColor colorWithRed:(243.0 / 255.0) green:(112.0 / 255.0) blue:(0.0 / 255.0) alpha:1.0];
+	
+	// next save our id and token. this will also determine if we show an "offline" label or something over the seal
+	_trustedShopsID = [trustedShopsID copy];
+	_apiToken = [apiToken copy];
+	
+	// TODO: Check whether this really needs to be delayed (to avoid it flashing up even if the data is loaded immediately)
+	[self displaySealAsOffline:YES afterDelay:1.0];
+	
+	return self;
+}
+
+#pragma mark - Getting certificate & shop data from remote API
+
+- (void)loadTrustbadgeWithSuccessBlock:(void (^)(void))success failureBlock:(void (^)(NSError *error))failure {
+	void (^wins)(TRSTrustbadge *theTrustbadge) = ^(TRSTrustbadge *theTrustbadge) {
+		[self displaySealAsOffline:NO afterDelay:0.0];
+		
+		self.trustbadge = theTrustbadge;
+		self.trustbadge.customColor = _customColor;
+		
+		if (success) { // don't these lines look kinda sick? shifting brackets... :)
+			success();
+		}
+	};
+	
+	void (^fails)(NSError *error) = ^(NSError *error) {
+		if (![error.domain isEqualToString:TRSErrorDomain]) {
+			if (failure) failure(error);
+			return;
+		}
+		switch (error.code) {
+			case TRSErrorDomainTrustbadgeInvalidAPIToken:
+				NSLog(@"[trustbadge] The provided API token is not correct");
+				break;
+				
+			case TRSErrorDomainTrustbadgeInvalidTSID:
+				NSLog(@"[trustbadge] The provided TSID is not correct.");
+				break;
+				
+			case TRSErrorDomainTrustbadgeTSIDNotFound:
+				NSLog(@"[trustbadge] The provided TSID could not be found.");
+				break;
+				
+			case TRSErrorDomainTrustbadgeInvalidData:
+				NSLog(@"[trustbadge] The received data is corrupt.");
+				break;
+				
+			case TRSErrorDomainTrustbadgeUnknownError:
+			default:
+				NSLog(@"[trustbadge] An unkown error occured.");
+				break;
+		}
+		
+		// we give back the error even if we could pre-handle it here
+		if (failure) failure(error);
+	};
+	
+	if (!self.apiToken || !self.trustedShopsID) {
+		NSError *myError = [NSError errorWithDomain:TRSErrorDomain
+											   code:TRSErrorDomainTrustbadgeMissingTSIDOrAPIToken
+										   userInfo:nil];
+		NSLog(@"[trustbadge] There is no API token or TSID provided to contact the API.");
+		if (failure) failure(myError);
+	}
+	
+	// the returned task is not important for now...
+	[[TRSNetworkAgent sharedAgent] getTrustbadgeForTrustedShopsID:_trustedShopsID
+														 apiToken:_apiToken
+														  success:wins
+														  failure:fails];
+
+}
+
+- (void)loadTrustbadgeWithFailureBlock:(void (^)(NSError *error))failure {
+	[self loadTrustbadgeWithSuccessBlock:nil failureBlock:failure];
+}
+
+#pragma mark - Touch detection
+
+- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+	if (![self.offlineMarker isHidden]) {
+		[super touchesBegan:touches withEvent:event];
+	}
+}
+
+- (void)touchesMoved:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+	if (![self.offlineMarker isHidden]) {
+		[super touchesBegan:touches withEvent:event];
+	}
+}
+
+- (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+	if (![self.offlineMarker isHidden]) {
+		[super touchesBegan:touches withEvent:event];
+	} else {
+		// Show the dialogue!
+		[self.trustbadge showTrustcard];
+	}
+}
+
+- (void)touchesCancelled:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+	if (![self.offlineMarker isHidden]) {
+		[super touchesBegan:touches withEvent:event];
+	}
+}
+
+#pragma mark - Special setter for the custom Color & debug mode
+
+- (void)setCustomColor:(UIColor *)customColor {
+	if (_customColor == customColor) { // save some nanoseconds...
+		return;
+	}
+	_customColor = customColor;
+	if (self.trustbadge) { // if the trustbadge is already loaded, set it's custom color to ours.
+		self.trustbadge.customColor = _customColor;
+	}
+}
+
+- (void)setDebugMode:(BOOL)debugMode {
+	if (_debugMode != debugMode) {
+		_debugMode = debugMode;
+		[[TRSNetworkAgent sharedAgent] setDebugMode:_debugMode];
+	}
 }
 
 #pragma mark - Helper
 
-- (void)addEmptyTrustbadgeViews {
-    [self addTrustbadgeViewWithTrustbadge:nil];
-}
-
-- (void)addTrustbadgeViewWithTrustbadge:(TRSTrustbadge *)trustbadge {
-    NSNumber *rating;
-    NSUInteger numberOfReviews = 0;
-    if (!trustbadge) {
-        rating = @0.0f;
-    } else {
-        rating = trustbadge.rating;
-        numberOfReviews = trustbadge.numberOfReviews;
-    }
-
-    self.ratingView = [[TRSRatingView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 86.0f, 18.0f)
-                                                    rating:rating];
-    self.ratingLabel = [self labelForRating:rating];
-    self.reviewsLabel = [self labelForReviews:numberOfReviews];
-}
-
-- (void)removeTrustbadgeViews {
-    [self.ratingView removeFromSuperview];
-    self.ratingView = nil;
-
-    [self.ratingLabel removeFromSuperview];
-    self.ratingLabel = nil;
-
-    [self.reviewsLabel removeFromSuperview];
-    self.reviewsLabel = nil;
-}
-
-- (void)createConstraints {
-    {   // Canvas Constraints
-        [self.canvasView setTranslatesAutoresizingMaskIntoConstraints:NO];
-        [self addSubview:self.canvasView];
-
-        [self addConstraint:[NSLayoutConstraint constraintWithItem:self.canvasView
-                                                         attribute:NSLayoutAttributeWidth
-                                                         relatedBy:NSLayoutRelationEqual
-                                                            toItem:self
-                                                         attribute:NSLayoutAttributeWidth
-                                                        multiplier:1.0f
-                                                          constant:0.0f]];
-
-        [self addConstraint:[NSLayoutConstraint constraintWithItem:self.canvasView
-                                                         attribute:NSLayoutAttributeHeight
-                                                         relatedBy:NSLayoutRelationEqual
-                                                            toItem:nil
-                                                         attribute:NSLayoutAttributeHeight
-                                                        multiplier:1.0f
-                                                          constant:56.0f]];
-
-        [self addConstraint:[NSLayoutConstraint constraintWithItem:self.canvasView
-                                                         attribute:NSLayoutAttributeLeading
-                                                         relatedBy:NSLayoutRelationEqual
-                                                            toItem:self
-                                                         attribute:NSLayoutAttributeLeading
-                                                        multiplier:1.0f
-                                                          constant:0.0f]];
-
-        [self addConstraint:[NSLayoutConstraint constraintWithItem:self.canvasView
-                                                         attribute:NSLayoutAttributeTop
-                                                         relatedBy:NSLayoutRelationEqual
-                                                            toItem:self
-                                                         attribute:NSLayoutAttributeTop
-                                                        multiplier:1.0f
-                                                          constant:0.0f]];
-    }
-
-    {   // Rating View Constraints
-        [self.ratingView setTranslatesAutoresizingMaskIntoConstraints:NO];
-        [self.canvasView addSubview:self.ratingView];
-
-        [self addConstraint:[NSLayoutConstraint constraintWithItem:self.ratingView
-                                                         attribute:NSLayoutAttributeTop
-                                                         relatedBy:NSLayoutRelationEqual
-                                                            toItem:self.canvasView
-                                                         attribute:NSLayoutAttributeTop
-                                                        multiplier:1.0f
-                                                          constant:TRSTrustbadgePadding]];
-
-        [self addConstraint:[NSLayoutConstraint constraintWithItem:self.ratingView
-                                                         attribute:NSLayoutAttributeLeading
-                                                         relatedBy:NSLayoutRelationEqual
-                                                            toItem:self.canvasView
-                                                         attribute:NSLayoutAttributeLeading
-                                                        multiplier:1.0f
-                                                          constant:TRSTrustbadgePadding]];
-    }
-
-    {   // Rating Label Constraints
-        [self.ratingLabel setTranslatesAutoresizingMaskIntoConstraints:NO];
-        [self.canvasView addSubview:self.ratingLabel];
-
-        [self addConstraint:[NSLayoutConstraint constraintWithItem:self.ratingLabel
-                                                         attribute:NSLayoutAttributeLeading
-                                                         relatedBy:NSLayoutRelationEqual
-                                                            toItem:self.ratingView
-                                                         attribute:NSLayoutAttributeTrailing
-                                                        multiplier:1.0f
-                                                          constant:TRSTrustbadgePadding]];
-
-        [self addConstraint:[NSLayoutConstraint constraintWithItem:self.ratingLabel
-                                                         attribute:NSLayoutAttributeBottom
-                                                         relatedBy:NSLayoutRelationEqual
-                                                            toItem:self.ratingView
-                                                         attribute:NSLayoutAttributeBottom
-                                                        multiplier:1.0f
-                                                          constant:0.0f]];
-    }
-
-    {   // Reviews Label Constraints
-        [self.reviewsLabel setTranslatesAutoresizingMaskIntoConstraints:NO];
-        [self.canvasView addSubview:self.reviewsLabel];
-
-        [self addConstraint:[NSLayoutConstraint constraintWithItem:self.canvasView
-                                                         attribute:NSLayoutAttributeBottom
-                                                         relatedBy:NSLayoutRelationEqual
-                                                            toItem:self.reviewsLabel
-                                                         attribute:NSLayoutAttributeBottom
-                                                        multiplier:1.0f
-                                                          constant:TRSTrustbadgePadding]];
-
-        [self addConstraint:[NSLayoutConstraint constraintWithItem:self.reviewsLabel
-                                                         attribute:NSLayoutAttributeLeading
-                                                         relatedBy:NSLayoutRelationEqual
-                                                            toItem:self.ratingView
-                                                         attribute:NSLayoutAttributeLeading
-                                                        multiplier:1.0f
-                                                          constant:0.0f]];
-    }
-
-    {   // Seal View Constraints
-        [self.sealView setTranslatesAutoresizingMaskIntoConstraints:NO];
-        [self.canvasView addSubview:self.sealView];
-
-        [self addConstraint:[NSLayoutConstraint constraintWithItem:self.canvasView
-                                                         attribute:NSLayoutAttributeRight
-                                                         relatedBy:NSLayoutRelationEqual
-                                                            toItem:self.sealView
-                                                         attribute:NSLayoutAttributeRight
-                                                        multiplier:1.0f
-                                                          constant:TRSTrustbadgePadding]];
-
-        [self addConstraint:[NSLayoutConstraint constraintWithItem:self.sealView
-                                                         attribute:NSLayoutAttributeCenterY
-                                                         relatedBy:NSLayoutRelationEqual
-                                                            toItem:self.canvasView
-                                                         attribute:NSLayoutAttributeCenterY
-                                                        multiplier:1.0f
-                                                          constant:0.0f]];
-    }
-
-    {   // Triangle View Constraints
-        [self.triangleView setTranslatesAutoresizingMaskIntoConstraints:NO];
-        [self.canvasView addSubview:self.triangleView];
-
-        [self addConstraint:[NSLayoutConstraint constraintWithItem:self.canvasView
-                                                         attribute:NSLayoutAttributeRight
-                                                         relatedBy:NSLayoutRelationEqual
-                                                            toItem:self.triangleView
-                                                         attribute:NSLayoutAttributeRight
-                                                        multiplier:1.0f
-                                                          constant:TRSTrustbadgePadding]];
-
-        [self addConstraint:[NSLayoutConstraint constraintWithItem:self.triangleView
-                                                         attribute:NSLayoutAttributeTop
-                                                         relatedBy:NSLayoutRelationEqual
-                                                            toItem:self.canvasView
-                                                         attribute:NSLayoutAttributeBottom
-                                                        multiplier:1.0f
-                                                          constant:0.0f]];
-    }
-}
-
-- (UIImage *)sealImage {
-    if (!_sealImage) {
-        _sealImage = [UIImage imageWithContentsOfFile:[[TRSTrustbadgeBundle() resourcePath] stringByAppendingPathComponent:@"iOS-SDK-Seal.png"]];
-    }
-
-    return _sealImage;
-}
-
-- (UIImage *)triangleImage {
-    if (!_triangleImage) {
-        _triangleImage = [UIImage imageWithContentsOfFile:[[TRSTrustbadgeBundle() resourcePath] stringByAppendingPathComponent:@"iOS-SDK-Triangle.png"]];
-    }
-
-    return _triangleImage;
-}
-
-- (UILabel *)labelForRating:(NSNumber *)rating {
-    UILabel *ratingLabel = [[UILabel alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 80.0f, 18.0f)];
-    ratingLabel.attributedText = [self ratingStringForRating:rating];
-    return ratingLabel;
-}
-
-- (UILabel *)labelForReviews:(NSUInteger)numberOfReviews {
-    UILabel *reviewsLabel = [[UILabel alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 80.0f, 18.0f)];
-    reviewsLabel.font = [UIFont fontWithName:@"Arial" size:14.0];
-    reviewsLabel.text = [NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"trustbadge.label.review %lu Reviews", @"trustbadge", TRSTrustbadgeBundle(), nil), (unsigned long)numberOfReviews];
-    return reviewsLabel;
-}
-
-- (NSAttributedString *)ratingStringForRating:(NSNumber *)rating {
-    NSString *maxRatingString = [NSString stringWithFormat:@"/%@", [[NSNumberFormatter trs_trustbadgeRatingFormatter] stringFromNumber:@5.0]];
-    NSString *ratingString = [NSString stringWithFormat:@"%@%@", [[NSNumberFormatter trs_trustbadgeRatingFormatter] stringFromNumber:rating], maxRatingString];
-
-    UIFont *normalFont = [UIFont fontWithName:@"Arial" size:14.0];
-    NSDictionary *attributes = @{ NSFontAttributeName : normalFont };
-    NSMutableAttributedString *attributedRatingString = [[NSMutableAttributedString alloc] initWithString:ratingString
-                                                                                               attributes:attributes];
-
-    UIFont *smallFont = [UIFont fontWithName:@"Arial" size:12.0];
-    UIColor *grayColor = [UIColor grayColor];
-    NSRange range = [ratingString rangeOfString:maxRatingString];
-
-    [attributedRatingString addAttribute:NSFontAttributeName
-                                   value:smallFont
-                                   range:range];
-
-    [attributedRatingString addAttribute:NSForegroundColorAttributeName
-                                   value:grayColor
-                                   range:range];
-
-    return [attributedRatingString copy];
+// This one deserves a little explanation:
+// Basically we have two modes this method can operate like:
+// 1: Immedietaly set the seal to OFFLINE of ONLINE
+// 2: Do so after a delay.
+// The problem is that if we set a delayed switch, this can "swallow" an immediate one.
+// Let's say we start by showing the seal ONLINE in good faith and configure it to go offline after a second to
+// give the calling app code time to call loadTrustbadgeWithFailureBlock: and thus properly activate the badge.
+// Once it does that, the seal is immediately set to ONLINE (even though it already IS in that state). But then
+// the delayed switch to OFFLINE undoes that.
+// This method prioritizes immediate changes to prevent that. It does so by basically disallowing ALL pending
+// state changes each time an immediate change is ordered.
+- (void)displaySealAsOffline:(BOOL)offline afterDelay:(NSTimeInterval)seconds {
+	// prepare a block
+	void (^changeIt)(BOOL off, BOOL wasDelayed) = ^(BOOL off, BOOL wasDelayed) {
+		if (wasDelayed && !self.hasSealStateChangePending) {
+			return;
+		}
+		if (off) { // the old idea was to fade it and display "OFFLINE", but we will completely hide it instead now
+//			[self.sealImageView setAlpha:0.3];
+//			[self.offlineMarker setHidden:NO];
+			self.hidden = YES;
+		} else {
+//			[self.sealImageView setAlpha:1.0];
+//			[self.offlineMarker setHidden:YES];
+			self.hidden = NO;
+		}
+		[self setNeedsDisplay];
+	};
+	
+	if (seconds == 0.0) {
+		self.hasSealStateChangePending = NO;
+		changeIt(offline, NO);
+	} else {
+		self.hasSealStateChangePending = YES;
+		dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(seconds * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+			changeIt(offline, YES);
+		});
+	}
 }
 
 @end

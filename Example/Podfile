@@ -1,4 +1,5 @@
 source 'https://github.com/CocoaPods/Specs.git'
+platform :ios, '8.1'
 use_frameworks!
 
 target 'Trustbadge_Example', :exclusive => true do
@@ -7,7 +8,7 @@ end
 
 target 'Trustbadge_Tests', :exclusive => true do
   pod "Trustbadge", :path => "../"
-
+  
   pod 'Expecta',                 '~> 1.0.2'
   pod 'Expecta+Snapshots',       '~> 2.0.0'
   pod 'OCMock',                  '~> 3.1.2'

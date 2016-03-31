@@ -8,7 +8,7 @@ describe(@"TRSNetworkAgent", ^{
 
     __block TRSNetworkAgent *agent;
     beforeAll(^{
-        agent = [[TRSNetworkAgent alloc] initWithBaseURL:[NSURL URLWithString:@"http://localhost"]];
+        agent = [[TRSNetworkAgent alloc] init];
     });
 
     afterAll(^{
@@ -23,15 +23,9 @@ describe(@"TRSNetworkAgent", ^{
         expect(agent).to.beKindOf([TRSNetworkAgent class]);
     });
 
-    it(@"has the correct base URL", ^{
-        expect(agent.baseURL).to.equal([NSURL URLWithString:@"http://localhost"]);
-    });
 
     describe(@"+sharedAgent", ^{
 
-        it(@"has the correct base URL", ^{
-            expect([TRSNetworkAgent sharedAgent].baseURL).to.equal([NSURL URLWithString:@"https://api.trustedshops.com/"]);
-        });
         
         it(@"returns the same instance", ^{
             TRSNetworkAgent *agent1 = [TRSNetworkAgent sharedAgent];
@@ -42,10 +36,10 @@ describe(@"TRSNetworkAgent", ^{
 
     });
 
-    describe(@"-GET:success:failure:", ^{
+    describe(@"-GET:authToken:success:failure:", ^{
 
         it(@"returns a data task", ^{
-            id task = [agent GET:@"foo/bar/baz" success:nil failure:nil];
+			id task = [agent GET:[NSURL URLWithString:@"foo/bar/baz"] authToken:@"authToken" success:nil failure:nil];
             expect(task).to.beKindOf([NSURLSessionDataTask class]);
         });
 
@@ -53,7 +47,7 @@ describe(@"TRSNetworkAgent", ^{
 
             beforeEach(^{
                 [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
-                    return [request.URL.absoluteString isEqualToString:@"http://localhost/foo/bar/baz"];
+                    return [request.URL.absoluteString isEqualToString:@"https://localhost/foo/bar/baz"];
                 } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
                     return [OHHTTPStubsResponse responseWithData:[[NSString stringWithFormat:@"success"] dataUsingEncoding:NSUTF8StringEncoding]
                                                       statusCode:200
@@ -64,17 +58,53 @@ describe(@"TRSNetworkAgent", ^{
             afterEach(^{
                 [OHHTTPStubs removeAllStubs];
             });
+			
+			it(@"calls the success block", ^{
+				waitUntil(^(DoneCallback done) {
+					[agent GET:[NSURL URLWithString:@"https://localhost/foo/bar/baz"]
+					 authToken:@"authToken"
+					   success:^(NSData *data) {
+						   done();
+					   } failure:nil];
+				});
+			});
+			
+			it(@"passes a data object", ^{
+				waitUntil(^(DoneCallback done) {
+					[agent GET:[NSURL URLWithString:@"https://localhost/foo/bar/baz"]
+					 authToken:@"authToken"
+					   success:^(NSData *data) {
+						   expect(data).toNot.beNil;
+						   done();
+					   } failure:nil];
+				});
+
+			});
 
             it(@"accepts JSON", ^{
-                NSURLSessionDataTask *task = (NSURLSessionDataTask *)[agent GET:@"foo/bar/baz" success:nil failure:nil];
+				NSURLSessionDataTask *task = [agent GET:[NSURL URLWithString:@"https://localhost/foo/bar/baz"]
+											  authToken:@"authToken"
+												success:nil
+												failure:nil];
                 NSDictionary *headerDictionary = task.originalRequest.allHTTPHeaderFields;
 
                 expect(headerDictionary).to.beSupersetOf(@{@"Accept" : @"application/json"});
             });
+			
+			it(@"has auth Token", ^{
+				NSURLSessionDataTask *task = [agent GET:[NSURL URLWithString:@"https://localhost/foo/bar/baz"]
+											  authToken:@"authToken"
+												success:nil
+												failure:nil];
+				NSDictionary *headerDictionary = task.originalRequest.allHTTPHeaderFields;
+				
+				expect(headerDictionary).to.beSupersetOf(@{@"client-token" : @"authToken"});
+			});
 
             it(@"calls the success block", ^{
                 waitUntil(^(DoneCallback done) {
-                    [agent GET:@"foo/bar/baz"
+					[agent GET:[NSURL URLWithString:@"https://localhost/foo/bar/baz"]
+					 authToken:@"authToken"
                        success:^(NSData *data){
                            done();
                        }
@@ -84,7 +114,8 @@ describe(@"TRSNetworkAgent", ^{
 
             it(@"has a data object", ^{
                 waitUntil(^(DoneCallback done) {
-                    [agent GET:@"/foo/bar/baz"
+                    [agent GET:[NSURL URLWithString:@"https://localhost/foo/bar/baz"]
+					 authToken:@"authToken"
                        success:^(NSData *data){
                            expect(data).to.equal([[NSString stringWithFormat:@"success"] dataUsingEncoding:NSUTF8StringEncoding]);
                            done();
@@ -99,7 +130,7 @@ describe(@"TRSNetworkAgent", ^{
 
             beforeEach(^{
                 [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
-                    return [request.URL.absoluteString isEqualToString:@"http://localhost/foo/bar/baz"];
+                    return [request.URL.absoluteString isEqualToString:@"https://localhost/foo/bar/baz"];
                 } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
                     NSError *networkError = [NSError errorWithDomain:NSURLErrorDomain code:NSURLErrorCannotConnectToHost userInfo:nil];
                     return [OHHTTPStubsResponse responseWithError:networkError];
@@ -112,31 +143,10 @@ describe(@"TRSNetworkAgent", ^{
             
             it(@"calls the failure block", ^{
                 waitUntil(^(DoneCallback done) {
-                    [agent GET:@"/foo/bar/baz"
+                    [agent GET:[NSURL URLWithString:@"foo/bar/baz"]
+					 authToken:@"authToken"
                        success:nil
                        failure:^(NSData *data, NSHTTPURLResponse *response, NSError *error) {
-                           done();
-                       }];
-                });
-            });
-
-            it(@"passes a data object", ^{
-                waitUntil(^(DoneCallback done) {
-                    [agent GET:@"/foo/bar/baz"
-                       success:nil
-                       failure:^(NSData *data, NSHTTPURLResponse *response, NSError *error) {
-                           expect(data).notTo.beNil();
-                           done();
-                       }];
-                });
-            });
-
-            it(@"passes a data object with a length of 0", ^{
-                waitUntil(^(DoneCallback done) {
-                    [agent GET:@"/foo/bar/baz"
-                       success:nil
-                       failure:^(NSData *data, NSHTTPURLResponse *response, NSError *error) {
-                           expect(data.length).to.equal(0);
                            done();
                        }];
                 });
@@ -144,7 +154,8 @@ describe(@"TRSNetworkAgent", ^{
 
             it(@"passes an error object with a 'NSURLErrorDomain' error domain", ^{
                 waitUntil(^(DoneCallback done) {
-                    [agent GET:@"/foo/bar/baz"
+                    [agent GET:[NSURL URLWithString:@"foo/bar/baz"]
+					 authToken:@"authToken"
                        success:nil
                        failure:^(NSData *data, NSHTTPURLResponse *response, NSError *error) {
                            expect(error.domain).to.equal(@"NSURLErrorDomain");
@@ -155,7 +166,8 @@ describe(@"TRSNetworkAgent", ^{
 
             it(@"passes an error object with a 'NSURLErrorCannotConnectToHost' error code", ^{
                 waitUntil(^(DoneCallback done) {
-                    [agent GET:@"/foo/bar/baz"
+                    [agent GET:[NSURL URLWithString:@"https://localhost/foo/bar/baz"]
+					 authToken:@"authToken"
                        success:nil
                        failure:^(NSData *data, NSHTTPURLResponse *response, NSError *error) {
                            expect(error.code).to.equal(NSURLErrorCannotConnectToHost);
@@ -168,7 +180,7 @@ describe(@"TRSNetworkAgent", ^{
 
                 beforeEach(^{
                     [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
-                        return [request.URL.absoluteString isEqualToString:@"http://localhost/foo/bar/baz"];
+                        return [request.URL.absoluteString isEqualToString:@"https://localhost/foo/bar/baz"];
                     }
                                         withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
                                             return [OHHTTPStubsResponse responseWithData:[[NSString stringWithFormat:@"not found"] dataUsingEncoding:NSUTF8StringEncoding]
@@ -183,7 +195,8 @@ describe(@"TRSNetworkAgent", ^{
 
                 it(@"passes a data object", ^{
                     waitUntil(^(DoneCallback done) {
-                        [agent GET:@"/foo/bar/baz"
+                        [agent GET:[NSURL URLWithString:@"https://localhost/foo/bar/baz"]
+						 authToken:@"authToken"
                            success:nil
                            failure:^(NSData *data, NSHTTPURLResponse *response, NSError *error) {
                                expect(data).to.equal([[NSString stringWithFormat:@"not found"] dataUsingEncoding:NSUTF8StringEncoding]);
@@ -194,7 +207,8 @@ describe(@"TRSNetworkAgent", ^{
 
                 it(@"passes a response object", ^{
                     waitUntil(^(DoneCallback done) {
-                        [agent GET:@"/foo/bar/baz"
+                        [agent GET:[NSURL URLWithString:@"https://localhost/foo/bar/baz"]
+						 authToken:@"authToken"
                            success:nil
                            failure:^(NSData *data, NSHTTPURLResponse *response, NSError *error) {
                                expect(response).to.beKindOf([NSHTTPURLResponse class]);
