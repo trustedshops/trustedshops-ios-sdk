@@ -24,8 +24,8 @@
 	
 	[self getRed:&red green:&green blue:&blue alpha:&alpha];
 	
-	return [NSString stringWithFormat:@"%02x%02x%02x",
-			(NSInteger)(255.0 * red), (NSInteger)(255.0 * green), (NSInteger)(255.0 * blue)];
+	return [NSString stringWithFormat:@"%02lx%02lx%02lx",
+			(long)(255.0 * red), (long)(255.0 * green), (long)(255.0 * blue)];
 }
 
 @end
