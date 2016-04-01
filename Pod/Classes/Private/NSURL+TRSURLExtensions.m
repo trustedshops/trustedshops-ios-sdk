@@ -60,7 +60,7 @@ NSString * const TRSTrustcardTemplateURLStringDebug = @"https://qa.trustedshops.
 + (NSURL *)localizedTrustcardURLWithColorString:(NSString *)hexString debug:(BOOL)debug {
 	NSString *preferredLocalization = [[[NSBundle mainBundle] preferredLocalizations] firstObject];
 	NSDictionary *languageDic = [NSLocale componentsFromLocaleIdentifier:preferredLocalization];
-	NSString *langCode = [languageDic objectForKey:kCFLocaleLanguageCode];
+	NSString *langCode = [languageDic objectForKey:((NSString *)kCFLocaleLanguageCode)]; // explicit cast to avoid a pod lint warning...
 	// note: In the demo application this will always be simply @"en", because we don't have other (full) localizations.
 	
 	NSString *urlString;
