@@ -75,6 +75,26 @@
 						  [TRSTrustbadgeBundle() pathForResource:@"iOS-SDK-Seal" ofType:@"png"]];
 	self.sealImageView = [[UIImageView alloc] initWithImage:sealImage];
 	[self addSubview:self.sealImageView];
+
+	// set constraints for width and height so the image always fills us out completely
+	// TODO: make this more robust, probably include messing with the frame from init!
+	[_sealImageView setTranslatesAutoresizingMaskIntoConstraints:NO];
+	[self addConstraints:[NSLayoutConstraint
+						  constraintsWithVisualFormat:@"V:|-0-[_sealImageView]-0-|"
+						  options:NSLayoutFormatDirectionLeadingToTrailing
+						  metrics:nil
+						  views:NSDictionaryOfVariableBindings(_sealImageView)]];
+	[_sealImageView addConstraint:[NSLayoutConstraint
+								  constraintWithItem:_sealImageView
+								  attribute:NSLayoutAttributeHeight
+								  relatedBy:NSLayoutRelationEqual
+								  toItem:_sealImageView
+								  attribute:NSLayoutAttributeWidth
+								  multiplier:1.0
+								  constant:0]];
+	// also, make our own background clear
+	self.backgroundColor = [UIColor clearColor];
+	
 	// also set the offline marker label view, but then make it invisible
 	self.offlineMarker = [[UILabel alloc] init];
 	self.offlineMarker.text = @"OFFLINE";
