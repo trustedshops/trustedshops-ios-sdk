@@ -76,22 +76,28 @@
 	self.sealImageView = [[UIImageView alloc] initWithImage:sealImage];
 	[self addSubview:self.sealImageView];
 
-	// set constraints for width and height so the image always fills us out completely
-	// TODO: make this more robust, probably include messing with the frame from init!
+	// make it so that we're always keeping our aspect ratio (defined by the rect)
+	// TODO: consider only allowing a square for our frame?
 	[_sealImageView setTranslatesAutoresizingMaskIntoConstraints:NO];
+	[self addConstraint:[NSLayoutConstraint
+						 constraintWithItem:self
+						 attribute:NSLayoutAttributeHeight
+						 relatedBy:NSLayoutRelationEqual
+						 toItem:self
+						 attribute:NSLayoutAttributeWidth
+						 multiplier:1.0
+						 constant:0]];
+	// set constraints for width and height so the image always fills us out completely
 	[self addConstraints:[NSLayoutConstraint
 						  constraintsWithVisualFormat:@"V:|-0-[_sealImageView]-0-|"
 						  options:NSLayoutFormatDirectionLeadingToTrailing
 						  metrics:nil
 						  views:NSDictionaryOfVariableBindings(_sealImageView)]];
-	[_sealImageView addConstraint:[NSLayoutConstraint
-								  constraintWithItem:_sealImageView
-								  attribute:NSLayoutAttributeHeight
-								  relatedBy:NSLayoutRelationEqual
-								  toItem:_sealImageView
-								  attribute:NSLayoutAttributeWidth
-								  multiplier:1.0
-								  constant:0]];
+	[self addConstraints:[NSLayoutConstraint
+						  constraintsWithVisualFormat:@"H:|-0-[_sealImageView]-0-|"
+						  options:NSLayoutFormatDirectionLeadingToTrailing
+						  metrics:nil
+						  views:NSDictionaryOfVariableBindings(_sealImageView)]];
 	// also, make our own background clear
 	self.backgroundColor = [UIColor clearColor];
 	
