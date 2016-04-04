@@ -10,6 +10,7 @@
 @property (nonatomic, copy, readwrite) NSString *trustedShopsID;
 @property (nonatomic, copy, readwrite) NSString *apiToken;
 @property (nonatomic, strong) UIImageView *sealImageView;
+@property (nonatomic, strong) UIView *contentView;
 @property (nonatomic, strong) UILabel *offlineMarker;
 @property (nonatomic, assign) BOOL hasSealStateChangePending;
 @property (nonatomic, strong) TRSTrustbadge *trustbadge;
@@ -74,32 +75,17 @@
 	UIImage *sealImage = [UIImage imageWithContentsOfFile:
 						  [TRSTrustbadgeBundle() pathForResource:@"iOS-SDK-Seal" ofType:@"png"]];
 	self.sealImageView = [[UIImageView alloc] initWithImage:sealImage];
-	[self addSubview:self.sealImageView];
+	// prepare the contentView (needed for autolayout, see helper below)
+	self.contentView = [[UIView alloc] initWithFrame:self.frame];
+	[self addSubview:_contentView];
+	[_contentView addSubview:_sealImageView];
+	
+	// do the layout constraints
+	[self doLayoutConstraints];
 
-	// make it so that we're always keeping our aspect ratio (defined by the rect)
-	// TODO: consider only allowing a square for our frame?
-	[_sealImageView setTranslatesAutoresizingMaskIntoConstraints:NO];
-	[self addConstraint:[NSLayoutConstraint
-						 constraintWithItem:self
-						 attribute:NSLayoutAttributeHeight
-						 relatedBy:NSLayoutRelationEqual
-						 toItem:self
-						 attribute:NSLayoutAttributeWidth
-						 multiplier:1.0
-						 constant:0]];
-	// set constraints for width and height so the image always fills us out completely
-	[self addConstraints:[NSLayoutConstraint
-						  constraintsWithVisualFormat:@"V:|-0-[_sealImageView]-0-|"
-						  options:NSLayoutFormatDirectionLeadingToTrailing
-						  metrics:nil
-						  views:NSDictionaryOfVariableBindings(_sealImageView)]];
-	[self addConstraints:[NSLayoutConstraint
-						  constraintsWithVisualFormat:@"H:|-0-[_sealImageView]-0-|"
-						  options:NSLayoutFormatDirectionLeadingToTrailing
-						  metrics:nil
-						  views:NSDictionaryOfVariableBindings(_sealImageView)]];
 	// also, make our own background clear
 	self.backgroundColor = [UIColor clearColor];
+	_contentView.backgroundColor = [UIColor clearColor];
 	
 	// also set the offline marker label view, but then make it invisible
 	self.offlineMarker = [[UILabel alloc] init];
@@ -207,8 +193,14 @@
 	if (![self.offlineMarker isHidden]) {
 		[super touchesBegan:touches withEvent:event];
 	} else {
-		// Show the dialogue!
-		[self.trustbadge showTrustcard];
+		// Show the dialogue! But only if we touch inside the seal image!
+		for (UITouch *touch in touches) {
+			if ([_sealImageView pointInside:[touch locationInView:_sealImageView] withEvent:event]) {
+				[self.trustbadge showTrustcard];
+				break;
+			}
+		}
+		// relying on a proper action from the seal would be better, but this is easier to set up for now.
 	}
 }
 
@@ -237,7 +229,7 @@
 	}
 }
 
-#pragma mark - Helper
+#pragma mark - Helpers
 
 // This one deserves a little explanation:
 // Basically we have two modes this method can operate like:
@@ -277,6 +269,86 @@
 			changeIt(offline, YES);
 		});
 	}
+}
+
+// This looks more complicated than it is:
+// It makes the seal image square (it's natural aspect ratio)
+// It then ensures the image is centered in the content view and scaled with aspect-fit.
+// Lastly it makes the contentView stretch over the entire trustbadge view.
+// The reason we need the content view is that we don't know yet whether the trustbadge view will be using autolayout
+// or not, but we want to use it for layout in our subview (i.e. the image). That way a programmatically
+// instanciated trustbadge view (standard) keeps a translatesAutoresisingMaskIntoContraints property of YES (like it
+// should) and can be used like any view (e.g. as a table header, which is not laid out with autolayout).
+// This might not be the only way to achieve that, but it's the easiest to maintain I know and shouldn"t add too
+// much overhead.
+- (void)doLayoutConstraints {
+	[_sealImageView setTranslatesAutoresizingMaskIntoConstraints:NO];
+	[_contentView setTranslatesAutoresizingMaskIntoConstraints:NO];
+	NSLayoutConstraint *aspectRatioForSeal = [NSLayoutConstraint constraintWithItem:_sealImageView
+																		  attribute:NSLayoutAttributeWidth
+																		  relatedBy:NSLayoutRelationEqual
+																			 toItem:_sealImageView
+																		  attribute:NSLayoutAttributeHeight
+																		 multiplier:1.0
+																		   constant:0.0];
+	NSLayoutConstraint *centerX = [NSLayoutConstraint constraintWithItem:_sealImageView
+															   attribute:NSLayoutAttributeCenterX
+															   relatedBy:NSLayoutRelationEqual
+																  toItem:_contentView
+															   attribute:NSLayoutAttributeCenterX
+															  multiplier:1.0
+																constant:0.0];
+	NSLayoutConstraint *centerY = [NSLayoutConstraint constraintWithItem:_sealImageView
+															   attribute:NSLayoutAttributeCenterY
+															   relatedBy:NSLayoutRelationEqual
+																  toItem:_contentView
+															   attribute:NSLayoutAttributeCenterY
+															  multiplier:1.0
+																constant:0.0];
+	NSLayoutConstraint *lessOrEqualWidth = [NSLayoutConstraint constraintWithItem:_sealImageView
+																		attribute:NSLayoutAttributeWidth
+																		relatedBy:NSLayoutRelationLessThanOrEqual
+																		   toItem:_contentView
+																		attribute:NSLayoutAttributeWidth
+																	   multiplier:1.0
+																		 constant:0.0];
+	NSLayoutConstraint *equalWidthHighP = [NSLayoutConstraint constraintWithItem:_sealImageView
+																	   attribute:NSLayoutAttributeWidth
+																	   relatedBy:NSLayoutRelationEqual
+																		  toItem:_contentView
+																	   attribute:NSLayoutAttributeWidth
+																	  multiplier:1.0
+																		constant:0.0];
+	equalWidthHighP.priority = UILayoutPriorityDefaultHigh; // this is very important!
+	NSLayoutConstraint *lessOrEqualHeight = [NSLayoutConstraint constraintWithItem:_sealImageView
+																		 attribute:NSLayoutAttributeHeight
+																		 relatedBy:NSLayoutRelationLessThanOrEqual
+																			toItem:_contentView
+																		 attribute:NSLayoutAttributeHeight
+																		multiplier:1.0
+																		  constant:0.0];
+	NSLayoutConstraint *equalHeightHighP = [NSLayoutConstraint constraintWithItem:_sealImageView
+																		attribute:NSLayoutAttributeHeight
+																		relatedBy:NSLayoutRelationEqual
+																		   toItem:_contentView
+																		attribute:NSLayoutAttributeHeight
+																	   multiplier:1.0
+																		 constant:0.0];
+	equalHeightHighP.priority = UILayoutPriorityDefaultHigh; // this is very important!
+	
+	[_sealImageView addConstraint:aspectRatioForSeal];
+	[_contentView addConstraints:@[centerX, centerY, lessOrEqualWidth, lessOrEqualHeight, equalWidthHighP, equalHeightHighP]];
+	
+	[self addConstraints:[NSLayoutConstraint
+						  constraintsWithVisualFormat:@"H:|-0-[_contentView]-0-|"
+						  options:NSLayoutFormatDirectionLeadingToTrailing
+						  metrics:nil
+						  views:NSDictionaryOfVariableBindings(_contentView)]];
+	[self addConstraints:[NSLayoutConstraint
+						  constraintsWithVisualFormat:@"V:|-0-[_contentView]-0-|"
+						  options:NSLayoutFormatDirectionLeadingToTrailing
+						  metrics:nil
+						  views:NSDictionaryOfVariableBindings(_contentView)]];
 }
 
 @end
