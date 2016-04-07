@@ -26,6 +26,7 @@ describe(@"TRSShop", ^{
 	
 	afterAll(^{
 		testShop = nil;
+		testData = nil;
 	});
 	
 	describe(@"init", ^{

@@ -215,23 +215,18 @@ describe(@"TRSTrustcard", ^{
 			});
 			
 			it(@"lazy-loads the font if it's not already registered", ^{
-				UIFont *testFont = [UIFont fontWithName:@"fontawesome" size:12.0];
-				if (testFont) {
-					CFErrorRef error;
-					CFStringRef cfString = CFSTR("fontawesome");
-					CGFontRef cfFont = CGFontCreateWithFontName(cfString);
-					CFRelease(cfString);
-					if ( !CTFontManagerUnregisterGraphicsFont(cfFont, &error)) {
-						XCTFail(@"Test preparation failed: Could not unregister font, error: %@", (NSError *)CFBridgingRelease(error));
-						if (error) CFRelease(error);
-					}
-					if (cfFont) CFRelease(cfFont);
-				}
-				
 				id classMock = OCMClassMock([TRSTrustcard class]);
-				OCMStub([classMock dynamicallyLoadFontNamed:[OCMArg any]]);
+				id uiFontMock = OCMClassMock([UIFont class]);
+				__block BOOL stubbedOnce = NO; // ensure the stub is only called once!
+				OCMStub([uiFontMock fontWithName:[OCMArg any] size:12.0])._andDo(^(NSInvocation *invocation) {
+					[uiFontMock stopMocking];
+					if (stubbedOnce) {
+						[invocation setReturnValue:(__bridge void * _Nonnull)([UIFont fontWithName:@"fontawesome" size:12.0])];
+					}
+				});
 				[TRSTrustcard openFontAwesomeWithSize:12.0];
-				OCMVerifyAll(classMock);
+				OCMVerify([classMock dynamicallyLoadFontNamed:[OCMArg any]]);
+				[uiFontMock stopMocking];
 				[classMock stopMocking];
 			});
 		});
