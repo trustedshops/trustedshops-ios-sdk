@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		16061A0419CE78518B6D5092 /* Pods_Trustbadge_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65E964664B285004286E6DA4 /* Pods_Trustbadge_Tests.framework */; };
 		1D5DC05D1CA2E87B006899CA /* trustbadge-badtoken.response in Resources */ = {isa = PBXBuildFile; fileRef = 1D5DC05C1CA2E87B006899CA /* trustbadge-badtoken.response */; };
+		1D5E2FCE1CB64DC1002C69C0 /* UIColor+TRSColorsSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D5E2FCD1CB64DC1002C69C0 /* UIColor+TRSColorsSpec.m */; };
 		1D5FF3591CABE7850034AC45 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1D5FF3581CABE7850034AC45 /* Launch Screen.storyboard */; };
 		1DBF42BC1CA1585300FCFB81 /* TRSTrustcardSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DBF42BB1CA1585300FCFB81 /* TRSTrustcardSpec.m */; };
 		1DEFBAEC1CA0049A00B61B05 /* NSURL+TRSURLExtensionsSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DEFBAEB1CA0049A00B61B05 /* NSURL+TRSURLExtensionsSpec.m */; };
@@ -59,6 +60,7 @@
 
 /* Begin PBXFileReference section */
 		1D5DC05C1CA2E87B006899CA /* trustbadge-badtoken.response */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "trustbadge-badtoken.response"; sourceTree = "<group>"; };
+		1D5E2FCD1CB64DC1002C69C0 /* UIColor+TRSColorsSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+TRSColorsSpec.m"; sourceTree = "<group>"; };
 		1D5FF3581CABE7850034AC45 /* Launch Screen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		1DBF42BB1CA1585300FCFB81 /* TRSTrustcardSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TRSTrustcardSpec.m; sourceTree = "<group>"; };
 		1DEFBAEB1CA0049A00B61B05 /* NSURL+TRSURLExtensionsSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSURL+TRSURLExtensionsSpec.m"; sourceTree = "<group>"; };
@@ -205,6 +207,7 @@
 				84C2BC2E1B78C25000F54653 /* TRSTrustbadgeViewSpec.m */,
 				1DBF42BB1CA1585300FCFB81 /* TRSTrustcardSpec.m */,
 				849B99841B8B600D007EA5EB /* UIColor+TRSColorsInternalSpec.m */,
+				1D5E2FCD1CB64DC1002C69C0 /* UIColor+TRSColorsSpec.m */,
 				843196D21B8F28B000CFC072 /* TRSStarViewSpec.m */,
 			);
 			path = Tests;
@@ -518,6 +521,7 @@
 				1DEFBAEE1CA048F700B61B05 /* TRSShopSpec.m in Sources */,
 				845E83DD1B8323C3001D5EDC /* NSNumberFormatter+TRSFormatterSpec.m in Sources */,
 				84795A4E1B5E41A30091EA49 /* TRSNetworkAgentSpec.m in Sources */,
+				1D5E2FCE1CB64DC1002C69C0 /* UIColor+TRSColorsSpec.m in Sources */,
 				843196D31B8F28B000CFC072 /* TRSStarViewSpec.m in Sources */,
 				8441C4AD1B8F13DD004290C0 /* TRSRatingViewSpec.m in Sources */,
 				845E62DA1B7B80D40051329C /* TRSTrustbadgeSDKPrivatSpec.m in Sources */,
