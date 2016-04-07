@@ -89,7 +89,7 @@ static NSString * const TRSCertHTMLName = @"trustinfos"; // not used atm
 	NSString *fontName = @"fontawesome";
 	UIFont *font = [UIFont fontWithName:fontName size:size];
 	if (!font) {
-		[[self class] dynamicallyLoadFontNamed:fontName];
+		[TRSTrustcard dynamicallyLoadFontNamed:fontName];
 		font = [UIFont fontWithName:fontName size:size];
 		
 		// safe fallback
@@ -112,7 +112,9 @@ static NSString * const TRSCertHTMLName = @"trustinfos"; // not used atm
 			NSLog(@"Failed to load font: %@", errorDescription);
 			CFRelease(errorDescription);
 		}
-		CFRelease(font);
+		if (font) {
+			CFRelease(font);
+		}
 		CFRelease(provider);
 	}
 }

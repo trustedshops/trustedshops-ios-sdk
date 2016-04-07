@@ -14,11 +14,7 @@
 
 - (instancetype)initWithData:(NSData *)data {
     self = [super init];
-    if (!self) {
-        return nil;
-    }
-
-    if (!data) {
+    if (!self || !data) {
         return nil;
     }
 

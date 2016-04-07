@@ -22,8 +22,8 @@
 		NSArray *validKeys = @[@"languageISO2", @"targetMarketISO3", @"tsId", @"url", @"name", @"trustMark"];
 		if (!([[NSSet setWithArray:validKeys] isEqualToSet:[NSSet setWithArray:[shopInfo allKeys]]]) ||
 			![shopInfo[@"trustMark"] isKindOfClass:[NSDictionary class]]) {
-			self = nil;
-			return self;
+			
+			return nil;
 		}
 		
 		self.trustMark = [[TRSTrustMark alloc] initWithDictionary:shopInfo[@"trustMark"]];

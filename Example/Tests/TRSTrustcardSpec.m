@@ -14,6 +14,7 @@
 #import "NSURL+TRSURLExtensions.h"
 #import "TRSTrustbadgeSDKPrivate.h"
 #import "UIColor+TRSColors.h"
+@import CoreText;
 
 @interface TRSTrustcard (PrivateTests)
 
@@ -164,6 +165,25 @@ describe(@"TRSTrustcard", ^{
 		
 		describe(@"dynamicallyLoadFontNamed", ^{
 			
+			it(@"doesn't register a non-existant font", ^{
+				// before: font not loaded
+				UIFont *notthere = [UIFont fontWithName:@"gerosnonexistantfont" size:12.0];
+				expect(notthere).to.beNil();
+				[TRSTrustcard dynamicallyLoadFontNamed:@"gerosnonexistantfont"];
+				// it's still not there!
+				UIFont *stillnotthere = [UIFont fontWithName:@"gerosnonexistantfont" size:12.0];
+				expect(stillnotthere).to.beNil();
+			});
+			
+			it(@"properly handles garbage data gained from a file", ^{
+				id dataClassMock = OCMClassMock([NSData class]);
+				NSString *garbage = @"garbagedatastring";
+				OCMStub([dataClassMock dataWithContentsOfURL:[OCMArg any]]).andReturn([garbage dataUsingEncoding:NSASCIIStringEncoding]);
+				[TRSTrustcard dynamicallyLoadFontNamed:@"dontmatter"];
+				
+				[dataClassMock stopMocking];
+			});
+			
 			it(@"registers fontawesome from the bundle", ^{
 				// before: font not loaded
 				UIFont *notthere = [UIFont fontWithName:@"fontawesome" size:12.0];
@@ -173,16 +193,6 @@ describe(@"TRSTrustcard", ^{
 				UIFont *nowthere = [UIFont fontWithName:@"fontawesome" size:12.0];
 				expect(nowthere).toNot.beNil();
 				expect(nowthere.fontName).to.equal(@"fontawesome");
-			});
-			
-			it(@"doesn't register a non-existant font", ^{
-				// before: font not loaded
-				UIFont *notthere = [UIFont fontWithName:@"gerosnonexistantfont" size:12.0];
-				expect(notthere).to.beNil();
-				[TRSTrustcard dynamicallyLoadFontNamed:@"gerosnonexistantfont"];
-				// it's still not there!
-				UIFont *stillnotthere = [UIFont fontWithName:@"gerosnonexistantfont" size:12.0];
-				expect(stillnotthere).to.beNil();
 			});
 		});
 		
@@ -202,6 +212,27 @@ describe(@"TRSTrustcard", ^{
 			it(@"returns nil for an invalid font size", ^{
 				UIFont *aFont = [TRSTrustcard openFontAwesomeWithSize:-4.0];
 				expect(aFont).to.beNil();
+			});
+			
+			it(@"lazy-loads the font if it's not already registered", ^{
+				UIFont *testFont = [UIFont fontWithName:@"fontawesome" size:12.0];
+				if (testFont) {
+					CFErrorRef error;
+					CFStringRef cfString = CFSTR("fontawesome");
+					CGFontRef cfFont = CGFontCreateWithFontName(cfString);
+					CFRelease(cfString);
+					if ( !CTFontManagerUnregisterGraphicsFont(cfFont, &error)) {
+						XCTFail(@"Test preparation failed: Could not unregister font, error: %@", (NSError *)CFBridgingRelease(error));
+						if (error) CFRelease(error);
+					}
+					if (cfFont) CFRelease(cfFont);
+				}
+				
+				id classMock = OCMClassMock([TRSTrustcard class]);
+				OCMStub([classMock dynamicallyLoadFontNamed:[OCMArg any]]);
+				[TRSTrustcard openFontAwesomeWithSize:12.0];
+				OCMVerifyAll(classMock);
+				[classMock stopMocking];
 			});
 		});
 	});
