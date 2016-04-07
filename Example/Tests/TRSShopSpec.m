@@ -33,7 +33,7 @@ describe(@"TRSShop", ^{
 		context(@"with valid data", ^{
 			
 			it(@"doesn't return nil", ^{
-				expect(testShop).toNot.beNil;
+				expect(testShop).toNot.beNil();
 			});
 			
 			it(@"returns a TRSShop instance", ^{
@@ -45,12 +45,11 @@ describe(@"TRSShop", ^{
 			
 			it(@"returns nil for an invalid dictionary", ^{
 				TRSShop *willBeNil = [[TRSShop alloc] initWithDictionary:@{@"notakey" : @"notavalue"}];
-				expect(willBeNil).to.beNil;
+				expect(willBeNil).to.beNil();
 			});
 			
 			it(@"returns nil for a nil as dictionary", ^{
-				expect([[TRSShop alloc] initWithDictionary:nil]).to.beNil;
-			
+				expect([[TRSShop alloc] initWithDictionary:nil]).to.beNil();
 			});
 		});
 	});

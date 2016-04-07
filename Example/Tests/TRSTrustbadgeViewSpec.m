@@ -32,7 +32,7 @@ describe(@"TRSTrustbadgeView", ^{
 				expect(data[@"trustbadgeView"]).to.beKindOf([TRSTrustbadgeView class]);
 			});
 			it(@"has a default color", ^{
-				expect([data[@"trustbadgeView"] customColor]).toNot.beNil;
+				expect([data[@"trustbadgeView"] customColor]).toNot.beNil();
 			});
 		});
 		

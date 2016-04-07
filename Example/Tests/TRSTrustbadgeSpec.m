@@ -28,7 +28,7 @@ describe(@"TRSTrustbadge", ^{
             });
 			
 			it(@"has a non nil shop property", ^{
-				expect(trustbadge.shop).toNot.beNil;
+				expect(trustbadge.shop).toNot.beNil();
 			});
 			
 			it(@"has a TRSShop as shop property", ^{

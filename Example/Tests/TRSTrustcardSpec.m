@@ -57,6 +57,9 @@ describe(@"TRSTrustcard", ^{
 				expect(testCard).to.beKindOf([TRSTrustcard class]);
 			});
 			
+			it(@"doesn't yet have a presenting view controller", ^{
+				expect(testCard.presentingViewController).to.beNil();
+			});
 		});
 		
 		describe(@"-showInLightboxForTrustbadge:", ^{
@@ -71,8 +74,6 @@ describe(@"TRSTrustcard", ^{
 				[testCard showInLightboxForTrustbadge:testBadge];
 				OCMVerifyAll(cardMock);
 			});
-			
-			// note: for now I don't test for viewWillAppear:, because it is called asynchronously and that's a pain
 		});
 		
 		describe(@"-buttonTapped:", ^{
@@ -98,7 +99,7 @@ describe(@"TRSTrustcard", ^{
 				});
 				
 				it(@"has a presenting view controller", ^{
-					expect(testCard.presentingViewController).toNot.beNil;
+					expect(testCard.presentingViewController).toNot.beNil();
 				});
 				
 				it(@"calls dismissViewControllerAnimated:completion: on the presenting VC", ^{
@@ -108,14 +109,6 @@ describe(@"TRSTrustcard", ^{
 					OCMVerifyAll(vcMock);
 				});
 			});
-			
-			context(@"while trustcard is not showing", ^{
-				
-				it(@"doesn't have a presenting view controller", ^{
-					expect(testCard.presentingViewController).to.beNil;
-				});
-			});
-			
 		});
 	});
 	
@@ -164,6 +157,52 @@ describe(@"TRSTrustcard", ^{
 			OCMExpect([mockView loadRequest:[OCMArg any]]);
 			[testCard viewWillAppear:NO];
 			OCMVerifyAll(mockView);
+		});
+	});
+	
+	context(@"class methods", ^{
+		
+		describe(@"dynamicallyLoadFontNamed", ^{
+			
+			it(@"registers fontawesome from the bundle", ^{
+				// before: font not loaded
+				UIFont *notthere = [UIFont fontWithName:@"fontawesome" size:12.0];
+				expect(notthere).to.beNil();
+				[TRSTrustcard dynamicallyLoadFontNamed:@"fontawesome"];
+				// now it's there!
+				UIFont *nowthere = [UIFont fontWithName:@"fontawesome" size:12.0];
+				expect(nowthere).toNot.beNil();
+				expect(nowthere.fontName).to.equal(@"fontawesome");
+			});
+			
+			it(@"doesn't register a non-existant font", ^{
+				// before: font not loaded
+				UIFont *notthere = [UIFont fontWithName:@"gerosnonexistantfont" size:12.0];
+				expect(notthere).to.beNil();
+				[TRSTrustcard dynamicallyLoadFontNamed:@"gerosnonexistantfont"];
+				// it's still not there!
+				UIFont *stillnotthere = [UIFont fontWithName:@"gerosnonexistantfont" size:12.0];
+				expect(stillnotthere).to.beNil();
+			});
+		});
+		
+		describe(@"openFontAwesomeWithSite:", ^{
+			
+			it(@"returns a font object for a valid size", ^{
+				UIFont *aFont = [TRSTrustcard openFontAwesomeWithSize:12.0];
+				expect(aFont).toNot.beNil();
+				expect(aFont).to.beKindOf([UIFont class]);
+			});
+			
+			it(@"returns fontawesome for a valid size", ^{
+				UIFont *aFont = [TRSTrustcard openFontAwesomeWithSize:12.0];
+				expect([aFont fontName]).to.equal(@"fontawesome");
+			});
+			
+			it(@"returns nil for an invalid font size", ^{
+				UIFont *aFont = [TRSTrustcard openFontAwesomeWithSize:-4.0];
+				expect(aFont).to.beNil();
+			});
 		});
 	});
 });
