@@ -1,4 +1,7 @@
 #import <Foundation/Foundation.h>
+/**
+ `NSNumberFormatter+TRSFormatter` is a custom formatter to properly format numbers that were used in the old trustbadge design.
+ */
 
 @interface NSNumberFormatter (TRSFormatter)
 

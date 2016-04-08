@@ -1,7 +1,7 @@
 #import <Foundation/Foundation.h>
 
 /**
- *  @c TRSNetworkAgent is used to handle network requests.
+ *  `TRSNetworkAgent` is used to handle network requests.
  */
 @interface TRSNetworkAgent : NSObject
 
@@ -10,9 +10,9 @@
  */
 
 /**
- *  Creates and returns a singleton instance of @c TRSNetworkAgent.
+ *  Creates and returns a singleton instance of `TRSNetworkAgent`.
  *
- *  @return A @c TRSNetworkAgent singleton
+ *  @return A `TRSNetworkAgent` singleton
  */
 + (instancetype)sharedAgent;
 
@@ -23,12 +23,13 @@
 /**
  *	Creates and runs an @c NSURLSesseionDataTaks with a @c GET request and returns the task.
  *
- *	@param url    The url to GET from
+ *	@param url The url to GET from
+ *	@param token A client-token needed to authenticate (currently checked by the API)
  *	@param success A block object which will be executed when request finishes successfully. The block has a data argument.
  *	@param failure A block object which will be executed when request finishes successfully. 
- *						The block has a data, a response, and an error argument.
+ *	The block has a data, a response, and an error argument.
  *
- *	@return Initialized @c NSURLSessionDataTaks object or @c nil if the @c authToken is missing (i.e. also  <tt>nil</tt>).
+ *	@return Initialized `NSURLSessionDataTaks` object or `nil` if the `authToken` is missing (i.e. also  `nil`).
  */
 - (NSURLSessionDataTask *)GET:(NSURL *)url
 					authToken:(NSString *)token

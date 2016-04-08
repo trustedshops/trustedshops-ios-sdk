@@ -73,7 +73,7 @@ The trustbadge also has a debug property that sets it to load data from the Trus
 
 ## Documentation
 
-The latest documentation can be found at [cocoadocs](http://cocoadocs.org/docsets/Trustbadge/0.2.0-beta.3/).
+The latest documentation can be found at [cocoadocs](http://cocoadocs.org/docsets/Trustbadge/0.2.0-beta.4/).
 
 ## About Trusted Shops
 
