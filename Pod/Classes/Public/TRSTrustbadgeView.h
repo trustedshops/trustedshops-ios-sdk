@@ -27,7 +27,7 @@
 /** 
  Creates and initializes a Trustbadge view with a default frame.
  
- This method is the same as calling `initWithFrame:TrustedShopsID:trustedShopsID:`
+ This method is the same as calling `initWithFrame:trustedShopsID:apiToken:`
  with a frame rectangle of `(0.0, 0.0, 64.0, 64.0)`.
  
  @param trustedShopsID The Trusted Shops ID for the desired Trustbadge.
@@ -35,7 +35,7 @@
  @return A fully initialized view object for the provided Trusted Shops ID.
  @see loadTrustbadgeWithFailureBlock:
  @see loadTrustbadgeWithSuccessBlock:failureBlock:
- @see initWithFrame:TrustedShopsID:apiToken:
+ @see initWithFrame:trustedShopsID:apiToken:
  */
 - (instancetype)initWithTrustedShopsID:(NSString *)trustedShopsID apiToken:(NSString *)apiToken;
 
@@ -56,7 +56,7 @@
  @see loadTrustbadgeWithSuccessBlock:failureBlock:
  */
 - (instancetype)initWithFrame:(CGRect)aRect
-			   TrustedShopsID:(NSString *)trustedShopsID
+			   trustedShopsID:(NSString *)trustedShopsID
 					 apiToken:(NSString *)apiToken NS_DESIGNATED_INITIALIZER;
 
 /** @name Loading & activating the Trustbadge view.

@@ -6,6 +6,19 @@
 #import <OHHTTPStubs/OHHTTPStubs.h>
 #import <Specta/Specta.h>
 
+@interface TRSTrustbadgeView (PrivateTests)
+
+@property (nonatomic, copy, readwrite) NSString *trustedShopsID;
+@property (nonatomic, copy, readwrite) NSString *apiToken;
+@property (nonatomic, strong) UILabel *offlineMarker;
+
+- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event;
+- (void)touchesMoved:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event;
+- (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event;
+- (void)touchesCancelled:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event;
+- (instancetype)finishInit:(NSString *)trustedShopsID apiToken:(NSString *)apiToken;
+
+@end
 
 SpecBegin(TRSTrustbadgeView)
 
@@ -25,7 +38,7 @@ describe(@"TRSTrustbadgeView", ^{
         networkMock = nil;
     });
 	
-    describe(@"-initWithTrustedShopsID:apiToken", ^{
+    describe(@"-initWithFrame:trustedShopsID:apiToken", ^{
 		
 		sharedExamplesFor(@"an initialized TRSTrustbadgeView", ^(NSDictionary *data) {
 			it(@"returns a `TRSTrustbadgeView` object", ^{
@@ -76,8 +89,9 @@ describe(@"TRSTrustbadgeView", ^{
                                                       statusCode:200
                                                          headers:nil];
                 }];
-
-                view = [[TRSTrustbadgeView alloc] initWithTrustedShopsID:trustedShopsID apiToken:thisIsAFakeToken];
+				
+				CGRect aRect = CGRectMake(0.0, 0.0, 50.0, 50.0);
+				view = [[TRSTrustbadgeView alloc] initWithFrame:aRect trustedShopsID:trustedShopsID apiToken:thisIsAFakeToken];
             });
 
             afterEach(^{
@@ -114,7 +128,8 @@ describe(@"TRSTrustbadgeView", ^{
 
             __block TRSTrustbadgeView *view;
             beforeEach(^{
-                view = [[TRSTrustbadgeView alloc] initWithTrustedShopsID:nil apiToken:nil];
+				CGRect aRect = CGRectMake(0.0, 0.0, 50.0, 50.0);
+				view = [[TRSTrustbadgeView alloc] initWithFrame:aRect trustedShopsID:nil apiToken:nil];
             });
 
             afterEach(^{
@@ -169,7 +184,8 @@ describe(@"TRSTrustbadgeView", ^{
 					return response;
 				}];
 				
-				view = [[TRSTrustbadgeView alloc] initWithTrustedShopsID:trustedShopsID apiToken:thisIsAFakeToken];
+				CGRect aRect = CGRectMake(0.0, 0.0, 50.0, 50.0);
+				view = [[TRSTrustbadgeView alloc] initWithFrame:aRect trustedShopsID:trustedShopsID apiToken:thisIsAFakeToken];
 			});
 			
 			afterEach(^{
@@ -226,7 +242,8 @@ describe(@"TRSTrustbadgeView", ^{
 					return response;
 				}];
 				
-				view = [[TRSTrustbadgeView alloc] initWithTrustedShopsID:trustedShopsID apiToken:thisIsAFakeToken];
+				CGRect aRect = CGRectMake(0.0, 0.0, 50.0, 50.0);
+				view = [[TRSTrustbadgeView alloc] initWithFrame:aRect trustedShopsID:trustedShopsID apiToken:thisIsAFakeToken];
 			});
 			
 			afterEach(^{
@@ -281,7 +298,8 @@ describe(@"TRSTrustbadgeView", ^{
 					return response;
 				}];
 				
-				view = [[TRSTrustbadgeView alloc] initWithTrustedShopsID:trustedShopsID apiToken:thisIsAFakeToken];
+				CGRect aRect = CGRectMake(0.0, 0.0, 50.0, 50.0);
+				view = [[TRSTrustbadgeView alloc] initWithFrame:aRect trustedShopsID:trustedShopsID apiToken:thisIsAFakeToken];
 			});
 			
 			afterEach(^{
@@ -321,6 +339,110 @@ describe(@"TRSTrustbadgeView", ^{
 
     });
 
+	context(@"convenience Initializers", ^{
+		__block id tbViewClassMock;
+		__block TRSTrustbadgeView *testView;
+		beforeEach(^{
+			tbViewClassMock = OCMClassMock([TRSTrustbadgeView class]);
+			CGRect aRect = CGRectMake(0.0, 0.0, 64.0, 64.0);
+			OCMStub([tbViewClassMock initWithFrame:aRect trustedShopsID:[OCMArg any] apiToken:[OCMArg any]]);
+		});
+		afterEach(^{
+			[tbViewClassMock stopMocking];
+			tbViewClassMock = nil;
+			testView = nil;
+		});
+		
+		describe(@"-initWithTrustedShopsID:apiToken:", ^{
+			it(@"calls the dedicated initializer", ^{
+				testView = [[TRSTrustbadgeView alloc] initWithTrustedShopsID:@"someID" apiToken:@"someToken"];
+				OCMVerifyAll(tbViewClassMock);
+			});
+		});
+		
+		describe(@"-initWithTrustedShopsID", ^{
+			it(@"calls the dedicated initializer", ^{
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+				// Testing deprecated method for completeness, will be removed in future
+				testView = [[TRSTrustbadgeView alloc] initWithTrustedShopsID:@"someID"];
+#pragma clang diagnostic pop
+				OCMVerifyAll(tbViewClassMock);
+			});
+		});
+		
+		describe(@"-initWithFrame:", ^{
+			it(@"calls the dedicated initializer", ^{
+				testView = [[TRSTrustbadgeView alloc] initWithFrame:CGRectMake(0.0, 0.0, 64.0, 64.0)];
+				OCMVerifyAll(tbViewClassMock);
+			});
+		});
+		
+		describe(@"-init", ^{
+			it(@"calls the dedicated initializer", ^{
+				testView = [[TRSTrustbadgeView alloc] init];
+				OCMVerifyAll(tbViewClassMock);
+			});
+		});
+		
+		describe(@"-initWithCoder:", ^{ // this is special, as it doesn't call the dedicated intializer
+			it(@"calls UIView's initWithCoder:", ^{
+				id superClass = OCMClassMock([TRSTrustbadgeView superclass]);
+				OCMStub([superClass initWithCoder:[OCMArg any]]).andReturn(nil);
+				NSData *garbage = [@"garbage" dataUsingEncoding:NSUTF8StringEncoding];
+				NSKeyedUnarchiver *testCoder = [[NSKeyedUnarchiver alloc] initForReadingWithData:garbage];
+				testView = [[TRSTrustbadgeView alloc] initWithCoder:testCoder];
+				OCMVerifyAll(superClass);
+			});
+		});
+	});
+	
+	context(@"touch events when hidden", ^{
+		// note: the Documentation says we're supposed to implement all touch methods
+		// but when we're hidden, we just pass them through, so only test that
+		__block id superViewClassMock;
+		__block TRSTrustbadgeView *testView;
+		beforeEach(^{
+			superViewClassMock = OCMClassMock([TRSTrustbadgeView superclass]);
+			OCMStub([superViewClassMock touchesBegan:[OCMArg any] withEvent:[OCMArg any]]);
+			testView = [[TRSTrustbadgeView alloc] init];
+			[testView.offlineMarker setHidden:NO];
+		});
+		afterEach(^{
+			[superViewClassMock stopMocking];
+			superViewClassMock = nil;
+			testView = nil;
+		});
+		
+		describe(@"-touchesBegan:withEvent:", ^{
+			it(@"calls the superclass's method", ^{
+				[testView touchesBegan:[NSSet new] withEvent:[UIEvent new]];
+				OCMVerifyAll(superViewClassMock);
+			});
+		});
+		
+		describe(@"-touchesMoved:withEvent:", ^{
+			it(@"calls the superclass's method", ^{
+				[testView touchesMoved:[NSSet new] withEvent:[UIEvent new]];
+				OCMVerifyAll(superViewClassMock);
+			});
+		});
+		
+		// this actually does something when seal is not hidden, but we don't test that for now (better for a regression test)
+		describe(@"-touchesEnded:withEvent:", ^{
+			it(@"calls the superclass's method", ^{
+				[testView touchesEnded:[NSSet new] withEvent:[UIEvent new]];
+				OCMVerifyAll(superViewClassMock);
+			});
+		});
+		
+		describe(@"-touchesCancelled:withEvent:", ^{
+			it(@"calls the superclass's method", ^{
+				[testView touchesCancelled:[NSSet new] withEvent:[UIEvent new]];
+				OCMVerifyAll(superViewClassMock);
+			});
+		});
+	});
 });
 
 SpecEnd
