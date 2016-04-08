@@ -389,8 +389,9 @@ describe(@"TRSTrustbadgeView", ^{
 			it(@"calls UIView's initWithCoder:", ^{
 				id superClass = OCMClassMock([TRSTrustbadgeView superclass]);
 				OCMStub([superClass initWithCoder:[OCMArg any]]).andReturn(nil);
-				NSData *garbage = [[NSString stringWithFormat:@"garbagedata"] dataUsingEncoding:NSUTF8StringEncoding];
-				NSKeyedUnarchiver *testCoder = [[NSKeyedUnarchiver alloc] initForReadingWithData:garbage];
+				UIView *archivedView = [UIView new];
+				NSData *temp = [NSKeyedArchiver archivedDataWithRootObject:[UIView new]];
+				NSKeyedUnarchiver *testCoder = [[NSKeyedUnarchiver alloc] initForReadingWithData:temp];
 				testView = [[TRSTrustbadgeView alloc] initWithCoder:testCoder];
 				OCMVerifyAll(superClass);
 			});
