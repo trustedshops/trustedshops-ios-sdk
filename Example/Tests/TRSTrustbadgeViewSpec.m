@@ -1,4 +1,5 @@
 #import "TRSTrustbadgeView.h"
+#import "TRSTrustbadge.h"
 #import "TRSNetworkAgent+Trustbadge.h"
 #import "NSURL+TRSURLExtensions.h"
 #import "TRSErrors.h"
@@ -11,6 +12,7 @@
 @property (nonatomic, copy, readwrite) NSString *trustedShopsID;
 @property (nonatomic, copy, readwrite) NSString *apiToken;
 @property (nonatomic, strong) UILabel *offlineMarker;
+@property (nonatomic, strong) TRSTrustbadge *trustbadge;
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event;
 - (void)touchesMoved:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event;
@@ -99,6 +101,14 @@ describe(@"TRSTrustbadgeView", ^{
                 view = nil;
             });
 			
+			it(@"has a trustedShopsID", ^{
+				expect([view trustedShopsID]).toNot.beNil();
+			});
+			
+			it(@"has a apiToken", ^{
+				expect([view apiToken]).toNot.beNil();
+			});
+			
             it(@"returns the same ID", ^{
                 expect(view.trustedShopsID).to.equal(@"999888777666555444333222111000999");
             });
@@ -122,6 +132,47 @@ describe(@"TRSTrustbadgeView", ^{
 					});
 				});
 			});
+			
+			context(@"data got corrupted", ^{
+				it(@"calls the failure block with invalid data error", ^{
+					// first, we have to change the network stub
+					[OHHTTPStubs removeAllStubs];
+					[OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) { // ID copied from above...
+						NSURL *usedInAgent = [NSURL trustMarkAPIURLForTSID:@"999888777666555444333222111000999" debug:YES];
+						return [request.URL isEqual:usedInAgent];
+					} withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
+						NSError *networkError = [NSError errorWithDomain:TRSErrorDomain	code:TRSErrorDomainTrustbadgeInvalidData userInfo:nil];
+						return [OHHTTPStubsResponse responseWithError:networkError];
+					}];
+					waitUntil(^(DoneCallback done) {
+						[view loadTrustbadgeWithFailureBlock:^(NSError *error) {
+							expect(error.code).to.equal(TRSErrorDomainTrustbadgeInvalidData); // kinda pointless, I defined it so...
+							done();
+						}];
+					});
+				});
+			});
+			
+			context(@"an error from a different domain happened", ^{
+				it(@"just calls the error block without changing the error code", ^{
+					// first, we have to change the network stub
+					[OHHTTPStubs removeAllStubs];
+					[OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) { // ID copied from above...
+						NSURL *usedInAgent = [NSURL trustMarkAPIURLForTSID:@"999888777666555444333222111000999" debug:YES];
+						return [request.URL isEqual:usedInAgent];
+					} withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
+						NSError *networkError = [NSError errorWithDomain:TRSErrorDomain	code:666 userInfo:nil];
+						return [OHHTTPStubsResponse responseWithError:networkError];
+					}];
+					waitUntil(^(DoneCallback done) {
+						[view loadTrustbadgeWithFailureBlock:^(NSError *error) {
+							expect(error.code).to.equal(666); // kinda pointless, I defined it so...
+							done();
+						}];
+					});
+				});
+			});
+
         });
 
         context(@"with a nil-object", ^{
@@ -389,12 +440,27 @@ describe(@"TRSTrustbadgeView", ^{
 			it(@"calls UIView's initWithCoder:", ^{
 				id superClass = OCMClassMock([TRSTrustbadgeView superclass]);
 				OCMStub([superClass initWithCoder:[OCMArg any]]).andReturn(nil);
-				UIView *archivedView = [UIView new];
 				NSData *temp = [NSKeyedArchiver archivedDataWithRootObject:[UIView new]];
 				NSKeyedUnarchiver *testCoder = [[NSKeyedUnarchiver alloc] initForReadingWithData:temp];
 				testView = [[TRSTrustbadgeView alloc] initWithCoder:testCoder];
 				OCMVerifyAll(superClass);
 			});
+		});
+	});
+	
+	describe(@"-touchesEnded:withEvent: when not hidden", ^{
+		it(@"calls showTrustcard for touch over seal", ^{
+			TRSTrustbadgeView *testView = [[TRSTrustbadgeView alloc] init];
+			id mockedTrustbadge = OCMClassMock([TRSTrustbadge class]);
+			OCMStub([mockedTrustbadge showTrustcard]);
+			id mockedImageView = OCMClassMock([UIImageView class]);
+			OCMStub([[mockedImageView ignoringNonObjectArgs] pointInside:CGPointMake(0.0, 0.0) withEvent:[OCMArg any]]);
+			testView.trustbadge = mockedTrustbadge;
+			[testView.offlineMarker setHidden:YES];
+			UITouch *aTouch = [UITouch new];
+			[testView touchesEnded:[NSSet setWithObject:aTouch] withEvent:[UIEvent new]];
+			OCMVerifyAll(mockedTrustbadge);
+			OCMVerifyAll(mockedImageView);
 		});
 	});
 	
