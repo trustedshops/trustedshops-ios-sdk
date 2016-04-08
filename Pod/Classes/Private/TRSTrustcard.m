@@ -82,10 +82,14 @@ static NSString * const TRSCertHTMLName = @"trustinfos"; // not used atm
 // also, the font asset will be used by the webview, probably
 + (UIFont *)openFontAwesomeWithSize:(CGFloat)size
 {
+	// UIFont actually does accept negative sizes it seems, but the documentation says we shouldn't do this.
+	if (size <= 0) {
+		return nil;
+	}
 	NSString *fontName = @"fontawesome";
 	UIFont *font = [UIFont fontWithName:fontName size:size];
 	if (!font) {
-		[[self class] dynamicallyLoadFontNamed:fontName];
+		[TRSTrustcard dynamicallyLoadFontNamed:fontName];
 		font = [UIFont fontWithName:fontName size:size];
 		
 		// safe fallback
@@ -108,7 +112,9 @@ static NSString * const TRSCertHTMLName = @"trustinfos"; // not used atm
 			NSLog(@"Failed to load font: %@", errorDescription);
 			CFRelease(errorDescription);
 		}
-		CFRelease(font);
+		if (font) {
+			CFRelease(font);
+		}
 		CFRelease(provider);
 	}
 }

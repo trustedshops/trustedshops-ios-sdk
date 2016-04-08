@@ -25,7 +25,7 @@
 #pragma mark - Initialization
 
 - (instancetype)initWithFrame:(CGRect)aRect
-			   TrustedShopsID:(NSString *)trustedShopsID
+			   trustedShopsID:(NSString *)trustedShopsID
 					 apiToken:(NSString *)apiToken {
 	
 	self = [super initWithFrame:aRect];
@@ -39,17 +39,17 @@
 }
 
 - (instancetype)initWithTrustedShopsID:(NSString *)trustedShopsID {
-	return [self initWithFrame:CGRectMake(0.0, 0.0, 64.0, 64.0) TrustedShopsID:trustedShopsID apiToken:nil];
+	return [self initWithFrame:CGRectMake(0.0, 0.0, 64.0, 64.0) trustedShopsID:trustedShopsID apiToken:nil];
 }
 
 - (instancetype)initWithTrustedShopsID:(NSString *)trustedShopsID apiToken:(NSString *)apiToken {
-	return [self initWithFrame:CGRectMake(0.0, 0.0, 64.0, 64.0) TrustedShopsID:trustedShopsID apiToken:apiToken];
+	return [self initWithFrame:CGRectMake(0.0, 0.0, 64.0, 64.0) trustedShopsID:trustedShopsID apiToken:apiToken];
 }
 
 // properly overwrite the designated initializers of the superclass
 - (instancetype)initWithFrame:(CGRect)frame
 {
-	return [self initWithFrame:frame TrustedShopsID:nil apiToken:nil];
+	return [self initWithFrame:frame trustedShopsID:nil apiToken:nil];
 }
 
 - (instancetype)init

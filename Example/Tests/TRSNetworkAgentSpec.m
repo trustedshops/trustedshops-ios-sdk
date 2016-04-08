@@ -74,7 +74,7 @@ describe(@"TRSNetworkAgent", ^{
 					[agent GET:[NSURL URLWithString:@"https://localhost/foo/bar/baz"]
 					 authToken:@"authToken"
 					   success:^(NSData *data) {
-						   expect(data).toNot.beNil;
+						   expect(data).toNot.beNil();
 						   done();
 					   } failure:nil];
 				});

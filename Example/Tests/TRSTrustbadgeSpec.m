@@ -1,6 +1,15 @@
 #import "TRSTrustbadge.h"
+#import "TRSTrustcard.h"
 #import <Specta/Specta.h>
+#import <OCMock/OCMock.h>
 #import "TRSShop.h"
+#import "TRSTrustbadgeSDKPrivate.h"
+
+@interface TRSTrustbadge (PrivateTests)
+
+@property (nonatomic, strong) TRSTrustcard *trustcard;
+
+@end
 
 
 SpecBegin(TRSTrustbadge)
@@ -28,13 +37,37 @@ describe(@"TRSTrustbadge", ^{
             });
 			
 			it(@"has a non nil shop property", ^{
-				expect(trustbadge.shop).toNot.beNil;
+				expect(trustbadge.shop).toNot.beNil();
 			});
 			
 			it(@"has a TRSShop as shop property", ^{
 				expect(trustbadge.shop).to.beKindOf([TRSShop class]);
 			});
-
+			
+			it(@"does not yet have a trustcard property set", ^{
+				expect(trustbadge.trustcard).to.beNil();
+			});
+			
+			describe(@"-showTrustcard", ^{
+				
+				it(@"lazy-loads the trustcard", ^{
+					// stubbing like hell...
+					expect(trustbadge.trustcard).to.beNil();
+					id cardMock = OCMClassMock([TRSTrustcard class]);
+					id cardClassMock = OCMClassMock([TRSTrustcard class]);
+					OCMStub([cardMock initWithNibName:@"Trustcard" bundle:TRSTrustbadgeBundle()]).andReturn(cardMock);
+					OCMStub([cardMock showInLightboxForTrustbadge:[OCMArg any]]);
+					OCMStub([cardClassMock alloc]).andReturn(cardMock);
+					[trustbadge showTrustcard];
+					OCMVerify([cardMock showInLightboxForTrustbadge:trustbadge]);
+					expect(trustbadge.trustcard).toNot.beNil();
+					expect(trustbadge.trustcard).to.beKindOf([TRSTrustcard class]);
+					[cardMock stopMocking];
+					[cardClassMock stopMocking];
+				});
+				
+			});
+			
         });
 
         context(@"with invalid data", ^{
@@ -73,7 +106,6 @@ describe(@"TRSTrustbadge", ^{
         });
 
     });
-	
 });
 
 SpecEnd
