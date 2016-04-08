@@ -161,7 +161,7 @@ describe(@"TRSTrustbadgeView", ^{
 						NSURL *usedInAgent = [NSURL trustMarkAPIURLForTSID:@"999888777666555444333222111000999" debug:YES];
 						return [request.URL isEqual:usedInAgent];
 					} withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
-						NSError *networkError = [NSError errorWithDomain:TRSErrorDomain	code:666 userInfo:nil];
+						NSError *networkError = [NSError errorWithDomain:@"whatever" code:666 userInfo:nil];
 						return [OHHTTPStubsResponse responseWithError:networkError];
 					}];
 					waitUntil(^(DoneCallback done) {
