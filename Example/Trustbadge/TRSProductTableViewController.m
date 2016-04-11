@@ -17,6 +17,8 @@ static NSString * const TRSProductTableViewCellReuseIdentifier = @"Product";
 @interface TRSProductTableViewController ()
 
 @property (nonatomic, copy, readwrite) NSArray *products;
+@property (nonatomic, copy) NSString *shopID;
+@property (nonatomic, copy) NSString *apiToken;
 
 @end
 
@@ -42,9 +44,9 @@ static NSString * const TRSProductTableViewCellReuseIdentifier = @"Product";
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:TRSProductTableViewCellReuseIdentifier];
 
 #warning Add your Trusted Shops ID & api token
-	NSString *shopID = @"CHANGEME";
-	NSString *apiToken = @"CHANGEMETOO";
-	TRSTrustbadgeView *trsTrustbadgeView = [[TRSTrustbadgeView alloc] initWithTrustedShopsID:shopID apiToken:apiToken];
+	self.shopID = @"CHANGEME";
+	self.apiToken = @"NOTNEEDEDATTHEMOMENT";
+	TRSTrustbadgeView *trsTrustbadgeView = [[TRSTrustbadgeView alloc] initWithTrustedShopsID:self.shopID apiToken:self.apiToken];
 	
 	// Alternative 1 to fully activate the badge
 	self.tableView.tableHeaderView = trsTrustbadgeView;
@@ -64,6 +66,37 @@ static NSString * const TRSProductTableViewCellReuseIdentifier = @"Product";
 //	} failureBlock:^(NSError *error) {
 //		NSLog(@"Error handling in example app: Error: %@", error);
 //	}];
+	
+	// Creating a button to mock a purchase & set up an order object
+	UIButton *purchaseButton = [UIButton buttonWithType:UIButtonTypeSystem];
+	purchaseButton.frame = CGRectMake(0.0, 0.0, 100.0, 30.0); // make it a bit larger...
+	[purchaseButton setTitle:@"Purchase" forState:UIControlStateNormal];
+	[purchaseButton addTarget:self action:@selector(purchaseNothing:) forControlEvents:UIControlEventTouchUpInside];
+	self.tableView.tableFooterView = purchaseButton;
+}
+
+#pragma mark - Action for the fake purchase button
+
+- (IBAction)purchaseNothing:(id)sender {
+	NSLog(@"Purchase button was tapped, creating & processing order.");
+	NSDate *todayplussevendays = [[NSDate date] dateByAddingTimeInterval:1.0 * 60.0 * 60.0 * 24.0 * 7.0];
+	TRSOrder *fakeOrder = [TRSOrder TRSOrderWithTrustedShopsID:self.shopID
+													  apiToken:self.apiToken
+														 email:@"max.mustermann@testpurchase.com"
+													   ordernr:@"0815XYZ"
+														amount:[NSNumber numberWithDouble:28.73]
+														  curr:@"EUR"
+												   paymentType:@"OXIDPAYADVANCE"
+												  deliveryDate:todayplussevendays];
+	[fakeOrder queryAPIWithAnswerBlock:^(NSError *error) {
+		NSLog(@"I queried the API for my order before finishing it, dealing with answer");
+		// do some UI preparations or so?
+		
+		// then finish it
+		[fakeOrder finishOrderWithFailureBlock:^(NSError *error) {
+			NSLog(@"finish stuff in example app");
+		}];
+	}];
 }
 
 #pragma mark - UITableViewDataSource

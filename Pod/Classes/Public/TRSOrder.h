@@ -38,6 +38,7 @@ typedef NS_ENUM(NSUInteger, TRSNextActionFlag) {
 @property (nonatomic, copy) NSString *tsID;
 @property (nonatomic, copy) NSString *apiToken;
 
+// these might become readonly from ourside later...
 @property (nonatomic, strong) TRSConsumer *consumer;
 @property (nonatomic, copy) NSString *ordernr;
 @property (nonatomic, strong) NSNumber *amount;

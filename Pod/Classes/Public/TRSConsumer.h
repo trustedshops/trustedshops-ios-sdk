@@ -17,6 +17,7 @@ typedef NS_ENUM(NSUInteger, TRSMembershipStatus) {
 
 @interface TRSConsumer : NSObject
 
+// might become read only in public header in the future...
 @property (nonatomic, copy) NSString *email;
 @property (nonatomic, assign) TRSMembershipStatus membershipStatus;
 
