@@ -87,3 +87,6 @@ Your feedback helps us make this library better. If you have any questions conce
 ## License
 
 Trustbadge is available under the MIT license. See the LICENSE file for more info.
+
+## Looking for Android SDK?
+https://github.com/trustedshops/trustedshops-android-sdk
