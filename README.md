@@ -6,7 +6,11 @@
 [![License](https://img.shields.io/cocoapods/l/Trustbadge.svg?style=flat)](http://cocoapods.org/pods/Trustbadge)
 [![Platform](https://img.shields.io/cocoapods/p/Trustbadge.svg?style=flat)](http://cocoapods.org/pods/Trustbadge)
 
-Integrate your Trustbadge within your shopping app. Show the Trusted Shops trustmark together with your seller rating and stars to new and existing customers when they use your app.
+Integrate your Trustbadge in your shopping app and show the Trusted Shops trustmark to your users and lift your conversion rate. Our SDK
+- checks the validity of your certificate in the background,
+- shows the trustbadge whereever you want in your app and
+- allows the user to get more information of the certificate's advantages by tapping on the trustbadge (a lightbox appears from which the user can access your detailled review profile)
+- currently supports the following languages: DE, EN, FR, ES, IT, NL, PL
 
 ![](https://github.com/trustedshops/trustbadge_iOS/blob/master/Screenshots/iPhone-example_portrait.png)
 ![](https://github.com/trustedshops/trustbadge_iOS/blob/master/Screenshots/iPad-example_landscape.png)
