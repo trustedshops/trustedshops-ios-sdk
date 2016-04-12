@@ -35,22 +35,21 @@ typedef NS_ENUM(NSUInteger, TRSNextActionFlag) {
 
 @interface TRSOrder : NSObject
 
-@property (nonatomic, copy) NSString *tsID;
-@property (nonatomic, copy) NSString *apiToken;
+@property (nonatomic, readonly) NSString *tsID;
+@property (nonatomic, readonly) NSString *apiToken;
 
-// these might become readonly from ourside later...
-@property (nonatomic, strong) TRSConsumer *consumer;
-@property (nonatomic, copy) NSString *ordernr;
-@property (nonatomic, strong) NSNumber *amount;
-@property (nonatomic, copy) NSString *curr;
-@property (nonatomic, copy) NSString *paymentType;
-@property (nonatomic, strong) NSDate *deliveryDate;
+@property (nonatomic, readonly) TRSConsumer *consumer;
+@property (nonatomic, readonly) NSString *ordernr;
+@property (nonatomic, readonly) NSNumber *amount;
+@property (nonatomic, readonly) NSString *curr;
+@property (nonatomic, readonly) NSString *paymentType;
+@property (nonatomic, readonly) NSDate *deliveryDate;
 // last one will be fleshed out later...
-@property (nonatomic, strong) NSDictionary *tsCheckoutProductItems; // for now, will probably changed to custom class
+@property (nonatomic, strong) NSDictionary *tsCheckoutProductItems; // for now. will probably be changed to custom class
 
-@property (nonatomic, assign) TRSOrderState orderState;
-@property (nonatomic, assign) TRSInsuranceState insuranceState;
-@property (nonatomic, assign) TRSNextActionFlag nextActionFlag;
+@property (nonatomic, readonly) TRSOrderState orderState;
+@property (nonatomic, readonly) TRSInsuranceState insuranceState;
+@property (nonatomic, readonly) TRSNextActionFlag nextActionFlag;
 
 - (instancetype)initWithTrustedShopsID:(NSString *)trustedShopsID
 							  apiToken:(NSString *)apiToken
@@ -61,9 +60,9 @@ typedef NS_ENUM(NSUInteger, TRSNextActionFlag) {
 						   paymentType:(NSString *)paymentType
 						  deliveryDate:(NSDate *)estDeliveryDate NS_DESIGNATED_INITIALIZER;
 
-- (void)queryAPIWithAnswerBlock:(void (^)(NSError *error))answer;
-- (void)finishOrderWithFailureBlock:(void (^)(NSError *error))failure;
-- (void)queryAPIAndFinishOrderWithCompletionBlock:(void (^)(NSError *error))onCompletion;
+- (void)validateWithCompletionBlock:(void (^)(NSError *error))answer;
+- (void)finishWithCompletionBlock:(void (^)(NSError *error))failure;
+- (void)validateAndFinishWithCompletionBlock:(void (^)(NSError *error))onCompletion;
 
 + (instancetype)TRSOrderWithTrustedShopsID:(NSString *)trustedShopsID
 								  apiToken:(NSString *)apiToken

@@ -8,6 +8,24 @@
 
 #import "TRSOrder.h"
 
+@interface TRSOrder ()
+
+@property (nonatomic, readwrite, copy) NSString *tsID;
+@property (nonatomic, readwrite, copy) NSString *apiToken;
+
+@property (nonatomic, readwrite, strong) TRSConsumer *consumer;
+@property (nonatomic, readwrite, copy) NSString *ordernr;
+@property (nonatomic, readwrite, strong) NSNumber *amount;
+@property (nonatomic, readwrite, copy) NSString *curr;
+@property (nonatomic, readwrite, copy) NSString *paymentType;
+@property (nonatomic, readwrite, strong) NSDate *deliveryDate;
+
+@property (nonatomic, readwrite, assign) TRSOrderState orderState;
+@property (nonatomic, readwrite, assign) TRSInsuranceState insuranceState;
+@property (nonatomic, readwrite, assign) TRSNextActionFlag nextActionFlag;
+
+@end
+
 @implementation TRSOrder
 
 - (instancetype)init
@@ -74,7 +92,7 @@
 	return self;
 }
 
-- (void)queryAPIWithAnswerBlock:(void (^)(NSError *error))answer {
+- (void)validateWithCompletionBlock:(void (^)(NSError *error))answer {
 	NSLog(@"Order will query the API, for now just fake it! No remote connection will be made");
 	NSLog(@"some internal state changes are made");
 	if ([self areFieldsComplete]) {
@@ -84,7 +102,7 @@
 	answer(nil);
 }
 
-- (void)finishOrderWithFailureBlock:(void (^)(NSError *error))failure {
+- (void)finishWithCompletionBlock:(void (^)(NSError *error))failure {
 	NSLog(@"Order will finish by accessing the API, for now just fake it! No remote connection will be made");
 	NSLog(@"Order changes internal states and displays a UI element");
 	
@@ -109,7 +127,7 @@
 	self.orderState |= TRSOrderProcessed;
 }
 
-- (void)queryAPIAndFinishOrderWithCompletionBlock:(void (^)(NSError *error))onCompletion {
+- (void)validateAndFinishWithCompletionBlock:(void (^)(NSError *error))onCompletion {
 	NSLog(@"Query & immediately finish if query is okay. JUST FAKED FOR NOW, no remote connection will be made");
 }
 
