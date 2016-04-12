@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 
 /**
- The type for error codes that are used in the Trustbadge SDK.
+ The status a consumer can have at Trusted Shops. It's determined by contacting the remote API.
  */
 typedef NS_ENUM(NSUInteger, TRSMembershipStatus) {
 	/** The consumer's status is not yet checked against the remote Trusted Shops API */
@@ -44,7 +44,7 @@ typedef NS_ENUM(NSUInteger, TRSMembershipStatus) {
  `TRSMembershipStatus` outside of the purchase process.
  
  @param email The email address of the consumer. Must not be `nil`.
- @see initWithTrustedShopsID:apiToken:email:ordernr:amount:curr:paymentType:deliveryDate:
+ @see [TRSOrder initWithTrustedShopsID:apiToken:email:ordernr:amount:curr:paymentType:deliveryDate:]
  */
 - (nullable instancetype)initWithEmail:(nonnull NSString *)email NS_DESIGNATED_INITIALIZER;
 

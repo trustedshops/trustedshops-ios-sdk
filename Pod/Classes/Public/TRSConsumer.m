@@ -7,13 +7,7 @@
 //
 
 #import "TRSConsumer.h"
-
-@interface TRSConsumer ()
-
-@property (nonatomic, readwrite, copy, nonnull) NSString *email;
-@property (nonatomic, readwrite, assign) TRSMembershipStatus membershipStatus;
-
-@end
+#import "TRSConsumer+Private.h"
 
 @implementation TRSConsumer
 

@@ -88,6 +88,7 @@ static NSString * const TRSProductTableViewCellReuseIdentifier = @"Product";
 														  curr:@"EUR"
 												   paymentType:@"OXIDPAYADVANCE"
 												  deliveryDate:todayplussevendays];
+	TRSOrder *testOrderInit = [[TRSOrder alloc] init];
 	[fakeOrder validateWithCompletionBlock:^(NSError *error) {
 		NSLog(@"example app: I queried the API for my order before finishing it, dealing with answer");
 		// do some UI preparations or so?

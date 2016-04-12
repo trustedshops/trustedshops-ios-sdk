@@ -7,6 +7,8 @@
 //
 
 #import "TRSOrder.h"
+#import "TRSConsumer.h"
+#import "TRSConsumer+Private.h"
 
 @interface TRSOrder ()
 
@@ -18,11 +20,18 @@
 @property (nonatomic, readwrite, strong) NSNumber *amount;
 @property (nonatomic, readwrite, copy) NSString *curr;
 @property (nonatomic, readwrite, copy) NSString *paymentType;
-@property (nonatomic, readwrite, strong) NSDate *deliveryDate;
 
 @property (nonatomic, readwrite, assign) TRSOrderState orderState;
 @property (nonatomic, readwrite, assign) TRSInsuranceState insuranceState;
 @property (nonatomic, readwrite, assign) TRSNextActionFlag nextActionFlag;
+
+- (nullable instancetype)init NS_DESIGNATED_INITIALIZER;
+// Explanation for this last one: I don't want to throw an exception on the regular init, but instead return nil.
+// This is the better style anyways. Nevertheless, I also want to mark the longer initializer as designated.
+// That means, without making the "small" init a designated intializer as well, it would throw a warning unless
+// I call the "bigger" one in it (which I can't, cause I don't have meaningful parameters for it there).
+// By "secretly adding" this "private" init as designated intializer I can avoid that warning and all is neat:
+// The "big" init is the only designated initializer visible from outside this class.
 
 @end
 
@@ -30,14 +39,7 @@
 
 - (instancetype)init
 {
-	return [self initWithTrustedShopsID:nil
-							   apiToken:nil
-								  email:nil
-								ordernr:nil
-								 amount:nil
-								   curr:nil
-							paymentType:nil
-						   deliveryDate:nil];
+	return nil;
 }
 
 + (instancetype)TRSOrderWithTrustedShopsID:(NSString *)trustedShopsID
@@ -87,7 +89,7 @@
 		self.deliveryDate = estDeliveryDate;
 		
 		self.orderState = TRSOrderUnprocessed;
-		[self areFieldsComplete];
+		if (![self areFieldsComplete]) return nil;
 	}
 	return self;
 }
@@ -125,6 +127,8 @@
 	[[[[UIApplication sharedApplication] keyWindow] rootViewController] presentViewController:alert animated:YES completion:nil];
 	self.orderState &= (~TRSOrderProcessing);
 	self.orderState |= TRSOrderProcessed;
+	
+	self.consumer.membershipStatus = TRSMemberKnown;
 }
 
 - (void)validateAndFinishWithCompletionBlock:(void (^)(NSError *error))onCompletion {
@@ -136,7 +140,7 @@
 - (BOOL)areFieldsComplete {
 	// TODO: check if some of these are optional
 	if (!self.tsID || !self.apiToken || !self.consumer || !self.ordernr ||
-		!self.amount || !self.curr || !self.paymentType || !self.deliveryDate) {
+		!self.amount || !self.curr || !self.paymentType) {
 		self.orderState |= TRSOrderIncompleteData;
 		return NO;
 	} else {
