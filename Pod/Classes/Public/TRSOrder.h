@@ -151,6 +151,10 @@ typedef NS_ENUM(NSUInteger, TRSNextActionFlag) {
 									paymentType:(nonnull NSString *)paymentType
 								   deliveryDate:(nullable NSDate *)estDeliveryDate NS_DESIGNATED_INITIALIZER;
 
+- (nullable instancetype)init __attribute__((unavailable("You cannot create an instance through init - please use \
+														 initWithTrustedShopsID:apiToken:email:ordernr:amount:curr:\
+														 paymentType:deliveryDate:")));
+
 + (nullable instancetype)TRSOrderWithTrustedShopsID:(nonnull NSString *)trustedShopsID
 										   apiToken:(nonnull NSString *)apiToken
 											  email:(nonnull NSString *)email

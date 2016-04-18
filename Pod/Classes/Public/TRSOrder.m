@@ -25,22 +25,9 @@
 @property (nonatomic, readwrite, assign) TRSInsuranceState insuranceState;
 @property (nonatomic, readwrite, assign) TRSNextActionFlag nextActionFlag;
 
-- (nullable instancetype)init NS_DESIGNATED_INITIALIZER;
-// Explanation for this last one: I don't want to throw an exception on the regular init, but instead return nil.
-// This is the better style anyways. Nevertheless, I also want to mark the longer initializer as designated.
-// That means, without making the "small" init a designated intializer as well, it would throw a warning unless
-// I call the "bigger" one in it (which I can't, cause I don't have meaningful parameters for it there).
-// By "secretly adding" this "private" init as designated intializer I can avoid that warning and all is neat:
-// The "big" init is the only designated initializer visible from outside this class.
-
 @end
 
 @implementation TRSOrder
-
-- (instancetype)init
-{
-	return nil;
-}
 
 + (instancetype)TRSOrderWithTrustedShopsID:(NSString *)trustedShopsID
 								  apiToken:(NSString *)apiToken
