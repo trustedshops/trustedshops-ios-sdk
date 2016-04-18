@@ -25,7 +25,7 @@ Trustbadge is available through [CocoaPods](http://cocoapods.org). To install
 it, simply add the following line to your Podfile:
 
 ```ruby
-pod "Trustbadge", "~> 0.2.0-beta"
+pod "Trustbadge", "~> 0.2.0"
 ```
 
 ## Setup
