@@ -1,5 +1,12 @@
 # Trustbadge
 
+## Version 0.2.0
+
+* Renamed the repository
+* Used the final API-URLs for production and QA code (CDN)
+* Further pdated documentation
+* Increased test coverage to an acceptable level
+
 ## Version 0.2.0-beta
 
 * Completely reworked the trustbadge to mimic the trustbadge behaviour (simple view, tap opens trustcard)
