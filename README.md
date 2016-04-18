@@ -1,7 +1,7 @@
 # Trustbadge for iOS
 
-[![CI Status](https://travis-ci.org/trustedshops/trustbadge_iOS.svg?branch=master)](https://travis-ci.org/trustedshops/trustbadge_iOS)
-[![Coverage Status](https://coveralls.io/repos/trustedshops/trustbadge_iOS/badge.svg?branch=master&service=github)](https://coveralls.io/github/trustedshops/trustbadge_iOS?branch=master)
+[![CI Status](https://travis-ci.org/trustedshops/trustedshops-ios-sdk.svg?branch=master)](https://travis-ci.org/trustedshops/trustedshops-ios-sdk)
+[![Coverage Status](https://coveralls.io/repos/github/trustedshops/trustedshops-ios-sdk/badge.svg?branch=master)](https://coveralls.io/github/trustedshops/trustedshops-ios-sdk?branch=master)
 [![Version](https://img.shields.io/cocoapods/v/Trustbadge.svg?style=flat)](http://cocoapods.org/pods/Trustbadge)
 [![License](https://img.shields.io/cocoapods/l/Trustbadge.svg?style=flat)](http://cocoapods.org/pods/Trustbadge)
 [![Platform](https://img.shields.io/cocoapods/p/Trustbadge.svg?style=flat)](http://cocoapods.org/pods/Trustbadge)
@@ -12,8 +12,8 @@ Integrate your Trustbadge in your shopping app and show the Trusted Shops trustm
 - allows the user to get more information of the certificate's advantages by tapping on the trustbadge (a lightbox appears from which the user can access your detailled review profile)
 - currently supports the following languages: DE, EN, FR, ES, IT, NL, PL
 
-![](https://github.com/trustedshops/trustbadge_iOS/blob/master/Screenshots/iPhone-example_portrait.png)
-![](https://github.com/trustedshops/trustbadge_iOS/blob/master/Screenshots/iPad-example_landscape.png)
+![](https://github.com/trustedshops/trustedshops-ios-sdk/blob/master/Screenshots/iPhone-example_portrait.png)
+![](https://github.com/trustedshops/trustedshops-ios-sdk/blob/master/Screenshots/iPad-example_landscape.png)
 
 ## Usage
 
@@ -25,7 +25,7 @@ Trustbadge is available through [CocoaPods](http://cocoapods.org). To install
 it, simply add the following line to your Podfile:
 
 ```ruby
-pod "Trustbadge", "~> 0.2.0-beta"
+pod "Trustbadge", "~> 0.2.0"
 ```
 
 ## Setup
@@ -52,32 +52,13 @@ pod "Trustbadge", "~> 0.2.0-beta"
 	[myTrustbadgeView loadTrustbadgeWithSuccessBlock:nil failureBlock:nil];
 	```
 
-4. (__Only for the 0.2.0-beta release__) Allow your app to make a connection to the Trusted Shop API.
-
-	Add the following to your Info.plist file:
-	```
-	<key>NSAppTransportSecurity</key>
-	<dict>
-		<key>NSExceptionDomains</key>
-		<dict>
-			<key>trustedshops.com</key>
-			<dict>
-				<key>NSExceptionRequiresForwardSecrecy</key>
-				<false/>
-				<key>NSIncludesSubdomains</key>
-				<true/>
-			</dict>
-		</dict>
-	</dict>
-	```
-
 You may provide blocks that are called on success and/or failure (the failure block expects an `NSError` parameter).
 You can also specify a `UIColor` to customize the appearance of the trustcard that is displayed when the user taps on the trustbadge.
 The trustbadge also has a debug property that sets it to load data from the Trusted Shops development API instead of our production API.
 
 ## Documentation
 
-The latest documentation can be found at [cocoadocs](http://cocoadocs.org/docsets/Trustbadge/0.2.0-beta.4/).
+The latest documentation can be found at [cocoadocs](http://cocoadocs.org/docsets/Trustbadge/0.2.0/).
 
 ## About Trusted Shops
 

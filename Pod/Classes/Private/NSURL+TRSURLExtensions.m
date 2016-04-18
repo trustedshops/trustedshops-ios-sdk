@@ -10,9 +10,9 @@
 #import "TRSShop.h"
 
 NSString * const TRSAPIEndPoint = @"cdn1.api.trustedshops.com";
-NSString * const TRSTrustcardTemplateURLString = @"https://www.trustedshops.com/trustbadge/trustbadgesdk/certificatedialog_%ll_%cccccc.html";
+NSString * const TRSTrustcardTemplateURLString = @"https://widgets.trustedshops.com/trustbadgesdk/certificatedialog_%ll_%cccccc.html";
 NSString * const TRSAPIEndPointDebug = @"cdn1.api-qa.trustedshops.com";
-NSString * const TRSTrustcardTemplateURLStringDebug = @"https://qa.trustedshops.com/trustbadge/trustbadgesdk/certificatedialog_%ll_%cccccc.html";
+NSString * const TRSTrustcardTemplateURLStringDebug = @"https://widgets-qa.trustedshops.com/trustbadgesdk/certificatedialog_%ll_%cccccc.html";
 
 @implementation NSURL (TRSURLExtensions)
 
