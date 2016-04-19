@@ -31,7 +31,13 @@
 // Note: This is just a VERY simple validation... I won't go full RFC on it...
 - (BOOL)isValidEmail:(nonnull NSString *)email {
 	if ([email containsString:@"@"]) { // does it have an @ in it?
-		if ([[[email componentsSeparatedByString:@"@"] lastObject] containsString:@"."]) { // a delimiter for the toplevel domain?
+		NSMutableArray *delimited = [[email componentsSeparatedByString:@"@"] mutableCopy];
+		if (![[delimited lastObject] containsString:@"."]) { // a delimiter for the toplevel domain?
+			return NO;
+		}
+		[delimited removeLastObject];
+		NSString *front = [delimited componentsJoinedByString:@"@"];
+		if ([front length] > 0) {
 			return YES;
 		}
 	}
