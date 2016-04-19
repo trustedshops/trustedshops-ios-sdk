@@ -81,23 +81,23 @@
 	return self;
 }
 
-- (void)validateWithCompletionBlock:(void (^)(NSError *error))answer {
+- (void)validateWithCompletionBlock:(void (^)(NSError *error))onCompletion {
 	NSLog(@"Order will query the API, for now just fake it! No remote connection will be made");
 	NSLog(@"some internal state changes are made");
 	if ([self areFieldsComplete]) {
 		self.orderState &= (~TRSOrderUnprocessed);
 		self.orderState |= TRSOrderProcessing | TRSOrderBillBelowThreshold;
 	}
-	answer(nil);
+	onCompletion(nil);
 }
 
-- (void)finishWithCompletionBlock:(void (^)(NSError *error))failure {
+- (void)finishWithCompletionBlock:(void (^)(NSError *error))onCompletion {
 	NSLog(@"Order will finish by accessing the API, for now just fake it! No remote connection will be made");
 	NSLog(@"Order changes internal states and displays a UI element");
 	
 	if (![self areFieldsComplete]) {
 		NSError *retError = [NSError errorWithDomain:@"ordererror" code:999 userInfo:nil];
-		failure(retError);
+		onCompletion(retError);
 	}
 	
 	NSString *alertMsg = @"This will display some sort of lightbox with a webview in the future!.";
@@ -107,7 +107,7 @@
  
 	UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
 														  handler:^(UIAlertAction * action) {
-															  failure(nil);
+															  onCompletion(nil);
 														  }];
  
 	[alert addAction:defaultAction];
@@ -118,9 +118,9 @@
 	self.consumer.membershipStatus = TRSMemberKnown;
 }
 
-- (void)validateAndFinishWithCompletionBlock:(void (^)(NSError *error))onCompletion {
-	NSLog(@"Query & immediately finish if query is okay. JUST FAKED FOR NOW, no remote connection will be made");
-}
+//- (void)validateAndFinishWithCompletionBlock:(void (^)(NSError *error))onCompletion {
+//	NSLog(@"Query & immediately finish if query is okay. JUST FAKED FOR NOW, no remote connection will be made");
+//}
 
 #pragma mark - Helper methods
 
