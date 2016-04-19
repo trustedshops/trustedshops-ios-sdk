@@ -42,7 +42,7 @@ pod "Trustbadge", "~> 0.2.0"
 	TRSTrustbadgeView *myTrustbadgeView = [[TRSTrustbadgeView alloc] initWithTrustedShopsID:@"YOUR-TRUSTED-SHOPS-ID" apiToken:@"THIS-IS-NOT-NEEDED-ATM"];
 	```
 	
-	This is your app's TS-ID which will be provided by Trusted Shops. In order to get your TS-ID authorized please see the "Authorization" section below. For testing purposes the following TS-ID can be used: ```X330A2E7D449E31E467D2F53A55DDD070```
+	In order to get your Trusted Shops ID authorized please see the "Authorization" section below. For testing purposes the following TS-ID can be used: ```X330A2E7D449E31E467D2F53A55DDD070```
 
 3. Load the trustbadge data from our backend to properly display the view.
 
