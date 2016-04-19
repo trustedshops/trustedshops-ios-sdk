@@ -52,9 +52,28 @@ pod "Trustbadge", "~> 0.2.0"
 	[myTrustbadgeView loadTrustbadgeWithSuccessBlock:nil failureBlock:nil];
 	```
 
+4. (__Only needed if the TrustbadgeView's debug property is set to YES!__) Allow your app to make a connection to the Trusted Shop API.
+
+	Add the following to your Info.plist file:
+	```
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSExceptionDomains</key>
+		<dict>
+			<key>trustedshops.com</key>
+			<dict>
+				<key>NSExceptionRequiresForwardSecrecy</key>
+				<false/>
+				<key>NSIncludesSubdomains</key>
+				<true/>
+			</dict>
+		</dict>
+	</dict>
+	```
+
 You may provide blocks that are called on success and/or failure (the failure block expects an `NSError` parameter).
 You can also specify a `UIColor` to customize the appearance of the trustcard that is displayed when the user taps on the trustbadge.
-The trustbadge also has a debug property that sets it to load data from the Trusted Shops development API instead of our production API.
+The trustbadge also has a debug property that sets it to load data from the Trusted Shops development API instead of our production API (see step 4 above).
 
 ## Documentation
 
