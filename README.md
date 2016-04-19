@@ -41,6 +41,8 @@ pod "Trustbadge", "~> 0.2.0"
 	```objc
 	TRSTrustbadgeView *myTrustbadgeView = [[TRSTrustbadgeView alloc] initWithTrustedShopsID:@"YOUR-TRUSTED-SHOPS-ID" apiToken:@"THIS-IS-NOT-NEEDED-ATM"];
 	```
+	
+	This is your app's TS-ID which will be provided by Trusted Shops. In order to get your TS-ID authorized please see the "Authorization" section below. For testing purposes the following TS-ID can be used: ```X330A2E7D449E31E467D2F53A55DDD070```
 
 3. Load the trustbadge data from our backend to properly display the view.
 
@@ -75,6 +77,11 @@ You may provide blocks that are called on success and/or failure (the failure bl
 You can also specify a `UIColor` to customize the appearance of the trustcard that is displayed when the user taps on the trustbadge.
 The trustbadge also has a debug property that sets it to load data from the Trusted Shops development API instead of our production API (see step 4 above).
 
+## Authorization
+
+To use this SDK in your own mobile app Trusted Shops needs to authorize your app.<br>
+Please contact us via [productfeedback@trustedshops.com](mailto:productfeedback@trustedshops.com) to get your apps authorized.  
+
 ## Documentation
 
 The latest documentation can be found at [cocoadocs](http://cocoadocs.org/docsets/Trustbadge/0.2.0/).
@@ -89,5 +96,7 @@ Whether you are a start-up entrepreneur, a professional seller or an internation
 Your feedback helps us make this library better. If you have any questions concerning this product or the implementation, please contact productfeedback@trustedshops.com
 
 ## License
-
 Trustbadge is available under the MIT license. See the LICENSE file for more info.
+
+## Looking for our Android SDK?
+https://github.com/trustedshops/trustedshops-android-sdk
