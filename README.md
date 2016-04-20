@@ -7,10 +7,10 @@
 [![Platform](https://img.shields.io/cocoapods/p/Trustbadge.svg?style=flat)](http://cocoapods.org/pods/Trustbadge)
 
 Integrate your Trustbadge in your shopping app and show the Trusted Shops trustmark to your users and lift your conversion rate. Our SDK
-- checks the validity of your certificate in the background,
-- shows the trustbadge whereever you want in your app and
-- allows the user to get more information of the certificate's advantages by tapping on the trustbadge (a lightbox appears from which the user can access your detailled review profile)
-- currently supports the following languages: DE, EN, FR, ES, IT, NL, PL
+- Checks the validity of your certificate in the background,
+- Shows the trustbadge wherever you want in your app and
+- Allows the user to get more information of the certificate's advantages by tapping on the trustbadge (a lightbox appears from which the user can access your detailled review profile)
+- Currently supports the following languages: DE, EN, FR, ES, IT, NL, PL
 
 ![](https://github.com/trustedshops/trustedshops-ios-sdk/blob/master/Screenshots/iPhone-example_portrait.png)
 ![](https://github.com/trustedshops/trustedshops-ios-sdk/blob/master/Screenshots/iPad-example_landscape.png)
@@ -25,7 +25,7 @@ Trustbadge is available through [CocoaPods](http://cocoapods.org). To install
 it, simply add the following line to your Podfile:
 
 ```ruby
-pod "Trustbadge", "~> 0.2.0"
+pod "Trustbadge", "~> 0.2.1"
 ```
 
 ## Setup
@@ -41,6 +41,8 @@ pod "Trustbadge", "~> 0.2.0"
 	```objc
 	TRSTrustbadgeView *myTrustbadgeView = [[TRSTrustbadgeView alloc] initWithTrustedShopsID:@"YOUR-TRUSTED-SHOPS-ID" apiToken:@"THIS-IS-NOT-NEEDED-ATM"];
 	```
+	
+	In order to get your Trusted Shops ID authorized please see the "Authorization" section below. For testing purposes the following TS-ID can be used: ```X330A2E7D449E31E467D2F53A55DDD070```
 
 3. Load the trustbadge data from our backend to properly display the view.
 
@@ -52,10 +54,12 @@ pod "Trustbadge", "~> 0.2.0"
 	[myTrustbadgeView loadTrustbadgeWithSuccessBlock:nil failureBlock:nil];
 	```
 
-4. (__Only needed if the TrustbadgeView's debug property is set to YES!__) Allow your app to make a connection to the Trusted Shop API.
+You may provide blocks that are called on success and/or failure (the failure block expects an `NSError` parameter).
+You can also specify a `UIColor` to customize the appearance of the trustcard that is displayed when the user taps on the trustbadge.
 
-	Add the following to your Info.plist file:
-	```
+The trustbadge also has a debug property that, if set to `YES`, makes it load data from the Trusted Shops development API instead of the production API (the above example TS-ID works for debug and normal mode).
+At the moment you need to explicitly allow your app connecting to that API by adding the following to your application's `Info.plist` file:
+
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSExceptionDomains</key>
@@ -69,15 +73,16 @@ pod "Trustbadge", "~> 0.2.0"
 			</dict>
 		</dict>
 	</dict>
-	```
 
-You may provide blocks that are called on success and/or failure (the failure block expects an `NSError` parameter).
-You can also specify a `UIColor` to customize the appearance of the trustcard that is displayed when the user taps on the trustbadge.
-The trustbadge also has a debug property that sets it to load data from the Trusted Shops development API instead of our production API (see step 4 above).
+## Authorization
+
+To use this SDK in your own mobile app (i.e. with your own TS-ID) Trusted Shops needs to authorize your app.<br>
+Please contact us via [productfeedback@trustedshops.com](mailto:productfeedback@trustedshops.com) to get your apps authorized.  
 
 ## Documentation
 
-The latest documentation can be found at [cocoadocs](http://cocoadocs.org/docsets/Trustbadge/0.2.0/).
+The latest documentation can be found at [cocoadocs](http://cocoadocs.org/docsets/Trustbadge/0.2.1/).
+All headers are documented according to the [appledoc](http://appledoc.gentlebytes.com/appledoc/) syntax, so you can also use that to directly include the docsets into your XCode.
 
 ## About Trusted Shops
 
@@ -89,8 +94,7 @@ Whether you are a start-up entrepreneur, a professional seller or an internation
 Your feedback helps us make this library better. If you have any questions concerning this product or the implementation, please contact productfeedback@trustedshops.com
 
 ## License
-
 Trustbadge is available under the MIT license. See the LICENSE file for more info.
 
-## Looking for Android SDK?
+## Looking for our Android SDK?
 https://github.com/trustedshops/trustedshops-android-sdk
