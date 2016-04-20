@@ -16,3 +16,11 @@ target 'Trustbadge_Tests', :exclusive => true do
   pod 'OHHTTPStubs/HTTPMessage', '~> 4.2.0'
   pod 'Specta',                  '~> 1.0.3'
 end
+
+post_install do |installer|
+	installer.pods_project.targets.each do |target|
+		target.build_configurations.each do |config|
+			config.build_settings['ENABLE_BITCODE'] = 'NO'
+		end
+	end
+end
