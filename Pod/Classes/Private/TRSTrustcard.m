@@ -45,7 +45,7 @@ static NSString * const TRSCertHTMLName = @"trustinfos"; // not used atm
 	[self.webView loadRequest:myrequest];
 	// TODO: ensure the caching works as expected, even for app-restart etc.
 	
-	// TODO: implement fallback mechanism if the URL is not reachable, also update local files
+	// TODO: implement fallback mechanism if the URL is not reachable (means also including local files)
 
 	// set the color of the buttons
 	if (self.themeColor) {

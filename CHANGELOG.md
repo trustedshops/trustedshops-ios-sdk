@@ -1,5 +1,10 @@
 # Trustbadge
 
+## Version 0.2.1
+
+* Updated README.md for proper usage instructions
+* Removed unused assets from the bundle to slim down the pod
+
 ## Version 0.2.0
 
 * Renamed the repository
