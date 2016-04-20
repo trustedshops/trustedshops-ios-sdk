@@ -49,7 +49,7 @@ typedef NS_OPTIONS(NSUInteger, TRSOrderState) {
  */
 typedef NS_ENUM(NSUInteger, TRSInsuranceState) {
 	/** The state of insurance could not yet be determined since the remote API has not been contacted. */
-	TRSUnknown,
+	TRSInsuranceStateUnknown = 1,
 	/** The order is not covered by the Trusted Shops guarantee/is not insured. */
 	TRSNotInsured,
 	/** The order is only partially covered by the Trsuted Shops guarantee/insurance, possibly because
@@ -69,7 +69,7 @@ typedef NS_ENUM(NSUInteger, TRSNextActionFlag) {
 	/** The SDK will not display any UI elements in regards to this `TRSOrder` on subsequent
 	 calls to `finishWithCompletionBlock:`. Usually this means
 	 that one of these methods has been called before and no error occured. */
-	TRSNoNextActions,
+	TRSNoNextActions = 1,
 	/** This state is the default for a newly instantiated `TRSOrder` object. It denotes that the next
 	 actions depend on first validating the object by calling `validateWithCompletionBlock:`.*/
 	TRSValidationPending,
@@ -79,7 +79,7 @@ typedef NS_ENUM(NSUInteger, TRSNextActionFlag) {
 	/** This state is currently not used. */
 	TRSShowExistingInsurance,
 	/** This state is currently not used. */
-	TRSRecommendUpgrageInWebView,
+	TRSRecommendUpgradeInWebView,
 	/** This state is currently not used. */
 	TRSShowUpgradeInComingEmail
 };
@@ -179,7 +179,7 @@ typedef NS_ENUM(NSUInteger, TRSNextActionFlag) {
  @param orderNo A string uniquely representing the order that was made.
  @param amount The actual value of the purchase. Typically a float or double greater than 0 and with 2 digits after the decimal point.
  @param currency A string denoting the purchase the transaction was made in, e.g. `@"EUR"`.
- @param paymentType A string denoting the payment type, e.g. `@"OXIDPAYADVANCE"`.
+ @param paymentType A string denoting the payment type, e.g. `@"CREDIT_CARD"`.
  @param estDeliveryDate An `NSDate` object holding your estimate for the date the purchased product will arrive at the
  customer. Should lie in the future and can be `nil`.
  @see curr
@@ -208,7 +208,7 @@ typedef NS_ENUM(NSUInteger, TRSNextActionFlag) {
  @param orderNo A string uniquely representing the order that was made.
  @param amount The actual value of the purchase. Typically a float or double greater than 0 and with 2 digits after the decimal point.
  @param currency A string denoting the purchase the transaction was made in, e.g. `@"EUR"`.
- @param paymentType A string denoting the payment type, e.g. `@"OXIDPAYADVANCE"`.
+ @param paymentType A string denoting the payment type, e.g. `@"CREDIT_CARD"`.
  @param estDeliveryDate An `NSDate` object holding your estimate for the date the purchased product will arrive at the
  customer. Should lie in the future and can be `nil`.
  @see curr

@@ -7,7 +7,6 @@
 //
 
 #import "NSURL+TRSURLExtensions.h"
-#import <OCMock/OCMock.h>
 #import <Specta/Specta.h>
 #import "TRSShop.h"
 #import "TRSNetworkAgent+Trustbadge.h"

@@ -75,6 +75,9 @@
 		self.paymentType = paymentType;
 		self.deliveryDate = estDeliveryDate;
 		
+		self.insuranceState = TRSInsuranceStateUnknown;
+		self.nextActionFlag = TRSValidationPending;
+		
 		self.orderState = TRSOrderUnprocessed;
 		if (![self areFieldsComplete]) return nil;
 	}
