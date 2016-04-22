@@ -14,6 +14,7 @@
 #import "NSURL+TRSURLExtensions.h"
 #import "TRSTrustbadgeSDKPrivate.h"
 #import "UIColor+TRSColors.h"
+#import "UIViewController+MaryPopin.h"
 @import CoreText;
 
 @interface TRSTrustcard (PrivateTests)
@@ -99,13 +100,13 @@ describe(@"TRSTrustcard", ^{
 					});
 				});
 				
-				it(@"has a presenting view controller", ^{
-					expect(testCard.presentingViewController).toNot.beNil();
+				it(@"has a presentingPopin view controller", ^{
+					expect(testCard.presentingPopinViewController).toNot.beNil();
 				});
 				
 				it(@"calls dismissViewControllerAnimated:completion: on the presenting VC", ^{
-					id vcMock = OCMPartialMock(testCard.presentingViewController); // prev test ensures it's not nil
-					OCMExpect([[vcMock ignoringNonObjectArgs] dismissViewControllerAnimated:NO completion:[OCMArg any]]);
+					id vcMock = OCMPartialMock(testCard.presentingPopinViewController); // prev test ensures it's not nil
+					OCMExpect([[vcMock ignoringNonObjectArgs] dismissCurrentPopinControllerAnimated:NO completion:[OCMArg any]]);
 					[testCard buttonTapped:nil];
 					OCMVerifyAll(vcMock);
 				});
