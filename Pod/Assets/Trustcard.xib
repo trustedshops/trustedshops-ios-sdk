@@ -19,36 +19,43 @@
             <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="esv-fR-Fyr">
-                    <rect key="frame" x="562" y="562" width="30" height="30"/>
-                    <state key="normal" title="OK"/>
-                    <connections>
-                        <action selector="buttonTapped:" destination="-1" eventType="touchUpInside" id="Sar-dv-05d"/>
-                    </connections>
-                </button>
                 <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TXm-Kr-Jfe">
-                    <rect key="frame" x="463" y="562" width="91" height="30"/>
+                    <rect key="frame" x="471" y="570" width="91" height="30"/>
+                    <edgeInsets key="layoutMargins" top="0.0" left="0.0" bottom="0.0" right="0.0"/>
                     <state key="normal" title="CERTIFICATE"/>
                     <connections>
                         <action selector="buttonTapped:" destination="-1" eventType="touchUpInside" id="fqi-6V-Gt2"/>
                     </connections>
                 </button>
                 <webView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GZA-cu-O4x">
-                    <rect key="frame" x="8" y="8" width="584" height="546"/>
+                    <rect key="frame" x="0.0" y="0.0" width="600" height="570"/>
                     <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="deviceRGB"/>
+                    <edgeInsets key="layoutMargins" top="0.0" left="0.0" bottom="0.0" right="8"/>
+                    <connections>
+                        <outlet property="delegate" destination="-1" id="5lc-f4-geY"/>
+                    </connections>
                 </webView>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="esv-fR-Fyr">
+                    <rect key="frame" x="570" y="570" width="30" height="30"/>
+                    <edgeInsets key="layoutMargins" top="0.0" left="0.0" bottom="0.0" right="0.0"/>
+                    <state key="normal" title="OK"/>
+                    <connections>
+                        <action selector="buttonTapped:" destination="-1" eventType="touchUpInside" id="Sar-dv-05d"/>
+                    </connections>
+                </button>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstItem="GZA-cu-O4x" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="topMargin" id="66c-73-40q"/>
                 <constraint firstItem="esv-fR-Fyr" firstAttribute="bottom" secondItem="iN0-l3-epB" secondAttribute="bottomMargin" id="9eF-7P-iAY"/>
-                <constraint firstItem="TXm-Kr-Jfe" firstAttribute="top" secondItem="GZA-cu-O4x" secondAttribute="bottom" constant="8" symbolic="YES" id="Kmq-wG-5Uk"/>
+                <constraint firstItem="TXm-Kr-Jfe" firstAttribute="top" secondItem="GZA-cu-O4x" secondAttribute="bottom" id="Kmq-wG-5Uk"/>
                 <constraint firstItem="GZA-cu-O4x" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leadingMargin" id="bFX-SA-c77"/>
                 <constraint firstItem="esv-fR-Fyr" firstAttribute="trailing" secondItem="GZA-cu-O4x" secondAttribute="trailing" id="cS6-Of-fkS"/>
-                <constraint firstItem="esv-fR-Fyr" firstAttribute="leading" secondItem="TXm-Kr-Jfe" secondAttribute="trailing" constant="8" symbolic="YES" id="cmM-h7-1jT"/>
+                <constraint firstItem="esv-fR-Fyr" firstAttribute="leading" secondItem="TXm-Kr-Jfe" secondAttribute="trailing" constant="8" id="cmM-h7-1jT"/>
                 <constraint firstItem="esv-fR-Fyr" firstAttribute="baseline" secondItem="TXm-Kr-Jfe" secondAttribute="baseline" id="j0a-wL-59a"/>
                 <constraint firstItem="GZA-cu-O4x" firstAttribute="trailing" secondItem="iN0-l3-epB" secondAttribute="trailingMargin" id="oMn-TN-jsN"/>
             </constraints>
+            <edgeInsets key="layoutMargins" top="0.0" left="0.0" bottom="0.0" right="0.0"/>
             <point key="canvasLocation" x="222" y="193"/>
         </view>
     </objects>
