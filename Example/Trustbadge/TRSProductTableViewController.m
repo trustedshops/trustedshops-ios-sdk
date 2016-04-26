@@ -86,8 +86,22 @@ static NSString * const TRSProductTableViewCellReuseIdentifier = @"Product";
 													   ordernr:@"0815XYZ"
 														amount:[NSNumber numberWithDouble:28.73]
 														  curr:@"EUR"
-												   paymentType:@"OXIDPAYADVANCE"
+												   paymentType:@"PREPAYMENT"
 												  deliveryDate:todayplussevendays];
+	
+	NSURL *myURL = [NSURL URLWithString:@"http://www.brother.de/verbrauchsmaterial/laser/toner/tn/tn241c"];
+	TRSProduct *product1 = [[TRSProduct alloc] initWithUrl:myURL name:@"Brother TN-241C" SKU:@"4123123"];
+	product1.brand = @"Brother";
+	product1.GTIN = @"4977766718400";
+	myURL = [NSURL URLWithString:@"http://www.brother.de/~/media/Product%20Images/Supplies/Laser/Toner/TN/TN241C/TN241C_main.png"];
+	product1.imageUrl = myURL;
+	product1.MPN = @"TN241C";
+	
+	myURL = [NSURL URLWithString:@"http://www.brother.de/verbrauchsmaterial/laser/toner/tn/tn241c"];
+	TRSProduct *product2 = [[TRSProduct alloc] initWithUrl:myURL name:@"Brother TN-261C" SKU:@"41231661"];
+	
+	fakeOrder.tsCheckoutProductItems = @[product1, product2];
+	
 	[fakeOrder validateWithCompletionBlock:^(NSError *error) {
 		NSLog(@"example app: I queried the API for my order before finishing it, dealing with answer");
 		// do some UI preparations or so?
@@ -95,6 +109,7 @@ static NSString * const TRSProductTableViewCellReuseIdentifier = @"Product";
 		// then finish it
 		[fakeOrder finishWithCompletionBlock:^(NSError *error) {
 			NSLog(@"example app: finish stuff in example app");
+			NSLog(@"insurance %@", (fakeOrder.insuranceState == TRSUserDeclinedInsurance) ? @"declined" : @"bought");
 		}];
 	}];
 }

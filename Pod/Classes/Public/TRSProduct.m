@@ -26,4 +26,14 @@
 	return self;
 }
 
+- (nonnull NSString *)jsStringDescription {
+	NSString *tempImageUrl = self.imageUrl ? [self.imageUrl absoluteString] : @"NULL";
+	NSString *tempGTIN = self.GTIN ? self.GTIN : @"NULL";
+	NSString *tempMPN = self.MPN ? self.MPN : @"NULL";
+	NSString *tempBrand = self.brand ? self.brand : @"NULL";
+	
+	return [NSString stringWithFormat:@"'%@', '%@', '%@', '%@', '%@', '%@', '%@'", [self.url absoluteString],
+			self.name, self.SKU, tempImageUrl, tempGTIN, tempMPN, tempBrand];
+}
+
 @end

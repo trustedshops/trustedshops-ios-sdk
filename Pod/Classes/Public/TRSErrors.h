@@ -21,5 +21,12 @@ typedef NS_ENUM(NSUInteger, TRSErrorCode) {
 	/** The client token for the API is not valid. Currently this cannot happen, as no token is needed. */
 	TRSErrorDomainTrustbadgeInvalidAPIToken,
 	/** The TRSTrustbadgeView instance was set up without a Trusted Shops shop ID or without any client token (or both). */
-	TRSErrorDomainTrustbadgeMissingTSIDOrAPIToken
+	TRSErrorDomainTrustbadgeMissingTSIDOrAPIToken,
+	/** The processOrder:onCompletion: method could not find a root view controller to present its popup */
+	TRSErrorDomainProcessOrderNeedsRootViewController,
+	/** The TRSCheckoutViewController did not finish processing the last call of processOrder:onCompletion: yet.
+	 Only one order can be processed at a time. */
+	TRSErrorDomainProcessOrderLastOrderNotFinished,
+	/** The TRSOrder object passed to processOrder:onCompletion: is invalid or corrupted */
+	TRSErrorDomainProcessOrderInvalidData
 };

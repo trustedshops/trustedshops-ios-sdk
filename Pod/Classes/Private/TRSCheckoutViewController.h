@@ -22,6 +22,19 @@
 
 @property (nonatomic, readonly, assign) CGSize minPopoverSize;
 
-- (void)processOrder:(nonnull TRSOrder *)order onCompletion:(nullable void (^)(NSError *_Nullable error))onCompletion;
+/**
+ Displays the webView for the Trustbadge and passes it the order data to process.
+ 
+ This method displays the webView that does the actual processing of the order data.
+ To do that it calls the according setter methods in the loaded html's java script. A side effect of the current
+ implementation is that it can only process one order at a time, even though it does so asynchronously.
+ If you call this method a second time before the first call's completion block was executed,
+ it fails (i.e. the second call's completion method is called with an error).
+ 
+ @param order the `TRSOrder` object to be processed
+ @param onCompletion A block that is called after the order was processed or after an error occured. A successful
+ call passes nil as error. Its canceled parameter is TRUE if the user closed the webView without purchasing a guarantee, etc.
+ */
+- (void)processOrder:(nonnull TRSOrder *)order onCompletion:(nullable void (^)(BOOL canceled, NSError *_Nullable error))onCompletion;
 
 @end

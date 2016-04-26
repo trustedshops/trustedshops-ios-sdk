@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 @class TRSConsumer;
+@class TRSProduct;
 
 /**
  The state an order object can be in. These are preliminary and might change.
@@ -16,26 +17,24 @@
  */
 typedef NS_OPTIONS(NSUInteger, TRSOrderState) {
 	/** The state any newly created `TRSOrder` object is in before it has been validated or sent to the remote API. 
-	 Mutually exclusive with `TRSOrderStateProcessing` and `TRSOrderStateProcessed`. */
+	 Mutually exclusive with `TRSOrderProcessing` and `TRSOrderProcessed`. */
 	TRSOrderUnprocessed = (1 << 0),
 	/** Usually the state after a `validateWithCompletionBlock:` has been called. This is also the state when
-	 `finishWithCompletionBlock:` has been called on the object
-	 but an error happens during these calls, i.e. the object was not yet in a state allowing successful 
-	 processing or there was a problem contacting the remote API. Mutually exclusive with `TRSOrderStateUnprocessed`
-	 and `TRSOrderStateProcessed`. */
+	 `finishWithCompletionBlock:` has been called on the object but an error happens during these calls, i.e. the 
+	 object was not yet in a state allowing successful processing or there was a problem contacting the remote API. 
+	 Mutually exclusive with `TRSOrderUnprocessed` and `TRSOrderProcessed`. */
 	TRSOrderProcessing = (1 << 1),
 	/** This state denotes some information about the data is missing or invalid. In the current implementation
 	 this should never happen.*/
 	TRSOrderIncompleteData = (1 << 2),
-	/** The state after `finishWithCompletionBlock:` has been
-	 called successfully. The remote API has been contacted and no further connections to it with this
-	 object will be made. Usually that means you can safely release ownership of the object.
-	 Mutually exclusive with `TRSOrderStateProcessing` and `TRSOrderStateUnprocessed`. */
+	/** The state after `finishWithCompletionBlock:` has been called successfully. The remote API has been contacted 
+	 and no further connections to it with this object will be made. Usually that means you can safely release 
+	 ownership of the object. Mutually exclusive with `TRSOrderProcessing` and `TRSOrderUnprocessed`. */
 	TRSOrderProcessed = (1 << 3),
 	/** This denotes that the amount field in the order exceeds the usual value that the Trusted Shops guarantee 
-	 covers. Since this value might vary over time or region, you should not rely on fixed numbers
-	 but instead check for this state after `finishWithCompletionBlock:`
-	 or `validateWithCompletionBlock:` has been called. Mutually exclusive with `TRSOrderBillAboveThreshold`.*/
+	 covers. Since this value might vary over time or region, you should not rely on fixed numbers but instead check 
+	 for this state after `finishWithCompletionBlock:` or `validateWithCompletionBlock:` has been called. 
+	 Mutually exclusive with `TRSOrderBillAboveThreshold`.*/
 	TRSOrderBillBelowThreshold = (1 << 4),
 	/** The counterpart to `TRSOrderBillBelowThreshold`. See there for further information. */
 	TRSOrderBillAboveThreshold = (1 << 5)
@@ -52,11 +51,15 @@ typedef NS_ENUM(NSUInteger, TRSInsuranceState) {
 	TRSInsuranceStateUnknown = 1,
 	/** The order is not covered by the Trusted Shops guarantee/is not insured. */
 	TRSNotInsured,
+	/** The order is insured, either fully or at least partially. Exact detail about this cannot be determined atm. */
+	TRSInsured,
 	/** The order is only partially covered by the Trsuted Shops guarantee/insurance, possibly because
-	 it's amount lies over a certain threshold and the consumer is not a premium member.*/
+	 it's amount lies over a certain threshold and the consumer is not a premium member. Currently not used. */
 	TRSPartiallyInsured,
-	/** The order is fully insured. */
-	TRSFullyInsured
+	/** The order is fully insured. Currently not used. */
+	TRSFullyInsured,
+	/** The user declined insuring the order */
+	TRSUserDeclinedInsurance
 };
 
 /**
@@ -140,9 +143,10 @@ typedef NS_ENUM(NSUInteger, TRSNextActionFlag) {
 @property (nonatomic, strong, nullable) NSDate *deliveryDate;
 // last one will be fleshed out later...
 /**
- A list of all the products in this order.
+ A list of all the products in this order. You should not alter the `TRSProduct` objects in the array after it has 
+ been set to this order, since the data is asynchronously sent to the Trusted Shops API.
  */
-@property (nonatomic, strong, nullable) NSDictionary *tsCheckoutProductItems; // for now. will probably be changed to custom class
+@property (nonatomic, copy, nullable) NSArray<TRSProduct *> *tsCheckoutProductItems;
 
 /**
  The state the order is currently in, as related to the Trusted Shops remote API.
@@ -253,7 +257,5 @@ typedef NS_ENUM(NSUInteger, TRSNextActionFlag) {
  @see validateWithCompletionBlock:
  */
 - (void)finishWithCompletionBlock:(nullable void (^)(NSError *_Nullable error))onCompletion;
-
-//- (void)validateAndFinishWithCompletionBlock:(nullable void (^)(NSError *_Nullable error))onCompletion;
 
 @end

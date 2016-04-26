@@ -23,4 +23,6 @@
 - (nullable instancetype)initWithUrl:(nonnull NSURL *)url
 								name:(nonnull NSString *)name
 								 SKU:(nonnull NSString *)SKU NS_DESIGNATED_INITIALIZER;
+
+- (nonnull NSString *)jsStringDescription;
 @end

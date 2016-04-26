@@ -3,6 +3,7 @@
 #import <Specta/Specta.h>
 #import <OHHTTPStubs/OHHTTPStubs.h>
 #import <OCMock/OCMock.h>
+#import "UIViewController+MaryPopin.h"
 
 // import the private interface for tests
 @interface TRSOrder (PrivateTests)
@@ -235,11 +236,11 @@ describe(@"TRSOrder", ^{
 //				});
 //			});
 			
-			it(@"displays a modal view", ^{
+			it(@"displays a popin view", ^{
 				id rootVCMock = OCMPartialMock([[[UIApplication sharedApplication] keyWindow] rootViewController]);
-				OCMStub([rootVCMock presentViewController:[OCMArg any] animated:YES completion:nil]);
+				OCMStub([rootVCMock presentPopinController:[OCMArg any] animated:YES completion:nil]);
 				[aTestOrder finishWithCompletionBlock:nil];
-				OCMVerify([rootVCMock presentViewController:[OCMArg any] animated:YES completion:nil]);
+				OCMVerify([rootVCMock presentPopinController:[OCMArg any] animated:YES completion:nil]);
 			});
 			
 		});

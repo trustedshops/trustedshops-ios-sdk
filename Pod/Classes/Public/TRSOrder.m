@@ -9,6 +9,8 @@
 #import "TRSOrder.h"
 #import "TRSConsumer.h"
 #import "TRSConsumer+Private.h"
+#import "TRSCheckoutViewController.h"
+#import "TRSErrors.h"
 
 @interface TRSOrder ()
 
@@ -85,57 +87,93 @@
 }
 
 - (void)validateWithCompletionBlock:(void (^)(NSError *error))onCompletion {
-	NSLog(@"Order will query the API, for now just fake it! No remote connection will be made");
-	NSLog(@"some internal state changes are made");
-	if ([self areFieldsComplete]) {
-		self.orderState &= (~TRSOrderUnprocessed);
-		self.orderState |= TRSOrderProcessing | TRSOrderBillBelowThreshold;
+//	NSLog(@"Order will query the API, for now just fake it! No remote connection will be made");
+//	NSLog(@"some internal state changes are made");
+	
+	// note that we will always set ourselves as "processing", even if the validation fails
+	// (i.e. conceptually "validate" is a part of "processing")
+	self.orderState &= (~TRSOrderUnprocessed);
+	self.orderState |= TRSOrderProcessing;
+	
+	NSError *error = nil;
+	if (![self areFieldsComplete]) {
+		error = [NSError errorWithDomain:TRSErrorDomain
+									code:TRSErrorDomainProcessOrderInvalidData
+								userInfo:@{NSLocalizedDescriptionKey :
+											   @"order object invalid or corrupted"}];
+	} else {
+		self.nextActionFlag = TRSShowWebViewInLightbox;
 	}
-	onCompletion(nil);
+	onCompletion(error);
 }
 
 - (void)finishWithCompletionBlock:(void (^)(NSError *error))onCompletion {
-	NSLog(@"Order will finish by accessing the API, for now just fake it! No remote connection will be made");
-	NSLog(@"Order changes internal states and displays a UI element");
+	self.orderState &= (~TRSOrderUnprocessed);
+	self.orderState |= TRSOrderProcessing;
 	
-	if (![self areFieldsComplete]) {
-		NSError *retError = [NSError errorWithDomain:@"ordererror" code:999 userInfo:nil];
-		onCompletion(retError);
-	}
+	TRSCheckoutViewController *checkoutVC = [[TRSCheckoutViewController alloc] init];
+	[checkoutVC processOrder:self onCompletion:^(BOOL canceled, NSError * _Nullable error) {
+		
+		if (error) {
+			// check state & adapt flags
+			[self areFieldsComplete]; // this sets the incomplete flag if needed.
+			self.nextActionFlag = TRSValidationPending; // set this back to default
+			
+			onCompletion(error);
+		} else { // success, so set the flags accordingly!
+			self.orderState &= (~TRSOrderProcessing);
+			self.orderState |= TRSOrderProcessed;
+			
+			// TODO: figure out membership status in checkout object & set state there.
+			self.consumer.membershipStatus = TRSMemberKnown;
+			
+			if (canceled) {
+				self.insuranceState = TRSUserDeclinedInsurance;
+			} else {
+				self.insuranceState = TRSInsured;
+			}
+			
+			self.nextActionFlag = TRSNoNextActions;
+			
+//			NSLog(@"webView was closed with cancel state: %@", canceled ? @"YES" : @"NO");
+			onCompletion(nil);
+		}
+	}];
 	
-	NSString *alertMsg = @"This will display some sort of lightbox with a webview in the future!.";
-	UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Future WebView"
-																   message:alertMsg
-															preferredStyle:UIAlertControllerStyleAlert];
- 
-	UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
-														  handler:^(UIAlertAction * action) {
-															  onCompletion(nil);
-														  }];
- 
-	[alert addAction:defaultAction];
-	[[[[UIApplication sharedApplication] keyWindow] rootViewController] presentViewController:alert animated:YES completion:nil];
-	self.orderState &= (~TRSOrderProcessing);
-	self.orderState |= TRSOrderProcessed;
-	
-	self.consumer.membershipStatus = TRSMemberKnown;
 }
-
-//- (void)validateAndFinishWithCompletionBlock:(void (^)(NSError *error))onCompletion {
-//	NSLog(@"Query & immediately finish if query is okay. JUST FAKED FOR NOW, no remote connection will be made");
-//}
 
 #pragma mark - Helper methods
 
 - (BOOL)areFieldsComplete {
-	// TODO: check if some of these are optional
-	if (!self.tsID || !self.apiToken || !self.consumer || !self.ordernr ||
-		!self.amount || !self.curr || !self.paymentType) {
+	if (!self.tsID || !self.apiToken || !self.consumer || !self.ordernr || !self.amount || !self.curr ||
+		!self.paymentType || ![self isCurrencyStringValid] || ![self isPaymentTypeValid]) {
 		self.orderState |= TRSOrderIncompleteData;
 		return NO;
 	} else {
 		self.orderState &= (~TRSOrderIncompleteData);
 		return YES;
+	}
+}
+
+- (BOOL)isCurrencyStringValid {
+	NSArray *valids = @[@"EUR", @"USD", @"AUD", @"CAD", @"CHF", @"DKK", @"GBP", @"JPY", @"NZD", @"SEK", @"PLN",
+						@"NOK", @"BGN", @"RON", @"RUB", @"TRY", @"CZK", @"HUF", @"HRK"];
+	if ([valids containsObject:self.curr]) {
+		return YES;
+	} else {
+		return NO;
+	}
+}
+
+- (BOOL)isPaymentTypeValid {
+	NSArray *valids =  @[@"DIRECT_DEBIT", @"CASH_ON_PICKUP", @"CLICKANDBUY", @"FINANCING", @"GIROPAY",
+						 @"GOOGLE_CHECKOUT", @"CREDIT_CARD", @"LEASING", @"MONEYBOOKERS", @"CASH_ON_DELIVERY",
+						 @"PAYBOX", @"PAYPAL", @"INVOICE", @"CHEQUE", @"SHOP_CARD", @"DIRECT_E_BANKING", @"T_PAY",
+						 @"PREPAYMENT", @"AMAZON_PAYMENTS"];
+	if ([valids containsObject:self.paymentType]) {
+		return YES;
+	} else {
+		return NO;
 	}
 }
 

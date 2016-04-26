@@ -1,0 +1,270 @@
+<!doctype html>
+<html class="no-js" lang="">
+<head>
+    <base href="https://www.trustedshops.com">
+    <meta charset="utf-8">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        #checkoutTrustcardResponsive_db8d3657bdbe440c985ae127463eaad4node {
+        border-bottom: 0!important;
+        }
+    </style>
+    <script>
+    window.addEventListener("trustbadge_event_card_closed", function(){
+        jsInterface.dialogDismiss();
+        console.log("adding event listener");
+    });
+
+
+    function logToAndroid(message) {
+        jsInterface.log(message);
+     }
+
+    function injectTrustbadge(tsId) {
+            var _tsid = tsId;
+            _tsConfig = {
+                'variant': 'reviews'
+            };
+            var _ts = document.createElement('script');
+            _ts.type = 'text/javascript';
+            _ts.charset = 'utf-8';
+            _ts.async = true;
+            _ts.src = '//integr.trustedshops.com/trustbadge/js/' + _tsid + '.js';
+            var __ts = document.getElementsByTagName('script')[0];
+            __ts.parentNode.insertBefore(_ts, __ts);
+    }
+
+     var trustbadgeCheckoutManager = trustbadgeCheckoutManager || function() {
+        var Product = function (){
+            var productObject=  {
+
+            };
+
+            return {
+                setProductUrl: function(productUrl) {
+                    productObject.productUrl = productUrl;
+                },
+                setProductSKU: function(productSKU) {
+                    productObject.productSKU = productSKU;
+                },
+                setProductImageUrl: function(imageUrl) {
+                    productObject.productImageUrl = imageUrl;
+                },
+                setProductName: function(productName) {
+                    productObject.productName = productName;
+                },
+                setProductGTIN: function(productGTIN) {
+                    productObject.productGTIN = productGTIN;
+                },
+                setProductMPN: function(productMPN) {
+                    productObject.productMPN = productMPN;
+                },
+                setProductBrand: function(productBrand) {
+                    productObject.productBrand = productBrand;
+                },
+                getProductUrl: function() {
+                    return productObject.productUrl;
+                },
+                getProductSKU: function() {
+                    return productObject.productSKU;
+                },
+                getProductImageUrl: function() {
+                    return productObject.productImageUrl;
+                },
+                getProductName: function() {
+                    return productObject.productName;
+                },
+                getProductGTIN: function() {
+                    return productObject.productGTIN;
+                },
+                getProductMPN: function() {
+                    return productObject.productMPN;
+                },
+                getProductBrand: function() {
+                    return productObject.productBrand;
+                },
+                getProductObject: function() {
+                    return productObject;
+                }
+            }
+        };
+
+        var orderManager  = {
+            orderObject: {
+                products: []
+            },
+            setTsCheckoutBuyerEmail: function(buyerEmail) {
+                //logToAndroid("Setting email");
+                this.orderObject.tsCheckoutBuyerEmail = buyerEmail;
+            },
+            setTsCheckoutOrderNr: function (checkoutOrderNr) {
+                this.orderObject.tsCheckoutOrderNr = checkoutOrderNr;
+            },
+            setTsCheckoutOrderAmount: function (checkoutOrderAmount) {
+                this.orderObject.tsCheckoutOrderAmount = checkoutOrderAmount;
+            },
+            setTsCheckoutOrderCurrency: function (checkoutOrderCurrency) {
+                this.orderObject.tsCheckoutOrderCurrency = checkoutOrderCurrency;
+            },
+            setTsCheckoutOrderPaymentType: function (checkoutOrderPaymentType) {
+                this.orderObject.tsCheckoutOrderPaymentType = checkoutOrderPaymentType;
+            },
+            setTsCheckoutOrderEstDeliveryDate: function (checkoutOrderEstDeliveryDate) {
+                this.orderObject.tsCheckoutOrderEstDeliveryDate = checkoutOrderEstDeliveryDate;
+            },
+            addProduct: function(tsCheckoutProductUrl, tsCheckoutProductName, tsCheckoutProductSKU, tsCheckoutProductImageUrl, tsCheckoutProductGTIN, tsCheckoutProductMPN, tsCheckoutProductBrand) {
+                if (typeof tsCheckoutProductUrl == 'undefined' || typeof tsCheckoutProductName == 'undefined' || typeof tsCheckoutProductSKU == 'undefined') {
+                    /* Required attributes have to be set, do not add product otherwise */
+                    return;
+                }
+                var product = new Product();
+                product.setProductSKU(tsCheckoutProductSKU);
+                product.setProductName(tsCheckoutProductName);
+                product.setProductUrl(tsCheckoutProductUrl);
+                product.setProductImageUrl(tsCheckoutProductImageUrl);
+                product.setProductGTIN(tsCheckoutProductGTIN);
+                product.setProductMPN(tsCheckoutProductMPN);
+                product.setProductBrand(tsCheckoutProductBrand);
+                this.orderObject.products.push(product);
+            },
+            getOrderData: function() {
+                //logToAndroid("Getting email");
+                return this.orderObject;
+            },
+            getProducts: function() {
+                return this.orderObject.products;
+            },
+            getTrustedShopsCheckoutElement: function() {
+
+                var rootElement = document.createElement("div");
+                rootElement.id = "trustedShopsCheckout";
+                rootElement.style.display="none";
+
+
+                if (typeof this.orderObject.tsCheckoutOrderNr !== 'undefined') {
+                    var tsCheckoutOrderNr = document.createElement("span");
+                    tsCheckoutOrderNr.id = "tsCheckoutOrderNr";
+                    tsCheckoutOrderNr.innerHTML = this.orderObject.tsCheckoutOrderNr;
+                    rootElement.appendChild(tsCheckoutOrderNr);
+                }
+
+                if (typeof this.orderObject.tsCheckoutBuyerEmail !== 'undefined') {
+                    var tsCheckoutBuyerEmail = document.createElement("span");
+                    tsCheckoutBuyerEmail.id = "tsCheckoutBuyerEmail";
+                    tsCheckoutBuyerEmail.innerHTML = this.orderObject.tsCheckoutBuyerEmail;
+                    rootElement.appendChild(tsCheckoutBuyerEmail);
+                }
+
+                if (typeof this.orderObject.tsCheckoutOrderAmount !== 'undefined') {
+                    var tsCheckoutOrderAmount = document.createElement("span");
+                    tsCheckoutOrderAmount.id="tsCheckoutOrderAmount";
+                    tsCheckoutOrderAmount.innerHTML = this.orderObject.tsCheckoutOrderAmount;
+                    rootElement.appendChild(tsCheckoutOrderAmount);
+                }
+
+                if (typeof this.orderObject.tsCheckoutOrderCurrency !== 'undefined') {
+                    var tsCheckoutOrderCurrency = document.createElement("span");
+                    tsCheckoutOrderCurrency.id="tsCheckoutOrderCurrency";
+                    tsCheckoutOrderCurrency.innerHTML = this.orderObject.tsCheckoutOrderCurrency;
+                    rootElement.appendChild(tsCheckoutOrderCurrency);
+                }
+
+                if (typeof this.orderObject.tsCheckoutOrderPaymentType !== 'undefined') {
+                    var tsCheckoutOrderPaymentType = document.createElement("span");
+                    tsCheckoutOrderPaymentType.id="tsCheckoutOrderPaymentType";
+                    tsCheckoutOrderPaymentType.innerHTML = this.orderObject.tsCheckoutOrderPaymentType;
+                    rootElement.appendChild(tsCheckoutOrderPaymentType);
+                }
+
+                if (typeof this.orderObject.tsCheckoutOrderEstDeliveryDate !== 'undefined') {
+                    var tsCheckoutOrderEstDeliveryDate = document.createElement("span");
+                    tsCheckoutOrderEstDeliveryDate.id="tsCheckoutOrderEstDeliveryDate";
+                    tsCheckoutOrderEstDeliveryDate.innerHTML = this.orderObject.tsCheckoutOrderEstDeliveryDate;
+                    rootElement.appendChild(tsCheckoutOrderEstDeliveryDate);
+                }
+
+
+                if (this.getProducts().length > 0) {
+
+                    for (var i = 0; i < this.getProducts().length; i ++) {
+
+                        var tsCheckoutProductItem = document.createElement("span");
+                        tsCheckoutProductItem.className = "tsCheckoutProductItem";
+
+
+                        if (typeof this.getProducts()[i].getProductUrl() !== 'undefiend') {
+                            var tsCheckoutProductUrl = document.createElement("span");
+                            tsCheckoutProductUrl.className = "tsCheckoutProductUrl";
+                            tsCheckoutProductUrl.innerHTML = this.getProducts()[i].getProductUrl();
+                            tsCheckoutProductItem.appendChild(tsCheckoutProductUrl);
+                        }
+
+                        if (typeof this.getProducts()[i].getProductImageUrl() !== 'undefined') {
+                            var tsCheckoutProductImageUrl = document.createElement("span");
+                            tsCheckoutProductImageUrl.className = "tsCheckoutProductImageUrl";
+                            tsCheckoutProductImageUrl.innerHTML = this.getProducts()[i].getProductImageUrl();
+                            tsCheckoutProductItem.appendChild(tsCheckoutProductImageUrl);
+                        }
+
+                        if (typeof this.getProducts()[i].getProductName() !== 'undefined') {
+                            var tsCheckoutProductName = document.createElement("span");
+                            tsCheckoutProductName.className = "tsCheckoutProductName";
+                            tsCheckoutProductName.innerHTML = this.getProducts()[i].getProductName();
+                            tsCheckoutProductItem.appendChild(tsCheckoutProductName);
+                        }
+
+                        if (typeof this.getProducts()[i].getProductSKU() !== 'undefined') {
+                            var tsCheckoutProductSKU = document.createElement("span");
+                            tsCheckoutProductSKU.className = "tsCheckoutProductSKU";
+                            tsCheckoutProductSKU.innerHTML = this.getProducts()[i].getProductSKU();
+                            tsCheckoutProductItem.appendChild(tsCheckoutProductSKU);
+                        }
+
+
+                        if (typeof this.getProducts()[i].getProductGTIN() !== 'undefined') {
+                            var tsCheckoutProductGTIN = document.createElement("span");
+                            tsCheckoutProductGTIN.className = "tsCheckoutProductGTIN";
+                            tsCheckoutProductGTIN.innerHTML = this.getProducts()[i].getProductGTIN();
+                            tsCheckoutProductItem.appendChild(tsCheckoutProductGTIN);
+                        }
+
+
+                        if (typeof this.getProducts()[i].getProductMPN() !== 'undefined') {
+                            var tsCheckoutProductMPN = document.createElement("span");
+                            tsCheckoutProductMPN.className = "tsCheckoutProductMPN";
+                            tsCheckoutProductMPN.innerHTML = this.getProducts()[i].getProductMPN();
+                            tsCheckoutProductItem.appendChild(tsCheckoutProductMPN);
+                        }
+
+                        if (typeof this.getProducts()[i].getProductBrand() !== 'undefined') {
+                            var tsCheckoutProductBrand = document.createElement("span");
+                            tsCheckoutProductBrand.className = "tsCheckoutProductBrand";
+                            tsCheckoutProductBrand.innerHTML = this.getProducts()[i].getProductBrand();
+                            tsCheckoutProductItem.appendChild(tsCheckoutProductBrand);
+                        }
+
+                        rootElement.appendChild(tsCheckoutProductItem);
+                    }
+
+                }
+                return rootElement;
+            },
+            getTrustbadgeScriptElement: function(tsId) {
+                var script = document.createElement("script");
+
+            }
+        };
+
+        return {
+            getOrderManager: function () {
+                return orderManager;
+            }
+        };
+    }();
+    </script>
+</head>
+<body>
+</body>
+</html>
