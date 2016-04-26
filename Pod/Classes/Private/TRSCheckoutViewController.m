@@ -17,7 +17,7 @@
 
 static const CGSize minContentViewSize = {288.0, 339.0}; // for now: this is more or less defined by the displayed card...
 
-@interface TRSCheckoutViewController () <WKNavigationDelegate>
+@interface TRSCheckoutViewController () <WKNavigationDelegate, WKScriptMessageHandler>
 
 @property (weak, nonatomic) WKWebView *webView; // this is just a convenience pointer..., view also holds it (strong)
 @property (nonatomic, assign) BOOL didInjectParameters; // used to figure out whether I set the parameters in the webView
@@ -25,7 +25,7 @@ static const CGSize minContentViewSize = {288.0, 339.0}; // for now: this is mor
 @property (nonatomic, strong) NSMutableArray *jsStrings;
 
 @property (nonatomic, copy, nullable) void (^completionBlock)(BOOL canceled, NSError *_Nullable error);
-@property (nonatomic, assign) BOOL tappedToCloseInsideView;
+@property (nonatomic, assign) BOOL tappedToCancel; // defaults to YES!
 
 @end
 
@@ -42,14 +42,18 @@ static const CGSize minContentViewSize = {288.0, 339.0}; // for now: this is mor
 	
 }
 
-- (void)loadView {
-	if (!_webView) {
-		self.view = [[WKWebView alloc] initWithFrame:CGRectMake(0.0, 0.0, minContentViewSize.width, minContentViewSize.height)];
-		self.webView = (WKWebView *) self.view;
-		self.didInjectParameters = NO;
-		self.webView.navigationDelegate = self;
-		self.webView.scrollView.scrollEnabled = NO;
-	}
+- (void)loadView { // keep in mind this is only called once for each instance!
+	self.tappedToCancel = YES; // we assume every close anywhere is a cancel unless explcitly said otherwise
+	WKWebViewConfiguration *config = [[WKWebViewConfiguration alloc] init];
+	WKUserContentController *ucController = [[WKUserContentController alloc] init];
+	[ucController addScriptMessageHandler:self name:@"trs_ios_listener"];
+	config.userContentController = ucController;
+	self.view = [[WKWebView alloc] initWithFrame:CGRectMake(0.0, 0.0, minContentViewSize.width, minContentViewSize.height)
+								   configuration:config];
+	self.webView = (WKWebView *) self.view;
+	self.didInjectParameters = NO;
+	self.webView.navigationDelegate = self;
+	self.webView.scrollView.scrollEnabled = NO;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -101,7 +105,8 @@ static const CGSize minContentViewSize = {288.0, 339.0}; // for now: this is mor
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
-	self.completionBlock(!self.tappedToCloseInsideView, nil);
+	self.completionBlock(self.tappedToCancel, nil);
+	self.tappedToCancel = YES; // reset to default...
 }
 
 #pragma mark - WebView Delegation methods
@@ -114,11 +119,13 @@ decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
 	} else { // otherwise the user clicked somewhere in the webView
 		// TODO: handle detecting the "close" button, if present: then deny the action
 		
-		// standard case: user clicked a button, so we will allow this.
-		decisionHandler(WKNavigationActionPolicyAllow);
+		// standard case: we will have to open the target in safari, so cancel it here.
+		decisionHandler(WKNavigationActionPolicyCancel);
+		NSURL *buttonURL = navigationAction.request.URL;
+		[[UIApplication sharedApplication] openURL:buttonURL];
 		
 		// close the popin
-		self.tappedToCloseInsideView = YES;
+		self.tappedToCancel = NO;
 		[self.presentingPopinViewController dismissCurrentPopinControllerAnimated:YES completion:nil];
 	}
 }
@@ -134,6 +141,15 @@ decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
 			}];
 		}
 		self.didInjectParameters = YES;
+	}
+}
+
+#pragma mark - WebView User action (JS) handlers
+
+- (void)userContentController:(WKUserContentController *)userContentController
+	  didReceiveScriptMessage:(WKScriptMessage *)message {
+	if ([message.body isEqualToString:@"closed"]) {
+		[self.presentingPopinViewController dismissCurrentPopinControllerAnimated:YES completion:nil];
 	}
 }
 

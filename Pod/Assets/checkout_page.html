@@ -13,7 +13,7 @@
     </style>
     <script>
     window.addEventListener("trustbadge_event_card_closed", function(){
-        jsInterface.dialogDismiss();
+		window.webkit.messageHandlers.trs_ios_listener.postMessage("closed");
         console.log("adding event listener");
     });
 
