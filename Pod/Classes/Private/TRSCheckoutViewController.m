@@ -68,8 +68,8 @@ static const CGSize minContentViewSize = {288.0, 339.0}; // for now: this is mor
 		return;
 	}
 	
-	// ensure view is loaded
-	[self loadViewIfNeeded];
+	// ensure view is loaded (viewIfLoaded is iOS 9, so just use view)
+	[self view];
 	// if we still have strings/order data, we're called for the second time before finishing the first process, so fail
 	if (self.jsStrings) {
 		NSError *anotherError = [NSError errorWithDomain:TRSErrorDomain
