@@ -5,6 +5,7 @@
 #import <OCMock/OCMock.h>
 #import "UIViewController+MaryPopin.h"
 #import "TRSCheckoutViewController.h"
+#import "TRSErrors.h"
 
 // import the private interface for tests
 @interface TRSOrder (PrivateTests)
@@ -196,6 +197,28 @@ describe(@"TRSOrder", ^{
 			
 		});
 		
+		context(@"with invalid consumer data", ^{
+			__block TRSOrder *aTestOrder;
+			beforeAll(^{
+				aTestOrder = [[TRSOrder alloc] initWithTrustedShopsID:exampleFields[@"trustedShopsID"]
+															 apiToken:exampleFields[@"apiToken"]
+																email:exampleFields[@"badEmail"]
+															  ordernr:exampleFields[@"orderNo"]
+															   amount:exampleFields[@"amount"]
+																 curr:exampleFields[@"currency"]
+														  paymentType:exampleFields[@"paymentType"]
+														 deliveryDate:nil]; // tested a date above already
+			});
+			afterAll(^{
+				aTestOrder = nil;
+			});
+			
+			it(@"returns nil", ^{
+				expect(aTestOrder).to.beNil();
+			});
+			
+		});
+		
 	});
 	
 	context(@"validation and API calls with a valid and new order", ^{
@@ -298,6 +321,37 @@ describe(@"TRSOrder", ^{
 		
 	});
 	
+	context(@"validation and API calls with a corrupted order", ^{
+		__block TRSOrder *aTestOrder;
+		beforeEach(^{
+			aTestOrder = [[TRSOrder alloc] initWithTrustedShopsID:exampleFields[@"trustedShopsID"]
+														 apiToken:exampleFields[@"apiToken"]
+															email:exampleFields[@"email"]
+														  ordernr:exampleFields[@"orderNo"]
+														   amount:exampleFields[@"amount"]
+															 curr:exampleFields[@"currency"]
+													  paymentType:exampleFields[@"paymentType"]
+													 deliveryDate:nil];
+			// set the amount to nil, don't test other values, since it's similar
+			aTestOrder.amount = nil;
+		});
+		afterEach(^{
+			aTestOrder = nil;
+		});
+		
+		it(@"calls the completion block with an error object", ^{
+			waitUntil(^(DoneCallback done) {
+				[aTestOrder validateWithCompletionBlock:^(NSError * _Nullable error) {
+					expect(error).toNot.beNil();
+					expect(error.domain).to.equal(TRSErrorDomain);
+					expect(error.code).to.equal(TRSErrorDomainProcessOrderInvalidData);
+					done();
+				}];
+			});
+		});
+
+	});
+	
 	describe(@"-areFieldsComplete", ^{
 		
 		__block TRSOrder *aTestOrder;
@@ -351,6 +405,34 @@ describe(@"TRSOrder", ^{
 				expect(aTestOrder.orderState & TRSOrderIncompleteData).to.equal(TRSOrderIncompleteData);
 			});
 			
+		});
+		
+		context(@"with an order with wrong data (in currency or paymentType)", ^{
+			
+			it(@"returns NO for a currency not from the allowed values", ^{
+				aTestOrder = [[TRSOrder alloc] initWithTrustedShopsID:exampleFields[@"trustedShopsID"]
+															 apiToken:exampleFields[@"apiToken"]
+																email:exampleFields[@"email"]
+															  ordernr:exampleFields[@"orderNo"]
+															   amount:exampleFields[@"amount"]
+																 curr:exampleFields[@"badCurrency"]
+														  paymentType:exampleFields[@"paymentType"]
+														 deliveryDate:nil];
+				expect([aTestOrder areFieldsComplete]).to.equal(NO);
+			});
+			
+			it(@"returns NO for a paymentType not from the allowed values", ^{
+				aTestOrder = [[TRSOrder alloc] initWithTrustedShopsID:exampleFields[@"trustedShopsID"]
+															 apiToken:exampleFields[@"apiToken"]
+																email:exampleFields[@"email"]
+															  ordernr:exampleFields[@"orderNo"]
+															   amount:exampleFields[@"amount"]
+																 curr:exampleFields[@"currency"]
+														  paymentType:exampleFields[@"badPaymentType"]
+														 deliveryDate:nil];
+				expect([aTestOrder areFieldsComplete]).to.equal(NO);
+			});
+
 		});
 		
 	});
