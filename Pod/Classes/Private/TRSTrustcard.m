@@ -85,7 +85,7 @@ static NSString * const TRSCertHTMLName = @"trustinfos"; // not used atm
 
 #pragma mark - UIWebViewDelegate
 
-- (void)webViewDidFinishLoad:(UIWebView *)webView {
+//- (void)webViewDidFinishLoad:(UIWebView *)webView {
 //	NSLog(@"Web view's scroll contentsize width & height are: %f, %f",
 //		  self.webView.scrollView.contentSize.width, self.webView.scrollView.contentSize.height);
 	// this method can/should be used to resize the view in case the content in the webView is too small...
@@ -101,7 +101,7 @@ static NSString * const TRSCertHTMLName = @"trustinfos"; // not used atm
 //	CGRect viewFrame = self.view.frame;
 //	viewFrame.size.height = self.webView.scrollView.contentSize.height + 30; // 30 is the size of the buttons, i.e. bottom space
 //	self.view.frame = viewFrame;
-}
+//}
 
 #pragma mark - Font helper methods
 

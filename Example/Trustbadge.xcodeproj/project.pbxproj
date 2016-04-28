@@ -12,6 +12,8 @@
 		1D5E2FCE1CB64DC1002C69C0 /* UIColor+TRSColorsSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D5E2FCD1CB64DC1002C69C0 /* UIColor+TRSColorsSpec.m */; };
 		1D5E2FD11CB68227002C69C0 /* TRSTrustMarkSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D5E2FD01CB68227002C69C0 /* TRSTrustMarkSpec.m */; };
 		1D5FF3591CABE7850034AC45 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1D5FF3581CABE7850034AC45 /* Launch Screen.storyboard */; };
+		1D6695571CD2328300AA0E4E /* TRSCheckoutViewControllerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D6695561CD2328300AA0E4E /* TRSCheckoutViewControllerSpec.m */; };
+		1D6695591CD23E8600AA0E4E /* checkout_unit_test.html in Resources */ = {isa = PBXBuildFile; fileRef = 1D6695581CD23E8600AA0E4E /* checkout_unit_test.html */; };
 		1D69A5A41CC791D2001A93EE /* TRSConsumerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D69A5A21CC791D2001A93EE /* TRSConsumerSpec.m */; };
 		1D69A5A51CC791D2001A93EE /* TRSOrderSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D69A5A31CC791D2001A93EE /* TRSOrderSpec.m */; };
 		1D9A6FC61CCA5565006D97A9 /* TRSProductSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D9A6FC51CCA5565006D97A9 /* TRSProductSpec.m */; };
@@ -67,6 +69,8 @@
 		1D5E2FCD1CB64DC1002C69C0 /* UIColor+TRSColorsSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+TRSColorsSpec.m"; sourceTree = "<group>"; };
 		1D5E2FD01CB68227002C69C0 /* TRSTrustMarkSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TRSTrustMarkSpec.m; sourceTree = "<group>"; };
 		1D5FF3581CABE7850034AC45 /* Launch Screen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
+		1D6695561CD2328300AA0E4E /* TRSCheckoutViewControllerSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TRSCheckoutViewControllerSpec.m; sourceTree = "<group>"; };
+		1D6695581CD23E8600AA0E4E /* checkout_unit_test.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = checkout_unit_test.html; sourceTree = "<group>"; };
 		1D69A5A21CC791D2001A93EE /* TRSConsumerSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TRSConsumerSpec.m; sourceTree = "<group>"; };
 		1D69A5A31CC791D2001A93EE /* TRSOrderSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TRSOrderSpec.m; sourceTree = "<group>"; };
 		1D9A6FC51CCA5565006D97A9 /* TRSProductSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TRSProductSpec.m; sourceTree = "<group>"; };
@@ -205,6 +209,7 @@
 				840B2B611B45712C009E1D6D /* NSNumber+TRSRatingSpec.m */,
 				845E83DC1B8323C3001D5EDC /* NSNumberFormatter+TRSFormatterSpec.m */,
 				1DEFBAEB1CA0049A00B61B05 /* NSURL+TRSURLExtensionsSpec.m */,
+				1D6695561CD2328300AA0E4E /* TRSCheckoutViewControllerSpec.m */,
 				1D69A5A21CC791D2001A93EE /* TRSConsumerSpec.m */,
 				6003F5B6195388D20070C39A /* Supporting Files */,
 				84795A531B5E68EC0091EA49 /* TRSNetworkAgent+TrustbadgeSpec.m */,
@@ -289,6 +294,7 @@
 				1D5DC05C1CA2E87B006899CA /* trustbadge-badtoken.response */,
 				8409D6821B66204800001627 /* trustbadge-notfound.response */,
 				840B0C491B678CF400CB8E39 /* trustbadge.data */,
+				1D6695581CD23E8600AA0E4E /* checkout_unit_test.html */,
 			);
 			path = Fixtures;
 			sourceTree = "<group>";
@@ -410,6 +416,7 @@
 				6003F5BA195388D20070C39A /* InfoPlist.strings in Resources */,
 				8409D6851B66205700001627 /* trustbadge-badrequest.response in Resources */,
 				1D5DC05D1CA2E87B006899CA /* trustbadge-badtoken.response in Resources */,
+				1D6695591CD23E8600AA0E4E /* checkout_unit_test.html in Resources */,
 				8409D6861B66205700001627 /* trustbadge-notfound.response in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -559,6 +566,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1D6695571CD2328300AA0E4E /* TRSCheckoutViewControllerSpec.m in Sources */,
 				840B2B631B457135009E1D6D /* NSNumber+TRSRatingSpec.m in Sources */,
 				1DBF42BC1CA1585300FCFB81 /* TRSTrustcardSpec.m in Sources */,
 				1DEFBAEC1CA0049A00B61B05 /* NSURL+TRSURLExtensionsSpec.m in Sources */,

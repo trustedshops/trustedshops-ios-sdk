@@ -36,12 +36,6 @@ static const CGSize minContentViewSize = {288.0, 339.0}; // for now: this is mor
 	return minContentViewSize;
 }
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    // Do any additional setup after loading the view.
-	
-}
-
 - (void)loadView { // keep in mind this is only called once for each instance!
 	self.tappedToCancel = YES; // we assume every close anywhere is a cancel unless explcitly said otherwise
 	WKWebViewConfiguration *config = [[WKWebViewConfiguration alloc] init];

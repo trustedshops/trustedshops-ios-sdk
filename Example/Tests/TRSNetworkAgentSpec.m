@@ -1,5 +1,6 @@
 #import "TRSNetworkAgent.h"
 #import <OHHTTPStubs/OHHTTPStubs.h>
+#import <OCMock/OCMock.h>
 #import <Specta/Specta.h>
 
 SpecBegin(TRSNetworkAgent)
@@ -35,6 +36,17 @@ describe(@"TRSNetworkAgent", ^{
         });
 
     });
+	
+	describe(@"-GET:success:failure:", ^{
+		
+		it(@"calls GET:authToken:success:failure:", ^{
+			id partialMock = OCMPartialMock(agent);
+			OCMExpect([partialMock GET:[OCMArg any] authToken:nil success:[OCMArg any] failure:[OCMArg any]]);
+			[agent GET:[NSURL URLWithString:@"foo/bar/baz"] success:nil failure:nil];
+			OCMVerifyAll(partialMock);
+		});
+		
+	});
 
     describe(@"-GET:authToken:success:failure:", ^{
 
