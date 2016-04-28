@@ -56,11 +56,6 @@ static const CGSize minContentViewSize = {288.0, 339.0}; // for now: this is mor
 	self.webView.scrollView.scrollEnabled = NO;
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
 - (void)processOrder:(nonnull TRSOrder *)order onCompletion:(nullable void (^)(BOOL canceled, NSError *_Nullable error))onCompletion {
 	UIViewController *rootVC = [[[UIApplication sharedApplication] keyWindow] rootViewController];
 	if (!rootVC) {
