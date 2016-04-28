@@ -51,8 +51,26 @@ describe(@"TRSNetworkAgent+Trustbadge", ^{
         });
 
     });
+	
+	describe(@"-getTrustbadgeForTrustedShopsID:success:failure:", ^{
+		
+		it(@"calls getTrustbadgeForTrustedShopsID:apiToken:success:failure:", ^{
+			id partialMock = OCMPartialMock(agent);
+			NSString *anID = @"a TS-ID";
+			void (^successCall)(TRSTrustbadge *newBadge) = ^(TRSTrustbadge *newBadge) {
+				// will never be used here
+			};
+			void (^failureCall)(NSError *error) = ^(NSError *error) {
+				// will never be called
+			};
+			OCMExpect([partialMock getTrustbadgeForTrustedShopsID:anID apiToken:nil success:successCall failure:failureCall]);
+			[agent getTrustbadgeForTrustedShopsID:anID success:successCall failure:failureCall];
+			OCMVerifyAll(partialMock);
+		});
+		
+	});
 
-    describe(@"-getTrustbadgeForTrustedShopsID:apiToken:success:failure", ^{
+    describe(@"-getTrustbadgeForTrustedShopsID:apiToken:success:failure:", ^{
 
 		beforeEach(^{
 			[OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {

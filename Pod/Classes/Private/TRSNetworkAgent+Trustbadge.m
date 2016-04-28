@@ -6,7 +6,9 @@
 
 @implementation TRSNetworkAgent (Trustbadge)
 
-- (NSURLSessionDataTask *)getTrustbadgeForTrustedShopsID:(NSString *)trustedShopsID success:(void (^)(TRSTrustbadge *trustbadge))success failure:(void (^)(NSError *error))failure {
+- (NSURLSessionDataTask *)getTrustbadgeForTrustedShopsID:(NSString *)trustedShopsID
+												 success:(void (^)(TRSTrustbadge *trustbadge))success
+												 failure:(void (^)(NSError *error))failure {
 	
 	return [self getTrustbadgeForTrustedShopsID:trustedShopsID apiToken:nil success:success failure:failure];
 }
