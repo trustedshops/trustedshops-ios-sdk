@@ -111,7 +111,7 @@
 	self.orderState &= (~TRSOrderUnprocessed);
 	self.orderState |= TRSOrderProcessing;
 	
-	TRSCheckoutViewController *checkoutVC = [[TRSCheckoutViewController alloc] init];
+	TRSCheckoutViewController *checkoutVC = [[TRSCheckoutViewController alloc] initWithNibName:nil bundle:nil];
 	[checkoutVC processOrder:self onCompletion:^(BOOL canceled, NSError * _Nullable error) {
 		
 		if (error) {
@@ -119,7 +119,8 @@
 			[self areFieldsComplete]; // this sets the incomplete flag if needed.
 			self.nextActionFlag = TRSValidationPending; // set this back to default
 			
-			onCompletion(error);
+			// TODO: construct a better suited error and return that
+			if (onCompletion) onCompletion(error);
 		} else { // success, so set the flags accordingly!
 			self.orderState &= (~TRSOrderProcessing);
 			self.orderState |= TRSOrderProcessed;
@@ -136,7 +137,7 @@
 			self.nextActionFlag = TRSNoNextActions;
 			
 //			NSLog(@"webView was closed with cancel state: %@", canceled ? @"YES" : @"NO");
-			onCompletion(nil);
+			if (onCompletion) onCompletion(nil);
 		}
 	}];
 	

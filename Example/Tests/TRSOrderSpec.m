@@ -4,6 +4,7 @@
 #import <OHHTTPStubs/OHHTTPStubs.h>
 #import <OCMock/OCMock.h>
 #import "UIViewController+MaryPopin.h"
+#import "TRSCheckoutViewController.h"
 
 // import the private interface for tests
 @interface TRSOrder (PrivateTests)
@@ -20,6 +21,8 @@
 @property (nonatomic, readwrite, assign) TRSOrderState orderState;
 @property (nonatomic, readwrite, assign) TRSInsuranceState insuranceState;
 @property (nonatomic, readwrite, assign) TRSNextActionFlag nextActionFlag;
+
+@property (nonatomic, strong) TRSCheckoutViewController *checkoutVC;
 
 - (BOOL)areFieldsComplete;
 
@@ -226,21 +229,69 @@ describe(@"TRSOrder", ^{
 		
 		describe(@"-finishWithCompletionBlock:", ^{
 			
-			// This test requires user interaction (to press the OK button) and thus needs to be reworked a lot.
-			// TODO: Stub presentViewController:animated:completion: or something and instead call completion handler.
-//			it(@"calls the completion block", ^{ // rename this!
-//				waitUntil(^(DoneCallback done) {
-//					[aTestOrder finishWithCompletionBlock:^(NSError * _Nullable error) {
-//						done();
-//					}];
+			context(@"after webView was dismissed", ^{
+				
+				// set up an artificial view hierarchy
+				__block UIWindow *myWindow;
+				__block UIViewController *myRootVC;
+				__block id urlrequestMock;
+				__block TRSCheckoutViewController *myCOVC;
+				beforeAll(^{
+					myWindow = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+					myRootVC = [[UIViewController alloc] init];
+					myRootVC.view.frame = myWindow.frame;
+					myWindow.rootViewController = myRootVC;
+					[myWindow makeKeyAndVisible];
+					// ensure the webView doesn't actually load anything by stubbing the URLrequest generation
+					urlrequestMock = OCMClassMock([NSURLRequest class]);
+					OCMStub([urlrequestMock requestWithURL:[OCMArg any]]).andReturn(nil);
+				});
+				afterAll(^{
+					myWindow.hidden = YES;
+					myCOVC = nil;
+					myRootVC = nil;
+					myWindow = nil;
+					urlrequestMock = nil;
+				});
+				
+				it(@"really did try to display a webView", ^{
+					id rootVCMock = OCMPartialMock(myRootVC);
+					OCMStub([rootVCMock presentPopinController:[OCMArg any] animated:YES completion:nil]);
+					
+					[aTestOrder finishWithCompletionBlock:nil];
+					OCMVerify([rootVCMock presentPopinController:[OCMArg any] animated:YES completion:nil]);
+				});
+				
+				it(@"it has correct states afterwards when user cancelled", ^{
+					id coVCmock = OCMClassMock([TRSCheckoutViewController class]);
+					OCMStub([coVCmock processOrder:[OCMArg any] onCompletion:[OCMArg invokeBlock]]);
+					__block TRSOrder *helperPointer = aTestOrder;
+					void (^aCallback)(NSError * _Nullable error) = ^void(NSError * _Nullable error) {
+						expect(error).to.beNil();
+						expect(helperPointer.nextActionFlag).to.equal(TRSNoNextActions);
+						expect(helperPointer.insuranceState).to.equal(TRSUserDeclinedInsurance);
+						expect(helperPointer.orderState & TRSOrderProcessed).to.equal(TRSOrderProcessed);
+						expect(helperPointer.consumer.membershipStatus).to.equal(TRSMemberKnown);
+					};
+					[helperPointer finishWithCompletionBlock:aCallback];
+				});
+				
+				// for some reason this test fails: the block argument of processOrder... is not called
+				// with the arguments defined here, which is odd. I'll file an issue with OCMock
+//				it(@"it has correct states afterwards when the checkout went wrong", ^{
+//					id coVCmock = OCMClassMock([TRSCheckoutViewController class]);
+//					__block TRSOrder *helperPointer = aTestOrder;
+//					__block NSError *anError = [NSError errorWithDomain:@"nomatter" code:9 userInfo:nil];
+//					__block NSNumber *wrappedBool = [NSNumber numberWithBool:NO];
+//					OCMStub([coVCmock processOrder:[OCMArg any] onCompletion:([OCMArg invokeBlockWithArgs:wrappedBool, anError, nil])]);
+//					void (^aCallback)(NSError * _Nullable error) = ^void(NSError * _Nullable error) {
+//						expect(error).toNot.beNil();
+//						expect(helperPointer.nextActionFlag).to.equal(TRSValidationPending);
+//						expect(helperPointer.orderState & TRSOrderProcessing).to.equal(TRSOrderProcessing);
+//					};
+//					[helperPointer finishWithCompletionBlock:aCallback];
 //				});
-//			});
-			
-			it(@"displays a popin view", ^{
-				id rootVCMock = OCMPartialMock([[[UIApplication sharedApplication] keyWindow] rootViewController]);
-				OCMStub([rootVCMock presentPopinController:[OCMArg any] animated:YES completion:nil]);
-				[aTestOrder finishWithCompletionBlock:nil];
-				OCMVerify([rootVCMock presentPopinController:[OCMArg any] animated:YES completion:nil]);
+
 			});
 			
 		});

@@ -63,21 +63,60 @@ describe(@"TRSTrustcard", ^{
 				expect(testCard.presentingViewController).to.beNil();
 			});
 		});
+	});
+	
+	context(@"inited with its xib", ^{
 		
-		describe(@"-showInLightboxForTrustbadge:", ^{
+		__block TRSTrustcard *testCard;
+		__block TRSTrustbadge *testBadge;
+		__block UIWindow *window;
+		__block UIColor *testColor;
+		beforeAll(^{
+			testCard = [[TRSTrustcard alloc] initWithNibName:@"Trustcard" bundle:TRSTrustbadgeBundle()];
+			NSBundle *bundle = [NSBundle bundleForClass:[self class]];
+			NSString *path = [bundle pathForResource:@"trustbadge" ofType:@"data"];
+			NSData *data = [NSData dataWithContentsOfFile:path];
+			testBadge = [[TRSTrustbadge alloc] initWithData:data];
 			
-			afterAll(^{
-				[testCard buttonTapped:nil]; // need to close the card again and get into correct state
-			});
+			window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+			UIViewController *tempRootVC = [[UIViewController alloc] init];
+			tempRootVC.view.frame = window.bounds;
+			window.rootViewController = tempRootVC;
 			
-			it(@"calls viewDidLoad", ^{
-				id cardMock = OCMPartialMock(testCard);
-				OCMExpect([cardMock viewDidLoad]);
-				[testCard showInLightboxForTrustbadge:testBadge];
-				OCMVerifyAll(cardMock);
-			});
+			testColor = [UIColor redColor];
+			testCard.themeColor = testColor;
+			[testCard view]; // this loads the view, thus sets IBOutlets and such
+		});
+		afterAll(^{
+			testCard = nil;
+			testBadge = nil;
+			window = nil;
+			[OHHTTPStubs removeAllStubs];
+		});
+		beforeEach(^{
+			[window makeKeyAndVisible];
+		});
+		afterEach(^{
+			window.hidden = YES;
 		});
 		
+		it(@"prepares the buttons in viewWillAppear:", ^{
+			[testCard showInLightboxForTrustbadge:testBadge]; // this ultimately calls our viewWillAppear:
+			XCTAssertEqual(testColor, [testCard.okButton titleColorForState:UIControlStateNormal]);
+			XCTAssertEqual(testColor, [testCard.certButton titleColorForState:UIControlStateNormal]);
+			XCTAssertEqual(testColor, [testCard.okButton titleColorForState:UIControlStateNormal]);
+			[testCard buttonTapped:nil];
+		});
+		
+		it(@"calls loadRequest on its webView", ^{
+			[testCard showInLightboxForTrustbadge:testBadge]; // this ultimately calls our viewWillAppear:
+			id mockView = OCMPartialMock(testCard.webView);
+			OCMExpect([mockView loadRequest:[OCMArg any]]);
+			[testCard viewWillAppear:NO];
+			OCMVerifyAll(mockView);
+			[testCard buttonTapped:nil];
+		});
+				
 		describe(@"-buttonTapped:", ^{
 			
 			context(@"while trustcard is showing", ^{
@@ -111,54 +150,6 @@ describe(@"TRSTrustcard", ^{
 					OCMVerifyAll(vcMock);
 				});
 			});
-		});
-	});
-	
-	context(@"inited with its xib", ^{
-		
-		__block TRSTrustcard *testCard;
-		__block TRSTrustbadge *testBadge;
-		__block UIWindow *window;
-		__block UIColor *testColor;
-		beforeAll(^{
-			testCard = [[TRSTrustcard alloc] initWithNibName:@"Trustcard" bundle:TRSTrustbadgeBundle()];
-			NSBundle *bundle = [NSBundle bundleForClass:[self class]];
-			NSString *path = [bundle pathForResource:@"trustbadge" ofType:@"data"];
-			NSData *data = [NSData dataWithContentsOfFile:path];
-			testBadge = [[TRSTrustbadge alloc] initWithData:data];
-			
-			window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-			window.rootViewController = testCard;
-			// note that with this we can't call showInLightboxForTrustbadge: since there's no root VC above us!
-			
-			testColor = [UIColor redColor];
-			testCard.themeColor = testColor;
-			[testCard view]; // this loads the view, thus sets IBOutlets and such
-		});
-		afterAll(^{
-			testCard = nil;
-			testBadge = nil;
-			window = nil;
-			[OHHTTPStubs removeAllStubs];
-		});
-		beforeEach(^{
-			[window makeKeyAndVisible]; // this ultimately calls our viewWillAppear:
-		});
-		afterEach(^{
-			window.hidden = YES;
-		});
-		
-		it(@"prepares the  buttons in viewWillAppear:", ^{
-			XCTAssertEqual(testColor, [testCard.okButton titleColorForState:UIControlStateNormal]);
-			XCTAssertEqual(testColor, [testCard.certButton titleColorForState:UIControlStateNormal]);
-			XCTAssertEqual(testColor, [testCard.okButton titleColorForState:UIControlStateNormal]);
-		});
-		
-		it(@"calls loadRequest on its webView", ^{
-			id mockView = OCMPartialMock(testCard.webView);
-			OCMExpect([mockView loadRequest:[OCMArg any]]);
-			[testCard viewWillAppear:NO];
-			OCMVerifyAll(mockView);
 		});
 	});
 	
