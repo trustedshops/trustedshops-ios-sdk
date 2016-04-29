@@ -31,21 +31,16 @@
 		TRSTrustbadge *trustbadge = [[TRSTrustbadge alloc] initWithData:data];
 		
 		if (!trustbadge) {
-			if (!failure) {
-				return;
+			if (failure) {
+				NSError *error = [NSError errorWithDomain:TRSErrorDomain
+													 code:TRSErrorDomainTrustbadgeInvalidData
+												 userInfo:nil];
+				failure(error);
 			}
-			NSError *error = [NSError errorWithDomain:TRSErrorDomain
-												 code:TRSErrorDomainTrustbadgeInvalidData
-											 userInfo:nil];
-			failure(error);
 			return;
 		}
-		
-		if (!success) {
-			return;
-		}
-		
-		success(trustbadge);
+		if (success) success(trustbadge);
+		return;
 	};
 	
 	void (^failureBlock)(NSData *data, NSHTTPURLResponse *response, NSError *error) = ^(NSData *data, NSHTTPURLResponse *response, NSError *error) {

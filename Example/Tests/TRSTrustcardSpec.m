@@ -145,7 +145,8 @@ describe(@"TRSTrustcard", ^{
 				
 				it(@"calls dismissViewControllerAnimated:completion: on the presenting VC", ^{
 					id vcMock = OCMPartialMock(testCard.presentingPopinViewController); // prev test ensures it's not nil
-					OCMExpect([[vcMock ignoringNonObjectArgs] dismissCurrentPopinControllerAnimated:NO completion:[OCMArg any]]);
+					OCMExpect([[vcMock ignoringNonObjectArgs] dismissCurrentPopinControllerAnimated:NO
+																						 completion:[OCMArg invokeBlock]]);
 					[testCard buttonTapped:nil];
 					OCMVerifyAll(vcMock);
 				});
