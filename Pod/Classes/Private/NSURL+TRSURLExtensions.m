@@ -13,6 +13,8 @@ NSString * const TRSAPIEndPoint = @"cdn1.api.trustedshops.com";
 NSString * const TRSTrustcardTemplateURLString = @"https://widgets.trustedshops.com/trustbadgesdk/certificatedialog_%ll_%cccccc.html";
 NSString * const TRSAPIEndPointDebug = @"cdn1.api-qa.trustedshops.com";
 NSString * const TRSTrustcardTemplateURLStringDebug = @"https://widgets-qa.trustedshops.com/trustbadgesdk/certificatedialog_%ll_%cccccc.html";
+NSString * const TRSEndPoint = @"widgets.trustedshops.com";
+NSString * const TRSEndPointDebug = @"widgets-qa.trustedshops.com";
 
 @implementation NSURL (TRSURLExtensions)
 

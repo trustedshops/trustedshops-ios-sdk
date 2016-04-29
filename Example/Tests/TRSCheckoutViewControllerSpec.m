@@ -163,7 +163,7 @@ describe(@"TRSCheckoutViewController", ^{
 				@"window.trustbadgeCheckoutManager.getOrderManager().setTsCheckoutOrderPaymentType('%s')",
 				@"window.trustbadgeCheckoutManager.getOrderManager().setTsCheckoutOrderEstDeliveryDate('%s')",
 				@"window.trustbadgeCheckoutManager.getOrderManager().addProduct(%s)",
-				@"injectTrustbadge('%s')",
+				@"injectTrustbadge('%s', '%d')",
 				@"document.body.appendChild(window.trustbadgeCheckoutManager.getOrderManager().getTrustedShopsCheckoutElement())"];
 			expect([result allValues]).to.beSupersetOf(validStrings);
 		});

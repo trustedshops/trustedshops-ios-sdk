@@ -25,7 +25,7 @@ Trustbadge is available through [CocoaPods](http://cocoapods.org). To install
 it, simply add the following line to your Podfile:
 
 ```ruby
-pod "Trustbadge", "~> 0.3.0"
+pod "Trustbadge", "~> 0.3.1"
 ```
 
 ## Setup
@@ -90,6 +90,7 @@ To use this feature your app needs to add a few lines of code right after your c
 	             name:@"The product's name" 
 	              SKU:@"a valid SKU identifier"];
 	anOrder.tsCheckoutProductItems = @[aProduct];
+	anOrder.debugMode = YES; // see below for information on this! 
 	
 	// Send the order data to Trusted Shops
 	// This will display a (modal) webView that displays content based on the services you bought from Trusted Shops.
@@ -102,11 +103,11 @@ To use this feature your app needs to add a few lines of code right after your c
 For a more detailed description of the methods and objects handling this process, see the SDK documentation.
 Please be aware that in some use-cases the user may be referred to an external (mobile) website opening on Safari (for example if this is the first time they purchase a Trusted Shops guarantee). The modal webView closes in these instances, so once they get back they can keep on using your app as usual.
 
-If you are developing your application and want to test this SDK feature __please be aware that unless you are in debug mode, the generated data is sent to the Trusted Shops production database!__
+If you are developing your application and want to test this SDK feature __please be aware that unless the order object's `debugMode` property is set to `YES`, the generated data is sent to the Trusted Shops production database!__
 
 ## Documentation
 
-The latest documentation can be found at [cocoadocs](http://cocoadocs.org/docsets/Trustbadge/0.3.0/).
+The latest documentation can be found at [cocoadocs](http://cocoadocs.org/docsets/Trustbadge/0.3.1/).
 All headers are documented according to the [appledoc](http://appledoc.gentlebytes.com/appledoc/) syntax, so you can also use that to directly include the docsets into your XCode.
 
 ## About Trusted Shops

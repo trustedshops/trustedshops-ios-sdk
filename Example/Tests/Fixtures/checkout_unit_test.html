@@ -14,16 +14,12 @@
     <script>
     window.addEventListener("trustbadge_event_card_closed", function(){
 		window.webkit.messageHandlers.trs_ios_listener.postMessage("closed");
-        console.log("adding event listener");
+		jsInterface.dialogDismiss();
     });
 
-
-    function logToAndroid(message) {
-        jsInterface.log(message);
-     }
-
-    function injectTrustbadge(tsId) {
+	function injectTrustbadge(tsId, endPoint) {
             var _tsid = tsId;
+			var endPoint = endPoint || 'widgets.trustedshops.com';
             _tsConfig = {
                 'variant': 'reviews'
             };
@@ -31,7 +27,7 @@
             _ts.type = 'text/javascript';
             _ts.charset = 'utf-8';
             _ts.async = true;
-            var __ts = document.getElementsByTagName('script')[0];
+           var __ts = document.getElementsByTagName('script')[0];
             __ts.parentNode.insertBefore(_ts, __ts);
     }
 
@@ -95,7 +91,6 @@
                 products: []
             },
             setTsCheckoutBuyerEmail: function(buyerEmail) {
-                //logToAndroid("Setting email");
                 this.orderObject.tsCheckoutBuyerEmail = buyerEmail;
             },
             setTsCheckoutOrderNr: function (checkoutOrderNr) {
@@ -116,20 +111,43 @@
             addProduct: function(tsCheckoutProductUrl, tsCheckoutProductName, tsCheckoutProductSKU, tsCheckoutProductImageUrl, tsCheckoutProductGTIN, tsCheckoutProductMPN, tsCheckoutProductBrand) {
                 if (typeof tsCheckoutProductUrl == 'undefined' || typeof tsCheckoutProductName == 'undefined' || typeof tsCheckoutProductSKU == 'undefined') {
                     /* Required attributes have to be set, do not add product otherwise */
+					console.log("not adding product, required fields are undefined");
                     return;
                 }
                 var product = new Product();
-                product.setProductSKU(tsCheckoutProductSKU);
-                product.setProductName(tsCheckoutProductName);
-                product.setProductUrl(tsCheckoutProductUrl);
-                product.setProductImageUrl(tsCheckoutProductImageUrl);
-                product.setProductGTIN(tsCheckoutProductGTIN);
-                product.setProductMPN(tsCheckoutProductMPN);
-                product.setProductBrand(tsCheckoutProductBrand);
+				
+				if (typeof tsCheckoutProductSKU !== 'undefined' && tsCheckoutProductSKU !== 'null' ) {
+					product.setProductSKU(tsCheckoutProductSKU);
+				}
+				
+				if (typeof tsCheckoutProductName !== 'undefined' && tsCheckoutProductName !== 'null' ) {
+					product.setProductName(tsCheckoutProductName);
+				}
+				
+				if (typeof tsCheckoutProductUrl !== 'undefined' && tsCheckoutProductUrl !== 'null' ) {
+					product.setProductUrl(tsCheckoutProductUrl);
+				}
+				
+				if (typeof tsCheckoutProductImageUrl !== 'undefined' && tsCheckoutProductImageUrl !== 'null' ) {
+					product.setProductImageUrl(tsCheckoutProductImageUrl);
+				}
+				
+				if (typeof tsCheckoutProductGTIN !== 'undefined' && tsCheckoutProductGTIN !== 'null' ) {
+					product.setProductGTIN(tsCheckoutProductGTIN);
+				}
+				
+				if (typeof tsCheckoutProductMPN !== 'undefined' && tsCheckoutProductMPN !== 'null' ) {
+					product.setProductMPN(tsCheckoutProductMPN);
+				}
+				
+				if (typeof tsCheckoutProductBrand !== 'undefined' && tsCheckoutProductBrand !== 'null' ) {
+					product.setProductBrand(tsCheckoutProductBrand);
+				}
+				
                 this.orderObject.products.push(product);
+				
             },
             getOrderData: function() {
-                //logToAndroid("Getting email");
                 return this.orderObject;
             },
             getProducts: function() {

@@ -78,7 +78,6 @@ static NSString * const TRSProductTableViewCellReuseIdentifier = @"Product";
 #pragma mark - Action for the fake purchase button
 
 - (IBAction)purchaseNothing:(id)sender {
-	NSLog(@"example app: Purchase button was tapped, creating & processing order.");
 	NSDate *todayplussevendays = [[NSDate date] dateByAddingTimeInterval:1.0 * 60.0 * 60.0 * 24.0 * 7.0];
 	TRSOrder *fakeOrder = [TRSOrder TRSOrderWithTrustedShopsID:self.shopID
 													  apiToken:self.apiToken
@@ -102,13 +101,13 @@ static NSString * const TRSProductTableViewCellReuseIdentifier = @"Product";
 	
 	fakeOrder.tsCheckoutProductItems = @[product1, product2];
 	
+	fakeOrder.debugMode = YES;
+	
 	[fakeOrder validateWithCompletionBlock:^(NSError *error) {
-		NSLog(@"example app: I queried the API for my order before finishing it, dealing with answer");
 		// do some UI preparations or so?
 		
 		// then finish it
 		[fakeOrder finishWithCompletionBlock:^(NSError *error) {
-			NSLog(@"example app: finish stuff in example app");
 			NSLog(@"insurance %@", (fakeOrder.insuranceState == TRSUserDeclinedInsurance) ? @"declined" : @"bought");
 		}];
 	}];

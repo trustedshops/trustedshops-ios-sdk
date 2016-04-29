@@ -10,6 +10,8 @@ FOUNDATION_EXPORT NSString * const TRSAPIEndPoint;
 FOUNDATION_EXPORT NSString * const TRSTrustcardTemplateURLString;
 FOUNDATION_EXPORT NSString * const TRSAPIEndPointDebug;
 FOUNDATION_EXPORT NSString * const TRSTrustcardTemplateURLStringDebug;
+FOUNDATION_EXPORT NSString * const TRSEndPoint; // this is used by the checkout process
+FOUNDATION_EXPORT NSString * const TRSEndPointDebug; // dito
 
 #import <Foundation/Foundation.h>
 @class TRSShop;

@@ -169,6 +169,10 @@ typedef NS_ENUM(NSUInteger, TRSNextActionFlag) {
  a displayed webview, but in future versions we might provide you with more detailed information.
  */
 @property (nonatomic, readonly) TRSNextActionFlag nextActionFlag;
+/**
+ A flag defining whether to process the order with the production API of Trusted Shops or the debug one. Defaults to NO.
+ */
+@property (nonatomic, assign) BOOL debugMode;
 
 /** @name Creating a TRSOrder instance. */
 

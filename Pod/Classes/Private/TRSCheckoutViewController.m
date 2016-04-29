@@ -13,6 +13,7 @@
 #import "TRSConsumer.h"
 #import "TRSTrustbadgeSDKPrivate.h"
 #import "TRSErrors.h"
+#import "NSURL+TRSURLExtensions.h"
 @import WebKit;
 
 static const CGSize minContentViewSize = {288.0, 339.0}; // for now: this is more or less defined by the displayed card...
@@ -161,8 +162,12 @@ decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
 							   stringByReplacingOccurrencesOfString:@"%s" withString:[order.amount stringValue]]];
 	[self.jsStrings addObject:[[TRSCheckoutViewController baseJS][@"paymentType"]
 							   stringByReplacingOccurrencesOfString:@"%s" withString:order.paymentType]];
-	[self.jsStrings addObject:[[TRSCheckoutViewController baseJS][@"tsID"]
-							   stringByReplacingOccurrencesOfString:@"%s" withString:order.tsID]];
+	
+	NSString *endpoint = order.debugMode ? TRSEndPointDebug : TRSEndPoint;
+	NSString *tsInjectCall = [[[TRSCheckoutViewController baseJS][@"tsID"]
+							  stringByReplacingOccurrencesOfString:@"%s" withString:order.tsID]
+							  stringByReplacingOccurrencesOfString:@"%d" withString:endpoint];
+	[self.jsStrings addObject:tsInjectCall];
 	
 	if (order.deliveryDate) {
 		NSDateFormatter *dateFormatter = [NSDateFormatter new];
@@ -194,7 +199,7 @@ decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
 			 @"paymentType" : @"window.trustbadgeCheckoutManager.getOrderManager().setTsCheckoutOrderPaymentType('%s')",
 			 @"deliveryDate" : @"window.trustbadgeCheckoutManager.getOrderManager().setTsCheckoutOrderEstDeliveryDate('%s')",
 			 @"addProduct" : @"window.trustbadgeCheckoutManager.getOrderManager().addProduct(%s)",
-			 @"tsID" : @"injectTrustbadge('%s')",
+			 @"tsID" : @"injectTrustbadge('%s', '%d')",
 			 @"lastCall" :
 				 @"document.body.appendChild(window.trustbadgeCheckoutManager.getOrderManager().getTrustedShopsCheckoutElement())"
 			 };

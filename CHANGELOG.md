@@ -1,5 +1,10 @@
 # Trustbadge
 
+## Version 0.3.1
+
+* Fixed the endpoint of the trustcard HTML ressource
+* Added proper debug mode for TRSOrder objects
+
 ## Version 0.3.0
 
 * Included order object class and related classes that enable a shop app process guarantees, reviews etc. See README.md
