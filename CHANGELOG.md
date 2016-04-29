@@ -1,5 +1,13 @@
 # Trustbadge
 
+## Version 0.3.0
+
+* Included order object class and related classes that enable a shop app process guarantees, reviews etc. See README.md
+* Minor bugfixes in existing classes
+* Switched from native popover to MaryPopin pod to display webViews
+* Removed NSExceptionDomains dict from example app info.plist file as it is no longer needed.
+* Updated README.md to include instructions on how to process orders
+
 ## Version 0.2.1
 
 * Updated README.md for proper usage instructions

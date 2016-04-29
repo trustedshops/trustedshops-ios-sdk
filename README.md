@@ -57,27 +57,52 @@ pod "Trustbadge", "~> 0.2.1"
 You may provide blocks that are called on success and/or failure (the failure block expects an `NSError` parameter).
 You can also specify a `UIColor` to customize the appearance of the trustcard that is displayed when the user taps on the trustbadge.
 
-The trustbadge also has a debug property that, if set to `YES`, makes it load data from the Trusted Shops development API instead of the production API (the above example TS-ID works for debug and normal mode).
-At the moment you need to explicitly allow your app connecting to that API by adding the following to your application's `Info.plist` file:
-
-	<key>NSAppTransportSecurity</key>
-	<dict>
-		<key>NSExceptionDomains</key>
-		<dict>
-			<key>trustedshops.com</key>
-			<dict>
-				<key>NSExceptionRequiresForwardSecrecy</key>
-				<false/>
-				<key>NSIncludesSubdomains</key>
-				<true/>
-			</dict>
-		</dict>
-	</dict>
+The trustbadge also has a debug property that, if set to `YES`, makes it load data from the Trusted Shops development API instead of the production API (the above example TS-ID works for debug and normal mode). Note that your shop's TS-ID might not be present on this API, if you need to debug with your own shop's TS-ID please contact trusted Shops (see below).
 
 ## Authorization
 
 To use this SDK in your own mobile app (i.e. with your own TS-ID) Trusted Shops needs to authorize your app.<br>
-Please contact us via [productfeedback@trustedshops.com](mailto:productfeedback@trustedshops.com) to get your apps authorized.  
+Please contact us via [productfeedback@trustedshops.com](mailto:productfeedback@trustedshops.com) to get your apps authorized.
+
+## Processing purchases with Trusted Shops
+
+![](https://github.com/trustedshops/trustedshops-ios-sdk/blob/master/Screenshots/iPhone-example-checkout.png)
+
+As of version 0.3.0 the SDK supports a checkout process for purchases consumers make with your app. This means you can enable them to additionally purchase a guarantee for their order from Trusted Shops, like they know it from many webshops that provide this.
+Consumers will then also reminded to give reviews (if you have bought this service from Trusted Shops).
+To use this feature your app needs to add a few lines of code right after your checkout process:
+
+	```objc
+	// create a TRSOrder object
+	TRSOrder *anOrder = [TRSOrder 
+	     TRSOrderWithTrustedShopsID:@"your TS-ID"                     // your TS-ID
+	                       apiToken:@"any string for now"             // just use any non-nil, non-empty string
+	                          email:@"customer@example.com"           // your customer's email
+	                        ordernr:@"0815XYZ"                        // a unique identifier for the order
+	                         amount:[NSNumber numberWithDouble:28.73] // the total price as NSNumber
+	                           curr:@"EUR"                            // the currency, see documentation for valid values
+	                    paymentType:@"PREPAYMENT"                     // see documentation for valid values
+	                   deliveryDate:nil];                             // this field is optional
+	                   
+	// optionally specify the products your customer bought
+	TRSProduct *aProduct = [[TRSProduct alloc] 
+	      initWithUrl:[NSURL URLWithString:@"http://www.example.com"]
+	             name:@"The product's name" 
+	              SKU:@"a valid SKU identifier"];
+	anOrder.tsCheckoutProductItems = @[aProduct];
+	
+	// Send the order data to Trusted Shops
+	// This will display a (modal) webView that displays content based on the services you bought from Trusted Shops.
+	// E.g., it will display a window to allow the user to purchase a guarantee. Users can always just dismiss it, of course.
+	[anOrder finishWithCompletionBlock:^(NSError *error) {
+	    // handle errors and/or further process the order accoding to your app's needs
+	};
+	
+	```
+For a more detailed description of the methods and objects handling this process, see the SDK documentation.
+Please be aware that in some use-cases the user may be referred to an external (mobile) website opening on Safari (for example if this is the first time they purchase a Trusted Shops guarantee). The modal webView closes in these instances, so once they get back they can keep on using your app as usual.
+
+If you are developing your application and want to test this SDK feature __please be aware that unless you are in debug mode, the generated data is sent to the Trusted Shops production database!__
 
 ## Documentation
 
