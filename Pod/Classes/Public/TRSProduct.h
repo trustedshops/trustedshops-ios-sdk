@@ -55,6 +55,9 @@
 /**
  The designated initializer.
  Set the optional properties afterwards.
+ @param url A URL pointing to a picture of the product.
+ @param name The name of the product..
+ @param SKU The stock keeping unit of the product.
  */
 - (nullable instancetype)initWithUrl:(nonnull NSURL *)url
 								name:(nonnull NSString *)name
