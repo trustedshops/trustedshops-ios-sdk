@@ -57,7 +57,7 @@ static const CGSize minContentViewSize = {288.0, 339.0}; // for now: this is mor
 											 code:TRSErrorDomainProcessOrderNeedsRootViewController
 										 userInfo:@{NSLocalizedDescriptionKey :
 														@"need a root view controller to process order!"}];
-		onCompletion(NO, error);
+		if (onCompletion) onCompletion(NO, error);
 		return;
 	}
 	
@@ -69,7 +69,7 @@ static const CGSize minContentViewSize = {288.0, 339.0}; // for now: this is mor
 													code:TRSErrorDomainProcessOrderLastOrderNotFinished
 												userInfo:@{NSLocalizedDescriptionKey :
 															   @"last order not processed yet"}];
-		onCompletion(NO, anotherError);
+		if (onCompletion) onCompletion(NO, anotherError);
 		return;
 	}
 	
@@ -79,7 +79,7 @@ static const CGSize minContentViewSize = {288.0, 339.0}; // for now: this is mor
 													code:TRSErrorDomainProcessOrderInvalidData
 												userInfo:@{NSLocalizedDescriptionKey :
 															   @"order object invalid or corrupted"}];
-		onCompletion(NO, anotherError);
+		if (onCompletion) onCompletion(NO, anotherError);
 		return;
 	}
 	
@@ -94,7 +94,7 @@ static const CGSize minContentViewSize = {288.0, 339.0}; // for now: this is mor
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
-	self.completionBlock(self.tappedToCancel, nil);
+	if (self.completionBlock) self.completionBlock(self.tappedToCancel, nil);
 	self.tappedToCancel = YES; // reset to default...
 }
 
@@ -106,16 +106,15 @@ decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
 	if (!self.didInjectParameters) { // true if this is the first load
 		decisionHandler(WKNavigationActionPolicyAllow);
 	} else { // otherwise the user clicked somewhere in the webView
-		// TODO: handle detecting the "close" button, if present: then deny the action
-		
-		// standard case: we will have to open the target in safari, so cancel it here.
-		decisionHandler(WKNavigationActionPolicyCancel);
 		NSURL *buttonURL = navigationAction.request.URL;
 		[[UIApplication sharedApplication] openURL:buttonURL];
 		
 		// close the popin
 		self.tappedToCancel = NO;
 		[self.presentingPopinViewController dismissCurrentPopinControllerAnimated:YES completion:nil];
+		
+		// standard case: we opened the target in safari, so cancel it here.
+		decisionHandler(WKNavigationActionPolicyCancel);
 	}
 }
 
