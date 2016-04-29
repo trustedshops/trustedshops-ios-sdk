@@ -29,6 +29,16 @@
 												 success:(void (^)(TRSTrustbadge *trustbadge))success
 												 failure:(void (^)(NSError *error))failure;
 
+/**
+ Creates and runs a request to fetch Trustbadge
+ 
+ This method is more or less deprecated, since it doesn't set an apiToken.
+ Internally it just calls getTrustbadgeForTrustedShopsID:apiToken:success:failure: with an apiToken of nil.
+ */
+- (NSURLSessionDataTask *)getTrustbadgeForTrustedShopsID:(NSString *)trustedShopsID
+												 success:(void (^)(TRSTrustbadge *trustbadge))success
+												 failure:(void (^)(NSError *error))failure;
+
 - (NSMutableURLRequest *)localizedURLRequestForTrustcardWithColorString:(NSString *)hexString;
 
 @end

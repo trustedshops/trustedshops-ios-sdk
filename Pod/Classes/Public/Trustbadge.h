@@ -1,3 +1,5 @@
 #import "TRSTrustbadgeView.h"
-
+#import "TRSProduct.h"
+#import "TRSOrder.h"
 #import "TRSErrors.h"
+#import "TRSConsumer.h"

@@ -31,7 +31,7 @@
  with a frame rectangle of `(0.0, 0.0, 64.0, 64.0)`.
  
  @param trustedShopsID The Trusted Shops ID for the desired Trustbadge.
- @param apiToken The token to authenticate your app for the (remote) API providing the certificate & shop data.
+ @param apiToken The token to authenticate your app for the (remote) API providing the certificate & shop data. Currently can be any `NSString`.
  @return A fully initialized view object for the provided Trusted Shops ID.
  @see loadTrustbadgeWithFailureBlock:
  @see loadTrustbadgeWithSuccessBlock:failureBlock:
@@ -50,7 +50,7 @@
  
  @param aRect A rectangle specifying the frame for the view.
  @param trustedShopsID The Trusted Shops ID for the desired Trustbadge.
- @param apiToken The token to authenticate your app for the (remote) API providing the certificate & shop data.
+ @param apiToken The token to authenticate your app for the (remote) API providing the certificate & shop data. Currently can be any `NSString`.
  @return A fully initialized view object for the provided Trusted Shops ID.
  @see loadTrustbadgeWithFailureBlock:
  @see loadTrustbadgeWithSuccessBlock:failureBlock:
@@ -105,7 +105,7 @@
 @property (nonatomic, readonly) NSString *trustedShopsID;
 
 /** 
- The API Token you got from Trusted Shops (readonly). Is set on initialization.
+ The API Token you got from Trusted Shops (readonly). Is set on initialization. Currently can be any `NSString`.
  
  Set this before calling `loadTrustbadgeWithSuccessBlock:failureBlock:` or `loadTrustbadgeWithFailureBlock:`
  */

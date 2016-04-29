@@ -13,6 +13,8 @@ Pod::Spec.new do |s|
   s.platform     = :ios, '8.1'
   s.requires_arc = true
 
+  s.dependency 'MaryPopin', '~> 1.4.2'
+
   s.source_files        = 'Pod/Classes/**/*'
   s.public_header_files = 'Pod/Classes/Public/*.h'
   s.ios.resource_bundle = { 'TrustbadgeResources' => ['Pod/Assets/*'] }

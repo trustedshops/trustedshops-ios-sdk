@@ -2,16 +2,16 @@ source 'https://github.com/CocoaPods/Specs.git'
 platform :ios, '8.1'
 use_frameworks!
 
-target 'Trustbadge_Example', :exclusive => true do
+target 'Trustbadge_Example' do
   pod "Trustbadge", :path => "../"
 end
 
-target 'Trustbadge_Tests', :exclusive => true do
+target 'Trustbadge_Tests' do
   pod "Trustbadge", :path => "../"
   
   pod 'Expecta',                 '~> 1.0.2'
   pod 'Expecta+Snapshots',       '~> 2.0.0'
-  pod 'OCMock',                  '~> 3.1.2'
+  pod 'OCMock',                  '~> 3.3'
   pod 'OHHTTPStubs',             '~> 4.2.0'
   pod 'OHHTTPStubs/HTTPMessage', '~> 4.2.0'
   pod 'Specta',                  '~> 1.0.3'

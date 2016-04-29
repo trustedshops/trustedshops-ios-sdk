@@ -17,9 +17,9 @@ static NSString * const TRSCertHTMLName = @"trustinfos"; // not used atm
 #import "TRSNetworkAgent+Trustbadge.h"
 @import CoreText;
 //@import WebKit;
+#import "UIViewController+MaryPopin.h"
 
-@interface TRSTrustcard ()
-
+@interface TRSTrustcard () <UIWebViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UIButton *certButton;
 @property (weak, nonatomic) IBOutlet UIButton *okButton;
@@ -52,6 +52,8 @@ static NSString * const TRSCertHTMLName = @"trustinfos"; // not used atm
 		[self.okButton setTitleColor:self.themeColor forState:UIControlStateNormal];
 		[self.certButton setTitleColor:self.themeColor forState:UIControlStateNormal];
 	}
+	
+	self.webView.scrollView.scrollEnabled = NO;
 }
 
 - (IBAction)buttonTapped:(id)sender {
@@ -60,8 +62,11 @@ static NSString * const TRSCertHTMLName = @"trustinfos"; // not used atm
 		[[UIApplication sharedApplication] openURL:targetURL];
 	}
 	// this does nothing unless the view is modally presented (otherwise presenting VC is nil)
-	[self.presentingViewController dismissViewControllerAnimated:YES completion:^{
-		self.displayedTrustbadge = nil; // not necessary, but we wanna be nice & cleaned up
+//	[self.presentingViewController dismissViewControllerAnimated:YES completion:^{
+//		self.displayedTrustbadge = nil; // not necessary, but we wanna be nice & cleaned up
+//	}];
+	[self.presentingPopinViewController dismissCurrentPopinControllerAnimated:YES completion:^{
+		self.displayedTrustbadge = nil;
 	}];
 }
 
@@ -70,13 +75,35 @@ static NSString * const TRSCertHTMLName = @"trustinfos"; // not used atm
 	UIWindow *mainWindow = [[UIApplication sharedApplication] keyWindow];
 	
 	self.displayedTrustbadge = trustbadge;
-	self.modalPresentationStyle = UIModalPresentationPageSheet;
+//	self.modalPresentationStyle = UIModalPresentationPageSheet;
 	UIViewController *rootVC = mainWindow.rootViewController;
 	// TODO: check what happens if there is no root VC. work that out
-	[rootVC presentViewController:self animated:YES completion:nil];
+//	[rootVC presentViewController:self animated:YES completion:nil];
+	[self setPopinOptions:BKTPopinDisableAutoDismiss];
+	[rootVC presentPopinController:self animated:YES completion:nil];
 }
 
-#pragma mark Font helper methods
+#pragma mark - UIWebViewDelegate
+
+//- (void)webViewDidFinishLoad:(UIWebView *)webView {
+//	NSLog(@"Web view's scroll contentsize width & height are: %f, %f",
+//		  self.webView.scrollView.contentSize.width, self.webView.scrollView.contentSize.height);
+	// this method can/should be used to resize the view in case the content in the webView is too small...
+	// TODO: figure out a good size together with a designer, put mostly into the html & make it dynamic!
+	
+	// try out code:
+	
+//	NSString *heightJS = [webView stringByEvaluatingJavaScriptFromString:@"document.getElementById(\"body\").scrollHeight;"];
+//	NSLog(@"heightJS is: %@", heightJS);
+//	NSString *widthJS = [webView stringByEvaluatingJavaScriptFromString:@"document.getElementById(\"body\").scrollWidth;"];
+//	NSLog(@"widthJS: %@", widthJS);
+	
+//	CGRect viewFrame = self.view.frame;
+//	viewFrame.size.height = self.webView.scrollView.contentSize.height + 30; // 30 is the size of the buttons, i.e. bottom space
+//	self.view.frame = viewFrame;
+//}
+
+#pragma mark - Font helper methods
 
 // note, these are currently not used with the webView, but we will keep them for now.
 // also, the font asset will be used by the webview, probably
