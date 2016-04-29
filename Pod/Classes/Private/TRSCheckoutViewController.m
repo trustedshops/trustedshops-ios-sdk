@@ -165,6 +165,14 @@ decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
 	[self.jsStrings addObject:[[TRSCheckoutViewController baseJS][@"tsID"]
 							   stringByReplacingOccurrencesOfString:@"%s" withString:order.tsID]];
 	
+	if (order.deliveryDate) {
+		NSDateFormatter *dateFormatter = [NSDateFormatter new];
+		dateFormatter.dateFormat = @"yyyy-MM-dd";
+		NSString *dateString = [dateFormatter stringFromDate:order.deliveryDate];
+		[self.jsStrings addObject:[[TRSCheckoutViewController baseJS][@"deliveryDate"]
+								   stringByReplacingOccurrencesOfString:@"%s" withString:dateString]];
+	}
+	
 	if (order.tsCheckoutProductItems) {
 		for (TRSProduct *product in order.tsCheckoutProductItems) {
 			[self.jsStrings addObject:[[TRSCheckoutViewController baseJS][@"addProduct"]
@@ -185,6 +193,7 @@ decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
 			 @"curr" : @"window.trustbadgeCheckoutManager.getOrderManager().setTsCheckoutOrderCurrency('%s')",
 			 @"amount" : @"window.trustbadgeCheckoutManager.getOrderManager().setTsCheckoutOrderAmount('%s')",
 			 @"paymentType" : @"window.trustbadgeCheckoutManager.getOrderManager().setTsCheckoutOrderPaymentType('%s')",
+			 @"deliveryDate" : @"window.trustbadgeCheckoutManager.getOrderManager().setTsCheckoutOrderEstDeliveryDate('%s')",
 			 @"addProduct" : @"window.trustbadgeCheckoutManager.getOrderManager().addProduct(%s)",
 			 @"tsID" : @"injectTrustbadge('%s')",
 			 @"lastCall" :
