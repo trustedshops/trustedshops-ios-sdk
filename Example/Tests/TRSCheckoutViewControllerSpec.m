@@ -183,6 +183,12 @@ describe(@"TRSCheckoutViewController", ^{
 				expect(testCheckout.jsStrings).to.haveCountOf(10); // see set up of test order above (note: 2 products)
 			});
 		});
+		context(@"with an invalid order", ^{
+			it(@"returns NO", ^{
+				[testOrder setValue:nil forKey:@"curr"]; //abuse KVC for creating a faulty order...
+				expect([testCheckout constructJavaScriptStringsForOrder:testOrder]).to.beFalsy();
+			});
+		});
 	});
 	
 	describe(@"-userContentController:didReceiveScriptMessage:", ^{
