@@ -1,4 +1,4 @@
-# Trustbadge for iOS
+# Trusted Shops SDK for iOS #
 
 [![CI Status](https://travis-ci.org/trustedshops/trustedshops-ios-sdk.svg?branch=master)](https://travis-ci.org/trustedshops/trustedshops-ios-sdk)
 [![Coverage Status](https://coveralls.io/repos/github/trustedshops/trustedshops-ios-sdk/badge.svg?branch=master)](https://coveralls.io/github/trustedshops/trustedshops-ios-sdk?branch=master)
@@ -6,20 +6,14 @@
 [![License](https://img.shields.io/cocoapods/l/Trustbadge.svg?style=flat)](http://cocoapods.org/pods/Trustbadge)
 [![Platform](https://img.shields.io/cocoapods/p/Trustbadge.svg?style=flat)](http://cocoapods.org/pods/Trustbadge)
 
-Integrate your Trustbadge in your shopping app and show the Trusted Shops trustmark to your users and lift your conversion rate. Our SDK
-- Checks the validity of your certificate in the background,
-- Shows the trustbadge wherever you want in your app and
-- Allows the user to get more information of the certificate's advantages by tapping on the trustbadge (a lightbox appears from which the user can access your detailled review profile)
-- Currently supports the following languages: DE, EN, FR, ES, IT, NL, PL
-
+Integrate our SDK in your shopping app and boost your conversion with **your Trustbadge** and **our buyer protection**:
+* Show the Trustbadge in any view and size and provide additional information along with a link to your certificate.
+* Integrate the Trusted Shops buyer protection and review collecting services into your app.
 ![](https://github.com/trustedshops/trustedshops-ios-sdk/blob/master/Screenshots/iPhone-example_portrait.png)
 ![](https://github.com/trustedshops/trustedshops-ios-sdk/blob/master/Screenshots/iPad-example_landscape.png)
+Our SDK supports the following languages: DE, EN, FR, ES, IT, NL, PL.
 
-## Usage
-
-To run the example project, clone the repo, and run `pod install` from the Example directory first. You can use `pod try Trustbadge` to try out the trustbadge.
-
-## Installation
+## Installation ##
 
 Trustbadge is available through [CocoaPods](http://cocoapods.org). To install
 it, simply add the following line to your Podfile:
@@ -27,6 +21,11 @@ it, simply add the following line to your Podfile:
 ```ruby
 pod "Trustbadge", "~> 0.3.1"
 ```
+
+#### Example project ####
+To run the example project, clone the repo, and run `pod install` from the Example directory first. You can use `pod try Trustbadge` to try out the trustbadge.
+
+- - - -
 
 ## Setup
 
@@ -105,22 +104,30 @@ Please be aware that in some use-cases the user may be referred to an external (
 
 If you are developing your application and want to test this SDK feature __please be aware that unless the order object's `debugMode` property is set to `YES`, the generated data is sent to the Trusted Shops production database!__
 
-## Documentation
+- - - -
 
+## About this SDK ##
+
+#### Documentation ####
 The latest documentation can be found at [cocoadocs](http://cocoadocs.org/docsets/Trustbadge/0.3.1/).
 All headers are documented according to the [appledoc](http://appledoc.gentlebytes.com/appledoc/) syntax, so you can also use that to directly include the docsets into your XCode.
 
-## About Trusted Shops
+#### Authorization ####
+To use this SDK in your own mobile app Trusted Shops needs to authorize your app.<br>
+Please contact us via [productfeedback@trustedshops.com](mailto:productfeedback@trustedshops.com) to get your apps authorized.  
 
+For testing and certification purposes the following TS-ID can be used: ```X330A2E7D449E31E467D2F53A55DDD070```
+
+#### License ####
+Trusted Shops Android SDK is available under the MIT license. See the LICENSE file for more info.
+
+#### About Trusted Shops ####
 Today more than 20,000 online sellers are using Trusted Shops to collect, show, and manage genuine feedback from their customers. A large community of online buyers has already contributed over 6 million reviews.
-Whether you are a start-up entrepreneur, a professional seller or an international retail brand, consumer trust is a key ingredient for your business. Trusted Shops offers services that will give you the ability to highlight your trustworthiness, improve your service, and, consequently, increase your conversion rate.
+Whether you are a start-up entrepreneur, a professional seller or an international retail brand, consumer trust is a key ingredient for your business. Trusted Shops offers services that will give you the ability to highlight your trustworthiness, improve your service, and, consequently, increase your conversion rate. 
 
-## Questions and Feedback
+#### Questions and Feedback ####
+Your feedback helps us to improve this library. 
+If you have any questions concerning this product or the implementation, please contact [productfeedback@trustedshops.com](mailto:productfeedback@trustedshops.com)
 
-Your feedback helps us make this library better. If you have any questions concerning this product or the implementation, please contact productfeedback@trustedshops.com
-
-## License
-Trustbadge is available under the MIT license. See the LICENSE file for more info.
-
-## Looking for our Android SDK?
+#### Looking for Android? ####
 https://github.com/trustedshops/trustedshops-android-sdk
