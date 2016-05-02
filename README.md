@@ -13,6 +13,8 @@ Integrate our SDK in your shopping app and boost your conversion with **your Tru
 ![](https://github.com/trustedshops/trustedshops-ios-sdk/blob/master/Screenshots/iPad-example_landscape.png)
 Our SDK supports the following languages: DE, EN, FR, ES, IT, NL, PL.
 
+- - - -
+
 ## Installation ##
 
 Trustbadge is available through [CocoaPods](http://cocoapods.org). To install
