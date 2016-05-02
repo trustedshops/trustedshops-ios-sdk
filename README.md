@@ -27,7 +27,7 @@ To run the example project, clone the repo, and run `pod install` from the Examp
 
 - - - -
 
-## Setup
+## Display the Trustbadge ##
 
 1. Import the header
 
@@ -41,7 +41,7 @@ To run the example project, clone the repo, and run `pod install` from the Examp
 	TRSTrustbadgeView *myTrustbadgeView = [[TRSTrustbadgeView alloc] initWithTrustedShopsID:@"YOUR-TRUSTED-SHOPS-ID" apiToken:@"THIS-IS-NOT-NEEDED-ATM"];
 	```
 	
-	In order to get your Trusted Shops ID authorized please see the "Authorization" section below. For testing purposes the following TS-ID can be used: ```X330A2E7D449E31E467D2F53A55DDD070```
+	In order to get your Trusted Shops ID authorized please see the "Authorization" section below.
 
 3. Load the trustbadge data from our backend to properly display the view.
 
@@ -56,12 +56,7 @@ To run the example project, clone the repo, and run `pod install` from the Examp
 You may provide blocks that are called on success and/or failure (the failure block expects an `NSError` parameter).
 You can also specify a `UIColor` to customize the appearance of the trustcard that is displayed when the user taps on the trustbadge.
 
-The trustbadge also has a debug property that, if set to `YES`, makes it load data from the Trusted Shops development API instead of the production API (the above example TS-ID works for debug and normal mode). Note that your shop's TS-ID might not be present on this API, if you need to debug with your own shop's TS-ID please contact trusted Shops (see below).
-
-## Authorization
-
-To use this SDK in your own mobile app (i.e. with your own TS-ID) Trusted Shops needs to authorize your app.<br>
-Please contact us via [productfeedback@trustedshops.com](mailto:productfeedback@trustedshops.com) to get your apps authorized.
+The trustbadge also has a debug property that, if set to `YES`, makes it load data from the Trusted Shops development API instead of the production API (the above example TS-ID works for debug and normal mode). Note that your shop's TS-ID might not be present on this API, if you need to debug with your own shop's TS-ID please contact Trusted Shops (see below).
 
 ## Processing purchases with Trusted Shops
 
