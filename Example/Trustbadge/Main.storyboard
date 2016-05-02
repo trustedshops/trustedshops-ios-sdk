@@ -164,8 +164,10 @@
                         <outlet property="currencyField" destination="fSw-Y3-ihZ" id="fBz-Yq-zVN"/>
                         <outlet property="emailField" destination="E1O-ak-AzE" id="VoC-jb-wki"/>
                         <outlet property="estDeliveryDateField" destination="Tdm-js-2T8" id="8ne-rn-ANE"/>
+                        <outlet property="nibPlaceholder" destination="KdX-Bq-47S" id="gb3-Sp-Rwl"/>
                         <outlet property="orderNoField" destination="y12-Pf-Zv6" id="qhY-Qs-lSq"/>
                         <outlet property="paymentTypeField" destination="c6b-b6-CuH" id="Pjh-65-Q13"/>
+                        <outlet property="submitButton" destination="xfO-RW-eXR" id="Ugb-bA-fcn"/>
                         <outlet property="tsIDField" destination="cpZ-CY-t6P" id="71D-cK-CMx"/>
                     </connections>
                 </viewController>

@@ -56,6 +56,8 @@
 	}
 }
 
+// Note: Be very careful should you add TS-IDs for testing here!
+// Depending on the debug flags of TRSOrder and TRSTrustbadgeView objects, you might send orders to existing shops!
 - (NSArray *)tsids {
 	return @[@"X330A2E7D449E31E467D2F53A55DDD070", // CH demo shop
 			 @"XCD7B06A865895BD55F9B86C6BE099CC7", // consumer membership
