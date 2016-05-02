@@ -1,9 +1,9 @@
 //
 //  TRSAppDelegate.h
-//  trustbadge_iOS
+//  Trustbadge_Example
 //
-//  Created by CocoaPods on 06/22/2015.
-//  Copyright (c) 2014 Trusted Shops. All rights reserved.
+//  Created by Gero Herkenrath on 02/05/16.
+//  Copyright © 2016 Trusted Shops. All rights reserved.
 //
 
 @import UIKit;

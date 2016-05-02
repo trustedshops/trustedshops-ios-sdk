@@ -16,6 +16,8 @@
 		1D6695591CD23E8600AA0E4E /* checkout_unit_test.html in Resources */ = {isa = PBXBuildFile; fileRef = 1D6695581CD23E8600AA0E4E /* checkout_unit_test.html */; };
 		1D69A5A41CC791D2001A93EE /* TRSConsumerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D69A5A21CC791D2001A93EE /* TRSConsumerSpec.m */; };
 		1D69A5A51CC791D2001A93EE /* TRSOrderSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D69A5A31CC791D2001A93EE /* TRSOrderSpec.m */; };
+		1D82627D1CD776A000AE71B4 /* TRSDatePickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D82627A1CD776A000AE71B4 /* TRSDatePickerViewController.m */; };
+		1D82627E1CD776A000AE71B4 /* TRSPickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D82627C1CD776A000AE71B4 /* TRSPickerViewController.m */; };
 		1D9A6FC61CCA5565006D97A9 /* TRSProductSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D9A6FC51CCA5565006D97A9 /* TRSProductSpec.m */; };
 		1DBF42BC1CA1585300FCFB81 /* TRSTrustcardSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DBF42BB1CA1585300FCFB81 /* TRSTrustcardSpec.m */; };
 		1DEFBAEC1CA0049A00B61B05 /* NSURL+TRSURLExtensionsSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DEFBAEB1CA0049A00B61B05 /* NSURL+TRSURLExtensionsSpec.m */; };
@@ -32,12 +34,7 @@
 		840574691B821067006F9778 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 840574551B821067006F9778 /* main.m */; };
 		8405746A1B821067006F9778 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 840574561B821067006F9778 /* Main.storyboard */; };
 		8405746B1B821067006F9778 /* TRSAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 840574581B821067006F9778 /* TRSAppDelegate.m */; };
-		8405746C1B821067006F9778 /* TRSProductDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8405745A1B821067006F9778 /* TRSProductDetailViewController.m */; };
-		8405746D1B821067006F9778 /* TRSProductTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8405745C1B821067006F9778 /* TRSProductTableViewController.m */; };
 		8405746E1B821067006F9778 /* TRSViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8405745E1B821067006F9778 /* TRSViewController.m */; };
-		840574701B821067006F9778 /* UISplitViewController+TRSCompatiblyLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 840574621B821067006F9778 /* UISplitViewController+TRSCompatiblyLayer.m */; };
-		840574711B821067006F9778 /* UIViewController+TRSCompatiblyLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 840574641B821067006F9778 /* UIViewController+TRSCompatiblyLayer.m */; };
-		840574721B821067006F9778 /* UIViewController+TRSViewControllerShowing.m in Sources */ = {isa = PBXBuildFile; fileRef = 840574661B821067006F9778 /* UIViewController+TRSViewControllerShowing.m */; };
 		8409D6851B66205700001627 /* trustbadge-badrequest.response in Resources */ = {isa = PBXBuildFile; fileRef = 8409D6811B66204800001627 /* trustbadge-badrequest.response */; };
 		8409D6861B66205700001627 /* trustbadge-notfound.response in Resources */ = {isa = PBXBuildFile; fileRef = 8409D6821B66204800001627 /* trustbadge-notfound.response */; };
 		840B0C4A1B678CF400CB8E39 /* trustbadge.data in Resources */ = {isa = PBXBuildFile; fileRef = 840B0C491B678CF400CB8E39 /* trustbadge.data */; };
@@ -73,6 +70,10 @@
 		1D6695581CD23E8600AA0E4E /* checkout_unit_test.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = checkout_unit_test.html; sourceTree = "<group>"; };
 		1D69A5A21CC791D2001A93EE /* TRSConsumerSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TRSConsumerSpec.m; sourceTree = "<group>"; };
 		1D69A5A31CC791D2001A93EE /* TRSOrderSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TRSOrderSpec.m; sourceTree = "<group>"; };
+		1D8262791CD776A000AE71B4 /* TRSDatePickerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TRSDatePickerViewController.h; sourceTree = "<group>"; };
+		1D82627A1CD776A000AE71B4 /* TRSDatePickerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TRSDatePickerViewController.m; sourceTree = "<group>"; };
+		1D82627B1CD776A000AE71B4 /* TRSPickerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TRSPickerViewController.h; sourceTree = "<group>"; };
+		1D82627C1CD776A000AE71B4 /* TRSPickerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TRSPickerViewController.m; sourceTree = "<group>"; };
 		1D9A6FC51CCA5565006D97A9 /* TRSProductSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TRSProductSpec.m; sourceTree = "<group>"; };
 		1DBF42BB1CA1585300FCFB81 /* TRSTrustcardSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TRSTrustcardSpec.m; sourceTree = "<group>"; };
 		1DEFBAEB1CA0049A00B61B05 /* NSURL+TRSURLExtensionsSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSURL+TRSURLExtensionsSpec.m"; sourceTree = "<group>"; };
@@ -98,18 +99,8 @@
 		840574561B821067006F9778 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		840574571B821067006F9778 /* TRSAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TRSAppDelegate.h; sourceTree = "<group>"; };
 		840574581B821067006F9778 /* TRSAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TRSAppDelegate.m; sourceTree = "<group>"; };
-		840574591B821067006F9778 /* TRSProductDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TRSProductDetailViewController.h; sourceTree = "<group>"; };
-		8405745A1B821067006F9778 /* TRSProductDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TRSProductDetailViewController.m; sourceTree = "<group>"; };
-		8405745B1B821067006F9778 /* TRSProductTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TRSProductTableViewController.h; sourceTree = "<group>"; };
-		8405745C1B821067006F9778 /* TRSProductTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TRSProductTableViewController.m; sourceTree = "<group>"; };
 		8405745D1B821067006F9778 /* TRSViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TRSViewController.h; sourceTree = "<group>"; };
 		8405745E1B821067006F9778 /* TRSViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TRSViewController.m; sourceTree = "<group>"; };
-		840574611B821067006F9778 /* UISplitViewController+TRSCompatiblyLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UISplitViewController+TRSCompatiblyLayer.h"; sourceTree = "<group>"; };
-		840574621B821067006F9778 /* UISplitViewController+TRSCompatiblyLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UISplitViewController+TRSCompatiblyLayer.m"; sourceTree = "<group>"; };
-		840574631B821067006F9778 /* UIViewController+TRSCompatiblyLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+TRSCompatiblyLayer.h"; sourceTree = "<group>"; };
-		840574641B821067006F9778 /* UIViewController+TRSCompatiblyLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+TRSCompatiblyLayer.m"; sourceTree = "<group>"; };
-		840574651B821067006F9778 /* UIViewController+TRSViewControllerShowing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+TRSViewControllerShowing.h"; sourceTree = "<group>"; };
-		840574661B821067006F9778 /* UIViewController+TRSViewControllerShowing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+TRSViewControllerShowing.m"; sourceTree = "<group>"; };
 		8409D6811B66204800001627 /* trustbadge-badrequest.response */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "trustbadge-badrequest.response"; sourceTree = "<group>"; };
 		8409D6821B66204800001627 /* trustbadge-notfound.response */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "trustbadge-notfound.response"; sourceTree = "<group>"; };
 		840B0C491B678CF400CB8E39 /* trustbadge.data */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = trustbadge.data; sourceTree = "<group>"; };
@@ -257,18 +248,12 @@
 				840574561B821067006F9778 /* Main.storyboard */,
 				840574571B821067006F9778 /* TRSAppDelegate.h */,
 				840574581B821067006F9778 /* TRSAppDelegate.m */,
-				840574591B821067006F9778 /* TRSProductDetailViewController.h */,
-				8405745A1B821067006F9778 /* TRSProductDetailViewController.m */,
-				8405745B1B821067006F9778 /* TRSProductTableViewController.h */,
-				8405745C1B821067006F9778 /* TRSProductTableViewController.m */,
 				8405745D1B821067006F9778 /* TRSViewController.h */,
 				8405745E1B821067006F9778 /* TRSViewController.m */,
-				840574611B821067006F9778 /* UISplitViewController+TRSCompatiblyLayer.h */,
-				840574621B821067006F9778 /* UISplitViewController+TRSCompatiblyLayer.m */,
-				840574631B821067006F9778 /* UIViewController+TRSCompatiblyLayer.h */,
-				840574641B821067006F9778 /* UIViewController+TRSCompatiblyLayer.m */,
-				840574651B821067006F9778 /* UIViewController+TRSViewControllerShowing.h */,
-				840574661B821067006F9778 /* UIViewController+TRSViewControllerShowing.m */,
+				1D8262791CD776A000AE71B4 /* TRSDatePickerViewController.h */,
+				1D82627A1CD776A000AE71B4 /* TRSDatePickerViewController.m */,
+				1D82627B1CD776A000AE71B4 /* TRSPickerViewController.h */,
+				1D82627C1CD776A000AE71B4 /* TRSPickerViewController.m */,
 				840574731B8210A5006F9778 /* Supporting Files */,
 				1D5FF3581CABE7850034AC45 /* Launch Screen.storyboard */,
 			);
@@ -551,14 +536,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1D82627D1CD776A000AE71B4 /* TRSDatePickerViewController.m in Sources */,
 				8405746B1B821067006F9778 /* TRSAppDelegate.m in Sources */,
-				840574711B821067006F9778 /* UIViewController+TRSCompatiblyLayer.m in Sources */,
 				8405746E1B821067006F9778 /* TRSViewController.m in Sources */,
-				8405746C1B821067006F9778 /* TRSProductDetailViewController.m in Sources */,
-				840574701B821067006F9778 /* UISplitViewController+TRSCompatiblyLayer.m in Sources */,
-				840574721B821067006F9778 /* UIViewController+TRSViewControllerShowing.m in Sources */,
+				1D82627E1CD776A000AE71B4 /* TRSPickerViewController.m in Sources */,
 				840574691B821067006F9778 /* main.m in Sources */,
-				8405746D1B821067006F9778 /* TRSProductTableViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
