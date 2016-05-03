@@ -60,6 +60,8 @@ You can also specify a `UIColor` to customize the appearance of the trustcard th
 
 The trustbadge also has a debug property that, if set to `YES`, makes it load data from the Trusted Shops development API instead of the production API (the above example TS-ID works for debug and normal mode). Note that your shop's TS-ID might not be present on this API, if you need to debug with your own shop's TS-ID please contact Trusted Shops (see below).
 
+- - - -
+
 ## Processing purchases with Trusted Shops
 
 As of version 0.3.0 the SDK supports a checkout process for purchases consumers make with your app. This means you can enable them to additionally purchase a guarantee for their order from Trusted Shops, like they know it from many webshops that provide this.
