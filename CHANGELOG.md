@@ -1,5 +1,11 @@
 # Trustbadge
 
+## Version 0.3.2
+
+* Fixed an issue with the webView in the checkout view shifting down when the root view controller demands a navigation bar
+* Disabled zooming in said webView
+* Changed the example TS IDs shown in the picker (2 don't load the seal, which is intended to show how that looks)
+
 ## Version 0.3.1
 
 * Fixed the endpoint of the trustcard HTML ressource

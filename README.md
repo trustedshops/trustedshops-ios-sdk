@@ -11,6 +11,7 @@ Integrate our SDK in your shopping app and boost your conversion with **your Tru
 * Integrate the Trusted Shops buyer protection and review collecting services into your app.
 ![](https://github.com/trustedshops/trustedshops-ios-sdk/blob/master/Screenshots/iPhone-example_portrait.png)
 ![](https://github.com/trustedshops/trustedshops-ios-sdk/blob/master/Screenshots/iPad-example_landscape.png)
+
 Our SDK supports the following languages: DE, EN, FR, ES, IT, NL, PL.
 
 - - - -
@@ -21,7 +22,7 @@ Trustbadge is available through [CocoaPods](http://cocoapods.org). To install
 it, simply add the following line to your Podfile:
 
 ```ruby
-pod "Trustbadge", "~> 0.3.1"
+pod "Trustbadge", "~> 0.3.2"
 ```
 
 #### Example project ####
@@ -106,7 +107,7 @@ If you are developing your application and want to test this SDK feature __pleas
 ## About this SDK ##
 
 #### Documentation ####
-The latest documentation can be found at [cocoadocs](http://cocoadocs.org/docsets/Trustbadge/0.3.1/).
+The latest documentation can be found at [cocoadocs](http://cocoadocs.org/docsets/Trustbadge/0.3.2/).
 All headers are documented according to the [appledoc](http://appledoc.gentlebytes.com/appledoc/) syntax, so you can also use that to directly include the docsets into your XCode.
 
 #### Authorization ####
