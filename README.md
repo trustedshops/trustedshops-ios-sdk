@@ -9,10 +9,15 @@
 Integrate our SDK in your shopping app and boost your conversion with **your Trustbadge** and **our buyer protection**:
 * Show the Trustbadge in any view and size and provide additional information along with a link to your certificate.
 * Integrate the Trusted Shops buyer protection and review collecting services into your app.
-![](https://github.com/trustedshops/trustedshops-ios-sdk/blob/master/Screenshots/iPhone-example_portrait.png)
-![](https://github.com/trustedshops/trustedshops-ios-sdk/blob/master/Screenshots/iPad-example_landscape.png)
+
+![TrustedShopsiOSSDK](https://raw.githubusercontent.com/trustedshops/trustedshops-ios-sdk/master/Screenshots/iOS-SDK.png "Boost your conversion with Trustbadge and buyer protection")
 
 Our SDK supports the following languages: DE, EN, FR, ES, IT, NL, PL.
+
+1. [Installation](#installation)
+2. [Display the Trustbadge](#display-the-trustbadge)
+3. [After Checkout Process](#after-checkout-process)
+4. [About this SDK](#about-this-sdk)
 
 - - - -
 
@@ -61,12 +66,12 @@ You can also specify a `UIColor` to customize the appearance of the trustcard th
 
 The trustbadge also has a debug property that, if set to `YES`, makes it load data from the Trusted Shops development API instead of the production API (the above example TS-ID works for debug and normal mode). Note that your shop's TS-ID might not be present on this API, if you need to debug with your own shop's TS-ID please contact Trusted Shops (see below).
 
-## Processing purchases with Trusted Shops
+- - - -
 
-![](https://github.com/trustedshops/trustedshops-ios-sdk/blob/master/Screenshots/iPhone-example-checkout.png)
+## After Checkout Process
 
-As of version 0.3.0 the SDK supports a checkout process for purchases consumers make with your app. This means you can enable them to additionally purchase a guarantee for their order from Trusted Shops, like they know it from many webshops that provide this.
-Consumers will then also reminded to give reviews (if you have bought this service from Trusted Shops).
+As of version 0.3.0 the SDK supports a checkout process for purchases consumers make with your app. This means you can allow them to additionally purchase a guarantee for their order from Trusted Shops, like they know it from many webshops that provide this.
+Consumers will then also reminded to give reviews (if you consume this service from Trusted Shops).
 To use this feature your app needs to add a few lines of code right after your checkout process:
 
 	```objc
