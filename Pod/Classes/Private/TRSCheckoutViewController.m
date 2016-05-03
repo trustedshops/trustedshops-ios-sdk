@@ -105,6 +105,7 @@ static const CGSize minContentViewSize = {288.0, 339.0}; // for now: this is mor
 - (void)viewDidDisappear:(BOOL)animated {
 	if (self.completionBlock) self.completionBlock(self.tappedToCancel, nil);
 	self.tappedToCancel = YES; // reset to default...
+    [super viewDidDisappear:animated];
 }
 
 #pragma mark - WebView Delegation methods

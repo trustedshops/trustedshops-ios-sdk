@@ -19,11 +19,13 @@
 -(void)viewWillDisappear:(BOOL)animated {
 	NSInteger selectedRow = [self.picker selectedRowInComponent:0];
 	self.targetField.text = [self currentContents][selectedRow];
+    [super viewWillDisappear:animated];
 }
 
 -(void)viewWillAppear:(BOOL)animated {
 	NSInteger lastIndex = [[self currentContents] indexOfObject:self.targetField.text];
 	[self.picker selectRow:lastIndex inComponent:0 animated:NO];
+    [super viewWillAppear:animated];
 }
 
 - (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView {

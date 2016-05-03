@@ -56,6 +56,7 @@
 	}
 	
 	[self updateUI];
+    [super viewWillAppear:animated];
 }
 
 #pragma mark Submitting an order to Trusted Shops

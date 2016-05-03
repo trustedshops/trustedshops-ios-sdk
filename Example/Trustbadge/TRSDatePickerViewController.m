@@ -21,10 +21,12 @@
 	if (self.delegate) {
 		[self.delegate selectedDate:self.datePicker.date];
 	}
+    [super viewWillDisappear:animated];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
 	if (self.initialDate) self.datePicker.date = self.initialDate;
+    [super viewWillAppear:animated];
 }
 
 - (void)setSelectedDate:(NSDate *)date {
