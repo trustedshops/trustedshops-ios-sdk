@@ -62,8 +62,6 @@ The trustbadge also has a debug property that, if set to `YES`, makes it load da
 
 ## Processing purchases with Trusted Shops
 
-![](https://github.com/trustedshops/trustedshops-ios-sdk/blob/master/Screenshots/iPhone-example-checkout.png)
-
 As of version 0.3.0 the SDK supports a checkout process for purchases consumers make with your app. This means you can enable them to additionally purchase a guarantee for their order from Trusted Shops, like they know it from many webshops that provide this.
 Consumers will then also reminded to give reviews (if you have bought this service from Trusted Shops).
 To use this feature your app needs to add a few lines of code right after your checkout process:
