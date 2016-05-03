@@ -39,6 +39,7 @@
 // if the TS ID changed, we simply create a new Trustbadge and add it
 - (void)viewWillAppear:(BOOL)animated {
 	if (!self.myTrustbadgeView || ![self.myTrustbadgeView.trustedShopsID isEqualToString:self.tsIDField.text]) {
+		[self.myTrustbadgeView removeFromSuperview];
 		self.myTrustbadgeView = [[TRSTrustbadgeView alloc] initWithTrustedShopsID:self.tsIDField.text
 																		 apiToken:@"THIS IS NOT NEEDED ATM"];
 		self.myTrustbadgeView.customColor = [UIColor colorWithRed:(54.0 / 255.0)

@@ -60,8 +60,8 @@
 // Depending on the debug flags of TRSOrder and TRSTrustbadgeView objects, you might send orders to existing shops!
 - (NSArray *)tsids {
 	return @[@"X330A2E7D449E31E467D2F53A55DDD070", // CH demo shop
-			 @"XCD7B06A865895BD55F9B86C6BE099CC7", // consumer membership
-			 @"X2664C3138F8E4799063F84A7B790179E"  // reviews only!
+			 @"XFD9974BBC558C007CD46431D056DF230", // demoshop.trustedshops.com
+			 @"XA2A8D35838AF5F63E5EB0E05847B1CB8"
 			 ];
 }
 
