@@ -97,16 +97,7 @@ describe(@"TRSOrder", ^{
 	
 	describe(@"+TRSOrderWithTrustedShopsID:apiToken:email:ordernr:amount:curr:paymentType:deliveryDate:", ^{
 		
-		it(@"calls initWithTrustedShopsID:apiToken:email:ordernr:amount:curr:paymentType:deliveryDate:", ^{
-			id mockOrder = OCMClassMock([TRSOrder class]);
-			OCMStub([mockOrder initWithTrustedShopsID:exampleFields[@"trustedShopsID"]
-											 apiToken:exampleFields[@"apiToken"]
-												email:exampleFields[@"email"]
-											  ordernr:exampleFields[@"orderNo"]
-											   amount:exampleFields[@"amount"]
-												 curr:exampleFields[@"currency"]
-										  paymentType:exampleFields[@"paymentType"]
-										 deliveryDate:exampleFields[@"estDeliveryDate"]]).andReturn(nil);
+		it(@"creates an object of type TRSOrder", ^{
 			TRSOrder *aTestOrder = [TRSOrder TRSOrderWithTrustedShopsID:exampleFields[@"trustedShopsID"]
 															   apiToken:exampleFields[@"apiToken"]
 																  email:exampleFields[@"email"]
@@ -115,9 +106,8 @@ describe(@"TRSOrder", ^{
 																   curr:exampleFields[@"currency"]
 															paymentType:exampleFields[@"paymentType"]
 														   deliveryDate:exampleFields[@"estDeliveryDate"]];
-			OCMVerifyAll(mockOrder);
+			expect(aTestOrder).to.beKindOf([TRSOrder class]);
 			aTestOrder = nil;
-			mockOrder = nil;
 		});
 		
 	});
@@ -180,7 +170,7 @@ describe(@"TRSOrder", ^{
 				expect(aTestOrder.nextActionFlag & TRSShowUpgradeInComingEmail).toNot.equal(TRSShowUpgradeInComingEmail);
 			});
 			
-			it(@"calls areFieldComplete", ^{
+			it(@"calls areFieldsComplete", ^{
 				// note: I "re-init" the object here, because OCMock is kinda stupid otherwise.
 				id partialMock = OCMPartialMock(aTestOrder);
 				id notUsed = [aTestOrder initWithTrustedShopsID:exampleFields[@"trustedShopsID"]

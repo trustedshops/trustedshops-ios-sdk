@@ -23,6 +23,16 @@
 @property (nonatomic, readonly, assign) CGSize minPopoverSize;
 
 /**
+ A simple convenience initializer.
+ 
+ Useful for testing, as it can be easily stubbed. Calls the designated initializer of `UIViewController` with `nil`
+ for nibname and bundle.
+ 
+ @return A new `TRSCheckoutViewController`.
+ */
++ (nullable instancetype)checkoutViewController;
+
+/**
  Displays the webView for the Trustbadge and passes it the order data to process.
  
  This method displays the webView that does the actual processing of the order data.

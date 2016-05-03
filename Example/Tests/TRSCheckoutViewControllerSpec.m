@@ -9,6 +9,8 @@
 
 @interface TRSCheckoutViewController (PrivateTest)
 
++ (instancetype)checkoutViewController;
++ (NSString *)noZoomJavaScript;
 + (NSDictionary *)baseJS;
 - (BOOL)constructJavaScriptStringsForOrder:(TRSOrder *)order;
 - (void)userContentController:(WKUserContentController *)userContentController
@@ -146,6 +148,22 @@ describe(@"TRSCheckoutViewController", ^{
 		it(@"returns a validCGSize", ^{
 			expect([testCheckout minPopoverSize].width).to.beGreaterThan(0.0);
 			expect([testCheckout minPopoverSize].height).to.beGreaterThan(0.0);
+		});
+	});
+	
+	describe(@"+checkoutViewController", ^{
+		it(@"returns a TRSCheckoutViewController object", ^{
+			expect([TRSCheckoutViewController checkoutViewController]).to.beKindOf([TRSCheckoutViewController class]);
+		});
+	});
+	
+	describe(@"+noZoomJavaScript", ^{
+		// not a great test, but for now it's sufficient...
+		it(@"returns a string with scaling parameters ", ^{
+			NSString *theScript = [TRSCheckoutViewController noZoomJavaScript];
+			expect([theScript containsString:@"initial-scale=1.0"]).to.beTruthy();
+			expect([theScript containsString:@"maximum-scale=1.0"]).to.beTruthy();
+			expect([theScript containsString:@"user-scalable=no"]).to.beTruthy();
 		});
 	});
 	

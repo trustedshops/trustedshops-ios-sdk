@@ -111,7 +111,7 @@
 	self.orderState &= (~TRSOrderUnprocessed);
 	self.orderState |= TRSOrderProcessing;
 	
-	TRSCheckoutViewController *checkoutVC = [[TRSCheckoutViewController alloc] initWithNibName:nil bundle:nil];
+	TRSCheckoutViewController *checkoutVC = [TRSCheckoutViewController checkoutViewController];
 	[checkoutVC processOrder:self onCompletion:^(BOOL canceled, NSError * _Nullable error) {
 		
 		if (error) {

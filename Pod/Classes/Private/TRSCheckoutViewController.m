@@ -37,11 +37,18 @@ static const CGSize minContentViewSize = {288.0, 339.0}; // for now: this is mor
 	return minContentViewSize;
 }
 
++ (instancetype)checkoutViewController {
+	return [[TRSCheckoutViewController alloc] initWithNibName:nil bundle:nil];
+}
+
 - (void)loadView { // keep in mind this is only called once for each instance!
 	self.tappedToCancel = YES; // we assume every close anywhere is a cancel unless explcitly said otherwise
 	WKWebViewConfiguration *config = [[WKWebViewConfiguration alloc] init];
 	WKUserContentController *ucController = [[WKUserContentController alloc] init];
 	[ucController addScriptMessageHandler:self name:@"trs_ios_listener"];
+	[ucController addUserScript:[[WKUserScript alloc] initWithSource:[TRSCheckoutViewController noZoomJavaScript]
+													   injectionTime:WKUserScriptInjectionTimeAtDocumentEnd
+													forMainFrameOnly:YES]];
 	config.userContentController = ucController;
 	self.view = [[WKWebView alloc] initWithFrame:CGRectMake(0.0, 0.0, minContentViewSize.width, minContentViewSize.height)
 								   configuration:config];
@@ -91,6 +98,7 @@ static const CGSize minContentViewSize = {288.0, 339.0}; // for now: this is mor
 	[self.webView loadRequest:request];
 		
 	self.completionBlock = onCompletion; // will be called later
+	self.automaticallyAdjustsScrollViewInsets = NO; // fixes issue with nav bars & nav controllers as rootVC
 	[rootVC presentPopinController:self animated:YES completion:nil];
 }
 
@@ -203,6 +211,14 @@ decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
 			 @"lastCall" :
 				 @"document.body.appendChild(window.trustbadgeCheckoutManager.getOrderManager().getTrustedShopsCheckoutElement())"
 			 };
+}
+
++ (NSString *)noZoomJavaScript {
+	return @"var meta = document.createElement('meta'); \
+	meta.name = 'viewport'; \
+	meta.content = 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no'; \
+	var head = document.getElementsByTagName('head')[0];\
+	head.appendChild(meta);";
 }
 
 @end
