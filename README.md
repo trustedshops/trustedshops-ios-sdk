@@ -14,6 +14,11 @@ Integrate our SDK in your shopping app and boost your conversion with **your Tru
 
 Our SDK supports the following languages: DE, EN, FR, ES, IT, NL, PL.
 
+1. [Installation](#installation)
+2. [Display the Trustbadge](#display-the-trustbadge)
+3. [After Checkout Process](#after-checkout-process)
+4. [About this SDK](#about-this-sdk)
+
 - - - -
 
 ## Installation ##
@@ -63,10 +68,10 @@ The trustbadge also has a debug property that, if set to `YES`, makes it load da
 
 - - - -
 
-## Processing purchases with Trusted Shops
+## After Checkout Process
 
-As of version 0.3.0 the SDK supports a checkout process for purchases consumers make with your app. This means you can enable them to additionally purchase a guarantee for their order from Trusted Shops, like they know it from many webshops that provide this.
-Consumers will then also reminded to give reviews (if you have bought this service from Trusted Shops).
+As of version 0.3.0 the SDK supports a checkout process for purchases consumers make with your app. This means you can allow them to additionally purchase a guarantee for their order from Trusted Shops, like they know it from many webshops that provide this.
+Consumers will then also reminded to give reviews (if you consume this service from Trusted Shops).
 To use this feature your app needs to add a few lines of code right after your checkout process:
 
 	```objc
