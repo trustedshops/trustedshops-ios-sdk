@@ -14,14 +14,14 @@ Integrate our SDK in your shopping app and boost your conversion with **your Tru
 
 Our SDK supports the following languages: DE, EN, FR, ES, IT, NL, PL.
 
-1. [Installation](#installation)
+1. [Installation](#1.-installation)
 2. [Display the Trustbadge](#display-the-trustbadge)
 3. [After Checkout Process](#after-checkout-process)
 4. [About this SDK](#about-this-sdk)
 
 - - - -
 
-## Installation ##
+## 1. Installation ##
 
 Trustbadge is available through [CocoaPods](http://cocoapods.org). To install
 it, simply add the following line to your Podfile:
