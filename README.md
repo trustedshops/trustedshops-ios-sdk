@@ -14,10 +14,10 @@ Integrate our SDK in your shopping app and boost your conversion with **your Tru
 
 Our SDK supports the following languages: DE, EN, FR, ES, IT, NL, PL.
 
-1. [Installation](#1.-installation)
-2. [Display the Trustbadge](#display-the-trustbadge)
-3. [After Checkout Process](#after-checkout-process)
-4. [About this SDK](#about-this-sdk)
+1. [Installation](#1-installation)
+2. [Display the Trustbadge](#2-display-the-trustbadge)
+3. [After Checkout Process](#3-after-checkout-process)
+4. [About this SDK](#4-about-this-sdk)
 
 - - - -
 
@@ -35,7 +35,7 @@ To run the example project, clone the repo, and run `pod install` from the Examp
 
 - - - -
 
-## Display the Trustbadge ##
+## 2. Display the Trustbadge ##
 
 1. Import the header
 
@@ -68,7 +68,7 @@ The trustbadge also has a debug property that, if set to `YES`, makes it load da
 
 - - - -
 
-## After Checkout Process
+## 3. After Checkout Process
 
 As of version 0.3.0 the SDK supports a checkout process for purchases consumers make with your app. This means you can allow them to additionally purchase a guarantee for their order from Trusted Shops, like they know it from many webshops that provide this.
 Consumers will then also reminded to give reviews (if you consume this service from Trusted Shops).
@@ -109,7 +109,7 @@ If you are developing your application and want to test this SDK feature __pleas
 
 - - - -
 
-## About this SDK ##
+## 4. About this SDK ##
 
 #### Documentation ####
 The latest documentation can be found at [cocoadocs](http://cocoadocs.org/docsets/Trustbadge/0.3.2/).
