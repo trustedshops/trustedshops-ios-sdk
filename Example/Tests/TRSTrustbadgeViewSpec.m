@@ -512,6 +512,49 @@ describe(@"TRSTrustbadgeView", ^{
 			});
 		});
 	});
+	
+	describe(@"-setCustomColor:", ^{
+		__block TRSTrustbadgeView *testView;
+		__block UIColor *testColor1;
+		__block UIColor *testColor2;
+		beforeEach(^{
+			testView = [[TRSTrustbadgeView alloc] init];
+			testColor1 = [UIColor blueColor];
+			testColor2 = [UIColor redColor];
+		});
+		afterEach(^{
+			testView = nil;
+			testColor1 = nil;
+			testColor2 = nil;
+		});
+		
+		it(@"correctly sets a color", ^{
+			[testView setCustomColor:testColor1];
+			expect(testView.customColor).to.equal(testColor1);
+		});
+		
+		it(@"correctly changes a set color", ^{
+			[testView setCustomColor:testColor1];
+			expect(testView.customColor).to.equal(testColor1);
+			testView.customColor = testColor2;
+			expect(testView.customColor).to.equal(testColor2);
+		});
+		
+		it(@"doesn't change a color if it is set twice", ^{ // erm... I admit it: this is just to raise coverage...
+			[testView setCustomColor:testColor1];
+			expect(testView.customColor).to.equal(testColor1);
+			[testView setCustomColor:testColor1];
+			expect(testView.customColor).to.equal(testColor1);
+		});
+		
+		it(@"also sets the color of a trustbadge if it's already loaded", ^{
+			id mockedBadge = OCMClassMock([TRSTrustbadge class]);
+			testView.trustbadge = mockedBadge;
+			OCMExpect([mockedBadge setCustomColor:testColor1]);
+			testView.customColor = testColor1;
+			OCMVerifyAll(mockedBadge);
+		});
+	});
 });
 
 SpecEnd
