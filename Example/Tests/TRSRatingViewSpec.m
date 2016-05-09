@@ -35,6 +35,15 @@ describe(@"TRSRatingView", ^{
         });
 
     });
+	
+	describe(@"-intrinsicContentSIze", ^{
+		it(@"simply returns the size of bounds", ^{
+			TRSRatingView *view = [[TRSRatingView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 64.0f, 32.0f) rating:@1];
+			CGSize target = view.bounds.size;
+			CGSize result = [view intrinsicContentSize];
+			expect(CGSizeEqualToSize(target, result)).to.beTruthy();
+		});
+	});
 
 });
 
