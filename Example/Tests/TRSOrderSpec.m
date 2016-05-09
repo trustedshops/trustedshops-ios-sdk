@@ -23,7 +23,7 @@
 @property (nonatomic, readwrite, assign) TRSInsuranceState insuranceState;
 @property (nonatomic, readwrite, assign) TRSNextActionFlag nextActionFlag;
 
-@property (nonatomic, strong) TRSCheckoutViewController *checkoutVC;
+@property (nonatomic, strong) TRSCheckoutViewController *checkoutController;
 
 - (BOOL)areFieldsComplete;
 
@@ -173,6 +173,7 @@ describe(@"TRSOrder", ^{
 			it(@"calls areFieldsComplete", ^{
 				// note: I "re-init" the object here, because OCMock is kinda stupid otherwise.
 				id partialMock = OCMPartialMock(aTestOrder);
+				OCMExpect([partialMock areFieldsComplete]);
 				id notUsed = [aTestOrder initWithTrustedShopsID:exampleFields[@"trustedShopsID"]
 													   apiToken:exampleFields[@"apiToken"]
 														  email:exampleFields[@"email"]
@@ -181,7 +182,7 @@ describe(@"TRSOrder", ^{
 														   curr:exampleFields[@"currency"]
 													paymentType:exampleFields[@"paymentType"]
 												   deliveryDate:nil];
-				OCMVerify([partialMock areFieldsComplete]);
+				OCMVerifyAll(partialMock);
 				notUsed = nil;
 			});
 			
@@ -248,7 +249,6 @@ describe(@"TRSOrder", ^{
 				__block UIWindow *myWindow;
 				__block UIViewController *myRootVC;
 				__block id urlrequestMock;
-				__block TRSCheckoutViewController *myCOVC;
 				beforeAll(^{
 					myWindow = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 					myRootVC = [[UIViewController alloc] init];
@@ -261,7 +261,6 @@ describe(@"TRSOrder", ^{
 				});
 				afterAll(^{
 					myWindow.hidden = YES;
-					myCOVC = nil;
 					myRootVC = nil;
 					myWindow = nil;
 					urlrequestMock = nil;
@@ -275,10 +274,46 @@ describe(@"TRSOrder", ^{
 					OCMVerify([rootVCMock presentPopinController:[OCMArg any] animated:YES completion:nil]);
 				});
 				
-				it(@"it has correct states afterwards when user cancelled", ^{
+				it(@"it has correct states afterwards when user accepted", ^{
+					__block TRSOrder *helperPointer = aTestOrder;
 					id coVCmock = OCMClassMock([TRSCheckoutViewController class]);
 					OCMStub([coVCmock processOrder:[OCMArg any] onCompletion:[OCMArg invokeBlock]]);
+					helperPointer.checkoutController = coVCmock;
+					void (^aCallback)(NSError * _Nullable error) = ^void(NSError * _Nullable error) {
+						expect(error).to.beNil();
+						expect(helperPointer.nextActionFlag).to.equal(TRSNoNextActions);
+						expect(helperPointer.insuranceState).to.equal(TRSInsured);
+						expect(helperPointer.orderState & TRSOrderProcessed).to.equal(TRSOrderProcessed);
+						expect(helperPointer.consumer.membershipStatus).to.equal(TRSMemberKnown);
+					};
+					[helperPointer finishWithCompletionBlock:aCallback];
+					helperPointer.checkoutController = nil;
+				});
+				
+				it(@"it has correct states afterwards when the checkout went wrong", ^{
 					__block TRSOrder *helperPointer = aTestOrder;
+					id coVCmock = OCMClassMock([TRSCheckoutViewController class]);
+					NSError *anError = [NSError errorWithDomain:@"nomatter" code:9 userInfo:nil];
+					NSNumber *wrappedBool = [NSNumber numberWithBool:NO];
+					OCMStub([coVCmock processOrder:[OCMArg any] onCompletion:([OCMArg invokeBlockWithArgs:wrappedBool, anError, nil])]);
+					helperPointer.checkoutController = coVCmock;
+					void (^aCallback)(NSError * _Nullable error) = ^void(NSError * _Nullable error) {
+						expect(error).toNot.beNil();
+						expect(error.domain).to.equal(@"nomatter");
+						expect(error.code).to.equal(9);
+						expect(helperPointer.nextActionFlag).to.equal(TRSValidationPending);
+						expect(helperPointer.orderState & TRSOrderProcessing).to.equal(TRSOrderProcessing);
+					};
+					[helperPointer finishWithCompletionBlock:aCallback];
+					helperPointer.checkoutController = nil;
+				});
+
+				it(@"it has correct states afterwards when user declined", ^{
+					__block TRSOrder *helperPointer = aTestOrder;
+					id coVCmock = OCMClassMock([TRSCheckoutViewController class]);
+					NSNumber *wrappedBool = [NSNumber numberWithBool:YES];
+					OCMStub([coVCmock processOrder:[OCMArg any] onCompletion:([OCMArg invokeBlockWithArgs:wrappedBool, [NSNull null], nil])]);
+					helperPointer.checkoutController = coVCmock;
 					void (^aCallback)(NSError * _Nullable error) = ^void(NSError * _Nullable error) {
 						expect(error).to.beNil();
 						expect(helperPointer.nextActionFlag).to.equal(TRSNoNextActions);
@@ -287,24 +322,8 @@ describe(@"TRSOrder", ^{
 						expect(helperPointer.consumer.membershipStatus).to.equal(TRSMemberKnown);
 					};
 					[helperPointer finishWithCompletionBlock:aCallback];
+					helperPointer.checkoutController = nil;
 				});
-				
-				// for some reason this test fails: the block argument of processOrder... is not called
-				// with the arguments defined here, which is odd. I'll file an issue with OCMock
-//				it(@"it has correct states afterwards when the checkout went wrong", ^{
-//					id coVCmock = OCMClassMock([TRSCheckoutViewController class]);
-//					__block TRSOrder *helperPointer = aTestOrder;
-//					__block NSError *anError = [NSError errorWithDomain:@"nomatter" code:9 userInfo:nil];
-//					__block NSNumber *wrappedBool = [NSNumber numberWithBool:NO];
-//					OCMStub([coVCmock processOrder:[OCMArg any] onCompletion:([OCMArg invokeBlockWithArgs:wrappedBool, anError, nil])]);
-//					void (^aCallback)(NSError * _Nullable error) = ^void(NSError * _Nullable error) {
-//						expect(error).toNot.beNil();
-//						expect(helperPointer.nextActionFlag).to.equal(TRSValidationPending);
-//						expect(helperPointer.orderState & TRSOrderProcessing).to.equal(TRSOrderProcessing);
-//					};
-//					[helperPointer finishWithCompletionBlock:aCallback];
-//				});
-
 			});
 			
 		});

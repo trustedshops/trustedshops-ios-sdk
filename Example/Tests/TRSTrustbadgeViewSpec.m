@@ -13,6 +13,7 @@
 @property (nonatomic, copy, readwrite) NSString *apiToken;
 @property (nonatomic, strong) UILabel *offlineMarker;
 @property (nonatomic, strong) TRSTrustbadge *trustbadge;
+@property (nonatomic, strong) UIImageView *sealImageView;
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event;
 - (void)touchesMoved:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event;
@@ -391,59 +392,57 @@ describe(@"TRSTrustbadgeView", ^{
     });
 
 	context(@"convenience Initializers", ^{
-		__block id tbViewClassMock;
 		__block TRSTrustbadgeView *testView;
-		beforeEach(^{
-			tbViewClassMock = OCMClassMock([TRSTrustbadgeView class]);
-			CGRect aRect = CGRectMake(0.0, 0.0, 64.0, 64.0);
-			OCMStub([tbViewClassMock initWithFrame:aRect trustedShopsID:[OCMArg any] apiToken:[OCMArg any]]);
-		});
-		afterEach(^{
-			[tbViewClassMock stopMocking];
-			tbViewClassMock = nil;
-			testView = nil;
-		});
 		
 		describe(@"-initWithTrustedShopsID:apiToken:", ^{
-			it(@"calls the dedicated initializer", ^{
+			it(@"creates an object with the default frame", ^{
 				testView = [[TRSTrustbadgeView alloc] initWithTrustedShopsID:@"someID" apiToken:@"someToken"];
-				OCMVerifyAll(tbViewClassMock);
+				CGRect targetFrame = CGRectMake(0.0, 0.0, 64.0, 64.0);
+				expect(CGRectEqualToRect(targetFrame, testView.frame)).to.beTruthy();
+				expect(testView.trustedShopsID).to.equal(@"someID");
+				expect(testView.apiToken).to.equal(@"someToken");
 			});
 		});
 		
 		describe(@"-initWithTrustedShopsID", ^{
-			it(@"calls the dedicated initializer", ^{
+			it(@"creates an object with the default frame and no token", ^{
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
 				// Testing deprecated method for completeness, will be removed in future
 				testView = [[TRSTrustbadgeView alloc] initWithTrustedShopsID:@"someID"];
 #pragma clang diagnostic pop
-				OCMVerifyAll(tbViewClassMock);
+				CGRect targetFrame = CGRectMake(0.0, 0.0, 64.0, 64.0);
+				expect(CGRectEqualToRect(targetFrame, testView.frame)).to.beTruthy();
+				expect(testView.trustedShopsID).to.equal(@"someID");
+				expect(testView.apiToken).to.beNil();
 			});
 		});
 		
 		describe(@"-initWithFrame:", ^{
-			it(@"calls the dedicated initializer", ^{
+			it(@"creates an object with no token and no TS ID", ^{
 				testView = [[TRSTrustbadgeView alloc] initWithFrame:CGRectMake(0.0, 0.0, 64.0, 64.0)];
-				OCMVerifyAll(tbViewClassMock);
+				expect(testView.trustedShopsID).to.beNil();
+				expect(testView.apiToken).to.beNil();
 			});
 		});
 		
 		describe(@"-init", ^{
-			it(@"calls the dedicated initializer", ^{
+			it(@"creates an object with the default frame and no token and no TS ID", ^{
 				testView = [[TRSTrustbadgeView alloc] init];
-				OCMVerifyAll(tbViewClassMock);
+				CGRect targetFrame = CGRectMake(0.0, 0.0, 64.0, 64.0);
+				expect(CGRectEqualToRect(targetFrame, testView.frame)).to.beTruthy();
+				expect(testView.trustedShopsID).to.beNil();
+				expect(testView.apiToken).to.beNil();
 			});
 		});
 		
-		describe(@"-initWithCoder:", ^{ // this is special, as it doesn't call the dedicated intializer
-			it(@"calls UIView's initWithCoder:", ^{
-				id superClass = OCMClassMock([TRSTrustbadgeView superclass]);
-				OCMStub([superClass initWithCoder:[OCMArg any]]).andReturn(nil);
+		describe(@"-initWithCoder:", ^{ // this is special, as it doesn't call the other designated intializer
+			it(@"creates an object with no token and no TS ID", ^{
 				NSData *temp = [NSKeyedArchiver archivedDataWithRootObject:[UIView new]];
 				NSKeyedUnarchiver *testCoder = [[NSKeyedUnarchiver alloc] initForReadingWithData:temp];
 				testView = [[TRSTrustbadgeView alloc] initWithCoder:testCoder];
-				OCMVerifyAll(superClass);
+				expect(testView.trustedShopsID).to.beNil();
+				expect(testView.apiToken).to.beNil();
 			});
 		});
 	});
@@ -453,60 +452,63 @@ describe(@"TRSTrustbadgeView", ^{
 			TRSTrustbadgeView *testView = [[TRSTrustbadgeView alloc] init];
 			id mockedTrustbadge = OCMClassMock([TRSTrustbadge class]);
 			OCMStub([mockedTrustbadge showTrustcard]);
-			id mockedImageView = OCMClassMock([UIImageView class]);
-			OCMStub([[mockedImageView ignoringNonObjectArgs] pointInside:CGPointMake(0.0, 0.0) withEvent:[OCMArg any]]);
+			id mockedImageView = OCMPartialMock(testView.sealImageView);
+			OCMStub([[mockedImageView ignoringNonObjectArgs] pointInside:CGPointMake(0.0, 0.0) withEvent:[OCMArg any]]).andReturn(YES);
 			testView.trustbadge = mockedTrustbadge;
 			[testView.offlineMarker setHidden:YES];
 			UITouch *aTouch = [UITouch new];
 			[testView touchesEnded:[NSSet setWithObject:aTouch] withEvent:[UIEvent new]];
-			OCMVerifyAll(mockedTrustbadge);
-			OCMVerifyAll(mockedImageView);
+			OCMVerify([mockedTrustbadge showTrustcard]);
+			OCMVerify([[mockedImageView ignoringNonObjectArgs] pointInside:CGPointMake(0.0, 0.0) withEvent:[OCMArg any]]);
 		});
 	});
 	
 	context(@"touch events when hidden", ^{
 		// note: the Documentation says we're supposed to implement all touch methods
 		// but when we're hidden, we just pass them through, so only test that
-		__block id superViewClassMock;
+		__block id markerPartialMock;
+		__block UILabel *originalMarker;
 		__block TRSTrustbadgeView *testView;
 		beforeEach(^{
-			superViewClassMock = OCMClassMock([TRSTrustbadgeView superclass]);
-			OCMStub([superViewClassMock touchesBegan:[OCMArg any] withEvent:[OCMArg any]]);
 			testView = [[TRSTrustbadgeView alloc] init];
+			originalMarker = testView.offlineMarker;
+			markerPartialMock = OCMPartialMock(originalMarker);
+			testView.offlineMarker = markerPartialMock;
 			[testView.offlineMarker setHidden:NO];
+			OCMExpect([markerPartialMock isHidden]);
 		});
 		afterEach(^{
-			[superViewClassMock stopMocking];
-			superViewClassMock = nil;
+			testView.offlineMarker = originalMarker;
+			markerPartialMock = nil;
 			testView = nil;
 		});
 		
 		describe(@"-touchesBegan:withEvent:", ^{
-			it(@"calls the superclass's method", ^{
+			it(@"checks whether the offline marker is hidden", ^{
 				[testView touchesBegan:[NSSet new] withEvent:[UIEvent new]];
-				OCMVerifyAll(superViewClassMock);
+				OCMVerifyAll(markerPartialMock);
 			});
 		});
 		
 		describe(@"-touchesMoved:withEvent:", ^{
-			it(@"calls the superclass's method", ^{
+			it(@"checks whether the offline marker is hidden", ^{
 				[testView touchesMoved:[NSSet new] withEvent:[UIEvent new]];
-				OCMVerifyAll(superViewClassMock);
+				OCMVerifyAll(markerPartialMock);
 			});
 		});
 		
 		// this actually does something when seal is not hidden, but we don't test that for now (better for a regression test)
 		describe(@"-touchesEnded:withEvent:", ^{
-			it(@"calls the superclass's method", ^{
+			it(@"checks whether the offline marker is hidden", ^{
 				[testView touchesEnded:[NSSet new] withEvent:[UIEvent new]];
-				OCMVerifyAll(superViewClassMock);
+				OCMVerifyAll(markerPartialMock);
 			});
 		});
 		
 		describe(@"-touchesCancelled:withEvent:", ^{
-			it(@"calls the superclass's method", ^{
+			it(@"checks whether the offline marker is hidden", ^{
 				[testView touchesCancelled:[NSSet new] withEvent:[UIEvent new]];
-				OCMVerifyAll(superViewClassMock);
+				OCMVerifyAll(markerPartialMock);
 			});
 		});
 	});

@@ -27,6 +27,9 @@
 @property (nonatomic, readwrite, assign) TRSInsuranceState insuranceState;
 @property (nonatomic, readwrite, assign) TRSNextActionFlag nextActionFlag;
 
+// this is mainly used for testing, but might be useful in the future, too
+@property (nonatomic, strong) TRSCheckoutViewController *checkoutController;
+
 @end
 
 @implementation TRSOrder
@@ -111,7 +114,8 @@
 	self.orderState &= (~TRSOrderUnprocessed);
 	self.orderState |= TRSOrderProcessing;
 	
-	TRSCheckoutViewController *checkoutVC = [TRSCheckoutViewController checkoutViewController];
+	TRSCheckoutViewController *checkoutVC;
+	checkoutVC = self.checkoutController ? self.checkoutController : [TRSCheckoutViewController checkoutViewController];
 	[checkoutVC processOrder:self onCompletion:^(BOOL canceled, NSError * _Nullable error) {
 		
 		if (error) {
