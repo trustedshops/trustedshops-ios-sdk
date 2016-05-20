@@ -9,8 +9,9 @@ end
 target 'Trustbadge_Tests' do
   pod "Trustbadge", :path => "../"
   
+  pod 'FBSnapshotTestCase', :git => 'https://github.com/facebook/ios-snapshot-test-case.git', :commit => 'b898c25'
   pod 'Expecta',                 '~> 1.0.2'
-  pod 'Expecta+Snapshots',       '~> 2.0.0'
+  pod 'Expecta+Snapshots',       '~> 3.0.0'
   pod 'OCMock',                  '~> 3.3'
   pod 'OHHTTPStubs',             '~> 4.2.0'
   pod 'OHHTTPStubs/HTTPMessage', '~> 4.2.0'
