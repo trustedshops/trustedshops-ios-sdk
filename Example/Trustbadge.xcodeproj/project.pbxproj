@@ -18,6 +18,7 @@
 		1D69A5A51CC791D2001A93EE /* TRSOrderSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D69A5A31CC791D2001A93EE /* TRSOrderSpec.m */; };
 		1D82627D1CD776A000AE71B4 /* TRSDatePickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D82627A1CD776A000AE71B4 /* TRSDatePickerViewController.m */; };
 		1D82627E1CD776A000AE71B4 /* TRSPickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D82627C1CD776A000AE71B4 /* TRSPickerViewController.m */; };
+		1D88A8511D06D6A5005AD070 /* TRSViewGalleryController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D88A8501D06D6A5005AD070 /* TRSViewGalleryController.m */; };
 		1D9A6FC61CCA5565006D97A9 /* TRSProductSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D9A6FC51CCA5565006D97A9 /* TRSProductSpec.m */; };
 		1DBF42BC1CA1585300FCFB81 /* TRSTrustcardSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DBF42BB1CA1585300FCFB81 /* TRSTrustcardSpec.m */; };
 		1DEFBAEC1CA0049A00B61B05 /* NSURL+TRSURLExtensionsSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DEFBAEB1CA0049A00B61B05 /* NSURL+TRSURLExtensionsSpec.m */; };
@@ -74,6 +75,8 @@
 		1D82627A1CD776A000AE71B4 /* TRSDatePickerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TRSDatePickerViewController.m; sourceTree = "<group>"; };
 		1D82627B1CD776A000AE71B4 /* TRSPickerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TRSPickerViewController.h; sourceTree = "<group>"; };
 		1D82627C1CD776A000AE71B4 /* TRSPickerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TRSPickerViewController.m; sourceTree = "<group>"; };
+		1D88A84F1D06D6A5005AD070 /* TRSViewGalleryController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TRSViewGalleryController.h; sourceTree = "<group>"; };
+		1D88A8501D06D6A5005AD070 /* TRSViewGalleryController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TRSViewGalleryController.m; sourceTree = "<group>"; };
 		1D9A6FC51CCA5565006D97A9 /* TRSProductSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TRSProductSpec.m; sourceTree = "<group>"; };
 		1DBF42BB1CA1585300FCFB81 /* TRSTrustcardSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TRSTrustcardSpec.m; sourceTree = "<group>"; };
 		1DEFBAEB1CA0049A00B61B05 /* NSURL+TRSURLExtensionsSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSURL+TRSURLExtensionsSpec.m"; sourceTree = "<group>"; };
@@ -254,6 +257,8 @@
 				1D82627A1CD776A000AE71B4 /* TRSDatePickerViewController.m */,
 				1D82627B1CD776A000AE71B4 /* TRSPickerViewController.h */,
 				1D82627C1CD776A000AE71B4 /* TRSPickerViewController.m */,
+				1D88A84F1D06D6A5005AD070 /* TRSViewGalleryController.h */,
+				1D88A8501D06D6A5005AD070 /* TRSViewGalleryController.m */,
 				840574731B8210A5006F9778 /* Supporting Files */,
 				1D5FF3581CABE7850034AC45 /* Launch Screen.storyboard */,
 			);
@@ -509,6 +514,7 @@
 				8405746E1B821067006F9778 /* TRSViewController.m in Sources */,
 				1D82627E1CD776A000AE71B4 /* TRSPickerViewController.m in Sources */,
 				840574691B821067006F9778 /* main.m in Sources */,
+				1D88A8511D06D6A5005AD070 /* TRSViewGalleryController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
