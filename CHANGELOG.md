@@ -1,5 +1,10 @@
 # Trustbadge
 
+## Version 0.3.3
+
+* Changed the required platform to iOS 8.0 instead of 8.1
+* Slightly modified the Example project to reflect what "declining" means (to be improved in the future)
+
 ## Version 0.3.2
 
 * Fixed an issue with the webView in the checkout view shifting down when the root view controller demands a navigation bar
