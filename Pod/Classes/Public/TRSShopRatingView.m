@@ -8,6 +8,7 @@
 
 #import "TRSShopRatingView.h"
 #import "TRSRatingView.h"
+#import "TRSTrustbadgeSDKPrivate.h"
 
 // some constants for the view size constraints (these should fit the standards for a UILabel)
 #define kTRSShopRatingViewGradeLabelFontSize 13.0
@@ -46,7 +47,8 @@
 	self.gradeLabel = [[UILabel alloc] initWithFrame:CGRectMake(0.0, 0.0, 160.0, 15.0)];
 	
 	self.gradeLabel.font = [UIFont systemFontOfSize:kTRSShopRatingViewGradeLabelFontSize];
-	self.gradeLabel.text = @"-/- (- Bewertungen)";
+	NSString *gradeString = TRSLocalizedString(@"Review", @"Used in the shop rating view's grade label (singular)");
+	self.gradeLabel.text = [NSString stringWithFormat:@"-/- (- %@)", gradeString];
 	self.ratingPlaceholder.backgroundColor = [UIColor yellowColor]; // temporarily...
 
 }
