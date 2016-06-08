@@ -95,7 +95,7 @@
 		NSLog(@"%@uccessfully validated anOrder", error ? @"Uns" : @"S");
 	}];
 	[anOrder finishWithCompletionBlock:^(NSError * _Nullable error) {
-		NSLog(@"Finished anOrder, user %@ insurance", anOrder.insuranceState == TRSUserDeclinedInsurance ? @"declined" : @"bought");
+		NSLog(@"Finished anOrder, user %@ insurance", anOrder.insuranceState == TRSUserDeclinedInsurance ? @"declined or already has" : @"bought");
 	}];
 }
 

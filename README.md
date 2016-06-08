@@ -27,7 +27,7 @@ Trustbadge is available through [CocoaPods](http://cocoapods.org). To install
 it, simply add the following line to your Podfile:
 
 ```ruby
-pod "Trustbadge", "~> 0.3.2"
+pod "Trustbadge", "~> 0.3.3"
 ```
 
 #### Example project ####
@@ -74,7 +74,7 @@ As of version 0.3.0 the SDK supports a checkout process for purchases consumers 
 Consumers will then also reminded to give reviews (if you consume this service from Trusted Shops).
 To use this feature your app needs to add a few lines of code right after your checkout process:
 
-	```objc
+```objc
 	// create a TRSOrder object
 	TRSOrder *anOrder = [TRSOrder 
 	     TRSOrderWithTrustedShopsID:@"your TS-ID"                     // your TS-ID
@@ -100,8 +100,8 @@ To use this feature your app needs to add a few lines of code right after your c
 	[anOrder finishWithCompletionBlock:^(NSError *error) {
 	    // handle errors and/or further process the order accoding to your app's needs
 	};
+```
 	
-	```
 For a more detailed description of the methods and objects handling this process, see the SDK documentation.
 Please be aware that in some use-cases the user may be referred to an external (mobile) website opening on Safari (for example if this is the first time they purchase a Trusted Shops guarantee). The modal webView closes in these instances, so once they get back they can keep on using your app as usual.
 
@@ -112,7 +112,7 @@ If you are developing your application and want to test this SDK feature __pleas
 ## 4. About this SDK ##
 
 #### Documentation ####
-The latest documentation can be found at [cocoadocs](http://cocoadocs.org/docsets/Trustbadge/0.3.2/).
+The latest documentation can be found at [cocoadocs](http://cocoadocs.org/docsets/Trustbadge/0.3.3/).
 All headers are documented according to the [appledoc](http://appledoc.gentlebytes.com/appledoc/) syntax, so you can also use that to directly include the docsets into your XCode.
 
 #### Authorization ####

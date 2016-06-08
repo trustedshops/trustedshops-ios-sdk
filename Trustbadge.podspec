@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = "Trustbadge"
-  s.version          = "0.3.2"
+  s.version          = "0.3.3"
   s.summary          = "Trusted Shops SDK for iOS"
   s.description      = <<-DESC
                        Use the Trustbadge and Trusted Shops guarantee in your iOS app.
@@ -10,7 +10,7 @@ Pod::Spec.new do |s|
   s.author           = "Trusted Shops GmbH"
   s.source           = { :git => "https://github.com/trustedshops/trustedshops-ios-sdk.git", :tag => s.version.to_s }
 
-  s.platform     = :ios, '8.1'
+  s.platform     = :ios, '8.0'
   s.requires_arc = true
 
   s.dependency 'MaryPopin', '~> 1.4.2'
