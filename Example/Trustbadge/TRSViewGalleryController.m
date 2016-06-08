@@ -8,6 +8,7 @@
 
 #import "TRSViewGalleryController.h"
 @import Trustbadge.TRSTrustbadgeView;
+@import Trustbadge.TRSShopRatingView;
 
 @interface TRSViewGalleryController ()
 
@@ -16,6 +17,9 @@
 
 @property (weak, nonatomic) IBOutlet UIView *sealPlaceholder;
 - (IBAction)loadSeal:(id)sender;
+
+@property (weak, nonatomic) IBOutlet UIView *shopRatingPlaceholder;
+- (IBAction)loadShopRating:(id)sender;
 
 @end
 
@@ -36,22 +40,6 @@
 	for (UIView *view in self.loadedViews) {
 		[view removeFromSuperview];
 	}
-}
-
-
-- (IBAction)loadSeal:(id)sender {
-	NSString *chDemoTSID = @"X330A2E7D449E31E467D2F53A55DDD070";
-	CGRect tbFrame = self.sealPlaceholder.frame;
-	tbFrame.origin.x = 0.0;
-	tbFrame.origin.y = 0.0;
-	TRSTrustbadgeView *tbView = [[TRSTrustbadgeView alloc] initWithFrame:tbFrame trustedShopsID:chDemoTSID apiToken:@"N/A"];
-	[self willLoadAView];
-	[tbView loadTrustbadgeWithSuccessBlock:^{
-		[self didLoadView:tbView forParent:self.sealPlaceholder];
-	} failureBlock:^(NSError *error) {
-		NSLog(@"could not load TRSTrustbadgeView, error: %@", error);
-		[self didLoadView:tbView forParent:nil];
-	}];
 }
 
 - (void)willLoadAView {
@@ -75,4 +63,27 @@
 		neighbor.tabBarItem.enabled = YES;
 	}
 }
+- (IBAction)loadSeal:(id)sender {
+	NSString *chDemoTSID = @"X330A2E7D449E31E467D2F53A55DDD070";
+	CGRect tbFrame = self.sealPlaceholder.frame;
+	tbFrame.origin.x = 0.0;
+	tbFrame.origin.y = 0.0;
+	TRSTrustbadgeView *tbView = [[TRSTrustbadgeView alloc] initWithFrame:tbFrame trustedShopsID:chDemoTSID apiToken:@"N/A"];
+	[self willLoadAView];
+	[tbView loadTrustbadgeWithSuccessBlock:^{
+		[self didLoadView:tbView forParent:self.sealPlaceholder];
+	} failureBlock:^(NSError *error) {
+		NSLog(@"could not load TRSTrustbadgeView, error: %@", error);
+		[self didLoadView:tbView forParent:nil];
+	}];
+}
+
+- (IBAction)loadShopRating:(id)sender {
+	CGRect srFrame = self.shopRatingPlaceholder.frame;
+	srFrame.origin = CGPointZero;
+	TRSShopRatingView *srView = [[TRSShopRatingView alloc] initWithFrame:srFrame];
+	[self.shopRatingPlaceholder addSubview:srView];
+	[self.loadedViews addObject:srView];
+}
+
 @end

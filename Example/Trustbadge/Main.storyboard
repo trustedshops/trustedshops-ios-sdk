@@ -3,6 +3,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
         <!--Order Process-->
@@ -332,35 +333,74 @@
                                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Trustbadge (Seal):" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2CG-5i-MdZ">
-                                                <rect key="frame" x="20" y="66" width="141" height="21"/>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Trustbadge (Seal):" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2CG-5i-MdZ">
+                                                <rect key="frame" x="8" y="37" width="141" height="21"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="yni-5K-Lr0" userLabel="Seal Placeholder">
-                                                <rect key="frame" x="169" y="37" width="64" height="64"/>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yni-5K-Lr0" userLabel="Seal Placeholder">
+                                                <rect key="frame" x="157" y="37" width="64" height="64"/>
                                                 <color key="backgroundColor" white="0.66666666666666663" alpha="0.25347521551724139" colorSpace="calibratedWhite"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="64" id="JKs-Km-wZW"/>
+                                                    <constraint firstAttribute="height" constant="64" id="KfW-ur-OMc"/>
+                                                </constraints>
                                             </view>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="(see also other tab)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0N2-do-e17">
-                                                <rect key="frame" x="20" y="87" width="103" height="14"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="11"/>
-                                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zOq-xs-dpY">
-                                                <rect key="frame" x="241" y="62" width="67" height="30"/>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zOq-xs-dpY">
+                                                <rect key="frame" x="8" y="71" width="67" height="30"/>
                                                 <state key="normal" title="Load Seal"/>
                                                 <connections>
                                                     <action selector="loadSeal:" destination="Do0-2H-yQi" eventType="touchUpInside" id="btJ-rI-mTA"/>
                                                 </connections>
                                             </button>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="(see also other tab)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0N2-do-e17">
+                                                <rect key="frame" x="8" y="58" width="103" height="14"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ShopRatingView:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DC6-93-cnd">
+                                                <rect key="frame" x="8" y="109" width="131" height="21"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NGe-xa-Gey" userLabel="Seal Placeholder">
+                                                <rect key="frame" x="157" y="109" width="435" height="64"/>
+                                                <color key="backgroundColor" white="0.66666666669999997" alpha="0.25347521550000002" colorSpace="calibratedWhite"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="64" id="hrj-GO-1IQ"/>
+                                                </constraints>
+                                            </view>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9h8-4h-J8x">
+                                                <rect key="frame" x="8" y="143" width="117" height="30"/>
+                                                <state key="normal" title="Load ShopRating"/>
+                                                <connections>
+                                                    <action selector="loadShopRating:" destination="Do0-2H-yQi" eventType="touchUpInside" id="cwo-eJ-Dhk"/>
+                                                </connections>
+                                            </button>
                                         </subviews>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
-                                            <constraint firstItem="Z7s-Vg-R6M" firstAttribute="centerX" secondItem="d3U-H7-kMe" secondAttribute="centerX" id="EHm-Ms-3Aj"/>
-                                            <constraint firstItem="Z7s-Vg-R6M" firstAttribute="top" secondItem="d3U-H7-kMe" secondAttribute="top" constant="8" id="N4P-aR-841"/>
+                                            <constraint firstItem="0N2-do-e17" firstAttribute="leading" secondItem="d3U-H7-kMe" secondAttribute="leadingMargin" id="14R-wj-IBB"/>
+                                            <constraint firstItem="NGe-xa-Gey" firstAttribute="leading" secondItem="DC6-93-cnd" secondAttribute="trailing" constant="18" id="1Nt-9n-VXa"/>
+                                            <constraint firstItem="yni-5K-Lr0" firstAttribute="leading" secondItem="2CG-5i-MdZ" secondAttribute="trailing" constant="8" id="2Kp-18-LAd"/>
+                                            <constraint firstItem="DC6-93-cnd" firstAttribute="top" secondItem="zOq-xs-dpY" secondAttribute="bottom" constant="8" id="8Nc-tO-Omb"/>
+                                            <constraint firstAttribute="trailing" secondItem="NGe-xa-Gey" secondAttribute="trailing" constant="8" id="9pV-RL-jLq"/>
+                                            <constraint firstItem="Z7s-Vg-R6M" firstAttribute="top" secondItem="d3U-H7-kMe" secondAttribute="top" constant="8" id="LM6-Yd-tv1"/>
+                                            <constraint firstItem="0N2-do-e17" firstAttribute="top" secondItem="2CG-5i-MdZ" secondAttribute="bottom" id="OF3-yQ-Sdv"/>
+                                            <constraint firstItem="9h8-4h-J8x" firstAttribute="top" secondItem="DC6-93-cnd" secondAttribute="bottom" constant="13" id="OeN-Bi-nin"/>
+                                            <constraint firstItem="Z7s-Vg-R6M" firstAttribute="centerX" secondItem="d3U-H7-kMe" secondAttribute="centerX" id="QGJ-QH-Ht6"/>
+                                            <constraint firstItem="NGe-xa-Gey" firstAttribute="top" secondItem="yni-5K-Lr0" secondAttribute="bottom" constant="8" id="Vy0-Ve-6fZ"/>
+                                            <constraint firstItem="zOq-xs-dpY" firstAttribute="top" secondItem="2CG-5i-MdZ" secondAttribute="bottom" constant="13" id="ZHs-dW-ORJ"/>
+                                            <constraint firstItem="zOq-xs-dpY" firstAttribute="leading" secondItem="d3U-H7-kMe" secondAttribute="leadingMargin" id="apG-HI-IyZ"/>
+                                            <constraint firstItem="yni-5K-Lr0" firstAttribute="top" secondItem="Z7s-Vg-R6M" secondAttribute="bottom" constant="8" id="cPK-78-203"/>
+                                            <constraint firstItem="DC6-93-cnd" firstAttribute="leading" secondItem="d3U-H7-kMe" secondAttribute="leadingMargin" id="dd7-Ky-RLn"/>
+                                            <constraint firstItem="9h8-4h-J8x" firstAttribute="leading" secondItem="d3U-H7-kMe" secondAttribute="leadingMargin" id="idK-JA-JjC"/>
+                                            <constraint firstItem="2CG-5i-MdZ" firstAttribute="top" secondItem="d3U-H7-kMe" secondAttribute="top" constant="37" id="kVY-Q5-8da"/>
                                             <constraint firstAttribute="height" constant="487" id="oUf-9j-7G2"/>
+                                            <constraint firstItem="2CG-5i-MdZ" firstAttribute="leading" secondItem="d3U-H7-kMe" secondAttribute="leadingMargin" id="u2X-DZ-A3e"/>
                                         </constraints>
                                     </view>
                                 </subviews>
@@ -384,6 +424,7 @@
                     <tabBarItem key="tabBarItem" title="View Examples" image="image" id="Mrk-in-0t4"/>
                     <connections>
                         <outlet property="sealPlaceholder" destination="yni-5K-Lr0" id="Of5-I0-KV1"/>
+                        <outlet property="shopRatingPlaceholder" destination="NGe-xa-Gey" id="VhG-Ye-M6z"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="c1w-qW-88s" userLabel="First Responder" sceneMemberID="firstResponder"/>
