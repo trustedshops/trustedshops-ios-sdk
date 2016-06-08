@@ -80,7 +80,14 @@ static NSString * const TRSCertHTMLName = @"trustinfos"; // not used atm
 	// TODO: check what happens if there is no root VC. work that out
 //	[rootVC presentViewController:self animated:YES completion:nil];
 	[self setPopinOptions:BKTPopinDisableAutoDismiss];
-	[rootVC presentPopinController:self animated:YES completion:nil];
+    
+    
+    if (rootVC.presentedViewController) {
+        [rootVC.presentedViewController presentPopinController:self animated:YES completion:nil];
+    }
+    else {
+        [rootVC presentPopinController:self animated:YES completion:nil];
+    }
 }
 
 #pragma mark - UIWebViewDelegate
