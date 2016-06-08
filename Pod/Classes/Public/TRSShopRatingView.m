@@ -9,6 +9,10 @@
 #import "TRSShopRatingView.h"
 #import "TRSRatingView.h"
 
+// some constants for the view size constraints (these should fit the standards for a UILabel)
+#define kTRSShopRatingViewGradeLabelFontSize 13.0
+#define kTRSShopRatingViewGradeLabelHeight 16.0
+
 @interface TRSShopRatingView ()
 
 @property (nonatomic, strong) UIView *containerView;
@@ -41,7 +45,7 @@
 	self.ratingPlaceholder = [[UIView alloc] initWithFrame:CGRectMake(0.0, 0.0, 100.0, 20.0)];
 	self.gradeLabel = [[UILabel alloc] initWithFrame:CGRectMake(0.0, 0.0, 160.0, 15.0)];
 	
-	self.gradeLabel.font = [UIFont systemFontOfSize:13.0];
+	self.gradeLabel.font = [UIFont systemFontOfSize:kTRSShopRatingViewGradeLabelFontSize];
 	self.gradeLabel.text = @"-/- (- Bewertungen)";
 	self.ratingPlaceholder.backgroundColor = [UIColor yellowColor]; // temporarily...
 
