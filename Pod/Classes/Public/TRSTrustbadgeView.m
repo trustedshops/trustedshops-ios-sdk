@@ -196,7 +196,7 @@
 		// Show the dialogue! But only if we touch inside the seal image!
 		for (UITouch *touch in touches) {
 			if ([_sealImageView pointInside:[touch locationInView:_sealImageView] withEvent:event]) {
-				[self.trustbadge showTrustcard];
+				[self.trustbadge showTrustcardWithPresentingViewController:self.trustcardPresentingViewController];
 				break;
 			}
 		}

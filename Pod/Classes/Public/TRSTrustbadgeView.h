@@ -2,7 +2,16 @@
 
 /** 
  `TRSTrustbadgeView` is a subclass of `UIView` for displaying a trustmark in your application
- that can show a floating dialogue with the trustcard information of your Trusted Shops certificate.
+ that can show a floating lightbox with the trustcard information of your Trusted Shops certificate.
+ 
+ After initializing the view, you need to load the certificate data from the Trusted SHops API
+ by calling `loadTrustbadgeWithFailureBlock:` or `loadTrustbadgeWithSuccessBlock:failureBlock:`
+ for the view to actually display anything. Not doing so results in an empty view.
+ 
+ The lightbox is modally presented by your application's root `UIViewController` object by default.
+ Should this lead to unwanted behavior (the box showing up behind your own modally presented view,
+ for example) you can set a different view controller for the presentation by setting the
+ `trustcardPresentingViewController` property.
  */
 
 @interface TRSTrustbadgeView : UIView
@@ -110,6 +119,16 @@
  Set this before calling `loadTrustbadgeWithSuccessBlock:failureBlock:` or `loadTrustbadgeWithFailureBlock:`
  */
 @property (nonatomic, readonly) NSString *apiToken;
+
+/**
+ The view controller responsible for (modally) presenting the trustcard once the user taps the view.
+ 
+ By default the trustcard gets the application's root view controller and has it modally present the trustcard
+ (showing your Trusted Shops certificate). If your setup already has the root controller present a different
+ scene you can define a different presenter with this property. You would usually chose the view controller
+ responsible for showing the top-most visible view.
+ */
+@property (nonatomic, weak) UIViewController *trustcardPresentingViewController;
 
 /**	
  A debug flag.

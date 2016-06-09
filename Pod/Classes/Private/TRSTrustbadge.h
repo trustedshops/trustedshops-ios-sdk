@@ -20,7 +20,7 @@
  */
 - (instancetype)initWithData:(NSData *)data;
 
-- (void)showTrustcard;
+- (void)showTrustcardWithPresentingViewController:(UIViewController *)presenter;
 
 @property (nonatomic, strong) TRSShop *shop;
 @property (nonatomic, weak) UIColor *customColor;

@@ -170,6 +170,14 @@ typedef NS_ENUM(NSUInteger, TRSNextActionFlag) {
  */
 @property (nonatomic, readonly) TRSNextActionFlag nextActionFlag;
 /**
+ A view controller responsible to present any modal dialogue boxes that need to be displayed when finishing an order process.
+ 
+ This property works similar to the `[TRSTrustbadgeView trustcardPresentingViewController]`. If it is not set (i.e. `nil`)
+ the order uses the application's root view controller to present a lightbox modally, otherwise it uses the provided
+ `UIViewController`.
+ */
+@property (nonatomic, weak, nullable) UIViewController *customPresentingViewController;
+/**
  A flag defining whether to process the order with the production API of Trusted Shops or the debug one. Defaults to NO.
  */
 @property (nonatomic, assign) BOOL debugMode;

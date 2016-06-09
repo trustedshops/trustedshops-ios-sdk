@@ -101,7 +101,7 @@ describe(@"TRSTrustcard", ^{
 		});
 		
 		it(@"prepares the buttons in viewWillAppear:", ^{
-			[testCard showInLightboxForTrustbadge:testBadge]; // this ultimately calls our viewWillAppear:
+			[testCard showInLightboxForTrustbadge:testBadge withPresentingViewController:nil]; // this ultimately calls our viewWillAppear:
 			XCTAssertEqual(testColor, [testCard.okButton titleColorForState:UIControlStateNormal]);
 			XCTAssertEqual(testColor, [testCard.certButton titleColorForState:UIControlStateNormal]);
 			XCTAssertEqual(testColor, [testCard.okButton titleColorForState:UIControlStateNormal]);
@@ -109,7 +109,7 @@ describe(@"TRSTrustcard", ^{
 		});
 		
 		it(@"calls loadRequest on its webView", ^{
-			[testCard showInLightboxForTrustbadge:testBadge]; // this ultimately calls our viewWillAppear:
+			[testCard showInLightboxForTrustbadge:testBadge withPresentingViewController:nil]; // this ultimately calls our viewWillAppear:
 			id mockView = OCMPartialMock(testCard.webView);
 			OCMExpect([mockView loadRequest:[OCMArg any]]);
 			[testCard viewWillAppear:NO];
@@ -122,7 +122,7 @@ describe(@"TRSTrustcard", ^{
 			context(@"while trustcard is showing", ^{
 				
 				beforeAll(^{
-					[testCard showInLightboxForTrustbadge:testBadge];
+					[testCard showInLightboxForTrustbadge:testBadge withPresentingViewController:nil];
 					// the closing of the card is done in the tests
 				});
 				

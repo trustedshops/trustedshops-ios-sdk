@@ -70,17 +70,18 @@ static NSString * const TRSCertHTMLName = @"trustinfos"; // not used atm
 	}];
 }
 
-- (void)showInLightboxForTrustbadge:(TRSTrustbadge *)trustbadge {	
-	// this is always there, but what happens if I have more than one? multi screen apps? test that somehow...
-	UIWindow *mainWindow = [[UIApplication sharedApplication] keyWindow];
+- (void)showInLightboxForTrustbadge:(TRSTrustbadge *)trustbadge withPresentingViewController:(UIViewController *)presenter {
 	
-	self.displayedTrustbadge = trustbadge;
-//	self.modalPresentationStyle = UIModalPresentationPageSheet;
-	UIViewController *rootVC = mainWindow.rootViewController;
-	// TODO: check what happens if there is no root VC. work that out
-//	[rootVC presentViewController:self animated:YES completion:nil];
+	if (!presenter) {
+		// this is always there, but what happens if I have more than one? multi screen apps? test that somehow...
+		UIWindow *mainWindow = [[UIApplication sharedApplication] keyWindow];
+		
+		self.displayedTrustbadge = trustbadge;
+		presenter = mainWindow.rootViewController;
+		// TODO: check what happens if there is no root VC. work that out
+	}
 	[self setPopinOptions:BKTPopinDisableAutoDismiss];
-	[rootVC presentPopinController:self animated:YES completion:nil];
+	[presenter presentPopinController:self animated:YES completion:nil];
 }
 
 #pragma mark - UIWebViewDelegate
