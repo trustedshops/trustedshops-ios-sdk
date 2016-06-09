@@ -59,8 +59,12 @@ static const CGSize minContentViewSize = {288.0, 339.0}; // for now: this is mor
 }
 
 - (void)processOrder:(nonnull TRSOrder *)order onCompletion:(nullable void (^)(BOOL canceled, NSError *_Nullable error))onCompletion {
-	UIViewController *rootVC = [[[UIApplication sharedApplication] keyWindow] rootViewController];
-	if (!rootVC) {
+	UIViewController *presenter = order.customPresentingViewController;
+	if (!presenter) {
+		presenter = [[[UIApplication sharedApplication] keyWindow] rootViewController];
+	}
+	
+	if (!presenter) {
 		NSError *error = [NSError errorWithDomain:TRSErrorDomain
 											 code:TRSErrorDomainProcessOrderNeedsRootViewController
 										 userInfo:@{NSLocalizedDescriptionKey :
@@ -99,7 +103,7 @@ static const CGSize minContentViewSize = {288.0, 339.0}; // for now: this is mor
 		
 	self.completionBlock = onCompletion; // will be called later
 	self.automaticallyAdjustsScrollViewInsets = NO; // fixes issue with nav bars & nav controllers as rootVC
-	[rootVC presentPopinController:self animated:YES completion:nil];
+	[presenter presentPopinController:self animated:YES completion:nil];
 }
 
 - (void)viewDidDisappear:(BOOL)animated {

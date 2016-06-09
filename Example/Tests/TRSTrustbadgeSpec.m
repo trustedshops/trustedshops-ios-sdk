@@ -56,10 +56,10 @@ describe(@"TRSTrustbadge", ^{
 					id cardMock = OCMClassMock([TRSTrustcard class]);
 					id cardClassMock = OCMClassMock([TRSTrustcard class]);
 					OCMStub([cardMock initWithNibName:@"Trustcard" bundle:TRSTrustbadgeBundle()]).andReturn(cardMock);
-					OCMStub([cardMock showInLightboxForTrustbadge:[OCMArg any]]);
+					OCMStub([cardMock showInLightboxForTrustbadge:[OCMArg any] withPresentingViewController:nil]);
 					OCMStub([cardClassMock alloc]).andReturn(cardMock);
-					[trustbadge showTrustcard];
-					OCMVerify([cardMock showInLightboxForTrustbadge:trustbadge]);
+					[trustbadge showTrustcardWithPresentingViewController:nil];
+					OCMVerify([cardMock showInLightboxForTrustbadge:trustbadge withPresentingViewController:nil]);
 					expect(trustbadge.trustcard).toNot.beNil();
 					expect(trustbadge.trustcard).to.beKindOf([TRSTrustcard class]);
 					[cardMock stopMocking];

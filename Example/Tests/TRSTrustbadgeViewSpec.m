@@ -451,14 +451,14 @@ describe(@"TRSTrustbadgeView", ^{
 		it(@"calls showTrustcard for touch over seal", ^{
 			TRSTrustbadgeView *testView = [[TRSTrustbadgeView alloc] init];
 			id mockedTrustbadge = OCMClassMock([TRSTrustbadge class]);
-			OCMStub([mockedTrustbadge showTrustcard]);
+			OCMStub([mockedTrustbadge showTrustcardWithPresentingViewController:nil]);
 			id mockedImageView = OCMPartialMock(testView.sealImageView);
 			OCMStub([[mockedImageView ignoringNonObjectArgs] pointInside:CGPointMake(0.0, 0.0) withEvent:[OCMArg any]]).andReturn(YES);
 			testView.trustbadge = mockedTrustbadge;
 			[testView.offlineMarker setHidden:YES];
 			UITouch *aTouch = [UITouch new];
 			[testView touchesEnded:[NSSet setWithObject:aTouch] withEvent:[UIEvent new]];
-			OCMVerify([mockedTrustbadge showTrustcard]);
+			OCMVerify([mockedTrustbadge showTrustcardWithPresentingViewController:nil]);
 			OCMVerify([[mockedImageView ignoringNonObjectArgs] pointInside:CGPointMake(0.0, 0.0) withEvent:[OCMArg any]]);
 		});
 	});

@@ -1,5 +1,9 @@
 # Trustbadge
 
+## Version 0.3.4
+
+* Added a property to set a custom view controller responsible for displaying any modal popin views to TRSTrustbadgeView and TRSOrder
+
 ## Version 0.3.3
 
 * Changed the required platform to iOS 8.0 instead of 8.1
