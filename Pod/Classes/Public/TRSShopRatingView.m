@@ -9,6 +9,10 @@
 #import "TRSStarsView.h"
 #import "UIColor+TRSColors.h"
 #import "TRSViewCommons.h"
+#import "TRSErrors.h"
+#import "TRSNetworkAgent+Trustbadge.h"
+#import "NSNumberFormatter+TRSFormatter.h"
+#import "TRSTrustbadgeSDKPrivate.h"
 
 CGFloat const kTRSShopRatingViewMinHeight = 40.0;
 NSString *const kTRSShopRatingViewFontName = @"Arial"; // ensure this is on the system!
@@ -21,6 +25,9 @@ NSString *const kTRSShopRatingViewFontName = @"Arial"; // ensure this is on the 
 @property (nonatomic, strong) UIView *starPlaceholder;
 @property (nonatomic, strong) TRSStarsView *starsView;
 @property (nonatomic, strong) UILabel *gradeLabel;
+@property (nonatomic, strong) NSNumber *gradeNumber;
+@property (nonatomic, strong) NSNumber *reviewCount;
+@property (nonatomic, copy) NSString *gradeText; // atm this not actually displayed in the view
 
 @end
 
@@ -69,18 +76,69 @@ NSString *const kTRSShopRatingViewFontName = @"Arial"; // ensure this is on the 
 #pragma mark - Loading data from TS Backend
 
 - (void)loadShopRatingWithSuccessBlock:(void (^)(void))success failureBlock:(void (^)(NSError *error))failure {
-	// note (dirty cheat): due to the rendering chain it's important to do this asynchronously, otherwise
-	// we might get the wrong frame for this. Once it loads from the backend that's not to important,
-	// but if the request is e.g. cached, it might screw us.
-	dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-		self.starsView = [[TRSStarsView alloc] initWithFrame:self.starPlaceholder.bounds rating:@4.3];
-		self.starsView.activeStarColor = _activeStarColor;
-		self.starsView.inactiveStarColor = _inactiveStarColor;
-		[self.starPlaceholder addSubview:self.starsView];
-		if (success) {
-			success();
+	
+	if (!self.tsID || !self.apiToken) {
+		if (failure) {
+			NSError *notReady = [NSError errorWithDomain:TRSErrorDomain
+													code:TRSErrorDomainTrustbadgeMissingTSIDOrAPIToken
+												userInfo:nil];
+			failure(notReady);
+			return;
 		}
-	});
+	}
+	
+	// ensure the agent has the correct debugMode flag
+	[TRSNetworkAgent sharedAgent].debugMode = self.debugMode;
+	
+	[[TRSNetworkAgent sharedAgent] getShopGradeForTrustedShopsID:self.tsID apiToken:self.apiToken success:^(NSDictionary *gradeData) {
+		
+		self.gradeText = gradeData[@"overallMarkDescription"];
+		self.gradeNumber = gradeData[@"overallMark"];
+		self.reviewCount = gradeData[@"activeReviewCount"];
+		
+		// note (dirty cheat): due to the rendering chain it's important to do this asynchronously, otherwise
+		// we might get the wrong frame for this. Once it loads from the backend that's not to important,
+		// but if the request is e.g. cached, it might screw us.
+		dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.02 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+			self.starsView = [[TRSStarsView alloc] initWithFrame:self.starPlaceholder.bounds rating:self.gradeNumber];
+			self.starsView.activeStarColor = _activeStarColor;
+			self.starsView.inactiveStarColor = _inactiveStarColor;
+			[self.starPlaceholder addSubview:self.starsView];
+			if (success) {
+				success();
+			}
+		});
+	} failure:^(NSError *error) {
+		if (![error.domain isEqualToString:TRSErrorDomain]) {
+			if (failure) failure(error);
+			return;
+		}
+		switch (error.code) {
+			case TRSErrorDomainTrustbadgeInvalidAPIToken:
+				NSLog(@"[trustbadge] The provided API token is not correct");
+				break;
+				
+			case TRSErrorDomainTrustbadgeInvalidTSID:
+				NSLog(@"[trustbadge] The provided TSID is not correct.");
+				break;
+				
+			case TRSErrorDomainTrustbadgeTSIDNotFound:
+				NSLog(@"[trustbadge] The provided TSID could not be found.");
+				break;
+				
+			case TRSErrorDomainTrustbadgeInvalidData:
+				NSLog(@"[trustbadge] The received data is corrupt.");
+				break;
+				
+			case TRSErrorDomainTrustbadgeUnknownError:
+			default:
+				NSLog(@"[trustbadge] An unkown error occured.");
+				break;
+		}
+		
+		// we give back the error even if we could pre-handle it here
+		if (failure) failure(error);
+	}];
 }
 
 - (void)loadShopRatingWithFailureBlock:(void (^)(NSError *error))failure {
@@ -143,6 +201,13 @@ NSString *const kTRSShopRatingViewFontName = @"Arial"; // ensure this is on the 
 	[super layoutSubviews];
 	[self sizeToFit];
 	self.starPlaceholder.frame = [self frameForStars];
+	NSString *unit;
+	if (self.reviewCount > 1) {
+		unit = TRSLocalizedString(@"Reviews", @"Used in the shop grading views' grade label (plural)") ;
+	} else {
+		unit = TRSLocalizedString(@"Review", @"Used in the shop grading views' grade label (singular)") ;
+	}
+	self.gradeLabel.text = [NSString stringWithFormat:@"%@ (%@ %@)", [self gradeNumberString], [self reviewCount], unit];
 	self.gradeLabel.frame = [self frameForGradeLabel];
 	CGFloat optimalSize = [TRSViewCommons optimalHeightForFontInLabel:self.gradeLabel];
 	self.gradeLabel.attributedText = [TRSViewCommons attributedGradeStringFromString:self.gradeLabel.text
@@ -198,6 +263,17 @@ NSString *const kTRSShopRatingViewFontName = @"Arial"; // ensure this is on the 
 	gradeTextFrame.origin.y = self.frame.size.height - gradeTextFrame.size.height;
 	
 	return gradeTextFrame;
+}
+
+- (NSString *)gradeNumberString {
+	NSNumberFormatter *trsFormatter = [NSNumberFormatter trs_trustbadgeRatingFormatter];
+	NSString *first = [trsFormatter stringFromNumber:self.gradeNumber];
+	NSString *second = [trsFormatter stringFromNumber:@5];
+	return [NSString stringWithFormat:@"%@/%@", first, second];
+}
+
+- (NSString *)reviewCountString {
+	return [[NSNumberFormatter trs_reviewCountFormatter] stringFromNumber:self.reviewCount];
 }
 
 @end

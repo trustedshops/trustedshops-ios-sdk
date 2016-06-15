@@ -16,4 +16,19 @@
     return decimalFormatter;
 }
 
++ (NSNumberFormatter *)trs_reviewCountFormatter {
+	static NSNumberFormatter *reviewCountFormatter = nil;
+	static dispatch_once_t onceToken;
+	dispatch_once(&onceToken, ^{
+		reviewCountFormatter = [[NSNumberFormatter alloc] init];
+		reviewCountFormatter.minimumIntegerDigits = 1;
+		reviewCountFormatter.maximumFractionDigits = 0;
+		reviewCountFormatter.groupingSeparator = @".";
+		reviewCountFormatter.groupingSize = 3;
+		reviewCountFormatter.usesGroupingSeparator = YES;
+	});
+	
+	return reviewCountFormatter;
+}
+
 @end

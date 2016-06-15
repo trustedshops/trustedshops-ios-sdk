@@ -48,5 +48,8 @@
  *	Defaults to NO.
  */
 @property (nonatomic, assign) BOOL debugMode;
+// TODO: atm this is not the bext solution, since the debug flag is kinda distributed over the various classes using the agent
+// one class setting this to yes might confuse other classes (they expect it to be no, but then it's not?)
+// This should sooner or later be changed in that there's a global debug flag for the framework.
 
 @end

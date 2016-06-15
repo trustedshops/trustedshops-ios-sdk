@@ -15,6 +15,9 @@ FOUNDATION_EXPORT CGFloat const kTRSShopRatingViewMinHeight;
 @property (nonatomic, strong) UIColor *activeStarColor;
 @property (nonatomic, strong) UIColor *inactiveStarColor;
 @property (nonatomic, assign) NSTextAlignment alignment;
+@property (nonatomic, copy) NSString *tsID;
+@property (nonatomic, copy) NSString *apiToken;
+@property (nonatomic, assign) BOOL debugMode;
 
 - (void)loadShopRatingWithSuccessBlock:(void (^)(void))success failureBlock:(void (^)(NSError *error))failure;
 - (void)loadShopRatingWithFailureBlock:(void (^)(NSError *error))failure;

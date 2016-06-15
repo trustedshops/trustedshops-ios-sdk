@@ -14,6 +14,9 @@ FOUNDATION_EXPORT CGFloat const kTRSShopSimpleRatingViewMinHeight; // width is o
 
 @property (nonatomic, strong) UIColor *activeStarColor;
 @property (nonatomic, strong) UIColor *inactiveStarColor;
+@property (nonatomic, copy) NSString *tsID;
+@property (nonatomic, copy) NSString *apiToken;
+@property (nonatomic, assign) BOOL debugMode;
 
 - (void)loadShopSimpleRatingWithSuccessBlock:(void (^)(void))success failureBlock:(void (^)(NSError *error))failure;
 - (void)loadShopSimpleRatingWithFailureBlock:(void (^)(NSError *error))failure;

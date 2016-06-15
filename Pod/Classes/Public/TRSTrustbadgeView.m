@@ -163,6 +163,9 @@
 		if (failure) failure(myError);
 	}
 	
+	// ensure the agent is in the correct debug mode:
+	[TRSNetworkAgent sharedAgent].debugMode = self.debugMode;
+	
 	// the returned task is not important for now...
 	[[TRSNetworkAgent sharedAgent] getTrustbadgeForTrustedShopsID:_trustedShopsID
 														 apiToken:_apiToken

@@ -12,4 +12,6 @@
  */
 + (NSNumberFormatter *)trs_trustbadgeRatingFormatter;
 
++ (NSNumberFormatter *)trs_reviewCountFormatter;
+
 @end

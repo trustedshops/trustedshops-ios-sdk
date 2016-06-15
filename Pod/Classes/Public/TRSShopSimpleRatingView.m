@@ -8,6 +8,8 @@
 #import "TRSShopSimpleRatingView.h"
 #import "TRSStarsView.h"
 #import "UIColor+TRSColors.h"
+#import "TRSErrors.h"
+#import "TRSNetworkAgent+Trustbadge.h"
 
 CGFloat const kTRSShopSimpleRatingViewMinHeight = 16.0; // note: ensure this is not smaller than the one defined in TRSSingleStarView.m!
 
@@ -15,6 +17,7 @@ CGFloat const kTRSShopSimpleRatingViewMinHeight = 16.0; // note: ensure this is 
 
 @property (nonatomic, strong) UIView *starPlaceholder;
 @property (nonatomic, strong) TRSStarsView * starsView;
+@property (nonatomic, strong) NSNumber *gradeNumber;
 
 @end
 
@@ -53,18 +56,67 @@ CGFloat const kTRSShopSimpleRatingViewMinHeight = 16.0; // note: ensure this is 
 #pragma mark - Loading data from TS Backend
 
 - (void)loadShopSimpleRatingWithSuccessBlock:(void (^)(void))success failureBlock:(void (^)(NSError *error))failure {
-	// note (dirty cheat): due to the rendering chain it's important to do this asynchronously, otherwise
-	// we might get the wrong frame for this. Once it loads from the backend that's not to important,
-	// but if the request is e.g. cached, it might screw us.
-	dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-		self.starsView = [[TRSStarsView alloc] initWithFrame:self.starPlaceholder.bounds rating:@4.3];
-		self.starsView.activeStarColor = _activeStarColor;
-		self.starsView.inactiveStarColor = _inactiveStarColor;
-		[self.starPlaceholder addSubview:self.starsView];
-		if (success) {
-			success();
+	
+	if (!self.tsID || !self.apiToken) {
+		if (failure) {
+			NSError *notReady = [NSError errorWithDomain:TRSErrorDomain
+													code:TRSErrorDomainTrustbadgeMissingTSIDOrAPIToken
+												userInfo:nil];
+			failure(notReady);
+			return;
 		}
-	});
+	}
+	
+	// ensure the agent has the correct debugMode flag
+	[TRSNetworkAgent sharedAgent].debugMode = self.debugMode;
+	
+	[[TRSNetworkAgent sharedAgent] getShopGradeForTrustedShopsID:self.tsID apiToken:self.apiToken success:^(NSDictionary *gradeData) {
+		
+		self.gradeNumber = gradeData[@"overallMark"];
+		
+		// note (dirty cheat): due to the rendering chain it's important to do this asynchronously, otherwise
+		// we might get the wrong frame for this. Once it loads from the backend that's not too important,
+		// but if the request is e.g. cached, it might screw us.
+		dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.02 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+			self.starsView = [[TRSStarsView alloc] initWithFrame:self.starPlaceholder.bounds rating:self.gradeNumber];
+			self.starsView.activeStarColor = _activeStarColor;
+			self.starsView.inactiveStarColor = _inactiveStarColor;
+			[self.starPlaceholder addSubview:self.starsView];
+			if (success) {
+				success();
+			}
+		});
+	} failure:^(NSError *error) {
+		if (![error.domain isEqualToString:TRSErrorDomain]) {
+			if (failure) failure(error);
+			return;
+		}
+		switch (error.code) {
+			case TRSErrorDomainTrustbadgeInvalidAPIToken:
+				NSLog(@"[trustbadge] The provided API token is not correct");
+				break;
+				
+			case TRSErrorDomainTrustbadgeInvalidTSID:
+				NSLog(@"[trustbadge] The provided TSID is not correct.");
+				break;
+				
+			case TRSErrorDomainTrustbadgeTSIDNotFound:
+				NSLog(@"[trustbadge] The provided TSID could not be found.");
+				break;
+				
+			case TRSErrorDomainTrustbadgeInvalidData:
+				NSLog(@"[trustbadge] The received data is corrupt.");
+				break;
+				
+			case TRSErrorDomainTrustbadgeUnknownError:
+			default:
+				NSLog(@"[trustbadge] An unkown error occured.");
+				break;
+		}
+		
+		// we give back the error even if we could pre-handle it here
+		if (failure) failure(error);
+	}];
 }
 
 - (void)loadShopSimpleRatingWithFailureBlock:(void (^)(NSError *error))failure {
