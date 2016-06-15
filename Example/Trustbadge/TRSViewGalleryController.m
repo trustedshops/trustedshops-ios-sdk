@@ -13,6 +13,7 @@
 @interface TRSViewGalleryController ()
 
 @property (nonatomic, strong) NSMutableArray *loadedViews;
+@property (nonatomic, strong) NSMutableArray *tappedLoadButtons;
 @property (nonatomic, assign) NSUInteger loadingViewsCount;
 
 @property (weak, nonatomic) IBOutlet UIView *sealPlaceholder;
@@ -30,6 +31,7 @@
     // Do any additional setup after loading the view.
 	
 	self.loadedViews = [NSMutableArray new];
+	self.tappedLoadButtons = [NSMutableArray new];
 	self.loadingViewsCount = 0;
 }
 
@@ -40,6 +42,13 @@
 	for (UIView *view in self.loadedViews) {
 		[view removeFromSuperview];
 	}
+	[self.loadedViews removeAllObjects];
+	
+	// re-enable load buttons
+	for (id sender in self.tappedLoadButtons) {
+		[sender setEnabled:YES];
+	}
+	[self.tappedLoadButtons removeAllObjects];
 }
 
 - (void)willLoadAView {
@@ -51,10 +60,14 @@
 	}
 }
 
-- (void)didLoadView:(UIView *)view forParent:(UIView *)parent {
+- (void)didLoadView:(UIView *)view forParent:(UIView *)parent sender:(id)sender{
 	if (parent) { // on success
 		[self.loadedViews addObject:view];
 		[parent addSubview:view];
+		if (sender) { // if wanted, disable the button that loaded (to avoid loading multiple views on top of each other)
+			[self.tappedLoadButtons addObject:sender];
+			[sender setEnabled:NO];
+		}
 	}
 	
 	self.loadingViewsCount--;
@@ -71,10 +84,10 @@
 	TRSTrustbadgeView *tbView = [[TRSTrustbadgeView alloc] initWithFrame:tbFrame trustedShopsID:chDemoTSID apiToken:@"N/A"];
 	[self willLoadAView];
 	[tbView loadTrustbadgeWithSuccessBlock:^{
-		[self didLoadView:tbView forParent:self.sealPlaceholder];
+		[self didLoadView:tbView forParent:self.sealPlaceholder sender:sender];
 	} failureBlock:^(NSError *error) {
-		NSLog(@"could not load TRSTrustbadgeView, error: %@", error);
-		[self didLoadView:tbView forParent:nil];
+		NSLog(@"Error loading the TRSTrustbadgeView: %@", error);
+		[self didLoadView:tbView forParent:nil sender:nil];
 	}];
 }
 
@@ -82,8 +95,14 @@
 	CGRect srFrame = self.shopRatingPlaceholder.frame;
 	srFrame.origin = CGPointZero;
 	TRSShopRatingView *srView = [[TRSShopRatingView alloc] initWithFrame:srFrame];
-	[self.shopRatingPlaceholder addSubview:srView];
-	[self.loadedViews addObject:srView];
+	[self willLoadAView];
+	[srView loadShopRatingWithSuccessBlock:^{
+		[self didLoadView:srView forParent:self.shopRatingPlaceholder sender:sender];
+		[self.tappedLoadButtons addObject:sender];
+	} failureBlock:^(NSError *error) {
+		NSLog(@"Error loading the TRSShopRatingView: %@", error);
+		[self didLoadView:srView forParent:nil sender:nil];
+	}];
 }
 
 @end

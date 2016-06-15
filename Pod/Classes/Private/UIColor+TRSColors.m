@@ -1,5 +1,4 @@
 #import "UIColor+TRSColors.h"
-#import "UIColor+TRSColorsInternal.h"
 
 @implementation UIColor (TRSColors)
 
