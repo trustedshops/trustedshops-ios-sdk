@@ -4,27 +4,23 @@
 //
 //  Created by Gero Herkenrath on 07/06/16.
 //
-//
 
 #import "TRSShopRatingView.h"
-#import "TRSRatingView.h"
-#import "TRSTrustbadgeSDKPrivate.h"
+#import "TRSStarsView.h"
+#import "UIColor+TRSColors.h"
+#import "TRSViewCommons.h"
 
-// some constants for the view size constraints (these should fit the standards for a UILabel)
-#define kTRSShopRatingViewGradeLabelFontSize (13.0)
-#define kTRSShopRatingViewMinHeight (24.0) // twice the grade label!
-#define kTRSShopRatingViewAspectRatio (5.0 / 1.0) // might be 6.0 / 1.0 with branding image in the future
+CGFloat const kTRSShopRatingViewMinHeight = 40.0;
+NSString *const kTRSShopRatingViewFontName = @"Arial"; // ensure this is on the system!
+#define kTRSShopRatingViewStarsHeightToViewRatio (0.5)
+#define kTRSShopRatingViewGradeLabelHeightToViewRatio (0.4)
+#define kTRSShopRatingViewGradingFontDifferenceRatio (12.0 / 10.0)
 
 @interface TRSShopRatingView ()
 
-@property (nonatomic, strong) UIView *containerView;
-@property (nonatomic, strong) UIView *ratingPlaceholder;
-@property (nonatomic, strong) UILabel *gradeLabel; // holds text like @"4.98/5.00 (1.344 Bewertungen)"
-@property (nonatomic, strong) TRSRatingView *ratingView;
-
-@property (nonatomic, strong) NSLayoutConstraint *containerAspect;
-@property (nonatomic, strong) NSLayoutConstraint *starsHeight;
-@property (nonatomic, strong) NSLayoutConstraint *labelHeight;
+@property (nonatomic, strong) UIView *starPlaceholder;
+@property (nonatomic, strong) TRSStarsView *starsView;
+@property (nonatomic, strong) UILabel *gradeLabel;
 
 @end
 
@@ -32,8 +28,7 @@
 
 #pragma mark - Initialization
 
-- (instancetype)initWithFrame:(CGRect)frame
-{
+- (instancetype)initWithFrame:(CGRect)frame {
 	self = [super initWithFrame:frame];
 	if (self) {
 		[self finishInit];
@@ -41,8 +36,8 @@
 	return self;
 }
 
-- (instancetype)initWithCoder:(NSCoder *)aDecoder {
-	self = [super initWithCoder:aDecoder];
+- (instancetype)initWithCoder:(NSCoder *)coder {
+	self = [super initWithCoder:coder];
 	if (self) {
 		[self finishInit];
 	}
@@ -50,217 +45,159 @@
 }
 
 - (void)finishInit {
-	// frame etc. will be defined via autolayout later, values here are just placeholders
-	self.containerView = [[UIView alloc] init];
-	self.ratingPlaceholder = [[UIView alloc] init];
-	self.gradeLabel = [[UILabel alloc] init];
+	_activeStarColor = [UIColor trs_filledStarColor];
+	_inactiveStarColor = [UIColor trs_nonFilledStarColor];
 	
-	self.gradeLabel.font = [UIFont systemFontOfSize:kTRSShopRatingViewMinHeight / 2.0];
-	NSString *gradeString = TRSLocalizedString(@"Review", @"Used in the shop rating view's grade label (singular)");
-	self.gradeLabel.text = [NSString stringWithFormat:@"-/- (- %@)", gradeString];
+	_alignment = NSTextAlignmentNatural;
 	
-	[self createConstraints];
 	[self sizeToFit];
 	
-	// DEVELOPMENT CODE (so I can see the damn views...)
-	self.ratingPlaceholder.backgroundColor = [UIColor blueColor];
-//	self.gradeLabel.backgroundColor = [UIColor blueColor];
-//	self.gradeLabel.text = @"4.98/5.00 (99,999 valoraciones)";
-	[self.ratingPlaceholder sizeToFit];
-	CGRect starsFrame = self.ratingPlaceholder.frame;
-	starsFrame.origin = CGPointZero;
-//	starsFrame.size = CGSizeMake(210.0, 42.0);
-	starsFrame.size = CGSizeMake(105.0, 21.0);
-//	kTRSShopRatingViewAspectRatio * kTRSShopRatingViewMinHeight, kTRSShopRatingViewMinHeight);
-	self.ratingView = [[TRSRatingView alloc] initWithFrame:starsFrame rating:@4.6];
-	[self displayRatingView:self.ratingView];
+	self.starPlaceholder = [[UIView alloc] initWithFrame:[self frameForStars]];
+	self.starPlaceholder.backgroundColor = [UIColor clearColor];
+	[self addSubview:self.starPlaceholder];
+	
+	self.gradeLabel = [[UILabel alloc] initWithFrame:[self frameForGradeLabel]];
+	self.gradeLabel.backgroundColor = [UIColor clearColor];
+	self.gradeLabel.font = [UIFont fontWithName:kTRSShopRatingViewFontName size:self.gradeLabel.font.pointSize]; // size will be adapted anyways
+	self.gradeLabel.text = @"-.--/-.-- (----)";
+//	self.gradeLabel.text = @"4.89/5.00 (1.363 Bewertungen)";
+	self.gradeLabel.textAlignment = self.alignment;
+	[self addSubview:self.gradeLabel];
+	
 }
 
-#pragma mark - Dynamic layout adaptation
+#pragma mark - Loading data from TS Backend
+
+- (void)loadShopRatingWithSuccessBlock:(void (^)(void))success failureBlock:(void (^)(NSError *error))failure {
+	// note (dirty cheat): due to the rendering chain it's important to do this asynchronously, otherwise
+	// we might get the wrong frame for this. Once it loads from the backend that's not to important,
+	// but if the request is e.g. cached, it might screw us.
+	dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+		self.starsView = [[TRSStarsView alloc] initWithFrame:self.starPlaceholder.bounds rating:@4.3];
+		self.starsView.activeStarColor = _activeStarColor;
+		self.starsView.inactiveStarColor = _inactiveStarColor;
+		[self.starPlaceholder addSubview:self.starsView];
+		if (success) {
+			success();
+		}
+	});
+}
+
+- (void)loadShopRatingWithFailureBlock:(void (^)(NSError *error))failure {
+	[self loadShopRatingWithSuccessBlock:nil failureBlock:failure];
+}
+
+#pragma mark - Custom setters
+
+- (void)setActiveStarColor:(UIColor *)activeStarColor {
+	if (![activeStarColor isEqual:_activeStarColor]) {
+		_activeStarColor = activeStarColor;
+		if (self.starsView) {
+			self.starsView.activeStarColor = _activeStarColor;
+		}
+	}
+}
+
+- (void)setInactiveStarColor:(UIColor *)inactiveStarColor {
+	if (![inactiveStarColor isEqual:_inactiveStarColor]) {
+		_inactiveStarColor = inactiveStarColor;
+		if (self.starsView) {
+			self.starsView.inactiveStarColor = _inactiveStarColor;
+		}
+	}
+}
+
+- (void)setAlignment:(NSTextAlignment)alignment {
+	if (alignment != _alignment) {
+		_alignment = alignment;
+		self.gradeLabel.textAlignment = _alignment;
+		[self setNeedsLayout]; // might not be needed, but I didn't check all cases, so whatever...
+	}
+}
+
+#pragma mark - Resizing behavior (min size)
 
 - (CGSize)sizeThatFits:(CGSize)size {
 	if (size.height < kTRSShopRatingViewMinHeight) {
 		size.height = kTRSShopRatingViewMinHeight;
 	}
-	if (size.width < kTRSShopRatingViewMinHeight * kTRSShopRatingViewAspectRatio) {
-		size.width = kTRSShopRatingViewMinHeight * kTRSShopRatingViewAspectRatio;
+	CGFloat gradeTextLabelWidth = [TRSViewCommons widthForLabel:self.gradeLabel
+														withHeight:size.height * kTRSShopRatingViewGradeLabelHeightToViewRatio
+												optimalFontSize:NULL
+										 smallerCharactersScale:1.0 / kTRSShopRatingViewGradingFontDifferenceRatio];
+	if (gradeTextLabelWidth < kTRSShopRatingViewMinHeight * kTRSShopRatingViewStarsHeightToViewRatio * 5.0) {
+		gradeTextLabelWidth = kTRSShopRatingViewMinHeight * kTRSShopRatingViewStarsHeightToViewRatio * 5.0;
+	}
+	if (size.width < gradeTextLabelWidth) {
+		size.width = gradeTextLabelWidth;
+	}
+	if (size.width < self.starPlaceholder.bounds.size.width) {
+		size.width = self.starPlaceholder.bounds.size.width;
 	}
 	return size;
 }
 
+#pragma mark - Drawing
+
 - (void)layoutSubviews {
-	[self.gradeLabel sizeToFit];
-	// TODO: instead of simply hiding the label, perhaps dynamically shorten it?
-	if (self.gradeLabel.frame.size.width > self.frame.size.width) {
-		// note: important to remove this constraint first!
-		[self.gradeLabel removeConstraint:self.labelHeight];
-		self.gradeLabel.hidden = YES;
-		self.containerAspect.constant = 0.0;
-		self.starsHeight.constant = 0.0;
-	} else {
-		if ([self.gradeLabel.constraints containsObject:self.labelHeight]) {
-			[self.gradeLabel addConstraint:self.labelHeight];
-		}
-		self.gradeLabel.hidden = NO;
-		self.containerAspect.constant = kTRSShopRatingViewMinHeight / 2.0; // see constraint construction below
-		self.starsHeight.constant = kTRSShopRatingViewMinHeight / -2.0;
-	}
 	[super layoutSubviews];
+	[self sizeToFit];
+	self.starPlaceholder.frame = [self frameForStars];
+	self.gradeLabel.frame = [self frameForGradeLabel];
+	CGFloat optimalSize = [TRSViewCommons optimalHeightForFontInLabel:self.gradeLabel];
+	self.gradeLabel.attributedText = [TRSViewCommons attributedGradeStringFromString:self.gradeLabel.text
+																	  withBasePointSize:optimalSize
+																			scaleFactor:1.0 / kTRSShopRatingViewGradingFontDifferenceRatio
+																			 firstColor:[UIColor trs_black]
+																			secondColor:[UIColor trs_80_gray]
+																				font:self.gradeLabel.font];
+	
+	if (self.starsView) {
+		self.starsView.frame = self.starPlaceholder.bounds;
+	}
 }
 
-#pragma mark - Loading values & adding stars
+#pragma mark - Helper methods
 
-- (void)displayRatingView:(TRSRatingView *)rView {
-	rView.translatesAutoresizingMaskIntoConstraints = NO;
-	[self.ratingPlaceholder addSubview:rView];
-	[self.ratingPlaceholder addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[rView]-0-|"
-																				   options:NSLayoutFormatDirectionLeadingToTrailing
-																				   metrics:nil
-																					 views:NSDictionaryOfVariableBindings(rView)]];
-	[self.ratingPlaceholder addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-0-[rView]-0-|"
-																				   options:NSLayoutFormatDirectionLeadingToTrailing
-																				   metrics:nil
-																					 views:NSDictionaryOfVariableBindings(rView)]];
+// assumes aspect ratio of parent is correct
+- (CGRect)frameForStars {
+	CGRect starFrame = self.bounds;
+	starFrame.size.height *= kTRSShopRatingViewStarsHeightToViewRatio;
+	starFrame.size.width = starFrame.size.height * 5.0; // for 5 stars
+	
+	// figure out the x origin according to alignment
+	NSTextAlignment myAlign = self.alignment;
+	// first figure out what natural means, also treat justified in the same way!
+	if (myAlign == NSTextAlignmentNatural || myAlign == NSTextAlignmentJustified) {
+		if ([UIView userInterfaceLayoutDirectionForSemanticContentAttribute:self.semanticContentAttribute]
+			== UIUserInterfaceLayoutDirectionLeftToRight) {
+			myAlign = NSTextAlignmentLeft;
+		} else {
+			myAlign = NSTextAlignmentRight;
+		}
+	}
+	switch (myAlign) {
+		case NSTextAlignmentLeft:
+			starFrame.origin.x = 0.0;
+			break;
+		case NSTextAlignmentRight:
+			starFrame.origin.x = self.frame.size.width - starFrame.size.width;
+			break;
+		default: // catches NSTextAligmentCenter, the other two are actually prevented above
+			starFrame.origin.x = self.frame.size.width / 2.0 - starFrame.size.width / 2.0;
+			break;
+	}
+	
+	return starFrame;
 }
 
-#pragma mark - Constraint setup
-
-- (void)createConstraints {
+// assumes aspect ratio of parent is correct
+- (CGRect)frameForGradeLabel {
+	CGRect gradeTextFrame = self.bounds;
+	gradeTextFrame.size.height *= kTRSShopRatingViewGradeLabelHeightToViewRatio;
+	gradeTextFrame.origin.y = self.frame.size.height - gradeTextFrame.size.height;
 	
-	// prepare for autolayout...
-	self.ratingPlaceholder.translatesAutoresizingMaskIntoConstraints = NO;
-	self.gradeLabel.translatesAutoresizingMaskIntoConstraints = NO;
-	self.containerView.translatesAutoresizingMaskIntoConstraints = NO;
-	
-	// build up the view hierarchy
-	[self.containerView addSubview:self.ratingPlaceholder];
-	[self.containerView addSubview:self.gradeLabel];
-	[self addSubview:self.containerView];
-	
-	// first define the aspect ratio we always have on the container view (basically a result from the rating view)
-	self.containerAspect
-	= [NSLayoutConstraint constraintWithItem:_containerView
-								   attribute:NSLayoutAttributeHeight
-								   relatedBy:NSLayoutRelationEqual
-									  toItem:_containerView
-								   attribute:NSLayoutAttributeWidth
-								  multiplier:1.0 / kTRSShopRatingViewAspectRatio
-									constant:kTRSShopRatingViewMinHeight / 2.0]; // the size for the grading label
-	
-	// this is important to show the rating view at all (its height is not defined otherwise!)
-	NSLayoutConstraint *minContainerHeight
-	= [NSLayoutConstraint constraintWithItem:_containerView
-								   attribute:NSLayoutAttributeHeight
-								   relatedBy:NSLayoutRelationGreaterThanOrEqual
-									  toItem:nil
-								   attribute:NSLayoutAttributeNotAnAttribute
-								  multiplier:1.0
-									constant:kTRSShopRatingViewMinHeight];
-	
-	// ensure the gradeLabel has the correct height needed for its font
-	self.labelHeight
-	= [NSLayoutConstraint constraintWithItem:_gradeLabel
-								   attribute:NSLayoutAttributeHeight
-								   relatedBy:NSLayoutRelationEqual
-									  toItem:nil
-								   attribute:NSLayoutAttributeNotAnAttribute
-								  multiplier:1.0
-									constant:kTRSShopRatingViewMinHeight / 2.0];
-	
-	// together with the previous two this defines the height for the rating view (would be 0 otherwise!)
-	self.starsHeight
-	= [NSLayoutConstraint constraintWithItem:_ratingPlaceholder
-								   attribute:NSLayoutAttributeHeight
-								   relatedBy:NSLayoutRelationEqual
-									  toItem:_containerView
-								   attribute:NSLayoutAttributeHeight
-								  multiplier:1.0
-									constant:kTRSShopRatingViewMinHeight / -2.0]; // the label again
-	
-	// this is not done in the rating view, but the way it's constructed this always works out)
-	NSLayoutConstraint *starsAspect
-	= [NSLayoutConstraint constraintWithItem:_ratingPlaceholder
-								   attribute:NSLayoutAttributeHeight
-								   relatedBy:NSLayoutRelationEqual
-									  toItem:_ratingPlaceholder
-								   attribute:NSLayoutAttributeWidth
-								  multiplier:1.0 / 5.0
-									constant:0.0];
-	
-	// add all so far
-	[_containerView addConstraints:@[_containerAspect, minContainerHeight, _starsHeight]];
-	[_gradeLabel addConstraint:_labelHeight];
-	[_ratingPlaceholder addConstraints:@[starsAspect]];
-
-	// do alignment
-	[self.containerView addConstraints:[NSLayoutConstraint
-										constraintsWithVisualFormat:@"V:|-0-[_ratingPlaceholder]-0-[_gradeLabel]-0-|"
-										options:NSLayoutFormatDirectionLeadingToTrailing
-										metrics:nil
-										views:NSDictionaryOfVariableBindings(_ratingPlaceholder, _gradeLabel)]];
-	[self.containerView addConstraints:[NSLayoutConstraint
-										constraintsWithVisualFormat:@"H:[_ratingPlaceholder]-0-|"
-										options:NSLayoutFormatDirectionLeadingToTrailing
-										metrics:nil
-										views:NSDictionaryOfVariableBindings(_ratingPlaceholder)]];
-	[self.containerView addConstraints:[NSLayoutConstraint
-										constraintsWithVisualFormat:@"H:[_gradeLabel]-0-|"
-										options:NSLayoutFormatDirectionLeadingToTrailing
-										metrics:nil
-										views:NSDictionaryOfVariableBindings(_gradeLabel)]];
-	
-	// lastly: center container in view with aspect fit! (long ass list of constraints, hence own method)
-	[self aspectFittedCenteringOfView:_containerView inParent:self];
-
-}
-
-- (void)aspectFittedCenteringOfView:(UIView *)view inParent:(UIView *)parent {
-	NSLayoutConstraint *centerX = [NSLayoutConstraint constraintWithItem:view
-															   attribute:NSLayoutAttributeCenterX
-															   relatedBy:NSLayoutRelationEqual
-																  toItem:parent
-															   attribute:NSLayoutAttributeCenterX
-															  multiplier:1.0
-																constant:0.0];
-	NSLayoutConstraint *centerY = [NSLayoutConstraint constraintWithItem:view
-															   attribute:NSLayoutAttributeCenterY
-															   relatedBy:NSLayoutRelationEqual
-																  toItem:parent
-															   attribute:NSLayoutAttributeCenterY
-															  multiplier:1.0
-																constant:0.0];
-	NSLayoutConstraint *lessOrEqualWidth = [NSLayoutConstraint constraintWithItem:view
-																		attribute:NSLayoutAttributeWidth
-																		relatedBy:NSLayoutRelationLessThanOrEqual
-																		   toItem:parent
-																		attribute:NSLayoutAttributeWidth
-																	   multiplier:1.0
-																		 constant:0.0];
-	NSLayoutConstraint *equalWidthHighP = [NSLayoutConstraint constraintWithItem:view
-																	   attribute:NSLayoutAttributeWidth
-																	   relatedBy:NSLayoutRelationEqual
-																		  toItem:parent
-																	   attribute:NSLayoutAttributeWidth
-																	  multiplier:1.0
-																		constant:0.0];
-	equalWidthHighP.priority = UILayoutPriorityDefaultHigh; // this is very important!
-	NSLayoutConstraint *lessOrEqualHeight = [NSLayoutConstraint constraintWithItem:view
-																		 attribute:NSLayoutAttributeHeight
-																		 relatedBy:NSLayoutRelationLessThanOrEqual
-																			toItem:parent
-																		 attribute:NSLayoutAttributeHeight
-																		multiplier:1.0
-																		  constant:0.0];
-	NSLayoutConstraint *equalHeightHighP = [NSLayoutConstraint constraintWithItem:view
-																		attribute:NSLayoutAttributeHeight
-																		relatedBy:NSLayoutRelationEqual
-																		   toItem:parent
-																		attribute:NSLayoutAttributeHeight
-																	   multiplier:1.0
-																		 constant:0.0];
-	equalHeightHighP.priority = UILayoutPriorityDefaultHigh; // this is very important!
-	
-	[parent addConstraints:@[centerX, centerY, lessOrEqualWidth, lessOrEqualHeight, equalWidthHighP, equalHeightHighP]];
+	return gradeTextFrame;
 }
 
 @end

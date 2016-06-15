@@ -7,8 +7,16 @@
 //
 
 #import <UIKit/UIKit.h>
-IB_DESIGNABLE
+
+FOUNDATION_EXPORT CGFloat const kTRSShopRatingViewMinHeight;
 
 @interface TRSShopRatingView : UIView
+
+@property (nonatomic, strong) UIColor *activeStarColor;
+@property (nonatomic, strong) UIColor *inactiveStarColor;
+@property (nonatomic, assign) NSTextAlignment alignment;
+
+- (void)loadShopRatingWithSuccessBlock:(void (^)(void))success failureBlock:(void (^)(NSError *error))failure;
+- (void)loadShopRatingWithFailureBlock:(void (^)(NSError *error))failure;
 
 @end
