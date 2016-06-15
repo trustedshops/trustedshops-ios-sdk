@@ -95,6 +95,7 @@ describe(@"TRSTrustbadgeView", ^{
 				
 				CGRect aRect = CGRectMake(0.0, 0.0, 50.0, 50.0);
 				view = [[TRSTrustbadgeView alloc] initWithFrame:aRect trustedShopsID:trustedShopsID apiToken:thisIsAFakeToken];
+				view.debugMode = YES;
             });
 
             afterEach(^{
@@ -296,6 +297,7 @@ describe(@"TRSTrustbadgeView", ^{
 				
 				CGRect aRect = CGRectMake(0.0, 0.0, 50.0, 50.0);
 				view = [[TRSTrustbadgeView alloc] initWithFrame:aRect trustedShopsID:trustedShopsID apiToken:thisIsAFakeToken];
+				view.debugMode = YES;
 			});
 			
 			afterEach(^{
@@ -352,6 +354,7 @@ describe(@"TRSTrustbadgeView", ^{
 				
 				CGRect aRect = CGRectMake(0.0, 0.0, 50.0, 50.0);
 				view = [[TRSTrustbadgeView alloc] initWithFrame:aRect trustedShopsID:trustedShopsID apiToken:thisIsAFakeToken];
+				view.debugMode = YES;
 			});
 			
 			afterEach(^{

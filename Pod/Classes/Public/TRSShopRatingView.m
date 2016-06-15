@@ -13,6 +13,7 @@
 #import "TRSNetworkAgent+Trustbadge.h"
 #import "NSNumberFormatter+TRSFormatter.h"
 #import "TRSTrustbadgeSDKPrivate.h"
+#import "NSURL+TRSURLExtensions.h"
 
 CGFloat const kTRSShopRatingViewMinHeight = 40.0;
 NSString *const kTRSShopRatingViewFontName = @"Arial"; // ensure this is on the system!
@@ -25,9 +26,12 @@ NSString *const kTRSShopRatingViewFontName = @"Arial"; // ensure this is on the 
 @property (nonatomic, strong) UIView *starPlaceholder;
 @property (nonatomic, strong) TRSStarsView *starsView;
 @property (nonatomic, strong) UILabel *gradeLabel;
+
 @property (nonatomic, strong) NSNumber *gradeNumber;
 @property (nonatomic, strong) NSNumber *reviewCount;
 @property (nonatomic, copy) NSString *gradeText; // atm this not actually displayed in the view
+@property (nonatomic, copy) NSString *targetMarketISO3;
+@property (nonatomic, copy) NSString *languageISO2;
 
 @end
 
@@ -65,9 +69,8 @@ NSString *const kTRSShopRatingViewFontName = @"Arial"; // ensure this is on the 
 	
 	self.gradeLabel = [[UILabel alloc] initWithFrame:[self frameForGradeLabel]];
 	self.gradeLabel.backgroundColor = [UIColor clearColor];
-	self.gradeLabel.font = [UIFont fontWithName:kTRSShopRatingViewFontName size:self.gradeLabel.font.pointSize]; // size will be adapted anyways
+	self.gradeLabel.font = [UIFont fontWithName:kTRSShopRatingViewFontName size:self.gradeLabel.font.pointSize]; // size irrelevant
 	self.gradeLabel.text = @"-.--/-.-- (----)";
-//	self.gradeLabel.text = @"4.89/5.00 (1.363 Bewertungen)";
 	self.gradeLabel.textAlignment = self.alignment;
 	[self addSubview:self.gradeLabel];
 	
@@ -95,6 +98,8 @@ NSString *const kTRSShopRatingViewFontName = @"Arial"; // ensure this is on the 
 		self.gradeText = gradeData[@"overallMarkDescription"];
 		self.gradeNumber = gradeData[@"overallMark"];
 		self.reviewCount = gradeData[@"activeReviewCount"];
+		self.targetMarketISO3 = gradeData[@"targetMarketISO3"];
+		self.languageISO2 = gradeData[@"languageISO2"];
 		
 		// note (dirty cheat): due to the rendering chain it's important to do this asynchronously, otherwise
 		// we might get the wrong frame for this. Once it loads from the backend that's not to important,
@@ -143,6 +148,35 @@ NSString *const kTRSShopRatingViewFontName = @"Arial"; // ensure this is on the 
 
 - (void)loadShopRatingWithFailureBlock:(void (^)(NSError *error))failure {
 	[self loadShopRatingWithSuccessBlock:nil failureBlock:failure];
+}
+
+#pragma mark - Touch detection
+
+- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+	if (!self.starsView) {
+		[super touchesBegan:touches withEvent:event];
+	}
+}
+
+- (void)touchesMoved:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+	if (!self.starsView) {
+		[super touchesBegan:touches withEvent:event];
+	}
+}
+
+- (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+	if (!self.starsView) {
+		[super touchesBegan:touches withEvent:event];
+	} else {
+		NSURL *targetURL = [NSURL profileURLForTSID:self.tsID countryCode:self.targetMarketISO3 language:self.languageISO2];
+		[[UIApplication sharedApplication] openURL:targetURL];
+	}
+}
+
+- (void)touchesCancelled:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+	if (!self.starsView) {
+		[super touchesBegan:touches withEvent:event];
+	}
 }
 
 #pragma mark - Custom setters

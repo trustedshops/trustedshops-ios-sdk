@@ -79,7 +79,7 @@ describe(@"UIColor+TRSColors", ^{
 		});
 		
 		it(@"returns the CI color 'ananas'", ^{
-			expect([UIColor trs_ananas]).to.equal([UIColor colorWithRed:1 green:0.862 blue:0.058 alpha:1]);
+			expect([UIColor trs_ananas]).to.equal([UIColor colorWithRed:255.0 / 255.0 green:220.0 / 255.0 blue:15.0 / 255.0 alpha:1.0]);
 		});
 		
 	});
@@ -91,7 +91,7 @@ describe(@"UIColor+TRSColors", ^{
 		});
 		
 		it(@"returns the CI color 'kiwi'", ^{
-			expect([UIColor trs_kiwi]).to.equal([UIColor colorWithRed:0.8 green:0.89 blue:0 alpha:1]);
+			expect([UIColor trs_kiwi]).to.equal([UIColor colorWithRed:204.0 / 255.0 green:227.0 / 255.0 blue:0.0 / 255.0 alpha:1.0]);
 		});
 		
 	});
@@ -103,7 +103,7 @@ describe(@"UIColor+TRSColors", ^{
 		});
 		
 		it(@"returns the CI color 'curacao'", ^{
-			expect([UIColor trs_curacao]).to.equal([UIColor colorWithRed:0.05 green:0.745 blue:0.862 alpha:1]);
+			expect([UIColor trs_curacao]).to.equal([UIColor colorWithRed:13.0 / 255.0 green:190.0 / 255.0 blue:220.0 / 255.0 alpha:1.0]);
 		});
 		
 	});
@@ -115,7 +115,7 @@ describe(@"UIColor+TRSColors", ^{
 		});
 		
 		it(@"returns the CI color 'beere'", ^{
-			expect([UIColor trs_beere]).to.equal([UIColor colorWithRed:0.824 green:0 blue:0.471 alpha:1]);
+			expect([UIColor trs_beere]).to.equal([UIColor colorWithRed:210.0 / 255.0 green:0.0 / 255.0 blue:120.0 / 255.0 alpha:1.0]);
 		});
 		
 	});
@@ -139,7 +139,7 @@ describe(@"UIColor+TRSColors", ^{
 		});
 		
 		it(@"returns the CI color 'gray' with 80 percent", ^{
-			expect([UIColor trs_80_gray]).to.equal([UIColor colorWithRed:0.329 green:0.337 blue:0.317 alpha:1]);
+			expect([UIColor trs_80_gray]).to.equal([UIColor colorWithRed:84.0 / 255.0 green:86.0 / 255.0 blue:81.0 / 255.0 alpha:1.0]);
 		});
 		
 	});
@@ -151,7 +151,7 @@ describe(@"UIColor+TRSColors", ^{
 		});
 		
 		it(@"returns the CI color 'gray' with 60 percent", ^{
-			expect([UIColor trs_60_gray]).to.equal([UIColor colorWithRed:0.529 green:0.529 blue:0.501 alpha:1]);
+			expect([UIColor trs_60_gray]).to.equal([UIColor colorWithRed:135.0 / 255.0 green:135.0 / 255.0 blue:128.0 / 255.0 alpha:1.0]);
 		});
 		
 	});

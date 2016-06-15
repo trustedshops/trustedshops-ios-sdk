@@ -46,8 +46,12 @@ NSString * const TRSPublicAPIEndPointDebug = @"api-qa.trustedshops.com";
 }
 
 + (NSURL *)profileURLForShop:(TRSShop *)shop {
-	NSString *urlWithoutTSID = [NSURL urlList][[NSURL keyForCountryCode:shop.targetMarketISO3 language:shop.languageISO2]][@"reviewProfile"];
-	return [NSURL URLWithString:[urlWithoutTSID stringByReplacingOccurrencesOfString:@"%s" withString:shop.tsId]];
+	return [NSURL profileURLForTSID:shop.tsId countryCode:shop.targetMarketISO3 language:shop.languageISO2];
+}
+
++ (NSURL *)profileURLForTSID:(NSString *)tsId countryCode:(NSString *)targetMarketISO3 language:(NSString *)languageISO2 {
+	NSString *urlWithoutTSID = [NSURL urlList][[NSURL keyForCountryCode:targetMarketISO3 language:languageISO2]][@"reviewProfile"];
+	return [NSURL URLWithString:[urlWithoutTSID stringByReplacingOccurrencesOfString:@"%s" withString:tsId]];
 }
 
 #pragma mark - Getting a shop's Trustmark (for the Trustbadge)

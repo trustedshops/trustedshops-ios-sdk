@@ -10,6 +10,7 @@
 #import "UIColor+TRSColors.h"
 #import "TRSErrors.h"
 #import "TRSNetworkAgent+Trustbadge.h"
+#import "NSURL+TRSURLExtensions.h"
 
 CGFloat const kTRSShopSimpleRatingViewMinHeight = 16.0; // note: ensure this is not smaller than the one defined in TRSSingleStarView.m!
 
@@ -17,7 +18,10 @@ CGFloat const kTRSShopSimpleRatingViewMinHeight = 16.0; // note: ensure this is 
 
 @property (nonatomic, strong) UIView *starPlaceholder;
 @property (nonatomic, strong) TRSStarsView * starsView;
+
 @property (nonatomic, strong) NSNumber *gradeNumber;
+@property (nonatomic, copy) NSString *targetMarketISO3;
+@property (nonatomic, copy) NSString *languageISO2;
 
 @end
 
@@ -73,6 +77,8 @@ CGFloat const kTRSShopSimpleRatingViewMinHeight = 16.0; // note: ensure this is 
 	[[TRSNetworkAgent sharedAgent] getShopGradeForTrustedShopsID:self.tsID apiToken:self.apiToken success:^(NSDictionary *gradeData) {
 		
 		self.gradeNumber = gradeData[@"overallMark"];
+		self.targetMarketISO3 = gradeData[@"targetMarketISO3"];
+		self.languageISO2 = gradeData[@"languageISO2"];
 		
 		// note (dirty cheat): due to the rendering chain it's important to do this asynchronously, otherwise
 		// we might get the wrong frame for this. Once it loads from the backend that's not too important,
@@ -121,6 +127,35 @@ CGFloat const kTRSShopSimpleRatingViewMinHeight = 16.0; // note: ensure this is 
 
 - (void)loadShopSimpleRatingWithFailureBlock:(void (^)(NSError *error))failure {
 	[self loadShopSimpleRatingWithSuccessBlock:nil failureBlock:failure];
+}
+
+#pragma mark - Touch detection
+
+- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+	if (!self.starsView) {
+		[super touchesBegan:touches withEvent:event];
+	}
+}
+
+- (void)touchesMoved:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+	if (!self.starsView) {
+		[super touchesBegan:touches withEvent:event];
+	}
+}
+
+- (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+	if (!self.starsView) {
+		[super touchesBegan:touches withEvent:event];
+	} else {
+		NSURL *targetURL = [NSURL profileURLForTSID:self.tsID countryCode:self.targetMarketISO3 language:self.languageISO2];
+		[[UIApplication sharedApplication] openURL:targetURL];
+	}
+}
+
+- (void)touchesCancelled:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+	if (!self.starsView) {
+		[super touchesBegan:touches withEvent:event];
+	}
 }
 
 #pragma mark - Custom setters

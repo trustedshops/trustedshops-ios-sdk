@@ -13,6 +13,7 @@
 #import "TRSNetworkAgent+Trustbadge.h"
 #import "NSNumberFormatter+TRSFormatter.h"
 #import "TRSTrustbadgeSDKPrivate.h"
+#import "NSURL+TRSURLExtensions.h"
 
 // minSize should be around {100.0, 60.0}, but that also depends on the text label (e.g. it's ~110 for "BEFRIEDIGEND")
 CGFloat const kTRSShopGradingViewMinHeight = 60.0;
@@ -28,9 +29,12 @@ NSString *const kTRSShopGradingViewFontName = @"Arial"; //ensure this is on the 
 @property (nonatomic, strong) TRSStarsView *starsView;
 @property (nonatomic, strong) UILabel *gradeAsTextLabel;
 @property (nonatomic, strong) UILabel *gradeAsNumbersLabel;
+
 @property (nonatomic, strong) NSNumber *gradeNumber;
 @property (nonatomic, strong) NSNumber *reviewCount; // atm this not actually displayed in the view
 @property (nonatomic, copy) NSString *gradeText;
+@property (nonatomic, copy) NSString *targetMarketISO3;
+@property (nonatomic, copy) NSString *languageISO2;
 
 @end
 
@@ -102,6 +106,8 @@ NSString *const kTRSShopGradingViewFontName = @"Arial"; //ensure this is on the 
 		self.gradeText = gradeData[@"overallMarkDescription"];
 		self.gradeNumber = gradeData[@"overallMark"];
 		self.reviewCount = gradeData[@"activeReviewCount"];
+		self.targetMarketISO3 = gradeData[@"targetMarketISO3"];
+		self.languageISO2 = gradeData[@"languageISO2"];
 		
 		// note (dirty cheat): due to the rendering chain it's important to do this asynchronously, otherwise
 		// we might get the wrong frame for this. Once it loads from the backend that's not too important,
@@ -150,6 +156,35 @@ NSString *const kTRSShopGradingViewFontName = @"Arial"; //ensure this is on the 
 
 - (void)loadShopGradeWithFailureBlock:(void (^)(NSError *error))failure {
 	[self loadShopGradeWithSuccessBlock:nil failureBlock:failure];
+}
+
+#pragma mark - Touch detection
+
+- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+	if (!self.starsView) {
+		[super touchesBegan:touches withEvent:event];
+	}
+}
+
+- (void)touchesMoved:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+	if (!self.starsView) {
+		[super touchesBegan:touches withEvent:event];
+	}
+}
+
+- (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+	if (!self.starsView) {
+		[super touchesBegan:touches withEvent:event];
+	} else {
+		NSURL *targetURL = [NSURL profileURLForTSID:self.tsID countryCode:self.targetMarketISO3 language:self.languageISO2];
+		[[UIApplication sharedApplication] openURL:targetURL];
+	}
+}
+
+- (void)touchesCancelled:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+	if (!self.starsView) {
+		[super touchesBegan:touches withEvent:event];
+	}
 }
 
 #pragma mark - Custom setters for the colors

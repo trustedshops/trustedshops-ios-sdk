@@ -22,6 +22,8 @@ FOUNDATION_EXPORT NSString * const TRSPublicAPIEndPointDebug; // dito
 
 + (NSURL *)profileURLForShop:(TRSShop *)shop;
 
++ (NSURL *)profileURLForTSID:(NSString *)tsId countryCode:(NSString *)targetMarketISO3 language:(NSString *)languageISO2;
+
 + (NSURL *)trustMarkAPIURLForTSID:(NSString *)tsID debug:(BOOL)debug;
 
 + (NSURL *)shopGradeAPIURLForTSID:(NSString *)tsID debug:(BOOL)debug;

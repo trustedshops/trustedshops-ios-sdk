@@ -113,7 +113,9 @@
 		NSDictionary *actuallyRelevant = jsonData[@"response"][@"data"][@"shop"][@"qualityIndicators"][@"reviewIndicator"];
 		NSDictionary *retVal = @{@"overallMarkDescription" : actuallyRelevant[@"overallMarkDescription"],
 								 @"overallMark" : actuallyRelevant[@"overallMark"],
-								 @"activeReviewCount" : actuallyRelevant[@"activeReviewCount"]};
+								 @"activeReviewCount" : actuallyRelevant[@"activeReviewCount"],
+								 @"targetMarketISO3" : jsonData[@"response"][@"data"][@"shop"][@"targetMarketISO3"],
+								 @"languageISO2" : jsonData[@"response"][@"data"][@"shop"][@"languageISO2"]};
 		
 		if (!retVal) {
 			NSError *formatError = [NSError errorWithDomain:TRSErrorDomain // maybe create custom/other error code later
