@@ -20,6 +20,7 @@
 - (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event;
 - (void)touchesCancelled:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event;
 - (instancetype)finishInit:(NSString *)trustedShopsID apiToken:(NSString *)apiToken;
+- (void)displaySealAsOffline:(BOOL)offline afterDelay:(NSTimeInterval)seconds;
 
 @end
 
@@ -622,6 +623,10 @@ describe(@"TRSTrustbadgeView", ^{
 				expect(testView.apiToken).to.beNil();
 			});
 		});
+	});
+	
+	describe(@"-displaySealAsOffline:afterDelay:", ^{
+		// TODO: test this...
 	});
 });
 

@@ -24,6 +24,7 @@
 		1D88A8511D06D6A5005AD070 /* TRSViewGalleryController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D88A8501D06D6A5005AD070 /* TRSViewGalleryController.m */; };
 		1D9A6FC61CCA5565006D97A9 /* TRSProductSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D9A6FC51CCA5565006D97A9 /* TRSProductSpec.m */; };
 		1DBF42BC1CA1585300FCFB81 /* TRSTrustcardSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DBF42BB1CA1585300FCFB81 /* TRSTrustcardSpec.m */; };
+		1DD47DDC1D14281C00E41F1C /* TRSViewCommonsSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DD47DDB1D14281C00E41F1C /* TRSViewCommonsSpec.m */; };
 		1DEFBAEC1CA0049A00B61B05 /* NSURL+TRSURLExtensionsSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DEFBAEB1CA0049A00B61B05 /* NSURL+TRSURLExtensionsSpec.m */; };
 		1DEFBAEE1CA048F700B61B05 /* TRSShopSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DEFBAED1CA048F700B61B05 /* TRSShopSpec.m */; };
 		6003F58E195388D20070C39A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58D195388D20070C39A /* Foundation.framework */; };
@@ -86,6 +87,7 @@
 		1D88A8501D06D6A5005AD070 /* TRSViewGalleryController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TRSViewGalleryController.m; sourceTree = "<group>"; };
 		1D9A6FC51CCA5565006D97A9 /* TRSProductSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TRSProductSpec.m; sourceTree = "<group>"; };
 		1DBF42BB1CA1585300FCFB81 /* TRSTrustcardSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TRSTrustcardSpec.m; sourceTree = "<group>"; };
+		1DD47DDB1D14281C00E41F1C /* TRSViewCommonsSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TRSViewCommonsSpec.m; sourceTree = "<group>"; };
 		1DEFBAEB1CA0049A00B61B05 /* NSURL+TRSURLExtensionsSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSURL+TRSURLExtensionsSpec.m"; sourceTree = "<group>"; };
 		1DEFBAED1CA048F700B61B05 /* TRSShopSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TRSShopSpec.m; sourceTree = "<group>"; };
 		2B8E1DF01C9946010051505A /* Trustbadge.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; name = Trustbadge.podspec; path = ../Trustbadge.podspec; sourceTree = "<group>"; };
@@ -218,6 +220,7 @@
 				84C2BC2E1B78C25000F54653 /* TRSTrustbadgeViewSpec.m */,
 				1DBF42BB1CA1585300FCFB81 /* TRSTrustcardSpec.m */,
 				1D5E2FD01CB68227002C69C0 /* TRSTrustMarkSpec.m */,
+				1DD47DDB1D14281C00E41F1C /* TRSViewCommonsSpec.m */,
 				1D5E2FCD1CB64DC1002C69C0 /* UIColor+TRSColorsSpec.m */,
 			);
 			path = Tests;
@@ -532,6 +535,7 @@
 				1D6695571CD2328300AA0E4E /* TRSCheckoutViewControllerSpec.m in Sources */,
 				840B2B631B457135009E1D6D /* NSNumber+TRSRatingSpec.m in Sources */,
 				1DBF42BC1CA1585300FCFB81 /* TRSTrustcardSpec.m in Sources */,
+				1DD47DDC1D14281C00E41F1C /* TRSViewCommonsSpec.m in Sources */,
 				1DEFBAEC1CA0049A00B61B05 /* NSURL+TRSURLExtensionsSpec.m in Sources */,
 				1DEFBAEE1CA048F700B61B05 /* TRSShopSpec.m in Sources */,
 				845E83DD1B8323C3001D5EDC /* NSNumberFormatter+TRSFormatterSpec.m in Sources */,

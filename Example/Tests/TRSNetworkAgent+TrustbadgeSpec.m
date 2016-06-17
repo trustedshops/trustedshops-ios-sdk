@@ -376,6 +376,14 @@ describe(@"TRSNetworkAgent+Trustbadge", ^{
 			expect(task).to.beNil();
 		});
 		
+		it(@"calls its failure block for nil token and or tsid", ^{
+			waitUntil(^(DoneCallback done) {
+				[agent getShopGradeForTrustedShopsID:nil apiToken:nil success:nil failure:^(NSError *error) {
+					done();
+				}];
+			});
+		});
+		
 		it(@"returns a NSURLSessionDataTask object for a given ID and token", ^{
 			id task = [agent getShopGradeForTrustedShopsID:@"ID" apiToken:@"token" success:nil failure:nil];
 			expect(task).to.beKindOf([NSURLSessionDataTask class]);

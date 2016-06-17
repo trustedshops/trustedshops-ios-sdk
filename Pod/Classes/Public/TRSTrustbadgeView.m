@@ -58,12 +58,9 @@
 - (instancetype)initWithCoder:(NSCoder *)aDecoder {
 	
 	self = [super initWithCoder:aDecoder];
-	if (!self) {
-		return nil;
+	if (self) {
+		[self finishInit:nil apiToken:nil]; // when being loaded from a xib, we won't have these (for now)
 	}
-	
-	[self finishInit:nil apiToken:nil]; // when being loaded from a xib, we won't have these (for now)
-	
 	return self;
 }
 
