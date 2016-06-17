@@ -23,6 +23,13 @@
 
 @end
 
+// Note: For now the debugMode property is set to YES for all initialized TRSTrustbadgeView objects.
+// This should not affect tests (as in "not testing non-debug mode"), since all it does is ensure
+// the agent it uses to make HTTPRequests uses the QA environment API (a different URL) and not the production
+// one. The code that is tested is completely identical, however, so everything IS tested.
+// The HTTP stubs are set similarly. I do so in case I mess up something with the stubs in the future, so I at least
+// won't mess with the PROD environment while testing.
+
 SpecBegin(TRSTrustbadgeView)
 
 describe(@"TRSTrustbadgeView", ^{
@@ -183,6 +190,7 @@ describe(@"TRSTrustbadgeView", ^{
             beforeEach(^{
 				CGRect aRect = CGRectMake(0.0, 0.0, 50.0, 50.0);
 				view = [[TRSTrustbadgeView alloc] initWithFrame:aRect trustedShopsID:nil apiToken:nil];
+				view.debugMode = YES;
             });
 
             afterEach(^{
@@ -239,6 +247,7 @@ describe(@"TRSTrustbadgeView", ^{
 				
 				CGRect aRect = CGRectMake(0.0, 0.0, 50.0, 50.0);
 				view = [[TRSTrustbadgeView alloc] initWithFrame:aRect trustedShopsID:trustedShopsID apiToken:thisIsAFakeToken];
+				view.debugMode = YES;
 			});
 			
 			afterEach(^{
@@ -400,6 +409,7 @@ describe(@"TRSTrustbadgeView", ^{
 		describe(@"-initWithTrustedShopsID:apiToken:", ^{
 			it(@"creates an object with the default frame", ^{
 				testView = [[TRSTrustbadgeView alloc] initWithTrustedShopsID:@"someID" apiToken:@"someToken"];
+				testView.debugMode = YES;
 				CGRect targetFrame = CGRectMake(0.0, 0.0, 64.0, 64.0);
 				expect(CGRectEqualToRect(targetFrame, testView.frame)).to.beTruthy();
 				expect(testView.trustedShopsID).to.equal(@"someID");
@@ -414,6 +424,7 @@ describe(@"TRSTrustbadgeView", ^{
 				// Testing deprecated method for completeness, will be removed in future
 				testView = [[TRSTrustbadgeView alloc] initWithTrustedShopsID:@"someID"];
 #pragma clang diagnostic pop
+				testView.debugMode = YES;
 				CGRect targetFrame = CGRectMake(0.0, 0.0, 64.0, 64.0);
 				expect(CGRectEqualToRect(targetFrame, testView.frame)).to.beTruthy();
 				expect(testView.trustedShopsID).to.equal(@"someID");
@@ -424,6 +435,7 @@ describe(@"TRSTrustbadgeView", ^{
 		describe(@"-initWithFrame:", ^{
 			it(@"creates an object with no token and no TS ID", ^{
 				testView = [[TRSTrustbadgeView alloc] initWithFrame:CGRectMake(0.0, 0.0, 64.0, 64.0)];
+				testView.debugMode = YES;
 				expect(testView.trustedShopsID).to.beNil();
 				expect(testView.apiToken).to.beNil();
 			});
@@ -432,6 +444,7 @@ describe(@"TRSTrustbadgeView", ^{
 		describe(@"-init", ^{
 			it(@"creates an object with the default frame and no token and no TS ID", ^{
 				testView = [[TRSTrustbadgeView alloc] init];
+				testView.debugMode = YES;
 				CGRect targetFrame = CGRectMake(0.0, 0.0, 64.0, 64.0);
 				expect(CGRectEqualToRect(targetFrame, testView.frame)).to.beTruthy();
 				expect(testView.trustedShopsID).to.beNil();
@@ -444,6 +457,7 @@ describe(@"TRSTrustbadgeView", ^{
 				NSData *temp = [NSKeyedArchiver archivedDataWithRootObject:[UIView new]];
 				NSKeyedUnarchiver *testCoder = [[NSKeyedUnarchiver alloc] initForReadingWithData:temp];
 				testView = [[TRSTrustbadgeView alloc] initWithCoder:testCoder];
+				testView.debugMode = YES;
 				expect(testView.trustedShopsID).to.beNil();
 				expect(testView.apiToken).to.beNil();
 			});
@@ -453,6 +467,7 @@ describe(@"TRSTrustbadgeView", ^{
 	describe(@"-touchesEnded:withEvent: when not hidden", ^{
 		it(@"calls showTrustcard for touch over seal", ^{
 			TRSTrustbadgeView *testView = [[TRSTrustbadgeView alloc] init];
+			testView.debugMode = YES;
 			id mockedTrustbadge = OCMClassMock([TRSTrustbadge class]);
 			OCMStub([mockedTrustbadge showTrustcardWithPresentingViewController:nil]);
 			id mockedImageView = OCMPartialMock(testView.sealImageView);
@@ -474,6 +489,7 @@ describe(@"TRSTrustbadgeView", ^{
 		__block TRSTrustbadgeView *testView;
 		beforeEach(^{
 			testView = [[TRSTrustbadgeView alloc] init];
+			testView.debugMode = YES;
 			originalMarker = testView.offlineMarker;
 			markerPartialMock = OCMPartialMock(originalMarker);
 			testView.offlineMarker = markerPartialMock;
@@ -522,6 +538,7 @@ describe(@"TRSTrustbadgeView", ^{
 		__block UIColor *testColor2;
 		beforeEach(^{
 			testView = [[TRSTrustbadgeView alloc] init];
+			testView.debugMode = YES;
 			testColor1 = [UIColor blueColor];
 			testColor2 = [UIColor redColor];
 		});
@@ -556,6 +573,54 @@ describe(@"TRSTrustbadgeView", ^{
 			OCMExpect([mockedBadge setCustomColor:testColor1]);
 			testView.customColor = testColor1;
 			OCMVerifyAll(mockedBadge);
+		});
+	});
+	
+	context(@"private readwrite properties", ^{
+		__block TRSTrustbadgeView *testView;
+		beforeEach(^{ // not testing for nil values, because meh
+			testView = [[TRSTrustbadgeView alloc] initWithTrustedShopsID:@"testID" apiToken:@"testToken"];
+			testView.debugMode = YES;
+		});
+		afterEach(^{
+			testView = nil;
+		});
+		
+		describe(@"-trustedShopsID", ^{
+			it(@"returns an NSString", ^{
+				expect(testView.trustedShopsID).to.beKindOf([NSString class]);
+			});
+			it(@"returns the id given in init", ^{
+				expect(testView.trustedShopsID).to.equal(@"testID");
+			});
+		});
+		describe(@"-apiToken", ^{
+			it(@"returns an NSString", ^{
+				expect(testView.apiToken).to.beKindOf([NSString class]);
+			});
+			it(@"returns the id given in init", ^{
+				expect(testView.apiToken).to.equal(@"testToken");
+			});
+		});
+		describe(@"-setTrustedShopsID:", ^{
+			it(@"changes the ID", ^{
+				[testView setTrustedShopsID:@"testIDchanged"];
+				expect(testView.trustedShopsID).to.equal(@"testIDchanged");
+			});
+			it(@"allows nil", ^{
+				[testView setTrustedShopsID:nil];
+				expect(testView.trustedShopsID).to.beNil();
+			});
+		});
+		describe(@"-setApiToken:", ^{
+			it(@"changes the token", ^{
+				[testView setApiToken:@"testTokenChanged"];
+				expect(testView.apiToken).to.equal(@"testTokenChanged");
+			});
+			it(@"allows nil", ^{
+				[testView setApiToken:nil];
+				expect(testView.apiToken).to.beNil();
+			});
 		});
 	});
 });

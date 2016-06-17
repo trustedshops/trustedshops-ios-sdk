@@ -29,11 +29,9 @@
 					 apiToken:(NSString *)apiToken {
 	
 	self = [super initWithFrame:aRect];
-	if (!self) {
-		return nil;
+	if (self) {
+		[self finishInit:trustedShopsID apiToken:apiToken];
 	}
-	
-	[self finishInit:trustedShopsID apiToken:apiToken];
 	
 	return self;
 }
@@ -69,7 +67,7 @@
 	return self;
 }
 
-- (instancetype)finishInit:(NSString *)trustedShopsID apiToken:(NSString *)apiToken {
+- (void)finishInit:(NSString *)trustedShopsID apiToken:(NSString *)apiToken {
 	
 	// first get the image, we'll need that in any case:
 	UIImage *sealImage = [UIImage imageWithContentsOfFile:
@@ -105,8 +103,6 @@
 	
 	// TODO: Check whether this really needs to be delayed (to avoid it flashing up even if the data is loaded immediately)
 	[self displaySealAsOffline:YES afterDelay:1.0];
-	
-	return self;
 }
 
 #pragma mark - Getting certificate & shop data from remote API
