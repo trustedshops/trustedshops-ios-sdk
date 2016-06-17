@@ -99,33 +99,40 @@
 	}
 	
 	void (^successBlock)(NSData *data) = ^(NSData *data) {
-		NSError *error = nil;
 		NSDictionary *jsonData = [NSJSONSerialization JSONObjectWithData:data
 																 options:kNilOptions
-																   error:&error];
-		if (!jsonData) {
+																   error:nil];
+		id markDesc, mark, revCount, targetMarket, language;
+		NSDictionary *actuallyRelevant;
+		BOOL invalid = NO;
+		@try {
+			actuallyRelevant = jsonData[@"response"][@"data"][@"shop"];
+			if (actuallyRelevant) {
+				markDesc = actuallyRelevant[@"qualityIndicators"][@"reviewIndicator"][@"overallMarkDescription"];
+				mark = actuallyRelevant[@"qualityIndicators"][@"reviewIndicator"][@"overallMark"];
+				revCount = actuallyRelevant[@"qualityIndicators"][@"reviewIndicator"][@"activeReviewCount"];
+				targetMarket = actuallyRelevant[@"targetMarketISO3"];
+				language = actuallyRelevant[@"languageISO2"];
+			} else {
+				invalid = YES;
+			}
+		} @catch (NSException *exception) {
+			invalid = YES;
+		}
+		if (invalid) {
 			if (failure) {
-				failure(error); // create a specific custom error later
+				NSError *invalidDataError = [NSError errorWithDomain:TRSErrorDomain
+																code:TRSErrorDomainTrustbadgeInvalidData
+															userInfo:nil];
+				failure(invalidDataError);
 			}
 			return;
 		}
-		
-		NSDictionary *actuallyRelevant = jsonData[@"response"][@"data"][@"shop"][@"qualityIndicators"][@"reviewIndicator"];
-		NSDictionary *retVal = @{@"overallMarkDescription" : actuallyRelevant[@"overallMarkDescription"],
-								 @"overallMark" : actuallyRelevant[@"overallMark"],
-								 @"activeReviewCount" : actuallyRelevant[@"activeReviewCount"],
-								 @"targetMarketISO3" : jsonData[@"response"][@"data"][@"shop"][@"targetMarketISO3"],
-								 @"languageISO2" : jsonData[@"response"][@"data"][@"shop"][@"languageISO2"]};
-		
-		if (!retVal) {
-			NSError *formatError = [NSError errorWithDomain:TRSErrorDomain // maybe create custom/other error code later
-													   code:TRSErrorDomainTrustbadgeInvalidData
-												   userInfo:nil];
-			if (failure) {
-				failure(formatError);
-			}
-			return;
-		}
+		NSDictionary *retVal = @{@"overallMarkDescription" : markDesc,
+								 @"overallMark" : mark,
+								 @"activeReviewCount" : revCount,
+								 @"targetMarketISO3" : targetMarket,
+								 @"languageISO2" : language};
 		
 		if (success) success(retVal);
 		return;
@@ -140,7 +147,7 @@
 													code:TRSErrorDomainTrustbadgeInvalidTSID
 												userInfo:nil];
 					} break;
-						
+					
 					case 401: {
 						error = [NSError errorWithDomain:TRSErrorDomain
 													code:TRSErrorDomainTrustbadgeInvalidAPIToken
