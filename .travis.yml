@@ -7,7 +7,7 @@ cache:
 
 install:
 - bundle install
-- bundle exec pod repo update --project-directory=Example
+- bundle exec pod repo update
 - bundle exec pod install --project-directory=Example
 
 script:
