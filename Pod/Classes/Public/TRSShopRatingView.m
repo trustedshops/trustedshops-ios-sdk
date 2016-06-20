@@ -236,7 +236,7 @@ NSString *const kTRSShopRatingViewFontName = @"Arial"; // ensure this is on the 
 	[self sizeToFit];
 	self.starPlaceholder.frame = [self frameForStars];
 	NSString *unit;
-	if (self.reviewCount > 1) {
+	if (self.reviewCount.unsignedIntegerValue > 1) {
 		unit = TRSLocalizedString(@"Reviews", @"Used in the shop grading views' grade label (plural)") ;
 	} else {
 		unit = TRSLocalizedString(@"Review", @"Used in the shop grading views' grade label (singular)") ;
