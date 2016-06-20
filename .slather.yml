@@ -3,5 +3,5 @@ xcodeproj: Example/Trustbadge.xcodeproj
 scheme: Trustbadge_Example
 workspace: Example/Trustbadge.xcworkspace
 source_directory: Pod/Classes
-build_directory: /Users/travis/Library/Developer/Xcode/DerivedData/
-binary_basename: Trustbadge_Example
+ignore:
+  - Example/*
