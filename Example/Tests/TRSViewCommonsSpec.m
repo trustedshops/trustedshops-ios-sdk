@@ -65,6 +65,41 @@ context(@"label width and height helpers", ^{
 									  smallerCharactersScale:0.5];
 			expect(widthOne).toNot.equal(widthTwo);
 		});
+		
+		it(@"uses a scale of 1 instead of wrong value", ^{
+			CGFloat badScale = [TRSViewCommons widthForLabel:testLabel
+												  withHeight:height
+											 optimalFontSize:NULL
+									  smallerCharactersScale:1.5];
+			CGFloat oneScale = [TRSViewCommons widthForLabel:testLabel
+												  withHeight:height
+											 optimalFontSize:NULL
+									  smallerCharactersScale:1.0];
+			expect(badScale).to.equal(oneScale);
+		});
+		
+		it(@"returns 0 and sets optSize to 0 for missing label or height of 0", ^{
+			CGFloat retAsRef = 4.0;
+			CGFloat normalRet = 4.0;
+			// stupid height
+			normalRet = [TRSViewCommons widthForLabel:testLabel
+										   withHeight:0.0
+									  optimalFontSize:&retAsRef
+							   smallerCharactersScale:0.8];
+			expect(retAsRef).to.equal(0.0);
+			expect(normalRet).to.equal(0.0);
+			
+			retAsRef = 4.0;
+			normalRet = 4.0;
+			// stupid label
+			normalRet = [TRSViewCommons widthForLabel:nil
+										   withHeight:0.0
+									  optimalFontSize:&retAsRef
+							   smallerCharactersScale:0.8];
+			expect(retAsRef).to.equal(0.0);
+			expect(normalRet).to.equal(0.0);
+			
+		});
 	});
 });
 
