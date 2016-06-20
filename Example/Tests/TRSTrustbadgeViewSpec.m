@@ -624,10 +624,6 @@ describe(@"TRSTrustbadgeView", ^{
 			});
 		});
 	});
-	
-	describe(@"-displaySealAsOffline:afterDelay:", ^{
-		// TODO: test this...
-	});
 });
 
 SpecEnd

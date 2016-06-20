@@ -241,19 +241,18 @@
 - (void)displaySealAsOffline:(BOOL)offline afterDelay:(NSTimeInterval)seconds {
 	// prepare a block
 	void (^changeIt)(BOOL off, BOOL wasDelayed) = ^(BOOL off, BOOL wasDelayed) {
-		if (wasDelayed && !self.hasSealStateChangePending) {
-			return;
+		if (!(wasDelayed && !self.hasSealStateChangePending)) {
+			if (off) { // the old idea was to fade it and display "OFFLINE", but we will completely hide it instead now
+//				[self.sealImageView setAlpha:0.3];
+//				[self.offlineMarker setHidden:NO];
+				self.hidden = YES;
+			} else {
+//				[self.sealImageView setAlpha:1.0];
+//				[self.offlineMarker setHidden:YES];
+				self.hidden = NO;
+			}
+			[self setNeedsDisplay];
 		}
-		if (off) { // the old idea was to fade it and display "OFFLINE", but we will completely hide it instead now
-//			[self.sealImageView setAlpha:0.3];
-//			[self.offlineMarker setHidden:NO];
-			self.hidden = YES;
-		} else {
-//			[self.sealImageView setAlpha:1.0];
-//			[self.offlineMarker setHidden:YES];
-			self.hidden = NO;
-		}
-		[self setNeedsDisplay];
 	};
 	
 	if (seconds == 0.0) {

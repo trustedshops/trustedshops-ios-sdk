@@ -3,7 +3,6 @@
 //  Trustbadge
 //
 //  Created by Gero Herkenrath on 21/03/16.
-//  Copyright © 2016 Trusted Shops GmbH. All rights reserved.
 //
 
 #import "TRSShop.h"
