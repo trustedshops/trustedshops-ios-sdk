@@ -11,6 +11,8 @@
 
 CGFloat const kTRSSingleStarViewMinHeight = 16.0;
 NSString *const kTRSSingleStarViewPercentFilledKey = @"kTRSSingleStarViewPercentFilledKey";
+NSString *const kTRSSingleStarViewActiveStarColorKey = @"kTRSSingleStarViewActiveStarColorKey";
+NSString *const kTRSSingleStarViewInactiveStarColorKey = @"kTRSSingleStarViewInactiveStarColorKey";
 
 @interface TRSSingleStarView ()
 
@@ -47,6 +49,8 @@ NSString *const kTRSSingleStarViewPercentFilledKey = @"kTRSSingleStarViewPercent
 	if (self) {
 		self.percentFilled = [coder decodeObjectForKey:kTRSSingleStarViewPercentFilledKey];
 		[self finishInit];
+		self.activeStarColor = [coder decodeObjectForKey:kTRSSingleStarViewActiveStarColorKey];
+		self.inactiveStarColor = [coder decodeObjectForKey:kTRSSingleStarViewInactiveStarColorKey];
 	}
 	return self;
 }
@@ -54,6 +58,8 @@ NSString *const kTRSSingleStarViewPercentFilledKey = @"kTRSSingleStarViewPercent
 - (void)encodeWithCoder:(NSCoder *)aCoder {
 	[super encodeWithCoder:aCoder];
 	[aCoder encodeObject:self.percentFilled forKey:kTRSSingleStarViewPercentFilledKey];
+	[aCoder encodeObject:self.activeStarColor forKey:kTRSSingleStarViewActiveStarColorKey];
+	[aCoder encodeObject:self.inactiveStarColor forKey:kTRSSingleStarViewInactiveStarColorKey];
 }
 
 - (void)finishInit {

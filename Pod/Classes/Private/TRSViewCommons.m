@@ -86,12 +86,13 @@
 														   scaleFactor:scale] size].width;
 		}
 	}
-	if (optSize != NULL) {
-		*optSize = mid - 1.0;
-	}
-	return [[TRSViewCommons attributedGradeStringFromString:label.text
-											 withBasePointSize:mid - 1.0
-												   scaleFactor:scale] size].width;
+	// I'm pretty sure this can never be reached!
+//	if (optSize != NULL) {
+//		*optSize = mid - 1.0;
+//	}
+//	return [[TRSViewCommons attributedGradeStringFromString:label.text
+//											 withBasePointSize:mid - 1.0
+//												   scaleFactor:scale] size].width;
 }
 
 + (NSAttributedString *)attributedGradeStringFromString:(NSString *)unformatted

@@ -90,7 +90,6 @@ context(@"label width and height helpers", ^{
 			expect(normalRet).to.equal(0.0);
 			
 			retAsRef = 4.0;
-			normalRet = 4.0;
 			// stupid label
 			normalRet = [TRSViewCommons widthForLabel:nil
 										   withHeight:0.0
@@ -111,15 +110,20 @@ context(@"label width and height helpers", ^{
 		});
 		
 		it(@"returns correct values for already sized label", ^{
-			[testLabel sizeToFit];
-			CGFloat optSizeRet = testLabel.font.pointSize - 1.0; //hardcoded in class cause it looks better
-			CGSize labelSize = testLabel.bounds.size;
-			CGFloat theWidth = [TRSViewCommons widthForLabel:testLabel
+			UILabel *alreadySized = [UILabel new];
+			alreadySized.text = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"; // from the class
+			alreadySized.font = [UIFont systemFontOfSize:26.0];
+			[alreadySized sizeToFit];
+			CGFloat optSizeRet = alreadySized.font.pointSize - 1.0; //hardcoded in class cause it looks better
+			CGSize labelSize = alreadySized.bounds.size;
+			UIFont *tempFont = [alreadySized.font fontWithSize:26.0];
+			labelSize.height = [alreadySized.text sizeWithAttributes:@{NSFontAttributeName : tempFont}].height;
+			CGFloat theWidth = [TRSViewCommons widthForLabel:alreadySized
 												  withHeight:labelSize.height
 											 optimalFontSize:&optSizeRet
 									  smallerCharactersScale:1.0];
-			expect(optSizeRet).to.equal(testLabel.font.pointSize - 1.0);
-			expect(theWidth).toNot.equal(labelSize.width);
+			expect(optSizeRet).to.equal(alreadySized.font.pointSize - 1.0);
+			expect(theWidth).to.beLessThan(labelSize.width); // our calculation results in a slightly smaller width, meh.
 		});
 	});
 });

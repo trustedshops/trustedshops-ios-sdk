@@ -624,6 +624,15 @@ describe(@"TRSTrustbadgeView", ^{
 			});
 		});
 	});
+	
+	describe(@"+displaySealAsOffline:afterDelay:", ^{
+		it(@"properly sets the seal to offline immediately", ^{
+			// the rest of the possible uses is covered more or less in the stuff above
+			TRSTrustbadgeView *forDisplaySeal = [TRSTrustbadgeView new];
+			[forDisplaySeal displaySealAsOffline:YES afterDelay:0.0];
+			expect(forDisplaySeal.hidden).to.beTruthy();
+		});
+	});
 });
 
 SpecEnd

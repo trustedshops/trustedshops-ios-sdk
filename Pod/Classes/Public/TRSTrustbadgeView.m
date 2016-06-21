@@ -138,7 +138,7 @@
 				NSLog(@"[trustbadge] The received data is corrupt.");
 				break;
 				
-			case TRSErrorDomainTrustbadgeUnknownError:
+//			case TRSErrorDomainTrustbadgeUnknownError: // caught by default
 			default:
 				NSLog(@"[trustbadge] An unkown error occured.");
 				break;
