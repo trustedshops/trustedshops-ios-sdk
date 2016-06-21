@@ -98,7 +98,28 @@ context(@"label width and height helpers", ^{
 							   smallerCharactersScale:0.8];
 			expect(retAsRef).to.equal(0.0);
 			expect(normalRet).to.equal(0.0);
-			
+		});
+		
+		it(@"has a min height for the font", ^{
+			CGFloat optSizeRet = 50.0;
+			CGFloat theWidth = [TRSViewCommons widthForLabel:testLabel
+												  withHeight:9.0
+											 optimalFontSize:&optSizeRet
+									  smallerCharactersScale:1.0];
+			expect(optSizeRet).to.beLessThanOrEqualTo(9.0); // this is hardcoded in the class
+			expect(theWidth).toNot.equal(0.0);
+		});
+		
+		it(@"returns correct values for already sized label", ^{
+			[testLabel sizeToFit];
+			CGFloat optSizeRet = testLabel.font.pointSize - 1.0; //hardcoded in class cause it looks better
+			CGSize labelSize = testLabel.bounds.size;
+			CGFloat theWidth = [TRSViewCommons widthForLabel:testLabel
+												  withHeight:labelSize.height
+											 optimalFontSize:&optSizeRet
+									  smallerCharactersScale:1.0];
+			expect(optSizeRet).to.equal(testLabel.font.pointSize - 1.0);
+			expect(theWidth).toNot.equal(labelSize.width);
 		});
 	});
 });
