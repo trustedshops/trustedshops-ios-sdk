@@ -11,8 +11,10 @@
 #import "TRSErrors.h"
 #import "TRSNetworkAgent+Trustbadge.h"
 #import "NSURL+TRSURLExtensions.h"
+#import "TRSSingleStarView.h" // only needed to see its constant for min height
 
-CGFloat const kTRSShopSimpleRatingViewMinHeight = 16.0; // note: ensure this is not smaller than the one defined in TRSSingleStarView.m!
+NSString *const kTRSShopSimpleRatingViewActiveStarColorKey = @"kTRSShopSimpleRatingViewActiveStarColorKey";
+NSString *const kTRSShopSimpleRatingViewInactiveStarColorKey = @"kTRSShopSimpleRatingViewInactiveStarColorKey";
 
 @interface TRSShopSimpleRatingView ()
 
@@ -41,8 +43,16 @@ CGFloat const kTRSShopSimpleRatingViewMinHeight = 16.0; // note: ensure this is 
 	self = [super initWithCoder:coder];
 	if (self) {
 		[self finishInit];
+		self.activeStarColor = [coder decodeObjectForKey:kTRSShopSimpleRatingViewActiveStarColorKey];
+		self.inactiveStarColor = [coder decodeObjectForKey:kTRSShopSimpleRatingViewInactiveStarColorKey];
 	}
 	return self;
+}
+
+- (void)encodeWithCoder:(NSCoder *)aCoder {
+	[super encodeWithCoder:aCoder];
+	[aCoder encodeObject:self.activeStarColor forKey:kTRSShopSimpleRatingViewActiveStarColorKey];
+	[aCoder encodeObject:self.inactiveStarColor forKey:kTRSShopSimpleRatingViewInactiveStarColorKey];
 }
 
 - (void)finishInit {
@@ -114,7 +124,7 @@ CGFloat const kTRSShopSimpleRatingViewMinHeight = 16.0; // note: ensure this is 
 				NSLog(@"[trustbadge] The received data is corrupt.");
 				break;
 				
-			case TRSErrorDomainTrustbadgeUnknownError:
+//			case TRSErrorDomainTrustbadgeUnknownError: // already caught in default
 			default:
 				NSLog(@"[trustbadge] An unkown error occured.");
 				break;
@@ -181,12 +191,12 @@ CGFloat const kTRSShopSimpleRatingViewMinHeight = 16.0; // note: ensure this is 
 #pragma mark - Resizing behavior (min size)
 
 - (CGSize)sizeThatFits:(CGSize)size {
-	if (size.height < kTRSShopSimpleRatingViewMinHeight) {
-		size.height = kTRSShopSimpleRatingViewMinHeight;
+	if (size.height < kTRSSingleStarViewMinHeight) {
+		size.height = kTRSSingleStarViewMinHeight;
 	}
 	
-	if (size.width < kTRSShopSimpleRatingViewMinHeight * kTRSStarsViewNumberOfStars) {
-		size.width = kTRSShopSimpleRatingViewMinHeight * kTRSStarsViewNumberOfStars;
+	if (size.width < kTRSSingleStarViewMinHeight * kTRSStarsViewNumberOfStars) {
+		size.width = kTRSSingleStarViewMinHeight * kTRSStarsViewNumberOfStars;
 	}
 	return size;
 }

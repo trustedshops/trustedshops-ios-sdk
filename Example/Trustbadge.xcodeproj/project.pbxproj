@@ -23,6 +23,8 @@
 		1D82627E1CD776A000AE71B4 /* TRSPickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D82627C1CD776A000AE71B4 /* TRSPickerViewController.m */; };
 		1D88A8511D06D6A5005AD070 /* TRSViewGalleryController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D88A8501D06D6A5005AD070 /* TRSViewGalleryController.m */; };
 		1D9A6FC61CCA5565006D97A9 /* TRSProductSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D9A6FC51CCA5565006D97A9 /* TRSProductSpec.m */; };
+		1D9D0E181D19463B00295294 /* TRSStarsViewSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D9D0E171D19463B00295294 /* TRSStarsViewSpec.m */; };
+		1D9D0E1A1D19520600295294 /* TRSShopSimpleRatingViewSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D9D0E191D19520600295294 /* TRSShopSimpleRatingViewSpec.m */; };
 		1DB6217D1D17F8E7001BDA18 /* TRSSingleStarViewSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DB6217C1D17F8E7001BDA18 /* TRSSingleStarViewSpec.m */; };
 		1DBF42BC1CA1585300FCFB81 /* TRSTrustcardSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DBF42BB1CA1585300FCFB81 /* TRSTrustcardSpec.m */; };
 		1DD47DDC1D14281C00E41F1C /* TRSViewCommonsSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DD47DDB1D14281C00E41F1C /* TRSViewCommonsSpec.m */; };
@@ -87,6 +89,8 @@
 		1D88A84F1D06D6A5005AD070 /* TRSViewGalleryController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TRSViewGalleryController.h; sourceTree = "<group>"; };
 		1D88A8501D06D6A5005AD070 /* TRSViewGalleryController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TRSViewGalleryController.m; sourceTree = "<group>"; };
 		1D9A6FC51CCA5565006D97A9 /* TRSProductSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TRSProductSpec.m; sourceTree = "<group>"; };
+		1D9D0E171D19463B00295294 /* TRSStarsViewSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TRSStarsViewSpec.m; sourceTree = "<group>"; };
+		1D9D0E191D19520600295294 /* TRSShopSimpleRatingViewSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TRSShopSimpleRatingViewSpec.m; sourceTree = "<group>"; };
 		1DB6217C1D17F8E7001BDA18 /* TRSSingleStarViewSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TRSSingleStarViewSpec.m; sourceTree = "<group>"; };
 		1DBF42BB1CA1585300FCFB81 /* TRSTrustcardSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TRSTrustcardSpec.m; sourceTree = "<group>"; };
 		1DD47DDB1D14281C00E41F1C /* TRSViewCommonsSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TRSViewCommonsSpec.m; sourceTree = "<group>"; };
@@ -225,6 +229,8 @@
 				1DD47DDB1D14281C00E41F1C /* TRSViewCommonsSpec.m */,
 				1D5E2FCD1CB64DC1002C69C0 /* UIColor+TRSColorsSpec.m */,
 				1DB6217C1D17F8E7001BDA18 /* TRSSingleStarViewSpec.m */,
+				1D9D0E171D19463B00295294 /* TRSStarsViewSpec.m */,
+				1D9D0E191D19520600295294 /* TRSShopSimpleRatingViewSpec.m */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -540,12 +546,14 @@
 				1DBF42BC1CA1585300FCFB81 /* TRSTrustcardSpec.m in Sources */,
 				1DD47DDC1D14281C00E41F1C /* TRSViewCommonsSpec.m in Sources */,
 				1DEFBAEC1CA0049A00B61B05 /* NSURL+TRSURLExtensionsSpec.m in Sources */,
+				1D9D0E181D19463B00295294 /* TRSStarsViewSpec.m in Sources */,
 				1DEFBAEE1CA048F700B61B05 /* TRSShopSpec.m in Sources */,
 				845E83DD1B8323C3001D5EDC /* NSNumberFormatter+TRSFormatterSpec.m in Sources */,
 				1DB6217D1D17F8E7001BDA18 /* TRSSingleStarViewSpec.m in Sources */,
 				84795A4E1B5E41A30091EA49 /* TRSNetworkAgentSpec.m in Sources */,
 				1D5E2FCE1CB64DC1002C69C0 /* UIColor+TRSColorsSpec.m in Sources */,
 				1D69A5A51CC791D2001A93EE /* TRSOrderSpec.m in Sources */,
+				1D9D0E1A1D19520600295294 /* TRSShopSimpleRatingViewSpec.m in Sources */,
 				845E62DA1B7B80D40051329C /* TRSTrustbadgeSDKPrivatSpec.m in Sources */,
 				84795A551B5E6B800091EA49 /* TRSNetworkAgent+TrustbadgeSpec.m in Sources */,
 				1D5E2FD11CB68227002C69C0 /* TRSTrustMarkSpec.m in Sources */,

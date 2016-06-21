@@ -14,6 +14,8 @@ NSUInteger const kTRSStarsViewNumberOfStars = 5; // never set this below 1!
 
 NSString *const kTRSStarsViewIntegralOfRatingKey = @"kTRSStarsViewIntegralOfRatingKey";
 NSString *const kTRSStarsViewFractionalOfRatingKey = @"kTRSStarsViewFractionalOfRatingKey";
+NSString *const kTRSStarsViewActiveStarColorKey = @"kTRSStarsViewActiveStarColorKey";
+NSString *const kTRSStarsViewInactiveStarColorKey = @"kTRSStarsViewInactiveStarColorKey";
 
 @interface TRSStarsView ()
 
@@ -58,6 +60,8 @@ NSString *const kTRSStarsViewFractionalOfRatingKey = @"kTRSStarsViewFractionalOf
 		self.integralOfRating = [coder decodeObjectForKey:kTRSStarsViewIntegralOfRatingKey];
 		self.fractionalOfRating = [coder decodeObjectForKey:kTRSStarsViewFractionalOfRatingKey];
 		[self finishInit];
+		self.activeStarColor = [coder decodeObjectForKey:kTRSStarsViewActiveStarColorKey];
+		self.inactiveStarColor = [coder decodeObjectForKey:kTRSStarsViewInactiveStarColorKey];
 	}
 	return self;
 }
@@ -66,6 +70,8 @@ NSString *const kTRSStarsViewFractionalOfRatingKey = @"kTRSStarsViewFractionalOf
 	[super encodeWithCoder:aCoder];
 	[aCoder encodeObject:self.integralOfRating forKey:kTRSStarsViewIntegralOfRatingKey];
 	[aCoder encodeObject:self.fractionalOfRating forKey:kTRSStarsViewFractionalOfRatingKey];
+	[aCoder encodeObject:self.activeStarColor forKey:kTRSStarsViewActiveStarColorKey];
+	[aCoder encodeObject:self.inactiveStarColor forKey:kTRSStarsViewInactiveStarColorKey];
 }
 
 - (void)finishInit {
