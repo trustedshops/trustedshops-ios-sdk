@@ -15,6 +15,9 @@
 
 NSString *const kTRSShopSimpleRatingViewActiveStarColorKey = @"kTRSShopSimpleRatingViewActiveStarColorKey";
 NSString *const kTRSShopSimpleRatingViewInactiveStarColorKey = @"kTRSShopSimpleRatingViewInactiveStarColorKey";
+NSString *const kTRSShopSimpleRatingViewTSIDKey = @"kTRSShopSimpleRatingViewTSIDKey";
+NSString *const kTRSShopSimpleRatingViewApiTokenKey = @"kTRSShopSimpleRatingViewApiTokenKey";
+NSString *const kTRSShopSimpleRatingViewDebugModeKey = @"kTRSShopSimpleRatingViewDebugModeKey";
 
 @interface TRSShopSimpleRatingView ()
 
@@ -45,6 +48,9 @@ NSString *const kTRSShopSimpleRatingViewInactiveStarColorKey = @"kTRSShopSimpleR
 		[self finishInit];
 		self.activeStarColor = [coder decodeObjectForKey:kTRSShopSimpleRatingViewActiveStarColorKey];
 		self.inactiveStarColor = [coder decodeObjectForKey:kTRSShopSimpleRatingViewInactiveStarColorKey];
+		self.tsID = [coder decodeObjectForKey:kTRSShopSimpleRatingViewTSIDKey];
+		self.apiToken = [coder decodeObjectForKey:kTRSShopSimpleRatingViewApiTokenKey];
+		self.debugMode = [coder decodeBoolForKey:kTRSShopSimpleRatingViewDebugModeKey];
 	}
 	return self;
 }
@@ -53,6 +59,9 @@ NSString *const kTRSShopSimpleRatingViewInactiveStarColorKey = @"kTRSShopSimpleR
 	[super encodeWithCoder:aCoder];
 	[aCoder encodeObject:self.activeStarColor forKey:kTRSShopSimpleRatingViewActiveStarColorKey];
 	[aCoder encodeObject:self.inactiveStarColor forKey:kTRSShopSimpleRatingViewInactiveStarColorKey];
+	[aCoder encodeObject:self.tsID forKey:kTRSShopSimpleRatingViewTSIDKey];
+	[aCoder encodeObject:self.apiToken forKey:kTRSShopSimpleRatingViewApiTokenKey];
+	[aCoder encodeBool:self.debugMode forKey:kTRSShopSimpleRatingViewDebugModeKey];
 }
 
 - (void)finishInit {

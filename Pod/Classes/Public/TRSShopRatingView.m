@@ -21,6 +21,14 @@ NSString *const kTRSShopRatingViewFontName = @"Arial"; // ensure this is on the 
 #define kTRSShopRatingViewGradeLabelHeightToViewRatio (0.4)
 #define kTRSShopRatingViewGradingFontDifferenceRatio (12.0 / 10.0)
 
+// constants used for encoding and decoding
+NSString *const kTRSShopRatingViewActiveStarColorKey = @"kTRSShopRatingViewActiveStarColorKey";
+NSString *const kTRSShopRatingViewInactiveStarColorKey = @"kTRSShopRatingViewInactiveStarColorKey";
+NSString *const kTRSShopRatingViewAlignmentKey = @"kTRSShopRatingViewAlignmentKey";
+NSString *const kTRSShopRatingViewTSIDKey = @"kTRSShopRatingViewTSIDKey";
+NSString *const kTRSShopRatingViewApiTokenKey = @"kTRSShopRatingViewApiTokenKey";
+NSString *const kTRSShopRatingViewDebugModeKey = @"kTRSShopRatingViewDebugModeKey";
+
 @interface TRSShopRatingView ()
 
 @property (nonatomic, strong) UIView *starPlaceholder;
@@ -51,8 +59,24 @@ NSString *const kTRSShopRatingViewFontName = @"Arial"; // ensure this is on the 
 	self = [super initWithCoder:coder];
 	if (self) {
 		[self finishInit];
+		self.activeStarColor = [coder decodeObjectForKey:kTRSShopRatingViewActiveStarColorKey];
+		self.inactiveStarColor = [coder decodeObjectForKey:kTRSShopRatingViewInactiveStarColorKey];
+		self.alignment = [coder decodeIntegerForKey:kTRSShopRatingViewAlignmentKey];
+		self.tsID = [coder decodeObjectForKey:kTRSShopRatingViewTSIDKey];
+		self.apiToken = [coder decodeObjectForKey:kTRSShopRatingViewApiTokenKey];
+		self.debugMode = [coder decodeBoolForKey:kTRSShopRatingViewDebugModeKey];
 	}
 	return self;
+}
+
+- (void)encodeWithCoder:(NSCoder *)aCoder {
+	[super encodeWithCoder:aCoder];
+	[aCoder encodeObject:self.activeStarColor forKey:kTRSShopRatingViewActiveStarColorKey];
+	[aCoder encodeObject:self.inactiveStarColor forKey:kTRSShopRatingViewInactiveStarColorKey];
+	[aCoder encodeInteger:self.alignment forKey:kTRSShopRatingViewAlignmentKey];
+	[aCoder encodeObject:self.tsID forKey:kTRSShopRatingViewTSIDKey];
+	[aCoder encodeObject:self.apiToken forKey:kTRSShopRatingViewApiTokenKey];
+	[aCoder encodeBool:self.debugMode forKey:kTRSShopRatingViewDebugModeKey];
 }
 
 - (void)finishInit {

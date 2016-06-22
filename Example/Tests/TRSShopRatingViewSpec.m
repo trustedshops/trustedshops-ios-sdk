@@ -1,11 +1,11 @@
 //
-//  TRSShopSimpleRatingViewSpec.m
+//  TRSShopRatingViewSpec.m
 //  Trustbadge
 //
-//  Created by Gero Herkenrath on 21/06/16.
+//  Created by Gero Herkenrath on 22/06/16.
 //
 
-#import "TRSShopSimpleRatingView.h"
+#import "TRSShopRatingView.h"
 #import <Specta/Specta.h>
 #import <Expecta/Expecta.h>
 #import <OCMock/OCMock.h>
@@ -14,25 +14,31 @@
 #import "NSURL+TRSURLExtensions.h"
 #import "TRSErrors.h"
 #import "TRSStarsView.h"
+#import "TRSTrustbadgeSDKPrivate.h"
 
-@interface TRSShopSimpleRatingView (PrivateTests)
+@interface TRSShopRatingView (PrivateTests)
 
 @property (nonatomic, strong) UIView *starPlaceholder;
 @property (nonatomic, strong) TRSStarsView *starsView;
+@property (nonatomic, strong) UILabel *gradeLabel;
 
 @property (nonatomic, strong) NSNumber *gradeNumber;
+@property (nonatomic, strong) NSNumber *reviewCount;
+@property (nonatomic, copy) NSString *gradeText; // atm this not actually displayed in the view
 @property (nonatomic, copy) NSString *targetMarketISO3;
 @property (nonatomic, copy) NSString *languageISO2;
 
 - (void)setInactiveStarColor:(UIColor *)inactiveStarColor;
 - (void)setActiveStarColor:(UIColor *)activeStarColor;
+- (CGRect)frameForStars;
+- (NSString *)reviewCountString;
 
 @end
 
 
-SpecBegin(TRSShopSimpleRatingView)
+SpecBegin(TRSShopRatingView)
 
-describe(@"TRSShopSimpleRatingView", ^{
+describe(@"TRSShopRatingView", ^{
 	
 	// mock outgoing traffic!
 	__block TRSNetworkAgent *agent;
@@ -51,16 +57,16 @@ describe(@"TRSShopSimpleRatingView", ^{
 	describe(@"-initWithFrame:", ^{
 		
 		it(@"results in a minimum frame for a zero rect", ^{
-			TRSShopSimpleRatingView *view = [[TRSShopSimpleRatingView alloc] initWithFrame:CGRectZero];
+			TRSShopRatingView *view = [[TRSShopRatingView alloc] initWithFrame:CGRectZero];
 			CGRect minFrame = view.frame;
-			expect(minFrame.size.width).to.beGreaterThan(0.0);
-			expect(minFrame.size.height).to.beGreaterThan(0.0);
+			expect(minFrame.size.width).to.beGreaterThan(80.0); // defined in sizeThatFits in class
+			expect(minFrame.size.height).to.equal(40.0);
 		});
 		
 		it(@"its minimum size has an aspect ratio of 5 to 1", ^{
-			TRSShopSimpleRatingView *view = [[TRSShopSimpleRatingView alloc] initWithFrame:CGRectZero];
+			TRSShopRatingView *view = [[TRSShopRatingView alloc] initWithFrame:CGRectZero];
 			CGRect minFrame = view.frame;
-			expect(minFrame.size.width).to.equal(minFrame.size.height * 5.0);
+			expect(minFrame.size.width).to.equal(minFrame.size.height * 2.5); // see sizeThatFits in class
 		});
 	});
 	
@@ -70,49 +76,51 @@ describe(@"TRSShopSimpleRatingView", ^{
 			UIColor *activeC = [UIColor blueColor];
 			UIColor *inactiveC = [UIColor greenColor];
 			
-			TRSShopSimpleRatingView *view = [TRSShopSimpleRatingView new];
+			TRSShopRatingView *view = [TRSShopRatingView new];
 			view.activeStarColor = activeC;
 			view.inactiveStarColor = inactiveC;
-			view.tsID = @"test"; // I don't bother testing for nil values, since I rely on the coder to be implemented correctly...
-			view.apiToken = @"testAgain";
+			view.tsID = @"testID";
+			view.apiToken = @"testToken";
 			view.debugMode = YES;
+			view.alignment = NSTextAlignmentRight;
 			NSMutableData *storage = [NSMutableData new];
 			NSKeyedArchiver *archiver = [[NSKeyedArchiver alloc] initForWritingWithMutableData:storage];
 			[view encodeWithCoder:archiver];
 			[archiver finishEncoding];
 			view = nil;
 			NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:storage];
-			TRSShopSimpleRatingView *unpacked = [[TRSShopSimpleRatingView alloc] initWithCoder:unarchiver];
+			TRSShopRatingView *unpacked = [[TRSShopRatingView alloc] initWithCoder:unarchiver];
 			
 			expect(unpacked.activeStarColor).to.equal(activeC);
 			expect(unpacked.inactiveStarColor).to.equal(inactiveC);
-			expect(unpacked.tsID).to.equal(@"test");
-			expect(unpacked.apiToken).to.equal(@"testAgain");
-			expect(unpacked.debugMode).to.beTruthy();;
+			expect(unpacked.tsID).to.equal(@"testID");
+			expect(unpacked.apiToken).to.equal(@"testToken");
+			expect(unpacked.debugMode).to.beTruthy();
+			expect(unpacked.alignment).to.equal(NSTextAlignmentRight);
 		});
 	});
-
-	describe(@"-loadShopSimpleRatingWithFailureBlock:", ^{
+	
+	describe(@"-loadShopRatingWithFailureBlock:", ^{
 		
-		it(@"calls loadShopSimpleRatingWithSuccessBlock:failureBlock:", ^{
-			TRSShopSimpleRatingView *view = [TRSShopSimpleRatingView new];
+		it(@"calls loadShopRatingWithSuccessBlock:failureBlock:", ^{
+			TRSShopRatingView *view = [TRSShopRatingView new];
 			id mockedView = OCMPartialMock(view);
-			OCMExpect([mockedView loadShopSimpleRatingWithSuccessBlock:nil failureBlock:[OCMArg any]]);
-			[mockedView loadShopSimpleRatingWithFailureBlock:nil];
+			OCMExpect([mockedView loadShopRatingWithSuccessBlock:nil failureBlock:[OCMArg any]]);
+			[mockedView loadShopRatingWithFailureBlock:nil];
 			OCMVerifyAll(mockedView);
 		});
 		
 		it(@"calls its error block on missing data", ^{
-			TRSShopSimpleRatingView *view = [TRSShopSimpleRatingView new];
+			TRSShopRatingView *view = [TRSShopRatingView new];
 			waitUntil(^(DoneCallback done) {
-				[view loadShopSimpleRatingWithFailureBlock:^(NSError *error) {
+				[view loadShopRatingWithFailureBlock:^(NSError *error) {
 					done();
 				}];
 			});
 		});
 	});
 	
-	describe(@"-loadShopSimpleRatingWithSuccessBlock:failureBlock:", ^{
+	describe(@"-loadShopRatingWithSuccessBlock:failureBlock:", ^{
 		
 		context(@"with valid tsid and token", ^{
 			
@@ -129,23 +137,27 @@ describe(@"TRSShopSimpleRatingView", ^{
 					return [OHHTTPStubsResponse responseWithData:gradeData statusCode:200 headers:nil];
 				}];
 				
-				__block TRSShopSimpleRatingView *testView = [TRSShopSimpleRatingView new];
+				__block TRSShopRatingView *testView = [TRSShopRatingView new];
 				testView.debugMode = YES; // very important!
 				testView.tsID = validTSID;
 				testView.apiToken = validToken;
 				waitUntil(^(DoneCallback done) {
-					[testView loadShopSimpleRatingWithSuccessBlock:^{
+					[testView loadShopRatingWithSuccessBlock:^{
 						done();
 					} failureBlock:nil];
 				});
 				// see class for this: we have an artificial delay, so we need to wait before checking for changes!
 				dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
 					expect(testView.gradeNumber).to.beKindOf([NSNumber class]);
+					expect(testView.reviewCount).to.beKindOf([NSNumber class]);
 					expect(testView.targetMarketISO3).to.beKindOf([NSString class]);
+					expect(testView.gradeText).to.beKindOf([NSString class]);
 					expect(testView.languageISO2).to.beKindOf([NSString class]);
 					// this data is defined in the file shopGrade.data!
 					expect(testView.gradeNumber).to.equal(@4.87);
+					expect(testView.reviewCount).to.equal(@5);
 					expect(testView.targetMarketISO3).to.equal(@"CHE");
+					expect(testView.gradeText).to.equal(@"EXCELLENT");
 					expect(testView.languageISO2).to.equal(@"de");
 					
 					[OHHTTPStubs removeStub:myStub];
@@ -176,12 +188,12 @@ describe(@"TRSShopSimpleRatingView", ^{
 					return [OHHTTPStubsResponse responseWithHTTPMessageData:gradeData];
 				}];
 				
-				__block TRSShopSimpleRatingView *testView = [TRSShopSimpleRatingView new];
+				__block TRSShopRatingView *testView = [TRSShopRatingView new];
 				testView.debugMode = YES; // very important!
 				testView.tsID = invalidTSID;
 				testView.apiToken = validToken;
 				waitUntil(^(DoneCallback done) {
-					[testView loadShopSimpleRatingWithSuccessBlock:nil failureBlock:^(NSError *error) {
+					[testView loadShopRatingWithSuccessBlock:nil failureBlock:^(NSError *error) {
 						expect(error.code).to.equal(TRSErrorDomainTrustbadgeInvalidTSID);
 						done();
 					}];
@@ -189,7 +201,9 @@ describe(@"TRSShopSimpleRatingView", ^{
 				// see class for this: we have an artificial delay, so we need to wait before checking for changes!
 				dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
 					expect(testView.gradeNumber).to.beNil();
+					expect(testView.reviewCount).to.beNil();
 					expect(testView.targetMarketISO3).to.beNil();
+					expect(testView.gradeText).to.beNil();
 					expect(testView.languageISO2).to.beNil();
 					[OHHTTPStubs removeStub:myStub];
 				});
@@ -208,12 +222,12 @@ describe(@"TRSShopSimpleRatingView", ^{
 					return [OHHTTPStubsResponse responseWithError:badtoken];
 				}];
 				
-				__block TRSShopSimpleRatingView *testView = [TRSShopSimpleRatingView new];
+				__block TRSShopRatingView *testView = [TRSShopRatingView new];
 				testView.debugMode = YES; // very important!
 				testView.tsID = validTSID;
 				testView.apiToken = invalidToken;
 				waitUntil(^(DoneCallback done) {
-					[testView loadShopSimpleRatingWithSuccessBlock:nil failureBlock:^(NSError *error) {
+					[testView loadShopRatingWithSuccessBlock:nil failureBlock:^(NSError *error) {
 						expect(error.code).to.equal(TRSErrorDomainTrustbadgeInvalidAPIToken);
 						done();
 					}];
@@ -221,7 +235,9 @@ describe(@"TRSShopSimpleRatingView", ^{
 				// see class for this: we have an artificial delay, so we need to wait before checking for changes!
 				dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
 					expect(testView.gradeNumber).to.beNil();
+					expect(testView.reviewCount).to.beNil();
 					expect(testView.targetMarketISO3).to.beNil();
+					expect(testView.gradeText).to.beNil();
 					expect(testView.languageISO2).to.beNil();
 					[OHHTTPStubs removeStub:myStub];
 				});
@@ -241,12 +257,12 @@ describe(@"TRSShopSimpleRatingView", ^{
 					return [OHHTTPStubsResponse responseWithHTTPMessageData:gradeData];
 				}];
 				
-				__block TRSShopSimpleRatingView *testView = [TRSShopSimpleRatingView new];
+				__block TRSShopRatingView *testView = [TRSShopRatingView new];
 				testView.debugMode = YES; // very important!
 				testView.tsID = missingTSID;
 				testView.apiToken = validToken;
 				waitUntil(^(DoneCallback done) {
-					[testView loadShopSimpleRatingWithSuccessBlock:nil failureBlock:^(NSError *error) {
+					[testView loadShopRatingWithSuccessBlock:nil failureBlock:^(NSError *error) {
 						expect(error.code).to.equal(TRSErrorDomainTrustbadgeTSIDNotFound);
 						done();
 					}];
@@ -254,7 +270,9 @@ describe(@"TRSShopSimpleRatingView", ^{
 				// see class for this: we have an artificial delay, so we need to wait before checking for changes!
 				dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
 					expect(testView.gradeNumber).to.beNil();
+					expect(testView.reviewCount).to.beNil();
 					expect(testView.targetMarketISO3).to.beNil();
+					expect(testView.gradeText).to.beNil();
 					expect(testView.languageISO2).to.beNil();
 					[OHHTTPStubs removeStub:myStub];
 				});
@@ -278,12 +296,12 @@ describe(@"TRSShopSimpleRatingView", ^{
 														 headers:nil];;
 				}];
 				
-				__block TRSShopSimpleRatingView *testView = [TRSShopSimpleRatingView new];
+				__block TRSShopRatingView *testView = [TRSShopRatingView new];
 				testView.debugMode = YES; // very important!
 				testView.tsID = validTSID;
 				testView.apiToken = validToken;
 				waitUntil(^(DoneCallback done) {
-					[testView loadShopSimpleRatingWithSuccessBlock:nil failureBlock:^(NSError *error) {
+					[testView loadShopRatingWithSuccessBlock:nil failureBlock:^(NSError *error) {
 						expect(error.code).to.equal(TRSErrorDomainTrustbadgeInvalidData);
 						done();
 					}];
@@ -291,7 +309,9 @@ describe(@"TRSShopSimpleRatingView", ^{
 				// see class for this: we have an artificial delay, so we need to wait before checking for changes!
 				dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
 					expect(testView.gradeNumber).to.beNil();
+					expect(testView.reviewCount).to.beNil();
 					expect(testView.targetMarketISO3).to.beNil();
+					expect(testView.gradeText).to.beNil();
 					expect(testView.languageISO2).to.beNil();
 					[OHHTTPStubs removeStub:myStub];
 				});
@@ -309,12 +329,12 @@ describe(@"TRSShopSimpleRatingView", ^{
 					return [OHHTTPStubsResponse responseWithData:baddata statusCode:460 headers:nil];
 				}];
 				
-				__block TRSShopSimpleRatingView *testView = [TRSShopSimpleRatingView new];
+				__block TRSShopRatingView *testView = [TRSShopRatingView new];
 				testView.debugMode = YES; // very important!
 				testView.tsID = validTSID;
 				testView.apiToken = validToken;
 				waitUntil(^(DoneCallback done) {
-					[testView loadShopSimpleRatingWithSuccessBlock:nil failureBlock:^(NSError *error) {
+					[testView loadShopRatingWithSuccessBlock:nil failureBlock:^(NSError *error) {
 						expect(error.code).to.equal(TRSErrorDomainTrustbadgeUnknownError);
 						done();
 					}];
@@ -322,7 +342,9 @@ describe(@"TRSShopSimpleRatingView", ^{
 				// see class for this: we have an artificial delay, so we need to wait before checking for changes!
 				dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
 					expect(testView.gradeNumber).to.beNil();
+					expect(testView.reviewCount).to.beNil();
 					expect(testView.targetMarketISO3).to.beNil();
+					expect(testView.gradeText).to.beNil();
 					expect(testView.languageISO2).to.beNil();
 					[OHHTTPStubs removeStub:myStub];
 				});
@@ -340,12 +362,12 @@ describe(@"TRSShopSimpleRatingView", ^{
 					return [OHHTTPStubsResponse responseWithError:weirderror];
 				}];
 				
-				__block TRSShopSimpleRatingView *testView = [TRSShopSimpleRatingView new];
+				__block TRSShopRatingView *testView = [TRSShopRatingView new];
 				testView.debugMode = YES; // very important!
 				testView.tsID = validTSID;
 				testView.apiToken = validToken;
 				waitUntil(^(DoneCallback done) {
-					[testView loadShopSimpleRatingWithSuccessBlock:nil failureBlock:^(NSError *error) {
+					[testView loadShopRatingWithSuccessBlock:nil failureBlock:^(NSError *error) {
 						expect(error.code).to.equal(666);
 						done();
 					}];
@@ -353,7 +375,9 @@ describe(@"TRSShopSimpleRatingView", ^{
 				// see class for this: we have an artificial delay, so we need to wait before checking for changes!
 				dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
 					expect(testView.gradeNumber).to.beNil();
+					expect(testView.reviewCount).to.beNil();
 					expect(testView.targetMarketISO3).to.beNil();
+					expect(testView.gradeText).to.beNil();
 					expect(testView.languageISO2).to.beNil();
 					[OHHTTPStubs removeStub:myStub];
 				});
@@ -364,9 +388,9 @@ describe(@"TRSShopSimpleRatingView", ^{
 	context(@"touch handling when stars are not loaded", ^{
 		
 		__block id mockView;
-		__block TRSShopSimpleRatingView *testView;
+		__block TRSShopRatingView *testView;
 		beforeEach(^{
-			testView = [TRSShopSimpleRatingView new];
+			testView = [TRSShopRatingView new];
 			mockView = OCMPartialMock(testView);
 			OCMExpect([mockView starsView]);
 		});
@@ -409,7 +433,7 @@ describe(@"TRSShopSimpleRatingView", ^{
 		// this method is the only relevant one in this case
 		describe(@"-touchesEnded:withEvent:", ^{
 			it(@"checks whether the stars are set and tries to open a URL", ^{
-				TRSShopSimpleRatingView *testView = [TRSShopSimpleRatingView new];
+				TRSShopRatingView *testView = [TRSShopRatingView new];
 				testView.debugMode = YES;
 				testView.tsID = @"999888777666555444333222111000999";
 				testView.apiToken = @"notneededatm";
@@ -422,7 +446,7 @@ describe(@"TRSShopSimpleRatingView", ^{
 					return [OHHTTPStubsResponse responseWithData:gradeData statusCode:200 headers:nil];
 				}];
 				
-				[testView loadShopSimpleRatingWithFailureBlock:nil];
+				[testView loadShopRatingWithFailureBlock:nil];
 				dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
 					id mockAppClass = OCMClassMock([UIApplication class]);
 					id mockApp = OCMPartialMock([UIApplication sharedApplication]);
@@ -438,7 +462,7 @@ describe(@"TRSShopSimpleRatingView", ^{
 					
 					[OHHTTPStubs removeStub:myStub];
 				});
-
+				
 				[testView touchesEnded:[NSSet new] withEvent:[UIEvent new]];
 			});
 		});
@@ -446,7 +470,7 @@ describe(@"TRSShopSimpleRatingView", ^{
 	
 	describe(@"-setActiveColor: and -setInactiveColor:", ^{
 		it(@"checks for starsView on color change", ^{
-			TRSShopSimpleRatingView *testView = [TRSShopSimpleRatingView new];
+			TRSShopRatingView *testView = [TRSShopRatingView new];
 			testView.debugMode = YES;
 			
 			// give the testView a starsView without actually loading
@@ -470,20 +494,90 @@ describe(@"TRSShopSimpleRatingView", ^{
 		});
 	});
 	
+	describe(@"-setAlignment:", ^{
+		it(@"sets the text alignment of its child label", ^{
+			TRSShopRatingView *testView = [TRSShopRatingView new];
+			testView.debugMode = YES;
+			
+			testView.alignment = NSTextAlignmentRight;
+			expect(testView.gradeLabel.textAlignment).to.equal(NSTextAlignmentRight);
+		});
+	});
+	
+	describe(@"-sizeThatFits:", ^{
+		it(@"won't return a smaller width than its stars placeholder view", ^{
+			// note: The other eventualities are covered by the other tests indirectly
+			TRSShopRatingView *view = [TRSShopRatingView new];
+			view.debugMode = YES;
+			// I cheat here to check this:
+			view.starPlaceholder.bounds = CGRectMake(0.0, 0.0, 125.0, 25.0);
+			CGSize testSize = CGSizeMake(10.0, 60.0);
+			testSize = [view sizeThatFits:testSize];
+			expect(testSize.width).to.equal(view.starPlaceholder.bounds.size.width);
+		});
+	});
+	
 	// note: I know this is not supposed to be called directly, but this is just a test
 	// I might rework this in the future and embedd the view in a real view hierarchy, but for now this is enough.
 	describe(@"-layoutSubviews", ^{
-		TRSShopSimpleRatingView *testView = [TRSShopSimpleRatingView new];
-		testView.debugMode = YES;
-		[testView sizeToFit];
-		TRSStarsView *fakeStars = [[TRSStarsView alloc] initWithRating:@5];
-		id starsMock = OCMPartialMock(fakeStars);
-		testView.starsView = starsMock;
-		OCMExpect([starsMock setFrame:testView.starPlaceholder.bounds]);
-		[testView layoutSubviews];
-		OCMVerifyAll(starsMock);
+		it(@"adapts the stars frame", ^{
+			TRSShopRatingView *testView = [TRSShopRatingView new];
+			testView.debugMode = YES;
+			[testView sizeToFit];
+			TRSStarsView *fakeStars = [[TRSStarsView alloc] initWithRating:@5];
+			id starsMock = OCMPartialMock(fakeStars);
+			testView.starsView = starsMock;
+			OCMExpect([starsMock setFrame:testView.starPlaceholder.bounds]);
+			[testView layoutSubviews];
+			OCMVerifyAll(starsMock);
+		});
+		it(@"loads the plural string for more than 1 review", ^{
+			// other case is covered by above test
+			TRSShopRatingView *testView = [TRSShopRatingView new];
+			testView.debugMode = YES;
+			[testView sizeToFit];
+			testView.reviewCount = @45;
+			[testView layoutSubviews];
+			NSString *showntext = testView.gradeLabel.text;
+			NSString *localizedReviewsName = TRSLocalizedString(@"Reviews", nil);
+			expect([showntext containsString:localizedReviewsName]).to.beTruthy();
+		});
 	});
 	
+	describe(@"-frameForStars", ^{
+		it(@"respects right to left user interface layout demantic in default", ^{
+			TRSShopRatingView *view = [TRSShopRatingView new];
+			[view sizeToFit];
+			CGRect viewBounds = view.bounds; // needed to compare below
+			viewBounds.size.height *= 0.5; // defined in class as kTRSShopRatingViewStarsHeightToViewRatio
+			viewBounds.size.width = viewBounds.size.height * 5.0; // 5 stars, see class itself
+			id viewClassMock = OCMClassMock([UIView class]);
+			OCMStub([viewClassMock userInterfaceLayoutDirectionForSemanticContentAttribute:
+					 view.semanticContentAttribute]).andReturn(UIUserInterfaceLayoutDirectionRightToLeft);
+			CGRect resultFrame = [view frameForStars];
+			expect(resultFrame.origin.x).to.equal(view.frame.size.width - viewBounds.size.width);
+		});
+		it(@"respects right to left user interface layout demantic in default", ^{
+			TRSShopRatingView *view = [TRSShopRatingView new];
+			[view sizeToFit];
+			CGRect viewBounds = view.bounds; // needed to compare below
+			viewBounds.size.height *= 0.5; // defined in class as kTRSShopRatingViewStarsHeightToViewRatio
+			viewBounds.size.width = viewBounds.size.height * 5.0; // 5 stars, see class itself
+			view.alignment = NSTextAlignmentCenter;
+			CGRect resultFrame = [view frameForStars];
+			expect(resultFrame.origin.x).to.equal(view.frame.size.width / 2.0 - viewBounds.size.width / 2.0);
+		});
+	});
+	
+	describe(@"-reviewCountString", ^{
+		it(@"returns a nicely formatted string for the reviewCount", ^{
+			TRSShopRatingView *view = [TRSShopRatingView new];
+			view.debugMode = YES;
+			view.reviewCount = @3876;
+			NSString *result = [view reviewCountString];
+			expect(result).to.equal(@"3.876"); // basically just the separator...
+		});
+	});
 });
 
 SpecEnd
