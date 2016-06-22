@@ -1,5 +1,11 @@
 # Trustbadge
 
+## Version 0.4.0
+
+* Added three new view classes to display a shops grade and rating
+* Modified the example project to showcase these new views
+* Also reworked the internal networking to access needed API for these views
+
 ## Version 0.3.4
 
 * Added a property to set a custom view controller responsible for displaying any modal popin views to TRSTrustbadgeView and TRSOrder

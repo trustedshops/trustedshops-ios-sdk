@@ -411,35 +411,17 @@ describe(@"TRSShopSimpleRatingView", ^{
 			it(@"checks whether the stars are set and tries to open a URL", ^{
 				TRSShopSimpleRatingView *testView = [TRSShopSimpleRatingView new];
 				testView.debugMode = YES;
-				testView.tsID = @"999888777666555444333222111000999";
-				testView.apiToken = @"notneededatm";
-				id myStub = [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest * _Nonnull request) {
-					NSURL *usedInAgent = [NSURL shopGradeAPIURLForTSID:testView.tsID debug:YES];
-					return [request.URL isEqual:usedInAgent];
-				} withStubResponse:^OHHTTPStubsResponse * _Nonnull(NSURLRequest * _Nonnull request) {
-					NSString *pathToFixture = [[NSBundle bundleForClass:[self class]] pathForResource:@"shopGrade" ofType:@"data"];
-					NSData *gradeData = [NSData dataWithContentsOfFile:pathToFixture];
-					return [OHHTTPStubsResponse responseWithData:gradeData statusCode:200 headers:nil];
-				}];
 				
-				[testView loadShopSimpleRatingWithFailureBlock:nil];
-				dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-					id mockAppClass = OCMClassMock([UIApplication class]);
-					id mockApp = OCMPartialMock([UIApplication sharedApplication]);
-					OCMStub([mockApp openURL:[OCMArg any]]);
-					OCMStub([mockAppClass sharedApplication]).andReturn(mockApp);
-					
-					[testView touchesEnded:[NSSet new] withEvent:[UIEvent new]];
-					OCMVerify([mockApp openURL:[OCMArg any]]);
-					
-					mockApp = nil;
-					[mockAppClass stopMocking];
-					mockAppClass = nil;
-					
-					[OHHTTPStubs removeStub:myStub];
-				});
-
+				// simply give the view a fake starsView instead of actually loading
+				TRSStarsView *fakeStars = [[TRSStarsView alloc] initWithRating:@5];
+				testView.starsView = fakeStars;
+				
+				id mockApp = OCMPartialMock([UIApplication sharedApplication]);
+				id mockURL = OCMClassMock([NSURL class]);
+				OCMStub([mockURL profileURLForTSID:[OCMArg any] countryCode:[OCMArg any] language:[OCMArg any]]).andReturn(nil);
+				OCMExpect([mockApp openURL:[OCMArg any]]);
 				[testView touchesEnded:[NSSet new] withEvent:[UIEvent new]];
+				OCMVerify([mockApp openURL:[OCMArg any]]);
 			});
 		});
 	});

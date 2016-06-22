@@ -38,61 +38,56 @@
 		scale = 1.0;
 	}
 	
-	if (!label || height == 0) {
-		if (optSize != NULL) {
-			*optSize = 0.0;
-		}
-		return 0.0;
-	}
 	CGFloat tempMin = 11.0;
 	CGFloat tempMax = 42.0;
 	CGFloat mid = 0.0;
 	CGFloat difference = 0.0;
 	NSString *testString = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 	
-	while (tempMin <= tempMax) {
-		mid = tempMin + floor((tempMax - tempMin) / 2);
-		UIFont *tempFont = [UIFont fontWithName:label.font.fontName size:mid];
-		NSDictionary *atts = @{NSFontAttributeName : tempFont};
-		difference = height - [testString sizeWithAttributes:atts].height;
-		
-		if (mid == tempMin || mid == tempMax) {
-			if (difference < 0) {
+	// only work if we have input we can work with
+	if (!(!label || height == 0)) {
+		while (tempMin <= tempMax) {
+			mid = tempMin + floor((tempMax - tempMin) / 2);
+			UIFont *tempFont = [UIFont fontWithName:label.font.fontName size:mid];
+			NSDictionary *atts = @{NSFontAttributeName : tempFont};
+			difference = height - [testString sizeWithAttributes:atts].height;
+			
+			if (mid == tempMin || mid == tempMax) {
+				if (difference < 0) {
+					if (optSize != NULL) {
+						*optSize = mid - 2.0; // - 1.0 for general size fitting and - 1.0 in this special case
+					}
+					return [[TRSViewCommons attributedGradeStringFromString:label.text
+														  withBasePointSize:mid - 2.0
+																scaleFactor:scale] size].width;
+				}
 				if (optSize != NULL) {
-					*optSize = mid - 2.0; // - 1.0 for general size fitting and - 1.0 in this special case
+					*optSize = mid - 1.0; // see above, apparently also an issue for UILabel.
 				}
 				return [[TRSViewCommons attributedGradeStringFromString:label.text
-														 withBasePointSize:mid - 2.0
-															   scaleFactor:scale] size].width;
+													  withBasePointSize:mid - 1.0
+															scaleFactor:scale] size].width;
 			}
-			if (optSize != NULL) {
-				*optSize = mid - 1.0; // see above, apparently also an issue for UILabel.
+			
+			if (difference < 0) {
+				tempMax = mid - 1;
+			} else if (difference > 0) {
+				tempMin = mid + 1;
+			} else {
+				if (optSize != NULL) {
+					*optSize = mid - 1.0;
+				}
+				return [[TRSViewCommons attributedGradeStringFromString:label.text
+													  withBasePointSize:mid - 1.0
+															scaleFactor:scale] size].width;
 			}
-			return [[TRSViewCommons attributedGradeStringFromString:label.text
-													 withBasePointSize:mid - 1.0
-														   scaleFactor:scale] size].width;
-		}
-		
-		if (difference < 0) {
-			tempMax = mid - 1;
-		} else if (difference > 0) {
-			tempMin = mid + 1;
-		} else {
-			if (optSize != NULL) {
-				*optSize = mid - 1.0;
-			}
-			return [[TRSViewCommons attributedGradeStringFromString:label.text
-													 withBasePointSize:mid - 1.0
-														   scaleFactor:scale] size].width;
 		}
 	}
-	// I'm pretty sure this can never be reached!
-//	if (optSize != NULL) {
-//		*optSize = mid - 1.0;
-//	}
-//	return [[TRSViewCommons attributedGradeStringFromString:label.text
-//											 withBasePointSize:mid - 1.0
-//												   scaleFactor:scale] size].width;
+	// else return nothing
+	if (optSize != NULL) {
+		*optSize = 0.0;
+	}
+	return 0.0;
 }
 
 + (NSAttributedString *)attributedGradeStringFromString:(NSString *)unformatted
