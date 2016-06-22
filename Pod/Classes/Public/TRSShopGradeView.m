@@ -5,6 +5,17 @@
 //  Created by Gero Herkenrath on 13/06/16.
 //
 
+/*
+ Note for the curious:
+ If you're reading this then you're probably thinking "Why the heck did they not subclass more?"
+ Guess what, I'm asking myself the same thing. When we designed the views it wasn't immediately clear how
+ they would look and how they would work. When it turned out they're all pretty much identical in terms of
+ loading it was easier and, more importantly, quicker to leave them as individual classes.
+ If we have the time we might refactor this in the future to have a more general, abstract baseview that
+ handles the loading from the backend and such, then have subclasses of that layouting the data differently.
+ For now this works, even though a lot of the code is duplicate.
+ */
+
 #import "TRSShopGradeView.h"
 #import "TRSStarsView.h"
 #import "UIColor+TRSColors.h"
