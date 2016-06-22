@@ -20,6 +20,7 @@
 		1D6FDCF31D13FBFF00884C2A /* shopGrade-badrequest.response in Resources */ = {isa = PBXBuildFile; fileRef = 1D6FDCF21D13FBFF00884C2A /* shopGrade-badrequest.response */; };
 		1D6FDCF51D13FD8000884C2A /* shopGrade-notfound.response in Resources */ = {isa = PBXBuildFile; fileRef = 1D6FDCF41D13FD8000884C2A /* shopGrade-notfound.response */; };
 		1D7A18001D1A6B3700AC33CC /* TRSShopRatingViewSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D7A17FF1D1A6B3700AC33CC /* TRSShopRatingViewSpec.m */; };
+		1D7A18021D1A86A500AC33CC /* TRSShopGradeViewSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D7A18011D1A86A500AC33CC /* TRSShopGradeViewSpec.m */; };
 		1D82627D1CD776A000AE71B4 /* TRSDatePickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D82627A1CD776A000AE71B4 /* TRSDatePickerViewController.m */; };
 		1D82627E1CD776A000AE71B4 /* TRSPickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D82627C1CD776A000AE71B4 /* TRSPickerViewController.m */; };
 		1D88A8511D06D6A5005AD070 /* TRSViewGalleryController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D88A8501D06D6A5005AD070 /* TRSViewGalleryController.m */; };
@@ -84,6 +85,7 @@
 		1D6FDCF41D13FD8000884C2A /* shopGrade-notfound.response */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "shopGrade-notfound.response"; sourceTree = "<group>"; };
 		1D754ED51D07F7B70017FDD1 /* CHANGELOG.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; name = CHANGELOG.md; path = ../CHANGELOG.md; sourceTree = "<group>"; };
 		1D7A17FF1D1A6B3700AC33CC /* TRSShopRatingViewSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TRSShopRatingViewSpec.m; sourceTree = "<group>"; };
+		1D7A18011D1A86A500AC33CC /* TRSShopGradeViewSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TRSShopGradeViewSpec.m; sourceTree = "<group>"; };
 		1D8262791CD776A000AE71B4 /* TRSDatePickerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TRSDatePickerViewController.h; sourceTree = "<group>"; };
 		1D82627A1CD776A000AE71B4 /* TRSDatePickerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TRSDatePickerViewController.m; sourceTree = "<group>"; };
 		1D82627B1CD776A000AE71B4 /* TRSPickerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TRSPickerViewController.h; sourceTree = "<group>"; };
@@ -234,6 +236,7 @@
 				1D9D0E171D19463B00295294 /* TRSStarsViewSpec.m */,
 				1D9D0E191D19520600295294 /* TRSShopSimpleRatingViewSpec.m */,
 				1D7A17FF1D1A6B3700AC33CC /* TRSShopRatingViewSpec.m */,
+				1D7A18011D1A86A500AC33CC /* TRSShopGradeViewSpec.m */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -555,6 +558,7 @@
 				1DB6217D1D17F8E7001BDA18 /* TRSSingleStarViewSpec.m in Sources */,
 				84795A4E1B5E41A30091EA49 /* TRSNetworkAgentSpec.m in Sources */,
 				1D5E2FCE1CB64DC1002C69C0 /* UIColor+TRSColorsSpec.m in Sources */,
+				1D7A18021D1A86A500AC33CC /* TRSShopGradeViewSpec.m in Sources */,
 				1D69A5A51CC791D2001A93EE /* TRSOrderSpec.m in Sources */,
 				1D9D0E1A1D19520600295294 /* TRSShopSimpleRatingViewSpec.m in Sources */,
 				845E62DA1B7B80D40051329C /* TRSTrustbadgeSDKPrivatSpec.m in Sources */,

@@ -23,6 +23,12 @@ NSString *const kTRSShopGradingViewFontName = @"Arial"; //ensure this is on the 
 #define kTRSShopGradingViewGradeAsNumbersHeightToViewRatio (0.3)
 #define kTRSShopGradingViewGradeAsNumbersFontDifferenceRatio (12.0 / 10.0)
 
+NSString *const kTRSShopGradeViewActiveStarColorKey = @"kTRSShopGradeViewActiveStarColorKey";
+NSString *const kTRSShopGradeViewInactiveStarColorKey = @"kTRSShopGradeViewInactiveStarColorKey";
+NSString *const kTRSShopGradeViewTSIDKey = @"kTRSShopGradeViewTSIDKey";
+NSString *const kTRSShopGradeViewApiTokenKey = @"kTRSShopGradeViewApiTokenKey";
+NSString *const kTRSShopGradeViewDebugModeKey = @"kTRSShopGradeViewDebugModeKey";
+
 @interface TRSShopGradeView ()
 
 @property (nonatomic, strong) UIView *starPlaceholder;
@@ -54,8 +60,22 @@ NSString *const kTRSShopGradingViewFontName = @"Arial"; //ensure this is on the 
 	self = [super initWithCoder:coder];
 	if (self) {
 		[self finishInit];
+		self.activeStarColor = [coder decodeObjectForKey:kTRSShopGradeViewActiveStarColorKey];
+		self.inactiveStarColor = [coder decodeObjectForKey:kTRSShopGradeViewInactiveStarColorKey];
+		self.tsID = [coder decodeObjectForKey:kTRSShopGradeViewTSIDKey];
+		self.apiToken = [coder decodeObjectForKey:kTRSShopGradeViewApiTokenKey];
+		self.debugMode = [coder decodeBoolForKey:kTRSShopGradeViewDebugModeKey];
 	}
 	return self;
+}
+
+- (void)encodeWithCoder:(NSCoder *)aCoder {
+	[super encodeWithCoder:aCoder];
+	[aCoder encodeObject:self.activeStarColor forKey:kTRSShopGradeViewActiveStarColorKey];
+	[aCoder encodeObject:self.inactiveStarColor forKey:kTRSShopGradeViewInactiveStarColorKey];
+	[aCoder encodeObject:self.tsID forKey:kTRSShopGradeViewTSIDKey];
+	[aCoder encodeObject:self.apiToken forKey:kTRSShopGradeViewApiTokenKey];
+	[aCoder encodeBool:self.debugMode forKey:kTRSShopGradeViewDebugModeKey];
 }
 
 - (void)finishInit {
@@ -71,7 +91,6 @@ NSString *const kTRSShopGradingViewFontName = @"Arial"; //ensure this is on the 
 	self.gradeAsTextLabel = [[UILabel alloc] initWithFrame:[self frameForGradeAsText]];
 	self.gradeAsTextLabel.font = [UIFont fontWithName:kTRSShopGradingViewFontName size:self.gradeAsTextLabel.font.pointSize];
 	self.gradeAsTextLabel.text = @"---";
-//	self.gradeAsTextLabel.text = @"SEHR GUT";
 	self.gradeAsTextLabel.textAlignment = NSTextAlignmentCenter;
 	self.gradeAsTextLabel.backgroundColor = [UIColor clearColor];
 	[self addSubview:self.gradeAsTextLabel];
@@ -79,7 +98,6 @@ NSString *const kTRSShopGradingViewFontName = @"Arial"; //ensure this is on the 
 	self.gradeAsNumbersLabel = [[UILabel alloc] initWithFrame:[self frameForGradeAsNumbers]];
 	self.gradeAsNumbersLabel.font = [UIFont fontWithName:kTRSShopGradingViewFontName size:self.gradeAsNumbersLabel.font.pointSize];
 	self.gradeAsNumbersLabel.text = @"-.--/-.--";
-//	self.gradeAsNumbersLabel.text = @"4.36/5.00";
 	self.gradeAsNumbersLabel.textAlignment = NSTextAlignmentCenter;
 	[self addSubview:self.gradeAsNumbersLabel];
 }
