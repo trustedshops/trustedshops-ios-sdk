@@ -29,11 +29,9 @@
 					 apiToken:(NSString *)apiToken {
 	
 	self = [super initWithFrame:aRect];
-	if (!self) {
-		return nil;
+	if (self) {
+		[self finishInit:trustedShopsID apiToken:apiToken];
 	}
-	
-	[self finishInit:trustedShopsID apiToken:apiToken];
 	
 	return self;
 }
@@ -60,16 +58,13 @@
 - (instancetype)initWithCoder:(NSCoder *)aDecoder {
 	
 	self = [super initWithCoder:aDecoder];
-	if (!self) {
-		return nil;
+	if (self) {
+		[self finishInit:nil apiToken:nil]; // when being loaded from a xib, we won't have these (for now)
 	}
-	
-	[self finishInit:nil apiToken:nil]; // when being loaded from a xib, we won't have these (for now)
-	
 	return self;
 }
 
-- (instancetype)finishInit:(NSString *)trustedShopsID apiToken:(NSString *)apiToken {
+- (void)finishInit:(NSString *)trustedShopsID apiToken:(NSString *)apiToken {
 	
 	// first get the image, we'll need that in any case:
 	UIImage *sealImage = [UIImage imageWithContentsOfFile:
@@ -105,8 +100,6 @@
 	
 	// TODO: Check whether this really needs to be delayed (to avoid it flashing up even if the data is loaded immediately)
 	[self displaySealAsOffline:YES afterDelay:1.0];
-	
-	return self;
 }
 
 #pragma mark - Getting certificate & shop data from remote API
@@ -145,7 +138,7 @@
 				NSLog(@"[trustbadge] The received data is corrupt.");
 				break;
 				
-			case TRSErrorDomainTrustbadgeUnknownError:
+//			case TRSErrorDomainTrustbadgeUnknownError: // caught by default
 			default:
 				NSLog(@"[trustbadge] An unkown error occured.");
 				break;
@@ -162,6 +155,9 @@
 		NSLog(@"[trustbadge] There is no API token or TSID provided to contact the API.");
 		if (failure) failure(myError);
 	}
+	
+	// ensure the agent is in the correct debug mode:
+	[TRSNetworkAgent sharedAgent].debugMode = self.debugMode;
 	
 	// the returned task is not important for now...
 	[[TRSNetworkAgent sharedAgent] getTrustbadgeForTrustedShopsID:_trustedShopsID
@@ -245,19 +241,18 @@
 - (void)displaySealAsOffline:(BOOL)offline afterDelay:(NSTimeInterval)seconds {
 	// prepare a block
 	void (^changeIt)(BOOL off, BOOL wasDelayed) = ^(BOOL off, BOOL wasDelayed) {
-		if (wasDelayed && !self.hasSealStateChangePending) {
-			return;
+		if (!(wasDelayed && !self.hasSealStateChangePending)) {
+			if (off) { // the old idea was to fade it and display "OFFLINE", but we will completely hide it instead now
+//				[self.sealImageView setAlpha:0.3];
+//				[self.offlineMarker setHidden:NO];
+				self.hidden = YES;
+			} else {
+//				[self.sealImageView setAlpha:1.0];
+//				[self.offlineMarker setHidden:YES];
+				self.hidden = NO;
+			}
+			[self setNeedsDisplay];
 		}
-		if (off) { // the old idea was to fade it and display "OFFLINE", but we will completely hide it instead now
-//			[self.sealImageView setAlpha:0.3];
-//			[self.offlineMarker setHidden:NO];
-			self.hidden = YES;
-		} else {
-//			[self.sealImageView setAlpha:1.0];
-//			[self.offlineMarker setHidden:YES];
-			self.hidden = NO;
-		}
-		[self setNeedsDisplay];
 	};
 	
 	if (seconds == 0.0) {

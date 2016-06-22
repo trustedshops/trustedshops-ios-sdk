@@ -16,8 +16,9 @@ Our SDK supports the following languages: DE, EN, FR, ES, IT, NL, PL.
 
 1. [Installation](#1-installation)
 2. [Display the Trustbadge](#2-display-the-trustbadge)
-3. [After Checkout Process](#3-after-checkout-process)
-4. [About this SDK](#4-about-this-sdk)
+3. [Displaying shop grade and rating](#3-displaying-shop-grade-and-rating)
+4. [After Checkout Process](#4-after-checkout-process)
+5. [About this SDK](#5-about-this-sdk)
 
 - - - -
 
@@ -39,27 +40,27 @@ To run the example project, clone the repo, and run `pod install` from the Examp
 
 1. Import the header
 
-	```objc
-	#import <Trustbadge/Trustbadge.h>
-	```
+```objc
+#import <Trustbadge/Trustbadge.h>
+```
 
 2. Initialize the view with your Trusted Shops ID
 
-	```objc
-	TRSTrustbadgeView *myTrustbadgeView = [[TRSTrustbadgeView alloc] initWithTrustedShopsID:@"YOUR-TRUSTED-SHOPS-ID" apiToken:@"THIS-IS-NOT-NEEDED-ATM"];
-	```
-	
-	In order to get your Trusted Shops ID authorized please see the "Authorization" section below.
+```objc
+TRSTrustbadgeView *myTrustbadgeView = [[TRSTrustbadgeView alloc] initWithTrustedShopsID:@"YOUR-TRUSTED-SHOPS-ID" apiToken:@"SEE-BELOW-FOR-THIS"];
+```
 
-3. Load the trustbadge data from our backend to properly display the view.
+In order to get your Trusted Shops ID authorized please see the "Authorization" section below.
 
-	```objc
-	[myTrustbadgeView loadTrustbadgeWithFailureBlock:nil];
-	```
-	or
-	```objc
-	[myTrustbadgeView loadTrustbadgeWithSuccessBlock:nil failureBlock:nil];
-	```
+3. Load the trustbadge data from our backend to properly display the view
+
+```objc
+[myTrustbadgeView loadTrustbadgeWithFailureBlock:nil];
+```
+or
+```objc
+[myTrustbadgeView loadTrustbadgeWithSuccessBlock:nil failureBlock:nil];
+```
 
 You may provide blocks that are called on success and/or failure (the failure block expects an `NSError` parameter).
 You can also specify a `UIColor` to customize the appearance of the trustcard that is displayed when the user taps on the trustbadge.
@@ -69,40 +70,67 @@ The trustbadge also has a `debugMode` property that, if set to `YES`, makes it l
 
 - - - -
 
-## 3. After Checkout Process
+## 3. Displaying shop grade and rating
+
+The SDK contains three additional views to display your shop's grade and rating in your app: `TRSShopRatingView`, `TRSShopSimpleRatingView`, and `TRSShopGradeView`. They work similar to the `TRSTrustbadgeView` (`TRSShopGradeView` is an example, the other views work the same):
+
+1. Initialize the views and set their credentials
+
+```objc
+TRSShopGradeView *myShopGradeView = [TRSShopGradeView new];
+myShopGradeView.tsID = @"YOUR-TRUSTED-SHOPS-ID";
+myShopGradeView.apiToken = @"THIS-IS-NOT-NEEDED-ATM"; // however, this must not be nil!
+```
+
+2. Load the data from our backend so they display something meaningful
+
+```objc
+[myShopGradeView loadShopGradeWithSuccessBlock:^{
+[someParentView addSubview:myShopGradeView]; // assume someParentView is initiated somewhere else
+} failureBlock:^(NSError *error) {
+NSLog(@"Error loading the TRSShopRatingView: %@", error);
+// your error handling
+}];
+```
+
+You can customize the appearence of the views like the color of their stars via properties and they have a `debugMode` setting just like `TRSTrustbadgeView`. See the [documentation](#documentation) for further information.
+
+- - - -
+
+## 4. After Checkout Process
 
 As of version 0.3.0 the SDK supports a checkout process for purchases consumers make with your app. This means you can allow them to additionally purchase a guarantee for their order from Trusted Shops, like they know it from many webshops that provide this.
 Consumers will then also reminded to give reviews (if you consume this service from Trusted Shops).
 To use this feature your app needs to add a few lines of code right after your checkout process:
 
 ```objc
-	// create a TRSOrder object
-	TRSOrder *anOrder = [TRSOrder 
-	     TRSOrderWithTrustedShopsID:@"your TS-ID"                     // your TS-ID
-	                       apiToken:@"any string for now"             // just use any non-nil, non-empty string
-	                          email:@"customer@example.com"           // your customer's email
-	                        ordernr:@"0815XYZ"                        // a unique identifier for the order
-	                         amount:[NSNumber numberWithDouble:28.73] // the total price as NSNumber
-	                           curr:@"EUR"                            // the currency, see documentation for valid values
-	                    paymentType:@"PREPAYMENT"                     // see documentation for valid values
-	                   deliveryDate:nil];                             // this field is optional
-	                   
-	// optionally specify the products your customer bought
-	TRSProduct *aProduct = [[TRSProduct alloc] 
-	      initWithUrl:[NSURL URLWithString:@"http://www.example.com"]
-	             name:@"The product's name" 
-	              SKU:@"a valid SKU identifier"];
-	anOrder.tsCheckoutProductItems = @[aProduct];
-	anOrder.debugMode = YES; // see below for information on this! 
-	
-	// Send the order data to Trusted Shops
-	// This will display a (modal) webView that displays content based on the services you bought from Trusted Shops.
-	// E.g., it will display a window to allow the user to purchase a guarantee. Users can always just dismiss it, of course.
-	[anOrder finishWithCompletionBlock:^(NSError *error) {
-	    // handle errors and/or further process the order accoding to your app's needs
-	};
+// create a TRSOrder object
+TRSOrder *anOrder = [TRSOrder 
+TRSOrderWithTrustedShopsID:@"your TS-ID"                     // your TS-ID
+apiToken:@"any string for now"             // just use any non-nil, non-empty string
+email:@"customer@example.com"           // your customer's email
+ordernr:@"0815XYZ"                        // a unique identifier for the order
+amount:[NSNumber numberWithDouble:28.73] // the total price as NSNumber
+curr:@"EUR"                            // the currency, see documentation for valid values
+paymentType:@"PREPAYMENT"                     // see documentation for valid values
+deliveryDate:nil];                             // this field is optional
+
+// optionally specify the products your customer bought
+TRSProduct *aProduct = [[TRSProduct alloc] 
+initWithUrl:[NSURL URLWithString:@"http://www.example.com"]
+name:@"The product's name" 
+SKU:@"a valid SKU identifier"];
+anOrder.tsCheckoutProductItems = @[aProduct];
+anOrder.debugMode = YES; // see below for information on this! 
+
+// Send the order data to Trusted Shops
+// This will display a (modal) webView that displays content based on the services you bought from Trusted Shops.
+// E.g., it will display a window to allow the user to purchase a guarantee. Users can always just dismiss it, of course.
+[anOrder finishWithCompletionBlock:^(NSError *error) {
+// handle errors and/or further process the order accoding to your app's needs
+};
 ```
-	
+
 For a more detailed description of the methods and objects handling this process, see the SDK documentation.
 Please be aware that in some use-cases the user may be referred to an external (mobile) website opening on Safari (for example if this is the first time they purchase a Trusted Shops guarantee). The modal WebView closes in these instances, so once they get back they can keep on using your app as usual. Like is the case with the `TRSTrustbadgeView`, you can specify a `customPresentingViewController` object to manage the presentation of the displayed dialogue boxes during the finish process.
 
@@ -110,7 +138,7 @@ If you are developing your application and want to test this SDK feature __pleas
 
 - - - -
 
-## 4. About this SDK ##
+## 5. About this SDK ##
 
 #### Documentation ####
 The latest documentation can be found at [cocoadocs](http://cocoadocs.org/docsets/Trustbadge/0.3.4/).

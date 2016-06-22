@@ -3,7 +3,7 @@
 //  Trustbadge_Example
 //
 //  Created by Gero Herkenrath on 02/05/16.
-//  Copyright © 2016 Trusted Shops. All rights reserved.
+//  Copyright © 2016 Trusted Shops GmbH. All rights reserved.
 //
 
 #import "TRSViewController.h"

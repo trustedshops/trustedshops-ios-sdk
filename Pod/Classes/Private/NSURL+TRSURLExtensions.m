@@ -10,13 +10,17 @@
 #import "TRSShop.h"
 
 NSString * const TRSAPIEndPoint = @"cdn1.api.trustedshops.com";
-NSString * const TRSTrustcardTemplateURLString = @"https://widgets.trustedshops.com/trustbadgesdk/certificatedialog_%ll_%cccccc.html";
 NSString * const TRSAPIEndPointDebug = @"cdn1.api-qa.trustedshops.com";
+NSString * const TRSTrustcardTemplateURLString = @"https://widgets.trustedshops.com/trustbadgesdk/certificatedialog_%ll_%cccccc.html";
 NSString * const TRSTrustcardTemplateURLStringDebug = @"https://widgets-qa.trustedshops.com/trustbadgesdk/certificatedialog_%ll_%cccccc.html";
 NSString * const TRSEndPoint = @"widgets.trustedshops.com";
 NSString * const TRSEndPointDebug = @"widgets-qa.trustedshops.com";
+NSString * const TRSPublicAPIEndPoint = @"api.trustedshops.com";
+NSString * const TRSPublicAPIEndPointDebug = @"api-qa.trustedshops.com";
 
 @implementation NSURL (TRSURLExtensions)
+
+#pragma mark - Getting a shops profile URL
 
 + (NSDictionary *)urlList {
 	return @{
@@ -42,9 +46,15 @@ NSString * const TRSEndPointDebug = @"widgets-qa.trustedshops.com";
 }
 
 + (NSURL *)profileURLForShop:(TRSShop *)shop {
-	NSString *urlWithoutTSID = [NSURL urlList][[NSURL keyForCountryCode:shop.targetMarketISO3 language:shop.languageISO2]][@"reviewProfile"];
-	return [NSURL URLWithString:[urlWithoutTSID stringByReplacingOccurrencesOfString:@"%s" withString:shop.tsId]];
+	return [NSURL profileURLForTSID:shop.tsId countryCode:shop.targetMarketISO3 language:shop.languageISO2];
 }
+
++ (NSURL *)profileURLForTSID:(NSString *)tsId countryCode:(NSString *)targetMarketISO3 language:(NSString *)languageISO2 {
+	NSString *urlWithoutTSID = [NSURL urlList][[NSURL keyForCountryCode:targetMarketISO3 language:languageISO2]][@"reviewProfile"];
+	return [NSURL URLWithString:[urlWithoutTSID stringByReplacingOccurrencesOfString:@"%s" withString:tsId]];
+}
+
+#pragma mark - Getting a shop's Trustmark (for the Trustbadge)
 
 + (NSURL *)trustMarkAPIURLForTSID:(NSString *)tsID andAPIEndPoint:(NSString *)apiEndPoint {
 	return [NSURL URLWithString:
@@ -58,6 +68,23 @@ NSString * const TRSEndPointDebug = @"widgets-qa.trustedshops.com";
 		return [NSURL trustMarkAPIURLForTSID:tsID andAPIEndPoint:TRSAPIEndPoint];
 	}
 }
+
+#pragma mark - Getting a shops grade data
+
++ (NSURL *)shopGradeAPIURLForTSID:(NSString *)tsID andAPIEndPoint:(NSString *)apiEndPoint {
+	return [NSURL URLWithString:
+			[NSString stringWithFormat:@"https://%@/rest/public/v2/shops/%@/quality/reviews.json", apiEndPoint, tsID]];
+}
+
++ (NSURL *)shopGradeAPIURLForTSID:(NSString *)tsID debug:(BOOL)debug {
+	if (debug) {
+		return [NSURL shopGradeAPIURLForTSID:tsID andAPIEndPoint:TRSPublicAPIEndPointDebug];
+	} else {
+		return [NSURL shopGradeAPIURLForTSID:tsID andAPIEndPoint:TRSPublicAPIEndPoint];
+	}
+}
+
+#pragma mark - Getting a URL for displaying our custom mobile trustcard (with parameters)
 
 + (NSURL *)localizedTrustcardURLWithColorString:(NSString *)hexString debug:(BOOL)debug {
 	NSString *preferredLocalization = [[[NSBundle mainBundle] preferredLocalizations] firstObject];
