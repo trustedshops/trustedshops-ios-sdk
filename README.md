@@ -72,7 +72,17 @@ The trustbadge also has a `debugMode` property that, if set to `YES`, makes it l
 
 ## 3. Display shop grade and rating
 
-The SDK contains three additional views to display your shop's grade and rating in your app: `TRSShopRatingView`, `TRSShopSimpleRatingView`, and `TRSShopGradeView`. They work similar to the `TRSTrustbadgeView` (`TRSShopGradeView` is an example, the other views work the same):
+The SDK contains three additional views to display your shop's grade and rating in your app: `TRSShopRatingView`, `TRSShopSimpleRatingView`, and `TRSShopGradeView`. 
+
+| View  | Example |
+| ------------- | ------------- |
+| TRSShopRatingView |![TRSShopRatingView](https://raw.githubusercontent.com/trustedshops/trustedshops-ios-sdk/master/Screenshots/TRSShopRatingView.png "TRSShopRatingView")|
+| TRSShopSimpleRatingView |![TRSShopSimpleRatingView](https://raw.githubusercontent.com/trustedshops/trustedshops-ios-sdk/master/Screenshots/TRSSimpleRatingView.png "TRSShopSimpleRatingView")|
+| TRSShopGradeView |![TRSShopGradeView](https://raw.githubusercontent.com/trustedshops/trustedshops-ios-sdk/master/Screenshots/TRSShopGradeView.png "TRSShopGradeView")|
+
+
+
+They work similar to the `TRSTrustbadgeView` (`TRSShopGradeView` is an example, the other views work the same):
 
 1. Initialize the views and set their credentials
 
