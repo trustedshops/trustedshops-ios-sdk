@@ -16,7 +16,7 @@ Our SDK supports the following languages: DE, EN, FR, ES, IT, NL, PL.
 
 1. [Installation](#1-installation)
 2. [Display the Trustbadge](#2-display-the-trustbadge)
-3. [Displaying shop grade and rating](#3-displaying-shop-grade-and-rating)
+3. [Display shop grade and rating](#3-display-shop-grade-and-rating)
 4. [After Checkout Process](#4-after-checkout-process)
 5. [About this SDK](#5-about-this-sdk)
 
@@ -70,7 +70,7 @@ The trustbadge also has a `debugMode` property that, if set to `YES`, makes it l
 
 - - - -
 
-## 3. Displaying shop grade and rating
+## 3. Display shop grade and rating
 
 The SDK contains three additional views to display your shop's grade and rating in your app: `TRSShopRatingView`, `TRSShopSimpleRatingView`, and `TRSShopGradeView`. They work similar to the `TRSTrustbadgeView` (`TRSShopGradeView` is an example, the other views work the same):
 
