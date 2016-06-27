@@ -38,13 +38,13 @@ To run the example project, clone the repo, and run `pod install` from the Examp
 
 ## 2. Display the Trustbadge ##
 
-\1. Import the header
+1. Import the header
 
 ```objc
 #import <Trustbadge/Trustbadge.h>
 ```
 
-\2. Initialize the view with your Trusted Shops ID
+2. Initialize the view with your Trusted Shops ID
 
 ```objc
 TRSTrustbadgeView *myTrustbadgeView = [[TRSTrustbadgeView alloc] initWithTrustedShopsID:@"YOUR-TRUSTED-SHOPS-ID" apiToken:@"SEE-BELOW-FOR-THIS"];
@@ -52,7 +52,7 @@ TRSTrustbadgeView *myTrustbadgeView = [[TRSTrustbadgeView alloc] initWithTrusted
 
 In order to get your Trusted Shops ID authorized please see the "Authorization" section below.
 
-\3. Load the trustbadge data from our backend to properly display the view
+3. Load the trustbadge data from our backend to properly display the view
 
 ```objc
 [myTrustbadgeView loadTrustbadgeWithFailureBlock:nil];
