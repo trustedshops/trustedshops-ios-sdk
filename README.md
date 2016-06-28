@@ -7,7 +7,8 @@
 [![Platform](https://img.shields.io/cocoapods/p/Trustbadge.svg?style=flat)](http://cocoapods.org/pods/Trustbadge)
 
 Integrate our SDK into your shopping app and boost your conversion with **your Trustbadge** and **our buyer protection**:
-* Show the Trustbadge in any view and size and provide additional information along with a link to your certificate.
+* Show the Trustbadge in any view and size, providing additional information along with a link to your certificate.
+* Show your customer ratings in different ways (as block, in a table, stars only)
 * Integrate the Trusted Shops buyer protection and review collecting services into your app.
 
 ![TrustedShopsiOSSDK](https://raw.githubusercontent.com/trustedshops/trustedshops-ios-sdk/master/Screenshots/iOS-SDK.png "Boost your conversion with Trustbadge and buyer protection")
@@ -38,13 +39,13 @@ To run the example project, clone the repo, and run `pod install` from the Examp
 
 ## 2. Display the Trustbadge ##
 
-1. Import the header
+1.Import the header
 
 ```objc
 #import <Trustbadge/Trustbadge.h>
 ```
 
-2. Initialize the view with your Trusted Shops ID
+2.Initialize the view with your Trusted Shops ID
 
 ```objc
 TRSTrustbadgeView *myTrustbadgeView = [[TRSTrustbadgeView alloc] initWithTrustedShopsID:@"YOUR-TRUSTED-SHOPS-ID" apiToken:@"SEE-BELOW-FOR-THIS"];
@@ -52,7 +53,7 @@ TRSTrustbadgeView *myTrustbadgeView = [[TRSTrustbadgeView alloc] initWithTrusted
 
 In order to get your Trusted Shops ID authorized please see the "Authorization" section below.
 
-3. Load the trustbadge data from our backend to properly display the view
+3.Load the trustbadge data from our backend to properly display the view
 
 ```objc
 [myTrustbadgeView loadTrustbadgeWithFailureBlock:nil];
@@ -84,7 +85,7 @@ The SDK contains three additional views to display your shop's grade and rating 
 
 They work similar to the `TRSTrustbadgeView` (`TRSShopGradeView` is an example, the other views work the same):
 
-1. Initialize the views and set their credentials
+1.Initialize the views and set their credentials
 
 ```objc
 TRSShopGradeView *myShopGradeView = [TRSShopGradeView new];
@@ -92,7 +93,7 @@ myShopGradeView.tsID = @"YOUR-TRUSTED-SHOPS-ID";
 myShopGradeView.apiToken = @"THIS-IS-NOT-NEEDED-ATM"; // however, this must not be nil!
 ```
 
-2. Load the data from our backend so they display something meaningful
+2.Load the data from our backend so they display something meaningful
 
 ```objc
 [myShopGradeView loadShopGradeWithSuccessBlock:^{
