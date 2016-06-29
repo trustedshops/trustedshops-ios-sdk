@@ -1,5 +1,9 @@
 # Trustbadge
 
+## Version 0.4.1
+
+* The checkout process now sends a flag so TS can distinguish an order incoming from the SDK
+
 ## Version 0.4.0
 
 * Added three new view classes to display a shops grade and rating
