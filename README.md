@@ -6,19 +6,19 @@
 [![License](https://img.shields.io/cocoapods/l/Trustbadge.svg?style=flat)](http://cocoapods.org/pods/Trustbadge)
 [![Platform](https://img.shields.io/cocoapods/p/Trustbadge.svg?style=flat)](http://cocoapods.org/pods/Trustbadge)
 
-Integrate our SDK into your shopping app and boost your conversion with **your Trustbadge**, **your customer reviews** and **our buyer protection**:
-* Show the Trustbadge in any view and size, providing additional information along with a link to your certificate.
-* Show your customer ratings in different ways (as block, in a table, stars only).
-* Integrate the Trusted Shops buyer protection and review collecting services into your app.
+Integrate our SDK into your shopping app and boost your conversion with **Trustbadge**, **Customer Reviews** and **Buyer Protection**:
+* Show the Trustbadge in any view and size and provide additional information along with a link to your certificate
+* Show your shop's customer rating and reviews
+* Integrate the Trusted Shops buyer protection and review collecting services
 
 ![TrustedShopsiOSSDK](https://raw.githubusercontent.com/trustedshops/trustedshops-ios-sdk/master/Screenshots/iOS-SDK.png "Boost your conversion with Trustbadge and buyer protection")
 
 Our SDK supports the following languages: DE, EN, FR, ES, IT, NL, PL.
 
 1. [Installation](#1-installation)
-2. [Display the Trustbadge](#2-display-the-trustbadge)
-3. [Display shop grade and rating](#3-display-shop-grade-and-rating)
-4. [After Checkout Process](#4-after-checkout-process)
+2. [Display Trustbadge](#2-display-trustbadge)
+3. [Display Customer Reviews](#3-display-customer-reviews)
+4. [Integration of Buyer Protection after Checkout](#4-integration-of-buyer-protection-after-checkout)
 5. [About this SDK](#5-about-this-sdk)
 
 - - - -
@@ -37,7 +37,7 @@ To run the example project, clone the repo, and run `pod install` from the Examp
 
 - - - -
 
-## 2. Display the Trustbadge ##
+## 2. Display Trustbadge ##
 
 1.Import the header
 
@@ -71,7 +71,7 @@ The trustbadge also has a `debugMode` property that, if set to `YES`, makes it l
 
 - - - -
 
-## 3. Display shop grade and rating
+## 3. Display Customer Reviews ##
 
 The SDK contains three additional views to display your shop's grade and rating in your app: `TRSShopRatingView`, `TRSShopSimpleRatingView`, and `TRSShopGradeView`. 
 
@@ -108,7 +108,7 @@ You can customize the appearence of the views like the color of their stars via 
 
 - - - -
 
-## 4. After Checkout Process
+## 4. Integration of Buyer Protection after Checkout ##
 
 As of version 0.3.0 the SDK supports a checkout process for purchases consumers make with your app. This means you can allow them to additionally purchase a guarantee for their order from Trusted Shops, like they know it from many webshops that provide this.
 Consumers will then also reminded to give reviews (if you consume this service from Trusted Shops).
