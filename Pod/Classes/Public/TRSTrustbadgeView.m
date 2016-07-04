@@ -122,23 +122,23 @@
 			return;
 		}
 		switch (error.code) {
-			case TRSErrorDomainTrustbadgeInvalidAPIToken:
+			case TRSErrorDomainInvalidAPIToken:
 				NSLog(@"[trustbadge] The provided API token is not correct");
 				break;
 				
-			case TRSErrorDomainTrustbadgeInvalidTSID:
+			case TRSErrorDomainInvalidTSID:
 				NSLog(@"[trustbadge] The provided TSID is not correct.");
 				break;
 				
-			case TRSErrorDomainTrustbadgeTSIDNotFound:
+			case TRSErrorDomainTSIDNotFound:
 				NSLog(@"[trustbadge] The provided TSID could not be found.");
 				break;
 				
-			case TRSErrorDomainTrustbadgeInvalidData:
+			case TRSErrorDomainInvalidData:
 				NSLog(@"[trustbadge] The received data is corrupt.");
 				break;
 				
-//			case TRSErrorDomainTrustbadgeUnknownError: // caught by default
+//			case TRSErrorDomainUnknownError: // caught by default
 			default:
 				NSLog(@"[trustbadge] An unkown error occured.");
 				break;
@@ -150,7 +150,7 @@
 	
 	if (!self.apiToken || !self.trustedShopsID) {
 		NSError *myError = [NSError errorWithDomain:TRSErrorDomain
-											   code:TRSErrorDomainTrustbadgeMissingTSIDOrAPIToken
+											   code:TRSErrorDomainMissingTSIDOrAPIToken
 										   userInfo:nil];
 		NSLog(@"[trustbadge] There is no API token or TSID provided to contact the API.");
 		if (failure) failure(myError);

@@ -16,6 +16,7 @@
 		1D6695591CD23E8600AA0E4E /* checkout_unit_test.html in Resources */ = {isa = PBXBuildFile; fileRef = 1D6695581CD23E8600AA0E4E /* checkout_unit_test.html */; };
 		1D69A5A41CC791D2001A93EE /* TRSConsumerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D69A5A21CC791D2001A93EE /* TRSConsumerSpec.m */; };
 		1D69A5A51CC791D2001A93EE /* TRSOrderSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D69A5A31CC791D2001A93EE /* TRSOrderSpec.m */; };
+		1D6FAE571D2AAA3C0007BF7E /* TRSNetworkAgent+ShopGradeSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D6FAE561D2AAA3C0007BF7E /* TRSNetworkAgent+ShopGradeSpec.m */; };
 		1D6FDCF11D13F9CC00884C2A /* shopGrade.data in Resources */ = {isa = PBXBuildFile; fileRef = 1D6FDCF01D13F9CC00884C2A /* shopGrade.data */; };
 		1D6FDCF31D13FBFF00884C2A /* shopGrade-badrequest.response in Resources */ = {isa = PBXBuildFile; fileRef = 1D6FDCF21D13FBFF00884C2A /* shopGrade-badrequest.response */; };
 		1D6FDCF51D13FD8000884C2A /* shopGrade-notfound.response in Resources */ = {isa = PBXBuildFile; fileRef = 1D6FDCF41D13FD8000884C2A /* shopGrade-notfound.response */; };
@@ -80,6 +81,7 @@
 		1D6695581CD23E8600AA0E4E /* checkout_unit_test.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = checkout_unit_test.html; sourceTree = "<group>"; };
 		1D69A5A21CC791D2001A93EE /* TRSConsumerSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TRSConsumerSpec.m; sourceTree = "<group>"; };
 		1D69A5A31CC791D2001A93EE /* TRSOrderSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TRSOrderSpec.m; sourceTree = "<group>"; };
+		1D6FAE561D2AAA3C0007BF7E /* TRSNetworkAgent+ShopGradeSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "TRSNetworkAgent+ShopGradeSpec.m"; sourceTree = "<group>"; };
 		1D6FDCF01D13F9CC00884C2A /* shopGrade.data */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = shopGrade.data; sourceTree = "<group>"; };
 		1D6FDCF21D13FBFF00884C2A /* shopGrade-badrequest.response */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "shopGrade-badrequest.response"; sourceTree = "<group>"; };
 		1D6FDCF41D13FD8000884C2A /* shopGrade-notfound.response */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "shopGrade-notfound.response"; sourceTree = "<group>"; };
@@ -237,6 +239,7 @@
 				1D9D0E191D19520600295294 /* TRSShopSimpleRatingViewSpec.m */,
 				1D7A17FF1D1A6B3700AC33CC /* TRSShopRatingViewSpec.m */,
 				1D7A18011D1A86A500AC33CC /* TRSShopGradeViewSpec.m */,
+				1D6FAE561D2AAA3C0007BF7E /* TRSNetworkAgent+ShopGradeSpec.m */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -551,6 +554,7 @@
 				840B2B631B457135009E1D6D /* NSNumber+TRSRatingSpec.m in Sources */,
 				1DBF42BC1CA1585300FCFB81 /* TRSTrustcardSpec.m in Sources */,
 				1DD47DDC1D14281C00E41F1C /* TRSViewCommonsSpec.m in Sources */,
+				1D6FAE571D2AAA3C0007BF7E /* TRSNetworkAgent+ShopGradeSpec.m in Sources */,
 				1DEFBAEC1CA0049A00B61B05 /* NSURL+TRSURLExtensionsSpec.m in Sources */,
 				1D9D0E181D19463B00295294 /* TRSStarsViewSpec.m in Sources */,
 				1DEFBAEE1CA048F700B61B05 /* TRSShopSpec.m in Sources */,

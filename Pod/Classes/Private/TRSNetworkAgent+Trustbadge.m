@@ -20,7 +20,7 @@
 	
 	if (!trustedShopsID || !apiToken) {
 		NSError *myError = [NSError errorWithDomain:TRSErrorDomain
-											   code:TRSErrorDomainTrustbadgeMissingTSIDOrAPIToken
+											   code:TRSErrorDomainMissingTSIDOrAPIToken
 										   userInfo:nil];
 		if (failure)
 			failure(myError);
@@ -33,7 +33,7 @@
 		if (!trustbadge) {
 			if (failure) {
 				NSError *error = [NSError errorWithDomain:TRSErrorDomain
-													 code:TRSErrorDomainTrustbadgeInvalidData
+													 code:TRSErrorDomainInvalidData
 												 userInfo:nil];
 				failure(error);
 			}
@@ -49,25 +49,25 @@
 				switch (response.statusCode) {
 					case 400: {
 						error = [NSError errorWithDomain:TRSErrorDomain
-													code:TRSErrorDomainTrustbadgeInvalidTSID
+													code:TRSErrorDomainInvalidTSID
 												userInfo:nil];
 					} break;
 						
 					case 401: {
 						error = [NSError errorWithDomain:TRSErrorDomain
-													code:TRSErrorDomainTrustbadgeInvalidAPIToken
+													code:TRSErrorDomainInvalidAPIToken
 												userInfo:nil];
 					} break;
 						
 					case 404: {
 						error = [NSError errorWithDomain:TRSErrorDomain
-													code:TRSErrorDomainTrustbadgeTSIDNotFound
+													code:TRSErrorDomainTSIDNotFound
 												userInfo:nil];
 					} break;
 						
 					default: {
 						error = [NSError errorWithDomain:TRSErrorDomain
-													code:TRSErrorDomainTrustbadgeUnknownError
+													code:TRSErrorDomainUnknownError
 												userInfo:nil];
 					} break;
 				}
@@ -91,7 +91,7 @@
 	
 	if (!trustedShopsID || !apiToken) {
 		NSError *myError = [NSError errorWithDomain:TRSErrorDomain
-											   code:TRSErrorDomainTrustbadgeMissingTSIDOrAPIToken
+											   code:TRSErrorDomainMissingTSIDOrAPIToken
 										   userInfo:nil];
 		if (failure)
 			failure(myError);
@@ -122,7 +122,7 @@
 		if (invalid) {
 			if (failure) {
 				NSError *invalidDataError = [NSError errorWithDomain:TRSErrorDomain
-																code:TRSErrorDomainTrustbadgeInvalidData
+																code:TRSErrorDomainInvalidData
 															userInfo:nil];
 				failure(invalidDataError);
 			}
@@ -144,25 +144,25 @@
 				switch (response.statusCode) {
 					case 400: {
 						error = [NSError errorWithDomain:TRSErrorDomain
-													code:TRSErrorDomainTrustbadgeInvalidTSID
+													code:TRSErrorDomainInvalidTSID
 												userInfo:nil];
 					} break;
 					
 					case 401: {
 						error = [NSError errorWithDomain:TRSErrorDomain
-													code:TRSErrorDomainTrustbadgeInvalidAPIToken
+													code:TRSErrorDomainInvalidAPIToken
 												userInfo:nil];
 					} break;
 						
 					case 404: {
 						error = [NSError errorWithDomain:TRSErrorDomain
-													code:TRSErrorDomainTrustbadgeTSIDNotFound
+													code:TRSErrorDomainTSIDNotFound
 												userInfo:nil];
 					} break;
 						
 					default: {
 						error = [NSError errorWithDomain:TRSErrorDomain
-													code:TRSErrorDomainTrustbadgeUnknownError
+													code:TRSErrorDomainUnknownError
 												userInfo:nil];
 					} break;
 				}

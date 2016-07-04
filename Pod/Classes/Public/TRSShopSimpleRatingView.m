@@ -9,7 +9,7 @@
 #import "TRSStarsView.h"
 #import "UIColor+TRSColors.h"
 #import "TRSErrors.h"
-#import "TRSNetworkAgent+Trustbadge.h"
+#import "TRSNetworkAgent+ShopGrade.h"
 #import "NSURL+TRSURLExtensions.h"
 #import "TRSSingleStarView.h" // only needed to see its constant for min height
 
@@ -83,7 +83,7 @@ NSString *const kTRSShopSimpleRatingViewDebugModeKey = @"kTRSShopSimpleRatingVie
 	if (!self.tsID || !self.apiToken) {
 		if (failure) {
 			NSError *notReady = [NSError errorWithDomain:TRSErrorDomain
-													code:TRSErrorDomainTrustbadgeMissingTSIDOrAPIToken
+													code:TRSErrorDomainMissingTSIDOrAPIToken
 												userInfo:nil];
 			failure(notReady);
 			return;
@@ -117,23 +117,23 @@ NSString *const kTRSShopSimpleRatingViewDebugModeKey = @"kTRSShopSimpleRatingVie
 			return;
 		}
 		switch (error.code) {
-			case TRSErrorDomainTrustbadgeInvalidAPIToken:
+			case TRSErrorDomainInvalidAPIToken:
 				NSLog(@"[trustbadge] The provided API token is not correct");
 				break;
 				
-			case TRSErrorDomainTrustbadgeInvalidTSID:
+			case TRSErrorDomainInvalidTSID:
 				NSLog(@"[trustbadge] The provided TSID is not correct.");
 				break;
 				
-			case TRSErrorDomainTrustbadgeTSIDNotFound:
+			case TRSErrorDomainTSIDNotFound:
 				NSLog(@"[trustbadge] The provided TSID could not be found.");
 				break;
 				
-			case TRSErrorDomainTrustbadgeInvalidData:
+			case TRSErrorDomainInvalidData:
 				NSLog(@"[trustbadge] The received data is corrupt.");
 				break;
 				
-//			case TRSErrorDomainTrustbadgeUnknownError: // already caught in default
+//			case TRSErrorDomainUnknownError: // already caught in default
 			default:
 				NSLog(@"[trustbadge] An unkown error occured.");
 				break;

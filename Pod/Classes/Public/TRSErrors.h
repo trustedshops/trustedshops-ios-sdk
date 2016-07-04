@@ -11,17 +11,19 @@ FOUNDATION_EXPORT NSString * const TRSErrorDomain;
  */
 typedef NS_ENUM(NSUInteger, TRSErrorCode) {
 	/** An unknown error in the cintext of the Trustbadge SDK */
-    TRSErrorDomainTrustbadgeUnknownError = 1000,
+    TRSErrorDomainUnknownError = 1000,
 	/** The provided Trusted Shops shop ID was rejected as invalid by the API. */
-    TRSErrorDomainTrustbadgeInvalidTSID,
+    TRSErrorDomainInvalidTSID,
 	/** The provided Trusted Shops shop ID does not exist in the Trusted Shop database. */
-    TRSErrorDomainTrustbadgeTSIDNotFound,
+    TRSErrorDomainTSIDNotFound,
 	/** The data returned for the trustbadge is corrupted or has an unknown format */
-    TRSErrorDomainTrustbadgeInvalidData,
+    TRSErrorDomainInvalidData,
 	/** The client token for the API is not valid. Currently this cannot happen, as no token is needed. */
-	TRSErrorDomainTrustbadgeInvalidAPIToken,
+	TRSErrorDomainInvalidAPIToken,
 	/** The TRSTrustbadgeView instance was set up without a Trusted Shops shop ID or without any client token (or both). */
-	TRSErrorDomainTrustbadgeMissingTSIDOrAPIToken,
+	TRSErrorDomainMissingTSIDOrAPIToken,
+	/** A product grade view was set up without an SKU. */
+	TRSErrorDomainMissingSKU,
 	/** The processOrder:onCompletion: method could not find a root view controller to present its popup */
 	TRSErrorDomainProcessOrderNeedsRootViewController,
 	/** The TRSCheckoutViewController did not finish processing the last call of processOrder:onCompletion: yet.

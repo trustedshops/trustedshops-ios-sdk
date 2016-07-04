@@ -21,7 +21,7 @@
 #import "UIColor+TRSColors.h"
 #import "TRSViewCommons.h" // needed for some label width & font class methods
 #import "TRSErrors.h"
-#import "TRSNetworkAgent+Trustbadge.h"
+#import "TRSNetworkAgent+ShopGrade.h"
 #import "NSNumberFormatter+TRSFormatter.h"
 #import "TRSTrustbadgeSDKPrivate.h"
 #import "NSURL+TRSURLExtensions.h"
@@ -120,7 +120,7 @@ NSString *const kTRSShopGradeViewDebugModeKey = @"kTRSShopGradeViewDebugModeKey"
 	if (!self.tsID || !self.apiToken) {
 		if (failure) {
 			NSError *notReady = [NSError errorWithDomain:TRSErrorDomain
-													code:TRSErrorDomainTrustbadgeMissingTSIDOrAPIToken
+													code:TRSErrorDomainMissingTSIDOrAPIToken
 												userInfo:nil];
 			failure(notReady);
 			return;
@@ -156,23 +156,23 @@ NSString *const kTRSShopGradeViewDebugModeKey = @"kTRSShopGradeViewDebugModeKey"
 			return;
 		}
 		switch (error.code) {
-			case TRSErrorDomainTrustbadgeInvalidAPIToken:
+			case TRSErrorDomainInvalidAPIToken:
 				NSLog(@"[trustbadge] The provided API token is not correct");
 				break;
 				
-			case TRSErrorDomainTrustbadgeInvalidTSID:
+			case TRSErrorDomainInvalidTSID:
 				NSLog(@"[trustbadge] The provided TSID is not correct.");
 				break;
 				
-			case TRSErrorDomainTrustbadgeTSIDNotFound:
+			case TRSErrorDomainTSIDNotFound:
 				NSLog(@"[trustbadge] The provided TSID could not be found.");
 				break;
 				
-			case TRSErrorDomainTrustbadgeInvalidData:
+			case TRSErrorDomainInvalidData:
 				NSLog(@"[trustbadge] The received data is corrupt.");
 				break;
 				
-			case TRSErrorDomainTrustbadgeUnknownError:
+			case TRSErrorDomainUnknownError:
 			default:
 				NSLog(@"[trustbadge] An unkown error occured.");
 				break;
