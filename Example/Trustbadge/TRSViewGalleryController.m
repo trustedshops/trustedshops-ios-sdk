@@ -12,6 +12,7 @@
 @import Trustbadge.TRSShopGradeView;
 @import Trustbadge.TRSShopSimpleRatingView;
 @import Trustbadge.TRSProductSimpleRatingView;
+@import Trustbadge.TRSProductRatingView;
 
 @interface TRSViewGalleryController ()
 
@@ -34,6 +35,8 @@
 @property (weak, nonatomic) IBOutlet UIView *productSimpleRatingPlaceholder;
 - (IBAction)loadProductSimpleRating:(id)sender;
 
+@property (weak, nonatomic) IBOutlet UIView *productRatingTwoLinesPlaceholder;
+- (IBAction)loadProductRatingTowLines:(id)sender;
 
 @end
 
@@ -190,4 +193,21 @@
 	}];
 }
 
+- (IBAction)loadProductRatingTowLines:(id)sender {
+	CGRect pr2lFrame = self.productRatingTwoLinesPlaceholder.frame;
+	pr2lFrame.origin = CGPointZero;
+	TRSProductRatingView *pr2lView = [[TRSProductRatingView alloc] initWithFrame:pr2lFrame
+																  trustedShopsID:@"X795C603C56D8D47D63C27CBFD94698A4"
+																		apiToken:@"notneededatm"
+																			 SKU:@"20610"];
+	pr2lView.debugMode = YES;
+	[self willLoadAView];
+	[pr2lView loadViewDataFromBackendWithSuccessBlock:^{
+		[self didLoadView:pr2lView forParent:self.productRatingTwoLinesPlaceholder sender:sender];
+		[self.tappedLoadButtons addObject:sender];
+	} failureBlock:^(NSError *error) {
+		NSLog(@"Error loading the TRSProductRatingView (2 line): %@", error);
+		[sender didLoadView:pr2lView forParent:nil sender:nil];
+	}];
+}
 @end
