@@ -7,23 +7,14 @@
 //
 
 #import "TRSProductBaseView.h"
+#import "TRSProductBaseView+Private.h"
 #import "TRSNetworkAgent+ProductGrade.h"
 #import "TRSErrors.h"
 #import "TRSPrivateBasicDataView+Private.h" // internally give me access to the private methods of my base view...
 
 NSString *const kTRSProductBaseViewSKUKey = @"kTRSProductBaseViewSKUKey";
 
-@interface TRSProductBaseView ()
-
-@property (nonatomic, copy) NSString *name;
-@property (nonatomic, copy) NSString *uuid;
-@property (nonatomic, strong) NSNumber *totalReviewCount;
-@property (nonatomic, strong) NSNumber *overallMark;
-@property (nonatomic, copy) NSString *overallMarkDescription;
-
-- (instancetype)initWithCoder:(NSCoder *)aDecoder NS_DESIGNATED_INITIALIZER;
-
-@end
+// the class extension is in TRSProductBaseView+Private.h !
 
 @implementation TRSProductBaseView
 
@@ -54,12 +45,25 @@ NSString *const kTRSProductBaseViewSKUKey = @"kTRSProductBaseViewSKUKey";
 	NSLog(@"TRSProductBaseView -finishInit: Nothing to finish, method should be overridden");
 }
 
-- (void)setupData:(id)data {
+- (BOOL)setupData:(id)data {
+	// I know that the ProductGrade category on TRSNetworkAgent returns an NSDictionary, so:
+	NSDictionary *myData = (NSDictionary *)data;
 	
+	if ([self.SKU isEqualToString:myData[@"sku"]]) {
+		self.name = myData[@"name"];
+		self.uuid = myData[@"uuid"];
+		self.totalReviewCount = myData[@"totalReviewCount"];
+		self.overallMark = myData[@"overallMark"];
+		self.overallMarkDescription = myData[@"overallMarkDescription"];
+	} else {
+		NSLog(@"data setup failed - returned SKU doesn't match");
+		return NO;
+	}
+	return YES;
 }
 
 - (void)finishLoading {
-	
+	NSLog(@"TRSProductBaseView -finishLoading: Nothing to finish, method should be overridden");
 }
 
 - (void)performNetworkRequestWithSuccessBlock:(void (^)(id result))successBlock failureBlock:(void(^)(NSError *error))failureBlock {

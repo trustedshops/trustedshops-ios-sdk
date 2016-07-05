@@ -28,13 +28,15 @@
 
 // This should be called right at the start of the success block of performRemoteGetWithSuccess:ailure:
 // Subclasses can use this to process the response object and setup their internal data properties needed to
-// present the view's information.
+// present the view's information. If the data can't be setup correctly, don't store any of it and return NO
+// otherwise return YES.
 // The default implementation in TRSPrivateBasicDataView should do nothing.
-- (void)setupData:(id)data;
+- (BOOL)setupData:(id)data;
 
 // This should be called right before loadViewDataFromBackendWithSuccessBlock:failureBlock: calls its success block,
 // i.e. when the view is ready to be displayed. All relevant data properties (product grade etc.) are set.
 // You should override this method to initialize all necessary subviews and add them to the view hierarchy.
+// Note that afterwards, the success block is called in any case.
 // The default implementation in TRSPrivateBasicDataView should do nothing.
 - (void)finishLoading;
 

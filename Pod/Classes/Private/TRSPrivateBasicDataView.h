@@ -18,7 +18,7 @@
  you can override, but don't have to). In summry those are:
  
  1: (void)finishInit;
- 2: (void)setupData:(id)data;
+ 2: (BOOL)setupData:(id)data;
  3: (void)finishLoading;
  4: (void)performNetworkRequestWithSuccessBlock:(void (^)(id result))successBlock failureBlock:(void(^)(NSError *error))failureBlock;
  5: (NSString *)logStringForErrorCode:
@@ -29,10 +29,13 @@
  2) is called in the successBlock parameter that is given to performNetworkRequestWithSuccessBlock:failureBlock: (see 4)).
  Here you can save any data in properties in your view. The passed object is the same that the TRSNetworkAgent category
  method you set up returns, e.g. an NSDictionary for getProductGradeForTrustedShopsID:apiToken:SKU:success:failure:
+ If for some reason the data turns out to be unusable, return NO. The superclass will then invoke the failure block
+ argument that was passed to it in loadViewDataFromBackendWithSuccessBlock:failureBlock: with an appropriate error.
  
  3) is called right before the success block given to loadViewDataFromBackendWithSuccessBlock:failureBlock: is called.
  Here you should build the view hierarchy with the data that was just obtained from the backend (and stored
- somewhere by 2))
+ somewhere by 2)). Note that the success block is called in any case after this method returns control flow
+ to the superclass
  
  4) is not to be confused with loadViewDataFromBackendWithSuccessBlock:failureBlock: !
  Here you should invoke whatever category method of TRSNetworkAgent is respinsbile for fetching the data your view subclass

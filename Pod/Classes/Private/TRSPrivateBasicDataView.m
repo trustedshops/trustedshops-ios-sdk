@@ -56,17 +56,24 @@ NSString *const kTRSPrivateBasicDataViewDebugModeKey = @"kTRSPrivateBasicDataVie
 	
 	// prepare the blocks for success and failure
 	void (^successBlock)(id resultData) = ^(id resultData) {
-		[self setupData:resultData];
-		
-		// note (dirty cheat): due to the rendering chain it's important to do this asynchronously, otherwise
-		// we might get the wrong frame for this. Once it loads from the backend that's not too important,
-		// but if the request is e.g. cached, it might screw us.
-		dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.02 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-			[self finishLoading];
-			if (success) {
-				success();
-			}
-		});
+		if (![self setupData:resultData] && failure) {
+			// call failure with error
+			NSError *invalidDataError = [NSError errorWithDomain:TRSErrorDomain
+															code:TRSErrorDomainInvalidData
+														userInfo:nil];
+			failure(invalidDataError);
+		} else {
+			
+			// note (dirty cheat): due to the rendering chain it's important to do this asynchronously, otherwise
+			// we might get the wrong frame for this. Once it loads from the backend that's not too important,
+			// but if the request is e.g. cached, it might screw us.
+			dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.02 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+				[self finishLoading];
+				if (success) {
+					success();
+				}
+			});
+		}
 	};
 	
 	void (^failureBlock)(NSError *error) = ^(NSError *error) {
@@ -91,8 +98,9 @@ NSString *const kTRSPrivateBasicDataViewDebugModeKey = @"kTRSPrivateBasicDataVie
 	NSLog(@"TRSPrivateBasicDataView -finishInit: Nothing to finish, method should be overridden");
 }
 
-- (void)setupData:(id)data {
+- (BOOL)setupData:(id)data {
 	NSLog(@"TRSPrivateBasicDataView -setupData: Nothing to setup, method should be overridden");
+	return YES;
 }
 
 - (void)finishLoading {
