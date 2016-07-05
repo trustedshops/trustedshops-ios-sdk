@@ -7,7 +7,7 @@
 //
 
 #import "TRSPrivateBasicDataView.h"
-#import "TRSPrivateBasicDataViewLoading.h"
+#import "TRSPrivateBasicDataView+Private.h" // this header defines methods hidden from public views
 #import "TRSNetworkAgent.h"
 #import "TRSErrors.h"
 
@@ -15,11 +15,7 @@ NSString *const kTRSPrivateBasicDataViewTSIDKey = @"kTRSPrivateBasicDataViewTSID
 NSString *const kTRSPrivateBasicDataViewApiTokenKey = @"kTRSPrivateBasicDataViewApiTokenKey";
 NSString *const kTRSPrivateBasicDataViewDebugModeKey = @"kTRSPrivateBasicDataViewDebugModeKey";
 
-@interface TRSPrivateBasicDataView () <TRSPrivateBasicDataViewLoading>
-
-- (instancetype)initWithCoder:(NSCoder *)aDecoder NS_DESIGNATED_INITIALIZER;
-
-@end
+// the class extension is defined in TRSPrivateBasicDataViewLoading.h !
 
 @implementation TRSPrivateBasicDataView
 

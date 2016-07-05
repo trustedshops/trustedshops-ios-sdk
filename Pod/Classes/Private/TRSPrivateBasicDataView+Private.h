@@ -1,16 +1,21 @@
 //
-//  TRSPrivateBasicDataViewLoading.h
+//  TRSPrivateBasicDataView+Private.h
 //  Pods
 //
 //  Created by Gero Herkenrath on 04/07/16.
 //
 //
 
-#import <Foundation/Foundation.h>
+// This privately kept header defines private methods for the loading mechanism of our views.
+// It should not be exposed to any public headers, only import it in .m files if you want to access the private
+// methods of TRSPrivateBasicDataView in subclasses (as you should pverride them)
+// The TRSPrivateBasicDataView class adopts this and subclasses should override these methods (as is explained
+// in TRSPrivateBasicDataView.h).
 
-@protocol TRSPrivateBasicDataViewLoading
+@interface TRSPrivateBasicDataView ()
 
-@required
+// This is only needed to satisfy the compiler (for NS_DESIGNATED_INITIALIZER)
+- (instancetype)initWithCoder:(NSCoder *)aDecoder NS_DESIGNATED_INITIALIZER;
 
 // NOTE: This is to be overriden in all subclasses of TRSPrivateBasicDataView.
 // The method is called in all designated initializers, i.e. initWithFrame:trustedShopsID:apiToken and initWithCoder:.

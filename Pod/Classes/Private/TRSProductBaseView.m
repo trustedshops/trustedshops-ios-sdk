@@ -9,6 +9,7 @@
 #import "TRSProductBaseView.h"
 #import "TRSNetworkAgent+ProductGrade.h"
 #import "TRSErrors.h"
+#import "TRSPrivateBasicDataView+Private.h" // internally give me access to the private methods of my base view...
 
 NSString *const kTRSProductBaseViewSKUKey = @"kTRSProductBaseViewSKUKey";
 
