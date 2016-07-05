@@ -36,7 +36,10 @@
 - (IBAction)loadProductSimpleRating:(id)sender;
 
 @property (weak, nonatomic) IBOutlet UIView *productRatingTwoLinesPlaceholder;
-- (IBAction)loadProductRatingTowLines:(id)sender;
+- (IBAction)loadProductRatingTwoLines:(id)sender;
+
+@property (weak, nonatomic) IBOutlet UIView *productRatingOneLinePlaceholder;
+- (IBAction)loadProductRatingOneLine:(id)sender;
 
 @end
 
@@ -193,7 +196,7 @@
 	}];
 }
 
-- (IBAction)loadProductRatingTowLines:(id)sender {
+- (IBAction)loadProductRatingTwoLines:(id)sender {
 	CGRect pr2lFrame = self.productRatingTwoLinesPlaceholder.frame;
 	pr2lFrame.origin = CGPointZero;
 	TRSProductRatingView *pr2lView = [[TRSProductRatingView alloc] initWithFrame:pr2lFrame
@@ -208,6 +211,24 @@
 	} failureBlock:^(NSError *error) {
 		NSLog(@"Error loading the TRSProductRatingView (2 line): %@", error);
 		[sender didLoadView:pr2lView forParent:nil sender:nil];
+	}];
+}
+- (IBAction)loadProductRatingOneLine:(id)sender {
+	CGRect pr1lFrame = self.productRatingOneLinePlaceholder.frame;
+	pr1lFrame.origin = CGPointZero;
+	TRSProductRatingView *pr1lView = [[TRSProductRatingView alloc] initWithFrame:pr1lFrame
+																  trustedShopsID:@"X795C603C56D8D47D63C27CBFD94698A4"
+																		apiToken:@"notneededatm"
+																			 SKU:@"20610"];
+	pr1lView.debugMode = YES;
+	pr1lView.useOnlyOneLine = YES;
+	[self willLoadAView];
+	[pr1lView loadViewDataFromBackendWithSuccessBlock:^{
+		[self didLoadView:pr1lView forParent:self.productRatingOneLinePlaceholder sender:sender];
+		[self.tappedLoadButtons addObject:sender];
+	} failureBlock:^(NSError *error) {
+		NSLog(@"Error loading the TRSProductRatingView (2 line): %@", error);
+		[sender didLoadView:pr1lView forParent:nil sender:nil];
 	}];
 }
 @end

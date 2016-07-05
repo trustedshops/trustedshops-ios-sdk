@@ -6,6 +6,7 @@
 //
 
 #import "TRSViewCommons.h"
+#import "NSNumberFormatter+TRSFormatter.h"
 
 @implementation TRSViewCommons
 
@@ -121,11 +122,22 @@
 									  withBasePointSize:(CGFloat)pointSize
 											scaleFactor:(CGFloat)scale {
 	return [TRSViewCommons attributedGradeStringFromString:unformatted
-											withBasePointSize:pointSize
-												  scaleFactor:scale
-												   firstColor:[UIColor blackColor]
-												  secondColor:[UIColor blackColor]
-														 font:[UIFont systemFontOfSize:12.0]];
+										 withBasePointSize:pointSize
+											   scaleFactor:scale
+												firstColor:[UIColor blackColor]
+											   secondColor:[UIColor blackColor]
+													  font:[UIFont systemFontOfSize:12.0]];
+}
+
++ (NSString *)gradeStringForNumber:(NSNumber *)number {
+	NSNumberFormatter *trsFormatter = [NSNumberFormatter trs_trustbadgeRatingFormatter];
+	NSString *first = [trsFormatter stringFromNumber:number];
+	NSString *second = [trsFormatter stringFromNumber:@5];
+	return [NSString stringWithFormat:@"%@/%@", first, second];
+}
+
++ (NSString *)reviewCountStringForNumber:(NSNumber *)number {
+	return [[NSNumberFormatter trs_reviewCountFormatter] stringFromNumber:number];
 }
 
 @end

@@ -318,14 +318,14 @@
                         <viewControllerLayoutGuide type="bottom" id="nJt-pu-LBm"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="dgT-KK-a9B">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="674"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dP2-2i-YIz">
-                                <rect key="frame" x="0.0" y="64" width="600" height="487"/>
+                                <rect key="frame" x="0.0" y="64" width="600" height="561"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="d3U-H7-kMe" userLabel="Scroll Content Container">
-                                        <rect key="frame" x="0.0" y="0.0" width="600" height="553"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="600" height="561"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Views offered by the Library" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Z7s-Vg-R6M">
                                                 <rect key="frame" x="193" y="8" width="215" height="21"/>
@@ -450,7 +450,7 @@
                                                 <rect key="frame" x="8" y="457" width="163" height="30"/>
                                                 <state key="normal" title="Load ProductRating (2l)"/>
                                                 <connections>
-                                                    <action selector="loadProductRatingTowLines:" destination="Do0-2H-yQi" eventType="touchUpInside" id="tYh-TG-ywd"/>
+                                                    <action selector="loadProductRatingTwoLines:" destination="Do0-2H-yQi" eventType="touchUpInside" id="no4-4S-4lE"/>
                                                 </connections>
                                             </button>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bjr-9A-vbN" userLabel="ShopSimpleRatingView Placeholder">
@@ -460,6 +460,26 @@
                                                     <constraint firstAttribute="height" constant="60" id="C04-NA-ObO"/>
                                                 </constraints>
                                             </view>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5CN-nC-Thr" userLabel="ShopSimpleRatingView Placeholder">
+                                                <rect key="frame" x="211" y="509" width="381" height="20"/>
+                                                <color key="backgroundColor" white="0.66666666669999997" alpha="0.25347521550000002" colorSpace="calibratedWhite"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="20" id="b4o-mW-dd6"/>
+                                                </constraints>
+                                            </view>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ProductRatingView (1l):" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5Qd-ha-aSn">
+                                                <rect key="frame" x="8" y="495" width="179" height="21"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PbD-GV-DX9">
+                                                <rect key="frame" x="8" y="523" width="160" height="30"/>
+                                                <state key="normal" title="Load ProductRating (1l)"/>
+                                                <connections>
+                                                    <action selector="loadProductRatingOneLine:" destination="Do0-2H-yQi" eventType="touchUpInside" id="ro2-aB-Zy9"/>
+                                                </connections>
+                                            </button>
                                         </subviews>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
@@ -471,6 +491,7 @@
                                             <constraint firstItem="jRq-gA-JaK" firstAttribute="leading" secondItem="N45-5z-Fzl" secondAttribute="trailing" constant="21" id="5p8-Yh-rWy"/>
                                             <constraint firstItem="DC6-93-cnd" firstAttribute="top" secondItem="zOq-xs-dpY" secondAttribute="bottom" constant="8" id="8Nc-tO-Omb"/>
                                             <constraint firstItem="rn2-h9-v2B" firstAttribute="leading" secondItem="d3U-H7-kMe" secondAttribute="leadingMargin" id="9Aq-Pt-We2"/>
+                                            <constraint firstItem="5CN-nC-Thr" firstAttribute="top" secondItem="bjr-9A-vbN" secondAttribute="bottom" constant="24" id="9Ir-mI-KQD"/>
                                             <constraint firstAttribute="trailing" secondItem="NGe-xa-Gey" secondAttribute="trailing" constant="8" id="9pV-RL-jLq"/>
                                             <constraint firstItem="ILi-NL-lP8" firstAttribute="top" secondItem="MuX-S0-Zf8" secondAttribute="bottom" constant="8" id="A9d-Oi-HY0"/>
                                             <constraint firstItem="ho4-Em-N1w" firstAttribute="top" secondItem="jRq-gA-JaK" secondAttribute="bottom" constant="8" id="AIo-fw-4rB"/>
@@ -495,13 +516,16 @@
                                             <constraint firstItem="MuX-S0-Zf8" firstAttribute="leading" secondItem="d3U-H7-kMe" secondAttribute="leading" constant="8" id="a65-C7-piN"/>
                                             <constraint firstItem="zOq-xs-dpY" firstAttribute="leading" secondItem="d3U-H7-kMe" secondAttribute="leadingMargin" id="apG-HI-IyZ"/>
                                             <constraint firstItem="yni-5K-Lr0" firstAttribute="top" secondItem="Z7s-Vg-R6M" secondAttribute="bottom" constant="8" id="cPK-78-203"/>
+                                            <constraint firstItem="5Qd-ha-aSn" firstAttribute="leading" secondItem="d3U-H7-kMe" secondAttribute="leading" constant="8" id="cZ8-2F-0vo"/>
                                             <constraint firstItem="bjr-9A-vbN" firstAttribute="leading" secondItem="lJb-kN-Rmx" secondAttribute="trailing" constant="22" id="d4h-08-kwU"/>
                                             <constraint firstItem="DC6-93-cnd" firstAttribute="leading" secondItem="d3U-H7-kMe" secondAttribute="leadingMargin" id="dd7-Ky-RLn"/>
+                                            <constraint firstAttribute="trailing" secondItem="5CN-nC-Thr" secondAttribute="trailing" constant="8" id="eC0-h4-ihc"/>
+                                            <constraint firstItem="5Qd-ha-aSn" firstAttribute="top" secondItem="8zA-YF-zlQ" secondAttribute="bottom" constant="8" id="iXs-f0-F4g"/>
                                             <constraint firstItem="YIZ-j4-c6M" firstAttribute="top" secondItem="NGe-xa-Gey" secondAttribute="bottom" constant="8" id="iaJ-cr-olR"/>
                                             <constraint firstItem="9h8-4h-J8x" firstAttribute="leading" secondItem="d3U-H7-kMe" secondAttribute="leadingMargin" id="idK-JA-JjC"/>
                                             <constraint firstItem="rn2-h9-v2B" firstAttribute="top" secondItem="BTy-2T-DGi" secondAttribute="bottom" constant="13" id="jUf-HF-yUu"/>
                                             <constraint firstItem="2CG-5i-MdZ" firstAttribute="top" secondItem="d3U-H7-kMe" secondAttribute="top" constant="37" id="kVY-Q5-8da"/>
-                                            <constraint firstAttribute="height" constant="487" id="oUf-9j-7G2"/>
+                                            <constraint firstItem="5CN-nC-Thr" firstAttribute="leading" secondItem="5Qd-ha-aSn" secondAttribute="trailing" constant="24" id="nPr-Ye-2c5"/>
                                             <constraint firstItem="BTy-2T-DGi" firstAttribute="leading" secondItem="d3U-H7-kMe" secondAttribute="leadingMargin" id="qH4-eb-E7v"/>
                                             <constraint firstItem="ILi-NL-lP8" firstAttribute="leading" secondItem="d3U-H7-kMe" secondAttribute="leading" constant="8" id="rYN-6F-SW9"/>
                                             <constraint firstAttribute="trailing" secondItem="YIZ-j4-c6M" secondAttribute="trailing" constant="8" id="t0O-gS-JUg"/>
@@ -509,15 +533,8 @@
                                             <constraint firstItem="2CG-5i-MdZ" firstAttribute="leading" secondItem="d3U-H7-kMe" secondAttribute="leadingMargin" id="u2X-DZ-A3e"/>
                                             <constraint firstAttribute="trailing" secondItem="jRq-gA-JaK" secondAttribute="trailing" constant="8" id="xdR-7L-Muh"/>
                                             <constraint firstItem="jRq-gA-JaK" firstAttribute="top" secondItem="YIZ-j4-c6M" secondAttribute="bottom" constant="8" id="yK3-0z-Lqy"/>
-                                            <constraint firstAttribute="height" constant="553" id="yOq-03-Cxw"/>
-                                            <constraint firstItem="YIZ-j4-c6M" firstAttribute="trailingMargin" secondItem="d3U-H7-kMe" secondAttribute="trailing" constant="8" id="yzx-Ez-ZIk"/>
+                                            <constraint firstAttribute="height" constant="561" id="yOq-03-Cxw"/>
                                         </constraints>
-                                        <variation key="default">
-                                            <mask key="constraints">
-                                                <exclude reference="oUf-9j-7G2"/>
-                                                <exclude reference="yzx-Ez-ZIk"/>
-                                            </mask>
-                                        </variation>
                                     </view>
                                 </subviews>
                                 <constraints>
@@ -538,7 +555,10 @@
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="View Examples" image="image" id="Mrk-in-0t4"/>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <size key="freeformSize" width="600" height="674"/>
                     <connections>
+                        <outlet property="productRatingOneLinePlaceholder" destination="5CN-nC-Thr" id="5rA-hC-dT1"/>
                         <outlet property="productRatingTwoLinesPlaceholder" destination="bjr-9A-vbN" id="l7b-LE-UWg"/>
                         <outlet property="productSimpleRatingPlaceholder" destination="ho4-Em-N1w" id="O1G-Qd-HEn"/>
                         <outlet property="sealPlaceholder" destination="yni-5K-Lr0" id="Of5-I0-KV1"/>
