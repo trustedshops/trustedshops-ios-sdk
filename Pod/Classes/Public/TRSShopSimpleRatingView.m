@@ -13,6 +13,7 @@
 #import "NSURL+TRSURLExtensions.h"
 #import "TRSSingleStarView.h" // only needed to see its constant for min height
 
+CGFloat const kTRSShopSimpleRatingViewMinHeight = 16.0; // should not be smaller than kTRSSingleStarViewMinHeight
 NSString *const kTRSShopSimpleRatingViewActiveStarColorKey = @"kTRSShopSimpleRatingViewActiveStarColorKey";
 NSString *const kTRSShopSimpleRatingViewInactiveStarColorKey = @"kTRSShopSimpleRatingViewInactiveStarColorKey";
 NSString *const kTRSShopSimpleRatingViewTSIDKey = @"kTRSShopSimpleRatingViewTSIDKey";
@@ -200,12 +201,13 @@ NSString *const kTRSShopSimpleRatingViewDebugModeKey = @"kTRSShopSimpleRatingVie
 #pragma mark - Resizing behavior (min size)
 
 - (CGSize)sizeThatFits:(CGSize)size {
-	if (size.height < kTRSSingleStarViewMinHeight) {
-		size.height = kTRSSingleStarViewMinHeight;
+	CGFloat myMin = MAX(kTRSSingleStarViewMinHeight, kTRSShopSimpleRatingViewMinHeight);
+	if (size.height < myMin) {
+		size.height = myMin;
 	}
 	
-	if (size.width < kTRSSingleStarViewMinHeight * kTRSStarsViewNumberOfStars) {
-		size.width = kTRSSingleStarViewMinHeight * kTRSStarsViewNumberOfStars;
+	if (size.width < myMin * kTRSStarsViewNumberOfStars) {
+		size.width = myMin * kTRSStarsViewNumberOfStars;
 	}
 	return size;
 }

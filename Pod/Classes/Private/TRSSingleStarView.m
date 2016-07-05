@@ -9,7 +9,7 @@
 #import "TRSSingleStarView.h"
 #import "UIColor+TRSColors.h"
 
-CGFloat const kTRSSingleStarViewMinHeight = 16.0;
+CGFloat const kTRSSingleStarViewMinHeight = 10.0;
 NSString *const kTRSSingleStarViewPercentFilledKey = @"kTRSSingleStarViewPercentFilledKey";
 NSString *const kTRSSingleStarViewActiveStarColorKey = @"kTRSSingleStarViewActiveStarColorKey";
 NSString *const kTRSSingleStarViewInactiveStarColorKey = @"kTRSSingleStarViewInactiveStarColorKey";

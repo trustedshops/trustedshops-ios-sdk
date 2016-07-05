@@ -7,7 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "TRSProductBaseView.h"
 
-@interface TRSProductSimpleRatingView : UIView
+FOUNDATION_EXPORT CGFloat const kTRSProductSimpleRatingViewMinHeight;
+
+@interface TRSProductSimpleRatingView : TRSProductBaseView
+
+@property (nonatomic, strong) UIColor *activeStarColor;
+@property (nonatomic, strong) UIColor *inactiveStarColor;
 
 @end

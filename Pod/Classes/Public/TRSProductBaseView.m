@@ -40,7 +40,7 @@ NSString *const kTRSProductBaseViewSKUKey = @"kTRSProductBaseViewSKUKey";
 	[aCoder encodeObject:self.SKU forKey:kTRSProductBaseViewSKUKey];
 }
 
-#pragma mark - Methods supposed to be overridden in subclasses (TRSPrivateBasicDataViewLoading protocol)
+#pragma mark - Methods supposed to be overridden in subclasses (TRSPrivateBasicDataView+Private header)
 - (void)finishInit {
 	NSLog(@"TRSProductBaseView -finishInit: Nothing to finish, method should be overridden");
 }

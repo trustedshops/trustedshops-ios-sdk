@@ -81,7 +81,7 @@
 			}
 		};
 		
-		return [self GET:[NSURL shopGradeAPIURLForTSID:trustedShopsID debug:self.debugMode]
+		return [self GET:[NSURL productGradeAPIURLForTSID:trustedShopsID skuHash:skuHash debug:self.debugMode]
 			   authToken:apiToken
 				 success:successBlock
 				 failure:failureBlock];
@@ -89,8 +89,13 @@
 }
 
 // a helper method to create a has from the SKU
-- (NSString *)hashForSKU:(NSString *) SKU{
-	return [SKU stringByAppendingString:@"_HASH"]; // TODO: implement this properly!
+- (NSString *)hashForSKU:(NSString *)SKU{
+	const char *inUTF8 = [SKU UTF8String];
+	NSMutableString *asHex = [NSMutableString string];
+	while (*inUTF8) {
+		[asHex appendFormat:@"%02X", *inUTF8++ & 0x00FF];
+	}
+	return [NSString stringWithString:asHex];
 }
 
 @end
