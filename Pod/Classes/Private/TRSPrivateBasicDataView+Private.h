@@ -110,6 +110,6 @@
 // error, this method returns nil in this default implementation. If, however, the domain is TRSErrorDomain AND
 // the error not one of the above, the view will log "[trustbadge] An unkown error occured." to the console, so
 // you should override it to add any additional error code log messages relevant to your view (e.g. missing SKU).
-- (NSString *)logStringForErrorCode:(NSInteger)code;
+- (NSString *)logStringForError:(NSError *)error;
 
 @end

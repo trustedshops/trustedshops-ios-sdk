@@ -128,7 +128,6 @@ describe(@"-loadViewDataFromBackendWithSuccessBlock:failureBlock:", ^{
 			id mockView = OCMPartialMock(testView);
 			OCMStub([mockView performNetworkRequestWithSuccessBlock:[OCMArg invokeBlock] failureBlock:[OCMArg any]]);
 			OCMStub([mockView setupData:[OCMArg any]]).andReturn(NO);
-			OCMExpect([testView finishLoading]);
 			
 			waitUntil(^(DoneCallback done) {
 				[mockView loadViewDataFromBackendWithSuccessBlock:nil
@@ -137,19 +136,101 @@ describe(@"-loadViewDataFromBackendWithSuccessBlock:failureBlock:", ^{
 														 done();
 													 }];
 			});
-			// see class for this: we have an artificial delay, so we need to wait before checking for changes!
-			dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-				OCMVerify([testView finishLoading]);
+		});
+		
+		it(@"calls its failure block with an appropriate error if performNetworkRequest... demands it", ^{
+			// mock/stub the methods responsible for fetching data!
+			CGRect frame = CGRectMake(0.0, 0.0, 200.0, 40.0);
+			TRSPrivateBasicDataView *testView = [[TRSPrivateBasicDataView alloc] initWithFrame:frame
+																				trustedShopsID:@"anID"
+																					  apiToken:@"aToken"];
+			id mockView = OCMPartialMock(testView);
+			NSError *error = [NSError errorWithDomain:TRSErrorDomain
+												 code:TRSErrorDomainUnknownError // TRSErrorDomainInvalidTSID below
+											 userInfo:nil];
+			OCMStub([mockView performNetworkRequestWithSuccessBlock:[OCMArg any] failureBlock:([OCMArg invokeBlockWithArgs:error, nil])]);
+			
+			waitUntil(^(DoneCallback done) {
+				[mockView loadViewDataFromBackendWithSuccessBlock:nil
+													 failureBlock:^(NSError *error) {
+														 expect(error.code).to.equal(TRSErrorDomainUnknownError);
+														 done();
+													 }];
 			});
 		});
 		
+		it(@"also works for unknown errors from performNetworkRequest...", ^{
+			// mock/stub the methods responsible for fetching data!
+			CGRect frame = CGRectMake(0.0, 0.0, 200.0, 40.0);
+			TRSPrivateBasicDataView *testView = [[TRSPrivateBasicDataView alloc] initWithFrame:frame
+																				trustedShopsID:@"anID"
+																					  apiToken:@"aToken"];
+			id mockView = OCMPartialMock(testView);
+			NSError *error = [NSError errorWithDomain:TRSErrorDomain
+												 code:TRSErrorDomainInvalidTSID
+											 userInfo:nil];
+			OCMStub([mockView performNetworkRequestWithSuccessBlock:[OCMArg any] failureBlock:([OCMArg invokeBlockWithArgs:error, nil])]);
+			OCMExpect([testView logStringForError:error]);
+
+			waitUntil(^(DoneCallback done) {
+				[mockView loadViewDataFromBackendWithSuccessBlock:nil
+													 failureBlock:^(NSError *error) {
+														 expect(error.code).to.equal(TRSErrorDomainInvalidTSID);
+														 done();
+													 }];
+				
+			});
+			// see class for this: we have an artificial delay, so we need to wait before checking for changes!
+			dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+				OCMVerify([testView logStringForError:error]);
+			});
+		});
 	});
 	
 });
 
 context(@"helper methods", ^{
 	
+	describe(@"-performNetworkRequestWithSuccessBlock:failureBlock:", ^{
+		
+		it(@"raises an exception", ^{
+			CGRect frame = CGRectMake(0.0, 0.0, 200.0, 40.0);
+			TRSPrivateBasicDataView *testView = [[TRSPrivateBasicDataView alloc] initWithFrame:frame
+																				trustedShopsID:@"anID"
+																					  apiToken:@"aToken"];
+			expect(^{[testView performNetworkRequestWithSuccessBlock:nil failureBlock:nil];}).to.raiseAny();
+		});
+		
+	});
 	
+	describe(@"-logStringForError:", ^{
+		
+		it(@"returns an NSString for all relevant error codes", ^{
+			
+			NSError *error1 = [NSError errorWithDomain:TRSErrorDomain code:TRSErrorDomainInvalidAPIToken userInfo:nil];
+			NSError *error2 = [NSError errorWithDomain:TRSErrorDomain code:TRSErrorDomainInvalidTSID userInfo:nil];
+			NSError *error3 = [NSError errorWithDomain:TRSErrorDomain code:TRSErrorDomainTSIDNotFound userInfo:nil];
+			NSError *error4 = [NSError errorWithDomain:TRSErrorDomain code:TRSErrorDomainInvalidData userInfo:nil];
+			NSError *error5 = [NSError errorWithDomain:TRSErrorDomain code:TRSErrorDomainMissingTSIDOrAPIToken userInfo:nil];
+			
+			CGRect frame = CGRectMake(0.0, 0.0, 200.0, 40.0);
+			TRSPrivateBasicDataView *testView = [[TRSPrivateBasicDataView alloc] initWithFrame:frame
+																				trustedShopsID:@"anID"
+																					  apiToken:@"aToken"];
+			
+			expect([testView logStringForError:error1]).toNot.beNil();
+			expect([testView logStringForError:error1]).to.beKindOf([NSString class]);
+			expect([testView logStringForError:error2]).toNot.beNil();
+			expect([testView logStringForError:error2]).to.beKindOf([NSString class]);
+			expect([testView logStringForError:error3]).toNot.beNil();
+			expect([testView logStringForError:error3]).to.beKindOf([NSString class]);
+			expect([testView logStringForError:error4]).toNot.beNil();
+			expect([testView logStringForError:error4]).to.beKindOf([NSString class]);
+			expect([testView logStringForError:error5]).toNot.beNil();
+			expect([testView logStringForError:error5]).to.beKindOf([NSString class]);
+		});
+		
+	});
 	
 });
 
