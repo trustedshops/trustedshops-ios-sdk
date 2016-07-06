@@ -2,7 +2,7 @@
 //  UIColor+TRSColorsSpec.m
 //  Trustbadge
 //
-//  Created by Gero Herkenrath on 07/04/16.
+//  Taken up by Gero Herkenrath on 07/04/16.
 //
 
 #import "UIColor+TRSColors.h"

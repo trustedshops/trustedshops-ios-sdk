@@ -16,6 +16,8 @@ describe(@"NSURL+TRSURLExtensions", ^{
 	__block NSURL *profileURL;
 	__block NSURL *shopGradeAPIURL;
 	__block NSURL *shopGradeAPIURLDebug;
+	__block NSURL *productGradeAPIURL;
+	__block NSURL *productGradeAPIURLDebug;
 	__block NSURL *trustMarkURL;
 	__block NSURL *trustMarkURLDebug;
 	__block TRSShop *testShop;
@@ -28,6 +30,8 @@ describe(@"NSURL+TRSURLExtensions", ^{
 		profileURL = [NSURL profileURLForShop:testShop];
 		shopGradeAPIURL = [NSURL shopGradeAPIURLForTSID:testShop.tsId debug:NO];
 		shopGradeAPIURLDebug = [NSURL shopGradeAPIURLForTSID:testShop.tsId debug:YES];
+		productGradeAPIURL = [NSURL productGradeAPIURLForTSID:testShop.tsId skuHash:@"3230363130" debug:NO];
+		productGradeAPIURLDebug = [NSURL productGradeAPIURLForTSID:testShop.tsId skuHash:@"3230363130" debug:YES];
 		trustMarkURL = [NSURL trustMarkAPIURLForTSID:testShop.tsId debug:NO];
 		trustMarkURLDebug = [NSURL trustMarkAPIURLForTSID:testShop.tsId debug:YES];
 	});
@@ -100,6 +104,40 @@ describe(@"NSURL+TRSURLExtensions", ^{
 		});
 	});
 	
+	describe(@"+productGradeAPIURLForTSID:skuHash:debug:", ^{
+		
+		it(@"returns an NSURL", ^{
+			expect([NSURL productGradeAPIURLForTSID:testShop.tsId skuHash:@"3230363130" debug:YES]).to.beKindOf([NSURL class]);
+			expect([NSURL productGradeAPIURLForTSID:testShop.tsId skuHash:@"3230363130" debug:NO]).to.beKindOf([NSURL class]);
+		});
+		
+		it(@"has the correct prefix", ^{
+			NSString *urlStringDebug = [productGradeAPIURLDebug absoluteString];
+			NSString *urlString = [productGradeAPIURL absoluteString];
+			expect([urlStringDebug hasPrefix:[NSString stringWithFormat:@"https://%@", TRSAPIEndPointDebug]]).to.equal(YES);
+			expect([urlString hasPrefix:[NSString stringWithFormat:@"https://%@", TRSAPIEndPoint]]).to.equal(YES);
+		});
+		
+		it(@"contains the shop's TSID", ^{
+			NSString *urlString = [productGradeAPIURL absoluteString];
+			NSString *urlStringDebug = [productGradeAPIURLDebug absoluteString];
+			expect([urlString containsString:testShop.tsId]).to.equal(YES);
+			expect([urlStringDebug containsString:testShop.tsId]).to.equal(YES);
+		});
+		
+		it(@"contains the the correct SKU hash", ^{
+			NSString *urlString = [productGradeAPIURL absoluteString];
+			NSString *urlStringDebug = [productGradeAPIURLDebug absoluteString];
+			expect([urlString containsString:@"3230363130"]).to.equal(YES);
+			expect([urlStringDebug containsString:@"3230363130"]).to.equal(YES);
+		});
+		
+		it(@"points to json", ^{
+			expect([productGradeAPIURL pathExtension]).to.equal(@"json");
+			expect([productGradeAPIURLDebug pathExtension]).to.equal(@"json");
+		});
+	});
+	
 	describe(@"+trustMarkAPIURLForTSID:andAPIEndPoint:", ^{
 		
 		it(@"returns an NSURL", ^{
@@ -126,9 +164,6 @@ describe(@"NSURL+TRSURLExtensions", ^{
 			expect([trustMarkURLDebug pathExtension]).to.equal(@"json");
 		});
 	});
-	
-	
-	
 });
 
 SpecEnd

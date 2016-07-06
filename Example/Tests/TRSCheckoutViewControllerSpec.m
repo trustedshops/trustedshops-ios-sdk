@@ -1,3 +1,10 @@
+//
+//  TRSCheckoutControllerSpec.m
+//  Trustbadge
+//
+//  Created by Gero Herkenrath on 03/05/16.
+//
+
 #import "TRSCheckoutViewController.h"
 #import "TRSOrder.h"
 #import "TRSProduct.h"

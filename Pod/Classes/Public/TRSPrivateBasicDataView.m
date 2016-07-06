@@ -40,7 +40,7 @@ NSString *const kTRSPrivateBasicDataViewDebugModeKey = @"kTRSPrivateBasicDataVie
 		[self finishInit];
 		self.tsID = [aDecoder decodeObjectForKey:kTRSPrivateBasicDataViewTSIDKey];
 		self.apiToken = [aDecoder decodeObjectForKey:kTRSPrivateBasicDataViewApiTokenKey];
-		self.debugMode = [aDecoder decodeObjectForKey:kTRSPrivateBasicDataViewDebugModeKey];
+		self.debugMode = [aDecoder decodeBoolForKey:kTRSPrivateBasicDataViewDebugModeKey];
 	}
 	return self;
 }

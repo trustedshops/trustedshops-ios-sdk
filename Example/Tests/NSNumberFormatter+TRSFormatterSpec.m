@@ -1,3 +1,10 @@
+//
+//  NSNumberFormatter+TRSFormatterSpec.m
+//  Trustbadge
+//
+//  Taken up by Gero Herkenrath on 22/03/16.
+//
+
 #import "NSNumberFormatter+TRSFormatter.h"
 #import <OCMock/OCMock.h>
 #import <Specta/Specta.h>

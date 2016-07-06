@@ -1,3 +1,10 @@
+//
+//  TRSTrustbadgeSpec.m
+//  Trustbadge
+//
+//  Taken up by Gero Herkenrath on 22/03/16.
+//
+
 #import "TRSTrustbadge.h"
 #import "TRSTrustcard.h"
 #import <Specta/Specta.h>

@@ -1,8 +1,9 @@
 //
 //  TRSStarsViewSpec.m
+//  (formerly TRSRatingViewSpec.m)
 //  Trustbadge
 //
-//  Created by Gero Herkenrath on 21/06/16.
+//  Taken up by Gero Herkenrath on 21/06/16.
 //
 
 #import "TRSStarsView.h"

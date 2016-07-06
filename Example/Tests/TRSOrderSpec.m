@@ -1,3 +1,10 @@
+//
+//  TRSOrderSpec.m
+//  Trustbadge
+//
+//  Created by Gero Herkenrath on 23/06/16.
+//
+
 #import "TRSOrder.h"
 #import "TRSConsumer.h"
 #import <Specta/Specta.h>

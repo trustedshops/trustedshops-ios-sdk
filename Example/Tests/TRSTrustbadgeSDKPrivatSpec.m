@@ -1,3 +1,10 @@
+//
+//  TRSTrustbadgeSDKPrivatSpec.m
+//  Trustbadge
+//
+//  Taken up by Gero Herkenrath on 22/03/16.
+//
+
 #import "TRSTrustbadgeSDKPrivate.h"
 #import <Specta/Specta.h>
 

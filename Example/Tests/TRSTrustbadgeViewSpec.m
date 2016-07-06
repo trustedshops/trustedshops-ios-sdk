@@ -1,3 +1,10 @@
+//
+//  TRSTrustbadgeViewSpec.m
+//  Trustbadge
+//
+//  Taken up by Gero Herkenrath on 22/03/16.
+//
+
 #import "TRSTrustbadgeView.h"
 #import "TRSTrustbadge.h"
 #import "TRSNetworkAgent+Trustbadge.h"

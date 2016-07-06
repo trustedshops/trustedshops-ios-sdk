@@ -24,9 +24,13 @@
 		NSString *skuHash = [self hashForSKU:SKU];
 		
 		if (!skuHash) {
-			NSError *myError = [NSError errorWithDomain:TRSErrorDomain
-												   code:TRSErrorDomainMissingSKU
-											   userInfo:nil];
+			if (failure) {
+				NSError *myError = [NSError errorWithDomain:TRSErrorDomain
+													   code:TRSErrorDomainMissingSKU
+												   userInfo:nil];
+				failure(myError);
+			}
+			return nil;
 		}
 		
 		void (^successBlock)(NSData *data) = ^(NSData *data) {
@@ -86,10 +90,14 @@
 				 success:successBlock
 				 failure:failureBlock];
 	}
+	return nil;
 }
 
 // a helper method to create a has from the SKU
 - (NSString *)hashForSKU:(NSString *)SKU{
+	if (!SKU) {
+		return nil;
+	}
 	const char *inUTF8 = [SKU UTF8String];
 	NSMutableString *asHex = [NSMutableString string];
 	while (*inUTF8) {
