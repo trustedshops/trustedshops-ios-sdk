@@ -109,8 +109,10 @@ NSString *const kTRSPrivateBasicDataViewDebugModeKey = @"kTRSPrivateBasicDataVie
 
 - (void)performNetworkRequestWithSuccessBlock:(void (^)(id result))successBlock failureBlock:(void(^)(NSError *error))failureBlock {
 	// subclasses should override this!
-	[NSException raise:@"TRSPrivateBasicDataView is an abstract class!"
-				format:@"This method should not be called directly and must be overriden in subclasses!"];
+//	[NSException raise:@"TRSPrivateBasicDataView is an abstract class!"
+//				format:@"This method should not be called directly and must be overriden in subclasses!"];
+	[NSException raise:@"TRSPrivateBasicDataViewSubclassingException!"
+				format:@"TRSPrivateBasicDataView was not subclassed correctly. A method that should have been overridden wasn't."];
 }
 
 - (NSString *)logStringForError:(NSError *)error {
