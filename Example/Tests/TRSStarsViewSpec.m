@@ -127,12 +127,12 @@ describe(@"TRSStarsView", ^{
 	describe(@"-sizeThatFits:", ^{
 		
 		it(@"returns a minimum size of 16.0 x 16.0", ^{
-			CGRect frame = CGRectMake(0.0, 0.0, 100.0, 13.0);
+			CGRect frame = CGRectMake(0.0, 0.0, 100.0, 9.0);
 			TRSStarsView *view = [[TRSStarsView alloc] initWithFrame:frame rating:@3.78];
 			CGSize tooSmall = frame.size;
 			CGSize fittingSize = [view sizeThatFits:tooSmall];
 			[view sizeToFit];
-			expect(fittingSize.height).to.equal(16.0);
+			expect(fittingSize.height).to.equal(10.0);
 			expect(fittingSize.width).to.equal(fittingSize.height * 5.0);
 		});
 		

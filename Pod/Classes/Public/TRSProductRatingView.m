@@ -70,8 +70,6 @@ NSString *const kTRSProductRatingViewUseOnlyOneLineKey = @"kTRSProductRatingView
 }
 
 - (CGSize)sizeThatFits:(CGSize)size {
-	// TODO: finish that later...
-	
 	if (size.height < self.minHeight) { // if wanted height too small: increase it to min
 		size.height = self.minHeight;
 	}
@@ -115,24 +113,80 @@ NSString *const kTRSProductRatingViewUseOnlyOneLineKey = @"kTRSProductRatingView
 	}
 }
 
+#pragma mark - Custom setters
+
+- (void)setUseOnlyOneLine:(BOOL)useOnlyOneLine {
+	if (useOnlyOneLine != _useOnlyOneLine) {
+		_useOnlyOneLine = useOnlyOneLine;
+		if (useOnlyOneLine) {
+			// in one line mode, the text in the label is always centered! (actual alignment of the label is defined
+			// by its frame, centering the text in that prevents "jittering").
+			self.gradeLabel.textAlignment = NSTextAlignmentCenter;
+		} else {
+			self.gradeLabel.textAlignment = _alignment;
+		}
+		[self setNeedsLayout];
+	}
+}
+
+- (void)setAlignment:(NSTextAlignment)alignment {
+	if (alignment != _alignment) {
+		_alignment = alignment;
+		if (!self.useOnlyOneLine) {
+			self.gradeLabel.textAlignment = _alignment;
+		}
+		[self setNeedsLayout];
+	}
+}
+
 #pragma mark - Helper methods
 
 // assumes aspect ratio of parent is correct
 - (CGRect)frameForStars {
 	CGSize mySize = self.frame.size;
 	CGFloat lengthPerStar = self.useOnlyOneLine ? mySize.height : mySize.height * kTRSProductRatingViewStarsHeightToViewRatio;
-	// TODO: work out alignment!
 	CGRect theFrame = CGRectMake(0.0, 0.0, lengthPerStar * kTRSStarsViewNumberOfStars, lengthPerStar);
+	
+	CGFloat labelHeight = mySize.height * [self labelHeightRatio];
+	CGFloat offsetDueToLabel = self.useOnlyOneLine ? [TRSViewCommons widthForLabel:self.gradeLabel withHeight:labelHeight] : 0.0;
+	
+	switch ([self actualAlignment]) {
+		case NSTextAlignmentLeft:
+			theFrame.origin.x = 0.0;
+			break;
+		case NSTextAlignmentRight:
+			theFrame.origin.x = self.frame.size.width - theFrame.size.width - offsetDueToLabel;
+			break;
+		default: // catches NSTextAligmentCenter, the other two are actually prevented in actualAlignment
+			theFrame.origin.x = self.frame.size.width / 2.0 - theFrame.size.width / 2.0 - offsetDueToLabel / 2.0;
+			break;
+	}
+
 	return theFrame;
 }
 
 - (CGRect)frameForGrade {
 	CGRect myFrame = self.bounds;
+	CGFloat lengthPerStar = self.useOnlyOneLine ? myFrame.size.height : myFrame.size.height * kTRSProductRatingViewStarsHeightToViewRatio;
 	myFrame.size.height *= [self labelHeightRatio];
 	myFrame.size.width = [TRSViewCommons widthForLabel:self.gradeLabel withHeight:myFrame.size.height];
 	myFrame.origin.y += self.bounds.size.height - myFrame.size.height;
-	// TODO: work out alignment!
-	myFrame.origin.x += self.useOnlyOneLine ? [self frameForStars].size.width : 0.0;
+	
+	CGFloat offsetDueToStars = self.useOnlyOneLine ? lengthPerStar * kTRSStarsViewNumberOfStars : 0.0;
+	
+	switch ([self actualAlignment]) {
+		case NSTextAlignmentLeft:
+			myFrame.origin.x = 0.0 + offsetDueToStars;
+			break;
+		case NSTextAlignmentRight:
+			myFrame.origin.x = self.bounds.size.width - myFrame.size.width;
+			break;
+		default: // catches NSTextAligmentCenter, the other two are actually prevented in actualAlignment
+			myFrame.origin.x = self.bounds.size.width / 2.0 - myFrame.size.width / 2.0 + offsetDueToStars / 2.0;
+			break;
+	}
+//	myFrame.origin.x += self.useOnlyOneLine ? [self frameForStars].size.width : 0.0;
+	
 	return myFrame;
 }
 
@@ -163,7 +217,21 @@ NSString *const kTRSProductRatingViewUseOnlyOneLineKey = @"kTRSProductRatingView
 	return [[NSAttributedString alloc] initWithAttributedString:firstPart];
 }
 
-#pragma mark - Methods to override defined by private TRSPrivateBasicDataView
+- (NSTextAlignment)actualAlignment {
+	NSTextAlignment myAlign = self.alignment;
+	// first figure out what natural means, also treat justified in the same way!
+	if (myAlign == NSTextAlignmentNatural || myAlign == NSTextAlignmentJustified) {
+		if ([UIView userInterfaceLayoutDirectionForSemanticContentAttribute:self.semanticContentAttribute]
+			== UIUserInterfaceLayoutDirectionLeftToRight) {
+			myAlign = NSTextAlignmentLeft;
+		} else {
+			myAlign = NSTextAlignmentRight;
+		}
+	}
+	return myAlign;
+}
+
+#pragma mark - Methods to override defined by TRSPrivateBasicDataView
 
 - (void)finishInit {
 	[super finishInit]; // can use super in this case, inits starsPlaceholder

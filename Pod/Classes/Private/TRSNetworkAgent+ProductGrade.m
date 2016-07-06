@@ -25,7 +25,7 @@
 		
 		if (!skuHash) {
 			NSError *myError = [NSError errorWithDomain:TRSErrorDomain
-												   code:TRSErrorDomainMissingSKU // TODO: create a meaningful error code for this! (invalid SKU, for example)
+												   code:TRSErrorDomainMissingSKU
 											   userInfo:nil];
 		}
 		
