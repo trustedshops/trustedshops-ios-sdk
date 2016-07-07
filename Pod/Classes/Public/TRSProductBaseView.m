@@ -26,6 +26,10 @@ NSString *const kTRSProductBaseViewSKUKey = @"kTRSProductBaseViewSKUKey";
 	return self;
 }
 
+- (instancetype)initWithFrame:(CGRect)frame trustedShopsID:(NSString *)tsID apiToken:(NSString *)apiToken {
+	return [self initWithFrame:frame trustedShopsID:tsID apiToken:apiToken SKU:nil];
+}
+
 // override this as needed, but be aware that super calls finishInit before the properties are decoded!
 - (instancetype)initWithCoder:(NSCoder *)aDecoder {
 	self = [super initWithCoder:aDecoder];

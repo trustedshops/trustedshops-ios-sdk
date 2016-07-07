@@ -80,7 +80,7 @@ NSString *const kTRSPrivateBasicDataViewDebugModeKey = @"kTRSPrivateBasicDataVie
 		
 		NSString *logMessage = [self logStringForError:error];
 		if (logMessage) {
-			NSLog(logMessage);
+			NSLog(@"%@", logMessage);
 		} else if ([error.domain isEqualToString:TRSErrorDomain]) {
 			NSLog(@"[trustbadge] An unkown error occured.");
 		}

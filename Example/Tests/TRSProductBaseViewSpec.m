@@ -18,7 +18,7 @@ SpecBegin(TRSProductBaseView)
 context(@"initialization", ^{
 	
 	// note that there is an NSLog() in this class, so that will clutter the output of the tests a bit.
-	describe(@"-initWithFrame:trustedShopsID:apiToken:", ^{
+	describe(@"-initWithFrame:trustedShopsID:apiToken:SKU:", ^{
 		
 		it(@"sets the properties correctly", ^{
 			CGRect frame = CGRectMake(0.0, 0.0, 200.0, 40.0);
@@ -48,15 +48,12 @@ context(@"initialization", ^{
 		
 	});
 	
-	describe(@"-initWithFrame:", ^{
+	describe(@"-initWithFrame:trustedShopsID:apiToken:", ^{
 		
-		it(@"returns a view with tsID and apiToken of nil", ^{
+		it(@"returns a view with an SKU of nil", ^{
 			CGRect frame = CGRectMake(0.0, 0.0, 200.0, 40.0);
-			TRSProductBaseView *testView = [[TRSProductBaseView alloc] initWithFrame:frame];
-			expect(testView.tsID).to.beNil();
-			expect(testView.apiToken).to.beNil();
+			TRSProductBaseView *testView = [[TRSProductBaseView alloc] initWithFrame:frame trustedShopsID:@"foo" apiToken:@"bar"];
 			expect(testView.SKU).to.beNil();
-			expect(testView.frame).to.equal(frame);
 		});
 		
 	});
