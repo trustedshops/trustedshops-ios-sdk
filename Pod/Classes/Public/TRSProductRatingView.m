@@ -82,7 +82,7 @@ NSString *const kTRSProductRatingViewUseOnlyOneLineKey = @"kTRSProductRatingView
 	CGFloat minFirstLineWidth = self.minHeight * kTRSStarsViewNumberOfStars;
 	if (self.useOnlyOneLine) { // one line? -> add to minwidth
 		minFirstLineWidth += gradeTextLabelWidth;
-	} else if (minFirstLineWidth < gradeTextLabelWidth) { // two lines? -> chose bigger one as minwodth
+	} else if (minFirstLineWidth < gradeTextLabelWidth) { // two lines? -> chose bigger one as minwidth
 		minFirstLineWidth = gradeTextLabelWidth;
 	}
 	if (size.width < minFirstLineWidth) { // if wanted width too small: increase it to min
@@ -185,36 +185,37 @@ NSString *const kTRSProductRatingViewUseOnlyOneLineKey = @"kTRSProductRatingView
 			myFrame.origin.x = self.bounds.size.width / 2.0 - myFrame.size.width / 2.0 + offsetDueToStars / 2.0;
 			break;
 	}
-//	myFrame.origin.x += self.useOnlyOneLine ? [self frameForStars].size.width : 0.0;
 	
 	return myFrame;
 }
 
 - (NSAttributedString *)attributedOneLineStringWithPointSize:(CGFloat)size {
+	
+	NSAttributedString *retVal = nil;
 	// safety check:
-	if (self.oneLineString.length < 13) { // somehow we have the wrong string, do nothing
-		return nil;
+	if (self.oneLineString.length >= 13) { // somehow we have the wrong string, do nothing
+		// note: the string can't be shorter than 13: @"(0) 0.00/5.00" (no reviews, zero grade) ->
+		NSUInteger indexMiddlePart = self.oneLineString.length - 9;
+		NSUInteger indexLastPart = self.oneLineString.length - 5;
+		
+		NSString *firstRaw = [self.oneLineString substringToIndex:indexMiddlePart];
+		NSString *middleRaw = [self.oneLineString substringWithRange:NSMakeRange(indexMiddlePart, 4)];
+		NSString *lastRaw = [self.oneLineString substringFromIndex:indexLastPart];
+		
+		NSDictionary *greyColor = @{NSFontAttributeName : [UIFont fontWithName:kTRSProductRatingViewFontName size:size],
+									NSForegroundColorAttributeName : [UIColor trs_80_gray]};
+		NSDictionary *blackColor = @{NSFontAttributeName : [UIFont fontWithName:kTRSProductRatingViewFontName size:size],
+									 NSForegroundColorAttributeName : [UIColor trs_black]};
+		NSMutableAttributedString *firstPart = [[NSMutableAttributedString alloc] initWithString:firstRaw attributes:greyColor];
+		NSAttributedString *middlePart = [[NSMutableAttributedString alloc] initWithString:middleRaw attributes:blackColor];
+		NSAttributedString *lastPart = [[NSMutableAttributedString alloc] initWithString:lastRaw attributes:greyColor];
+		
+		[firstPart appendAttributedString:middlePart];
+		[firstPart appendAttributedString:lastPart];
+		
+		retVal = [[NSAttributedString alloc] initWithAttributedString:firstPart];
 	}
-	// note: the string can't be shorter than 13: @"(0) 0.00/5.00" (no reviews, zero grade) ->
-	NSUInteger indexMiddlePart = self.oneLineString.length - 9;
-	NSUInteger indexLastPart = self.oneLineString.length - 5;
-	
-	NSString *firstRaw = [self.oneLineString substringToIndex:indexMiddlePart];
-	NSString *middleRaw = [self.oneLineString substringWithRange:NSMakeRange(indexMiddlePart, 4)];
-	NSString *lastRaw = [self.oneLineString substringFromIndex:indexLastPart];
-
-	NSDictionary *greyColor = @{NSFontAttributeName : [UIFont fontWithName:kTRSProductRatingViewFontName size:size],
-								NSForegroundColorAttributeName : [UIColor trs_80_gray]};
-	NSDictionary *blackColor = @{NSFontAttributeName : [UIFont fontWithName:kTRSProductRatingViewFontName size:size],
-								 NSForegroundColorAttributeName : [UIColor trs_black]};
-	NSMutableAttributedString *firstPart = [[NSMutableAttributedString alloc] initWithString:firstRaw attributes:greyColor];
-	NSAttributedString *middlePart = [[NSMutableAttributedString alloc] initWithString:middleRaw attributes:blackColor];
-	NSAttributedString *lastPart = [[NSMutableAttributedString alloc] initWithString:lastRaw attributes:greyColor];
-	
-	[firstPart appendAttributedString:middlePart];
-	[firstPart appendAttributedString:lastPart];
-	
-	return [[NSAttributedString alloc] initWithAttributedString:firstPart];
+	return retVal;
 }
 
 - (NSTextAlignment)actualAlignment {
@@ -236,6 +237,7 @@ NSString *const kTRSProductRatingViewUseOnlyOneLineKey = @"kTRSProductRatingView
 - (void)finishInit {
 	[super finishInit]; // can use super in this case, inits starsPlaceholder
 	self.useOnlyOneLine = NO;
+	_alignment = NSTextAlignmentNatural;
 	
 	self.oneLineString = @"(-) -.--/-.--";
 	self.twoLineString = @"-.--/-.-- (----)";

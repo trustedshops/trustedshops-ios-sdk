@@ -94,8 +94,12 @@ describe(@"-loadViewDataFromBackendWithSuccessBlock:failureBlock:", ^{
 																					  apiToken:@"aToken"];
 			id mockView = OCMPartialMock(testView);
 			OCMStub([mockView performNetworkRequestWithSuccessBlock:[OCMArg invokeBlock] failureBlock:[OCMArg any]]);
-			OCMExpect([testView setupData:[OCMArg any]]);
-			OCMExpect([testView finishLoading]);
+			// this is a weird issie: I have to stub and forward for the expecation to properly work, otherwise
+			// the code coverage doesn't realize the method has been called (since it was called on the mock I guess)
+			OCMStub([mockView setupData:[OCMArg any]]).andForwardToRealObject();
+			OCMStub([mockView finishLoading]).andForwardToRealObject();
+			OCMExpect([mockView setupData:[OCMArg any]]);
+			OCMExpect([mockView finishLoading]);
 
 			waitUntil(^(DoneCallback done) {
 				[mockView loadViewDataFromBackendWithSuccessBlock:^{
@@ -104,8 +108,8 @@ describe(@"-loadViewDataFromBackendWithSuccessBlock:failureBlock:", ^{
 			});
 			// see class for this: we have an artificial delay, so we need to wait before checking for changes!
 			dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-				OCMVerify([testView finishLoading]);
-				OCMVerify([testView setupData:[OCMArg any]]);
+				OCMVerify([mockView finishLoading]);
+				OCMVerify([mockView setupData:[OCMArg any]]);
 			});
 			
 			// ... somehow I still can't believe this works...
@@ -167,7 +171,8 @@ describe(@"-loadViewDataFromBackendWithSuccessBlock:failureBlock:", ^{
 												 code:TRSErrorDomainInvalidTSID
 											 userInfo:nil];
 			OCMStub([mockView performNetworkRequestWithSuccessBlock:[OCMArg any] failureBlock:([OCMArg invokeBlockWithArgs:error, nil])]);
-			OCMExpect([testView logStringForError:error]);
+			OCMStub([mockView logStringForError:error]).andForwardToRealObject(); // forward for code coverage
+			OCMExpect([mockView logStringForError:error]);
 
 			waitUntil(^(DoneCallback done) {
 				[mockView loadViewDataFromBackendWithSuccessBlock:nil
@@ -179,7 +184,7 @@ describe(@"-loadViewDataFromBackendWithSuccessBlock:failureBlock:", ^{
 			});
 			// see class for this: we have an artificial delay, so we need to wait before checking for changes!
 			dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-				OCMVerify([testView logStringForError:error]);
+				OCMVerify([mockView logStringForError:error]);
 			});
 		});
 	});

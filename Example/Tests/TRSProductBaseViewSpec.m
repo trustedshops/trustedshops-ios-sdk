@@ -82,7 +82,7 @@ context(@"initialization", ^{
 			expect(unpacked.tsID).to.equal(@"anID");
 			expect(unpacked.apiToken).to.equal(@"aToken");
 			expect(unpacked.SKU).to.equal(@"20610");
-			expect(unpacked.debugMode).to.beTruthy();;
+			expect(unpacked.debugMode).to.beTruthy();
 		});
 		
 	});
