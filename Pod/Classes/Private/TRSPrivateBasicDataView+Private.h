@@ -6,7 +6,7 @@
 //
 //
 
-/*
+/**
  This is a private header to keep the public interface clean from these internal helper methods.
  It is part of the abstract TRSPrivateBasicDataView class, however, and all classes inheriting from that
  should import this header along with the public one in their .m file.
@@ -44,7 +44,7 @@
  4) is not to be confused with loadViewDataFromBackendWithSuccessBlock:failureBlock: !
  Here you should invoke whatever category method of TRSNetworkAgent is respinsbile for fetching the data your view subclass
  needs! On success respectively error you MUST invoke the corresponding block that is passed to this method! (Most likely
- you can just pass the blocks to your category method, if that has corresponding parameters.
+ you can just pass the blocks to your category method, if that has corresponding parameters.)
  
  5) doesn't need to be overridden, but you probably should do that if you must handle errors besides the common
  ones (like TSID not found and such). If you do that, call super first, and if that returns nil, try
@@ -67,49 +67,68 @@
  
  Furthermore, you should not expose the methods from the private protocol to public views.
  */
-
 @interface TRSPrivateBasicDataView ()
 
 // This is only needed to satisfy the compiler (for NS_DESIGNATED_INITIALIZER)
 - (instancetype)initWithCoder:(NSCoder *)aDecoder NS_DESIGNATED_INITIALIZER;
 
-// NOTE: This is to be overriden in all subclasses of TRSPrivateBasicDataView.
-// The method is called in all designated initializers, i.e. initWithFrame:trustedShopsID:apiToken and initWithCoder:.
-// When you override initWithCoder: to de-serialize custom properties, be aware that, because of this, finishInit is
-// called BEFORE you unarchive these properties (since the call to super is the first thing you should do when
-// overriding said method).
-// There should be no need to override initWithFrame:trustedShopsID:apiToken, you can do all according things in finishInit instead.
-// The default implementation in TRSPrivateBasicDataView should do nothing.
+/**
+ This is to be overriden in all subclasses of `TRSPrivateBasicDataView`.
+ 
+ The method is called in all designated initializers, i.e. `initWithFrame:trustedShopsID:apiToken:` and `initWithCoder:`.
+ When you override `initWithCoder:` to de-serialize custom properties, be aware that, because of this, finishInit is
+ called BEFORE you unarchive these properties (since the call to super is the first thing you should do when
+ overriding said method).
+ There should be no need to override `initWithFrame:trustedShopsID:apiToken:`, you can do all according things in finishInit instead.
+ The default implementation in `TRSPrivateBasicDataView` should do nothing.
+ */
 - (void)finishInit;
 
-// This should be called right at the start of the success block of performRemoteGetWithSuccess:ailure:
-// Subclasses can use this to process the response object and setup their internal data properties needed to
-// present the view's information. If the data can't be setup correctly, don't store any of it and return NO
-// otherwise return YES.
-// The default implementation in TRSPrivateBasicDataView should do nothing.
+/**
+ This should be called right at the start of the success block of `performRemoteGetWithSuccess:failure:`
+ Subclasses can use this to process the response object and setup their internal data properties needed to
+ present the view's information. If the data can't be setup correctly, don't store any of it and return `NO`
+ otherwise return `YES`.
+ The default implementation in TRSPrivateBasicDataView should do nothing.
+ 
+ @param data the object containing the data that was loaded, most likely an NSDictionary or something similar.
+ */
 - (BOOL)setupData:(id)data;
 
-// This should be called right before loadViewDataFromBackendWithSuccessBlock:failureBlock: calls its success block,
-// i.e. when the view is ready to be displayed. All relevant data properties (product grade etc.) are set.
-// You should override this method to initialize all necessary subviews and add them to the view hierarchy.
-// Note that afterwards, the success block is called in any case.
-// The default implementation in TRSPrivateBasicDataView should do nothing.
+/**
+ This should be called right before `loadViewDataFromBackendWithSuccessBlock:failureBlock:` calls its success block,
+ i.e. when the view is ready to be displayed. All relevant data properties (product grade etc.) are set.
+ You should override this method to initialize all necessary subviews and add them to the view hierarchy.
+ Note that afterwards, the success block is called in any case.
+ The default implementation in TRSPrivateBasicDataView should do nothing.
+ */
 - (void)finishLoading;
 
-// Must be overridden in subclasses!
-// This method should use the appropriate TRSNetworkAgent category to obtain the data relevant for the view
-// from the backend. On success it MUST invoke the success block (with the result) and on failure it MUST do so with
-// the failure block (simply passing the error).
-// The default implementation in TRSPrivateBasicDataView throws an error!
+/*
+ Must be overridden in subclasses!
+ This method should use the appropriate `TRSNetworkAgent` category to obtain the data relevant for the view
+ from the backend. On success it MUST invoke the success block (with the result) and on failure it MUST do so with
+ the failure block (simply passing the error).
+ The default implementation in TRSPrivateBasicDataView throws an error!
+ 
+ @param successBlock The block to be called when the `TRSNetworkAgent` category successfully loaded data. 
+ Pass along said data in the result object.
+ @param failureBlock the block to be called when ths `TRSNetworkAgent` category failed loading data. 
+ Pass along the error in the error object (or create a fitting one and pass it).
+ */
 - (void)performNetworkRequestWithSuccessBlock:(void (^)(id result))successBlock failureBlock:(void(^)(NSError *error))failureBlock;
 
-// This method _can_ be overridden, but if you do so, you should call super first. It returns a string that
-// will be logged to the console for a given error code or nil, if it doesn't know the error code.
-// By default, TRSPrivateBasicDataView understands TRSErrorDomainInvalidAPIToken, TRSErrorDomainInvalidTSID,
-// TRSErrorDomainTSIDNotFound, TRSErrorDomainInvalidData, and TRSErrorDomainMissingTSIDOrAPIToken. For any other
-// error, this method returns nil in this default implementation. If, however, the domain is TRSErrorDomain AND
-// the error not one of the above, the view will log "[trustbadge] An unkown error occured." to the console, so
-// you should override it to add any additional error code log messages relevant to your view (e.g. missing SKU).
+/**
+ This method _can_ be overridden, but if you do so, you should call super first. It returns a string that
+ will be logged to the console for a given error code or nil, if it doesn't know the error code.
+ By default, TRSPrivateBasicDataView understands TRSErrorDomainInvalidAPIToken, TRSErrorDomainInvalidTSID,
+ TRSErrorDomainTSIDNotFound, TRSErrorDomainInvalidData, and TRSErrorDomainMissingTSIDOrAPIToken. For any other
+ error, this method returns nil in this default implementation. If, however, the domain is TRSErrorDomain AND
+ the error not one of the above, the view will log "[trustbadge] An unkown error occured." to the console, so
+ you should override it to add any additional error code log messages relevant to your view (e.g. missing SKU).
+ 
+ @param error an error object you want to create a logging string for.
+ */
 - (NSString *)logStringForError:(NSError *)error;
 
 @end

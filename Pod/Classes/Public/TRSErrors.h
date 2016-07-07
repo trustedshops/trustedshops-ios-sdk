@@ -7,7 +7,8 @@
 FOUNDATION_EXPORT NSString * const TRSErrorDomain;
 
 /**	
- The type for error codes that are used in the Trustbadge SDK.
+ The type for error codes that are used in the Trustbadge SDK. The error domain of each error using these codes
+ is defined as `TRSErrorDomain`.
  */
 typedef NS_ENUM(NSUInteger, TRSErrorCode) {
 	/** An unknown error in the context of the Trustbadge SDK */
