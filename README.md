@@ -11,15 +11,16 @@ Integrate our SDK into your shopping app and boost your conversion with **Trustb
 * Show your shop's customer rating and reviews
 * Integrate the Trusted Shops buyer protection and review collecting services
 
-![TrustedShopsiOSSDK](https://raw.githubusercontent.com/trustedshops/trustedshops-ios-sdk/master/Screenshots/iOS-SDK.png "Boost your conversion with Trustbadge and buyer protection")
+![TrustedShopsiOSSDK](Screenshots/iOS-SDK.png "Boost your conversion with Trustbadge and buyer protection")
 
 Our SDK supports the following languages: DE, EN, FR, ES, IT, NL, PL.
 
 1. [Installation](#1-installation)
 2. [Display Trustbadge](#2-display-trustbadge)
 3. [Display Customer Reviews](#3-display-customer-reviews)
-4. [Integration of Buyer Protection after Checkout](#4-integration-of-buyer-protection-after-checkout)
-5. [About this SDK](#5-about-this-sdk)
+4. [Display Product Reviews](#4-display-product-reviews)
+5. [Integration of Buyer Protection after Checkout](#5-integration-of-buyer-protection-after-checkout)
+6. [About this SDK](#6-about-this-sdk)
 
 - - - -
 
@@ -77,9 +78,9 @@ The SDK contains three additional views to display your shop's grade and rating 
 
 | View  | Example |
 | ------------- | ------------- |
-| TRSShopRatingView |![TRSShopRatingView](https://raw.githubusercontent.com/trustedshops/trustedshops-ios-sdk/master/Screenshots/TRSShopRatingView.png "TRSShopRatingView")|
-| TRSShopSimpleRatingView |![TRSShopSimpleRatingView](https://raw.githubusercontent.com/trustedshops/trustedshops-ios-sdk/master/Screenshots/TRSSimpleRatingView.png "TRSShopSimpleRatingView")|
-| TRSShopGradeView |![TRSShopGradeView](https://raw.githubusercontent.com/trustedshops/trustedshops-ios-sdk/master/Screenshots/TRSShopGradeView.png "TRSShopGradeView")|
+| TRSShopRatingView |![TRSShopRatingView](Screenshots/TRSShopRatingView.png "TRSShopRatingView")|
+| TRSShopSimpleRatingView |![TRSShopSimpleRatingView](Screenshots/TRSSimpleRatingView.png "TRSShopSimpleRatingView")|
+| TRSShopGradeView |![TRSShopGradeView](Screenshots/TRSShopGradeView.png "TRSShopGradeView")|
 
 
 
@@ -108,7 +109,47 @@ You can customize the appearence of the views like the color of their stars via 
 
 - - - -
 
-## 4. Integration of Buyer Protection after Checkout ##
+## 4. Display Product Reviews ##
+
+There are also two classes to display product reviews: `TRSProductSimpleRatingView` and `TRSProductRatingView`.
+The latter has two different modes, so product reviews can be shown in three different ways, like shop reviews:
+
+| View  | Example |
+| ------------- | ------------- |
+| TRSProductSimpleRatingView |![TRSProductSimpleRatingView](Screenshots/TRSProductSimpleRatingView.png "TRSProductSimpleRatingView")|
+| TRSProductRatingView (two line mode) |![TRSProductRatingView (two line mode)](Screenshots/TRSProductRatingView_two.png "TRSProductRatingView (two line mode)")|
+| TRSProductRatingView (one line mode) |![TRSProductRatingView (one line mode)](Screenshots/TRSProductRatingView_one.png "TRSProductRatingView (one line mode)")|
+
+
+
+They work like the other views; here's how to set up `TRSProductRatingView` with one line as an example:
+
+1.Initialize the view and set its credentials
+
+```objc
+CGRect myFrame = someContainerView.frame;
+TRSProductRatingView *myProductRatingView = [[TRSProductRatingView alloc] initWithFrame:myFrame trustedShopsID:@"YOUR-TRUSTED-SHOPS-ID" apiToken:@"THIS-IS-NOT-NEEDED-ATM" SKU:@"YOUR-PRODUCTS-SKU"];
+// like with other views, the apiToken is not enforced at the moment, but must not be nil!
+myProductRatingView.useOnlyOneLine = YES;
+myProductRatingView.debugMode = YES; // works similar to other views of the SDK
+```
+
+2.Load the data from our backend so it displays the grade
+
+```objc
+[myProductRatingView loadViewDataFromBackendWithSuccessBlock:^{
+[someContainerView addSubview:myProductRatingView];
+} failureBlock:^(NSError *error) {
+NSLog(@"Error loading the TRSProductRatingView: %@", error);
+// your error handling
+}];
+```
+
+Customization and debug mode work the same as for the shop review views. See the [documentation](#documentation) for further information.
+
+- - - -
+
+## 5. Integration of Buyer Protection after Checkout ##
 
 As of version 0.3.0 the SDK supports a checkout process for purchases consumers make with your app. This means you can allow them to additionally purchase a guarantee for their order from Trusted Shops, like they know it from many webshops that provide this.
 Consumers will then also reminded to give reviews (if you consume this service from Trusted Shops).
@@ -149,7 +190,7 @@ If you are developing your application and want to test this SDK feature __pleas
 
 - - - -
 
-## 5. About this SDK ##
+## 6. About this SDK ##
 
 #### Documentation ####
 The latest documentation can be found at [cocoadocs](http://cocoadocs.org/docsets/Trustbadge/0.4.1/).
