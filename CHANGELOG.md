@@ -1,5 +1,15 @@
 # Trustbadge
 
+## Version 0.5.0
+
+* Added two abstract view classes: A general base class for views loading data from TS and a subclass of that, still abstract, specializing in loading product review data
+* Added two concrete subclasses of that to display product reviews (one has two modes, so three possible UI elemnts)
+* Modified the example project to showcase these new views
+* Added networking code to access product reviews API
+* Added internal documentation on how to subclass new views from the basic abstract classes (existing shop review views will be modified in the future)
+* Renamed the error codes to better suit their meaning
+* Fixed the card showing insurance etc. after purchase so that its dimensions enlarge if the shown html is cutoff
+
 ## Version 0.4.1
 
 * The checkout process now sends a flag so TS can distinguish an order incoming from the SDK

@@ -69,7 +69,7 @@ NSString * const TRSPublicAPIEndPointDebug = @"api-qa.trustedshops.com";
 	}
 }
 
-#pragma mark - Getting a shops grade data
+#pragma mark - Getting a shop's grade data
 
 + (NSURL *)shopGradeAPIURLForTSID:(NSString *)tsID andAPIEndPoint:(NSString *)apiEndPoint {
 	return [NSURL URLWithString:
@@ -81,6 +81,22 @@ NSString * const TRSPublicAPIEndPointDebug = @"api-qa.trustedshops.com";
 		return [NSURL shopGradeAPIURLForTSID:tsID andAPIEndPoint:TRSPublicAPIEndPointDebug];
 	} else {
 		return [NSURL shopGradeAPIURLForTSID:tsID andAPIEndPoint:TRSPublicAPIEndPoint];
+	}
+}
+
+#pragma mark - Getting a product's grade data
+
++ (NSURL *)productGradeAPIURLForTSID:(NSString *)tsID skuHash:(NSString *)skuHash andAPIEndPoint:(NSString *)apiEndPoint {
+	return [NSURL URLWithString:
+			[NSString stringWithFormat:
+			 @"https://%@/shops/%@/products/skus/%@/productstickersummaries/v1/quality/reviews.json", apiEndPoint, tsID, skuHash]];
+}
+
++ (NSURL *)productGradeAPIURLForTSID:(NSString *)tsID skuHash:(NSString *)skuHash debug:(BOOL)debug {
+	if (debug) {
+		return [NSURL productGradeAPIURLForTSID:tsID skuHash:skuHash andAPIEndPoint:TRSAPIEndPointDebug];
+	} else {
+		return [NSURL productGradeAPIURLForTSID:tsID skuHash:skuHash andAPIEndPoint:TRSAPIEndPoint];
 	}
 }
 

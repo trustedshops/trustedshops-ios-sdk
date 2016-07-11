@@ -9,10 +9,11 @@
 #import "TRSStarsView.h"
 #import "UIColor+TRSColors.h"
 #import "TRSErrors.h"
-#import "TRSNetworkAgent+Trustbadge.h"
+#import "TRSNetworkAgent+ShopGrade.h"
 #import "NSURL+TRSURLExtensions.h"
 #import "TRSSingleStarView.h" // only needed to see its constant for min height
 
+CGFloat const kTRSShopSimpleRatingViewMinHeight = 16.0; // should not be smaller than kTRSSingleStarViewMinHeight
 NSString *const kTRSShopSimpleRatingViewActiveStarColorKey = @"kTRSShopSimpleRatingViewActiveStarColorKey";
 NSString *const kTRSShopSimpleRatingViewInactiveStarColorKey = @"kTRSShopSimpleRatingViewInactiveStarColorKey";
 NSString *const kTRSShopSimpleRatingViewTSIDKey = @"kTRSShopSimpleRatingViewTSIDKey";
@@ -83,7 +84,7 @@ NSString *const kTRSShopSimpleRatingViewDebugModeKey = @"kTRSShopSimpleRatingVie
 	if (!self.tsID || !self.apiToken) {
 		if (failure) {
 			NSError *notReady = [NSError errorWithDomain:TRSErrorDomain
-													code:TRSErrorDomainTrustbadgeMissingTSIDOrAPIToken
+													code:TRSErrorDomainMissingTSIDOrAPIToken
 												userInfo:nil];
 			failure(notReady);
 			return;
@@ -117,23 +118,23 @@ NSString *const kTRSShopSimpleRatingViewDebugModeKey = @"kTRSShopSimpleRatingVie
 			return;
 		}
 		switch (error.code) {
-			case TRSErrorDomainTrustbadgeInvalidAPIToken:
+			case TRSErrorDomainInvalidAPIToken:
 				NSLog(@"[trustbadge] The provided API token is not correct");
 				break;
 				
-			case TRSErrorDomainTrustbadgeInvalidTSID:
+			case TRSErrorDomainInvalidTSID:
 				NSLog(@"[trustbadge] The provided TSID is not correct.");
 				break;
 				
-			case TRSErrorDomainTrustbadgeTSIDNotFound:
+			case TRSErrorDomainTSIDNotFound:
 				NSLog(@"[trustbadge] The provided TSID could not be found.");
 				break;
 				
-			case TRSErrorDomainTrustbadgeInvalidData:
+			case TRSErrorDomainInvalidData:
 				NSLog(@"[trustbadge] The received data is corrupt.");
 				break;
 				
-//			case TRSErrorDomainTrustbadgeUnknownError: // already caught in default
+//			case TRSErrorDomainUnknownError: // already caught in default
 			default:
 				NSLog(@"[trustbadge] An unkown error occured.");
 				break;
@@ -200,12 +201,13 @@ NSString *const kTRSShopSimpleRatingViewDebugModeKey = @"kTRSShopSimpleRatingVie
 #pragma mark - Resizing behavior (min size)
 
 - (CGSize)sizeThatFits:(CGSize)size {
-	if (size.height < kTRSSingleStarViewMinHeight) {
-		size.height = kTRSSingleStarViewMinHeight;
+	CGFloat myMin = MAX(kTRSSingleStarViewMinHeight, kTRSShopSimpleRatingViewMinHeight);
+	if (size.height < myMin) {
+		size.height = myMin;
 	}
 	
-	if (size.width < kTRSSingleStarViewMinHeight * kTRSStarsViewNumberOfStars) {
-		size.width = kTRSSingleStarViewMinHeight * kTRSStarsViewNumberOfStars;
+	if (size.width < myMin * kTRSStarsViewNumberOfStars) {
+		size.width = myMin * kTRSStarsViewNumberOfStars;
 	}
 	return size;
 }

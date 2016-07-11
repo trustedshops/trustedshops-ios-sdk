@@ -10,12 +10,21 @@
         #checkoutTrustcardResponsive_db8d3657bdbe440c985ae127463eaad4node {
         border-bottom: 0!important;
         }
+		body {
+			margin:0;
+			padding:0;
+		}
     </style>
     <script>
     window.addEventListener("trustbadge_event_card_closed", function(){
 		window.webkit.messageHandlers.trs_ios_listener.postMessage("closed");
-        jsInterface.dialogDismiss();
     });
+	window.addEventListener("trustbadge_event_checkout_card_prepared", function(){
+		var _myWidth = document.getElementById("checkoutTrustcardResponsive_db8d3657bdbe440c985ae127463eaad4node").offsetWidth;
+		var _myHeight = document.getElementById("checkoutTrustcardResponsive_db8d3657bdbe440c985ae127463eaad4node").offsetHeight;
+		var _myMessage = {"message" : "prepared", "width" : _myWidth, "height" : _myHeight};
+		window.webkit.messageHandlers.trs_ios_listener.postMessage(_myMessage);
+	});
 
     function injectTrustbadge(tsId, endPoint) {
             var _tsid = tsId;

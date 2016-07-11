@@ -1,3 +1,10 @@
+//
+//  NSNumber+TRSRatingSpec.m
+//  Trustbadge
+//
+//  Taken up by Gero Herkenrath on 22/03/16.
+//
+
 #import "NSNumber+TRSRating.h"
 #import <Specta/Specta.h>
 

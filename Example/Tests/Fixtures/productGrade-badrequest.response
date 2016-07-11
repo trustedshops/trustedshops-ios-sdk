@@ -1,0 +1,9 @@
+HTTP/1.1 400 Bad Request
+Date: Fri, 25 Jun 2016 11:36:17 GMT
+Server: Apache
+Access-Control-Allow-Origin: *
+Connection: close
+Transfer-Encoding: identity
+Content-Type: application/json
+
+{"response":{"code":400,"message":"TS_ID_INVALID","responseInfo":{"apiVersion":"2.4.11"},"status":"ERROR"}}

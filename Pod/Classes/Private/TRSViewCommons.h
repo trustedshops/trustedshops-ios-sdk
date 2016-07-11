@@ -30,4 +30,8 @@
 									  withBasePointSize:(CGFloat)pointSize
 											scaleFactor:(CGFloat)scale;
 
++ (NSString *)gradeStringForNumber:(NSNumber *)number;
+
++ (NSString *)reviewCountStringForNumber:(NSNumber *)number;
+
 @end

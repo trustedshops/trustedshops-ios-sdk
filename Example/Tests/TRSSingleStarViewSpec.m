@@ -1,8 +1,9 @@
 //
 //  TRSSingleStarViewSpec.m
+//  (formerly TRSStarViewSpec.m)
 //  Trustbadge
 //
-//  Created by Gero Herkenrath on 20/06/16.
+//  Taken up by Gero Herkenrath on 20/06/16.
 //
 
 #import "TRSSingleStarView.h"
@@ -120,13 +121,13 @@ describe(@"TRSSingleStarView", ^{
 	
 	describe(@"-sizeThatFits:", ^{
 		
-		it(@"returns a minimum size of 16.0 x 16.0", ^{
-			CGRect frame = CGRectMake(0.0, 0.0, 10.0, 9.0);
+		it(@"returns a minimum size of 10.0 x 10.0", ^{
+			CGRect frame = CGRectMake(0.0, 0.0, 8.0, 9.0);
 			TRSSingleStarView *view = [[TRSSingleStarView alloc] initWithFrame:frame percentFilled:@0.78];
 			CGSize tooSmall = frame.size;
 			CGSize fittingSize = [view sizeThatFits:tooSmall];
 			[view sizeToFit];
-			expect(fittingSize.width).to.equal(16.0);
+			expect(fittingSize.width).to.equal(10.0);
 			expect(fittingSize.height).to.equal(fittingSize.width);
 		});
 		

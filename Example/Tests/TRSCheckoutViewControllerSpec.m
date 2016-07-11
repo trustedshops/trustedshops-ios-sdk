@@ -1,3 +1,10 @@
+//
+//  TRSCheckoutControllerSpec.m
+//  Trustbadge
+//
+//  Created by Gero Herkenrath on 03/05/16.
+//
+
 #import "TRSCheckoutViewController.h"
 #import "TRSOrder.h"
 #import "TRSProduct.h"
@@ -211,7 +218,7 @@ describe(@"TRSCheckoutViewController", ^{
 	
 	describe(@"-userContentController:didReceiveScriptMessage:", ^{
 		// note: In the app this gets called due to a JS method in the webView. This is not tested here!
-		it(@"dismisses the popin", ^{
+		it(@"dismisses the popin on closed message", ^{
 			id testRootMock = OCMPartialMock(testRoot);
 			OCMExpect([testRootMock dismissCurrentPopinControllerAnimated:YES completion:nil]);
 			WKScriptMessage *testMessage = [[WKScriptMessage alloc] init];
@@ -224,6 +231,21 @@ describe(@"TRSCheckoutViewController", ^{
 			// on an empty webView (since the webView's content ultimately triggers it)
 			[testCheckout userContentController:nil didReceiveScriptMessage:testMessage];
 			OCMVerifyAll(testRootMock);
+		});
+		
+		it(@"resizes the popin if needed on prepared message", ^{
+			WKScriptMessage *testMessage = [[WKScriptMessage alloc] init];
+			id testMessageMock = OCMPartialMock(testMessage);
+			[testCheckout processOrder:testOrder onCompletion:nil];
+			CGRect oldFrame = testCheckout.view.frame;
+			CGFloat newHeight = oldFrame.size.height + 50.0;
+			// only testing height, since that's likely the thing changing in practice
+			NSDictionary *params = @{@"message": @"prepared",
+									 @"width": [NSNumber numberWithFloat:oldFrame.size.width],
+									 @"height": [NSNumber numberWithFloat:newHeight]};
+			OCMStub([testMessageMock body]).andReturn(params);
+			[testCheckout userContentController:nil didReceiveScriptMessage:testMessage];
+			expect(testCheckout.view.frame.size.height).to.equal(newHeight);
 		});
 	});
 	

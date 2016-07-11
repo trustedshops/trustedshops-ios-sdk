@@ -182,7 +182,7 @@ describe(@"TRSShopSimpleRatingView", ^{
 				testView.apiToken = validToken;
 				waitUntil(^(DoneCallback done) {
 					[testView loadShopSimpleRatingWithSuccessBlock:nil failureBlock:^(NSError *error) {
-						expect(error.code).to.equal(TRSErrorDomainTrustbadgeInvalidTSID);
+						expect(error.code).to.equal(TRSErrorDomainInvalidTSID);
 						done();
 					}];
 				});
@@ -204,7 +204,7 @@ describe(@"TRSShopSimpleRatingView", ^{
 					NSURL *usedInAgent = [NSURL shopGradeAPIURLForTSID:validTSID debug:YES];
 					return [request.URL isEqual:usedInAgent];
 				} withStubResponse:^OHHTTPStubsResponse * _Nonnull(NSURLRequest * _Nonnull request) {
-					NSError *badtoken = [NSError errorWithDomain:TRSErrorDomain	code:TRSErrorDomainTrustbadgeInvalidAPIToken userInfo:nil];
+					NSError *badtoken = [NSError errorWithDomain:TRSErrorDomain	code:TRSErrorDomainInvalidAPIToken userInfo:nil];
 					return [OHHTTPStubsResponse responseWithError:badtoken];
 				}];
 				
@@ -214,7 +214,7 @@ describe(@"TRSShopSimpleRatingView", ^{
 				testView.apiToken = invalidToken;
 				waitUntil(^(DoneCallback done) {
 					[testView loadShopSimpleRatingWithSuccessBlock:nil failureBlock:^(NSError *error) {
-						expect(error.code).to.equal(TRSErrorDomainTrustbadgeInvalidAPIToken);
+						expect(error.code).to.equal(TRSErrorDomainInvalidAPIToken);
 						done();
 					}];
 				});
@@ -247,7 +247,7 @@ describe(@"TRSShopSimpleRatingView", ^{
 				testView.apiToken = validToken;
 				waitUntil(^(DoneCallback done) {
 					[testView loadShopSimpleRatingWithSuccessBlock:nil failureBlock:^(NSError *error) {
-						expect(error.code).to.equal(TRSErrorDomainTrustbadgeTSIDNotFound);
+						expect(error.code).to.equal(TRSErrorDomainTSIDNotFound);
 						done();
 					}];
 				});
@@ -284,7 +284,7 @@ describe(@"TRSShopSimpleRatingView", ^{
 				testView.apiToken = validToken;
 				waitUntil(^(DoneCallback done) {
 					[testView loadShopSimpleRatingWithSuccessBlock:nil failureBlock:^(NSError *error) {
-						expect(error.code).to.equal(TRSErrorDomainTrustbadgeInvalidData);
+						expect(error.code).to.equal(TRSErrorDomainInvalidData);
 						done();
 					}];
 				});
@@ -315,7 +315,7 @@ describe(@"TRSShopSimpleRatingView", ^{
 				testView.apiToken = validToken;
 				waitUntil(^(DoneCallback done) {
 					[testView loadShopSimpleRatingWithSuccessBlock:nil failureBlock:^(NSError *error) {
-						expect(error.code).to.equal(TRSErrorDomainTrustbadgeUnknownError);
+						expect(error.code).to.equal(TRSErrorDomainUnknownError);
 						done();
 					}];
 				});

@@ -39,11 +39,6 @@
 												 success:(void (^)(TRSTrustbadge *trustbadge))success
 												 failure:(void (^)(NSError *error))failure;
 
-- (NSURLSessionDataTask *)getShopGradeForTrustedShopsID:(NSString *)trustedShopsID
-											   apiToken:(NSString *)apiToken
-												success:(void (^)(NSDictionary *gradeData))success
-												failure:(void (^)(NSError *error))failure;
-
 - (NSMutableURLRequest *)localizedURLRequestForTrustcardWithColorString:(NSString *)hexString;
 
 @end

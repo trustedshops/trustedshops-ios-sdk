@@ -1,0 +1,1 @@
+{"response":{"code":200,"data":{"product":{"sku":"20610","name":"Zebra GK420d","uuid":"5d6e8202711508c7ffb466bfc45e7542","qualityIndicators":{"reviewIndicator":{"totalReviewCount":1,"overallMark":4.0,"overallMarkDescription":"GOOD"}}}},"message":"SUCCESS","responseInfo":{"apiVersion":"2.4.7"},"status":"SUCCESS"}}

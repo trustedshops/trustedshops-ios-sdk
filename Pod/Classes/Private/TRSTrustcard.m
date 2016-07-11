@@ -78,7 +78,6 @@ static NSString * const TRSCertHTMLName = @"trustinfos"; // not used atm
 		
 		self.displayedTrustbadge = trustbadge;
 		presenter = mainWindow.rootViewController;
-		// TODO: check what happens if there is no root VC. work that out
 	}
 	[self setPopinOptions:BKTPopinDisableAutoDismiss];
 	[presenter presentPopinController:self animated:YES completion:nil];

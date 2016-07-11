@@ -150,9 +150,29 @@ decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
 
 - (void)userContentController:(WKUserContentController *)userContentController
 	  didReceiveScriptMessage:(WKScriptMessage *)message {
-	if ([message.body isEqualToString:@"closed"]) {
+	if ([message.body isKindOfClass:[NSString class]] && [message.body isEqualToString:@"closed"]) {
 		[self.presentingPopinViewController dismissCurrentPopinControllerAnimated:YES completion:nil];
 	}
+	if ([message.body isKindOfClass:[NSDictionary class]] && [[message.body objectForKey:@"message"] isEqualToString:@"prepared"]) {
+		NSNumber *theWidth = [message.body objectForKey:@"width"];
+		NSNumber *theHeight = [message.body objectForKey:@"height"];
+		[self resizePopinToSize:CGSizeMake(theWidth.floatValue, theHeight.floatValue)];
+	}
+}
+
+- (void)resizePopinToSize:(CGSize)newSize {
+	CGSize currentSize = self.view.frame.size;
+	CGSize maxSize = [[UIScreen mainScreen] bounds].size;
+	maxSize.height -= 50.0; // ensure parent view is always a bit smaller!
+	newSize.width = MAX(currentSize.width, newSize.width); // only enlarge, don't shrink
+	newSize.width = MIN(maxSize.width, newSize.width); // don't go larger than the parent VC's view's size!
+	newSize.height = MAX(currentSize.height, newSize.height);
+	newSize.height = MIN(maxSize.height, newSize.height);
+	
+	self.view.contentMode = UIViewContentModeRedraw;
+	[UIView animateWithDuration:0.1 animations:^{
+		self.view.bounds = CGRectMake(0.0, 0.0, newSize.width, newSize.height);
+	}];
 }
 
 #pragma mark - JavaScript String helper

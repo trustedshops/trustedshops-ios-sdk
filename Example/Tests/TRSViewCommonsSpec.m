@@ -1,3 +1,10 @@
+//
+//  TRSViewCommonsSpec.m
+//  Trustbadge
+//
+//  Created by Gero Herkenrath on 23/06/16.
+//
+
 #import "TRSViewCommons.h"
 #import <Specta/Specta.h>
 #import <Expecta/Expecta.h>
@@ -168,6 +175,18 @@ context(@"attributed string creation", ^{
 			expect(widthTwo).to.beLessThan(widthOne);
 		});
 	});
+});
+
+context(@"general string helpers", ^{
+	
+	describe(@"+gradeStringForNumber:", ^{
+		expect([TRSViewCommons gradeStringForNumber:@4.981]).to.equal(@"4.98/5.00");
+	});
+	
+	describe(@"+reviewCountStringForNumber:", ^{
+		expect([TRSViewCommons reviewCountStringForNumber:@1344]).to.equal(@"1.344");
+	});
+	
 });
 
 SpecEnd

@@ -1,3 +1,10 @@
+//
+//  TRSProductSpec.m
+//  Trustbadge
+//
+//  Created by Gero Herkenrath on 29/04/16.
+//
+
 #import <Specta/Specta.h>
 #import "TRSProduct.h"
 

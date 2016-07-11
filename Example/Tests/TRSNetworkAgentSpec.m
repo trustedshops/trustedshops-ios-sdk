@@ -1,3 +1,10 @@
+//
+//  TRSNetworkAgentSpec.m
+//  Trustbadge
+//
+//  Taken up by Gero Herkenrath on 22/03/16.
+//
+
 #import "TRSNetworkAgent.h"
 #import <OHHTTPStubs/OHHTTPStubs.h>
 #import <OCMock/OCMock.h>

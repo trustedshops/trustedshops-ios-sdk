@@ -1,3 +1,10 @@
+//
+//  TRSTrustbadgeViewSpec.m
+//  Trustbadge
+//
+//  Taken up by Gero Herkenrath on 22/03/16.
+//
+
 #import "TRSTrustbadgeView.h"
 #import "TRSTrustbadge.h"
 #import "TRSNetworkAgent+Trustbadge.h"
@@ -151,12 +158,12 @@ describe(@"TRSTrustbadgeView", ^{
 						NSURL *usedInAgent = [NSURL trustMarkAPIURLForTSID:@"999888777666555444333222111000999" debug:YES];
 						return [request.URL isEqual:usedInAgent];
 					} withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
-						NSError *networkError = [NSError errorWithDomain:TRSErrorDomain	code:TRSErrorDomainTrustbadgeInvalidData userInfo:nil];
+						NSError *networkError = [NSError errorWithDomain:TRSErrorDomain	code:TRSErrorDomainInvalidData userInfo:nil];
 						return [OHHTTPStubsResponse responseWithError:networkError];
 					}];
 					waitUntil(^(DoneCallback done) {
 						[view loadTrustbadgeWithFailureBlock:^(NSError *error) {
-							expect(error.code).to.equal(TRSErrorDomainTrustbadgeInvalidData); // kinda pointless, I defined it so...
+							expect(error.code).to.equal(TRSErrorDomainInvalidData); // kinda pointless, I defined it so...
 							done();
 						}];
 					});
@@ -216,11 +223,11 @@ describe(@"TRSTrustbadgeView", ^{
 					return @{@"trustbadgeView" : view};
 				});
 				
-				it(@"returns a TRSErrorDomainTrustbadgeMissingTSIDOrAPIToken error code", ^{
+				it(@"returns a TRSErrorDomainMissingTSIDOrAPIToken error code", ^{
 					waitUntil(^(DoneCallback done) {
 						[view loadTrustbadgeWithSuccessBlock:nil
 												failureBlock:^(NSError *error) {
-													expect(error.code).to.equal(TRSErrorDomainTrustbadgeMissingTSIDOrAPIToken);
+													expect(error.code).to.equal(TRSErrorDomainMissingTSIDOrAPIToken);
 													done();
 												}];
 					});
@@ -274,11 +281,11 @@ describe(@"TRSTrustbadgeView", ^{
 					return @{@"trustbadgeView" : view};
 				});
 				
-				it(@"returns a TRSErrorDomainTrustbadgeTSIDNotFound error code", ^{
+				it(@"returns a TRSErrorDomainTSIDNotFound error code", ^{
 					waitUntil(^(DoneCallback done) {
 						[view loadTrustbadgeWithSuccessBlock:nil
 												failureBlock:^(NSError *error) {
-													expect(error.code).to.equal(TRSErrorDomainTrustbadgeTSIDNotFound);
+													expect(error.code).to.equal(TRSErrorDomainTSIDNotFound);
 													done();
 												}];
 					});
@@ -333,11 +340,11 @@ describe(@"TRSTrustbadgeView", ^{
 					return @{@"trustbadgeView" : view};
 				});
 				
-				it(@"returns a TRSErrorDomainTrustbadgeInvalidTSID error code", ^{
+				it(@"returns a TRSErrorDomainInvalidTSID error code", ^{
 					waitUntil(^(DoneCallback done) {
 						[view loadTrustbadgeWithSuccessBlock:nil
 												failureBlock:^(NSError *error) {
-													expect(error.code).to.equal(TRSErrorDomainTrustbadgeInvalidTSID);
+													expect(error.code).to.equal(TRSErrorDomainInvalidTSID);
 													done();
 												}];
 					});
@@ -390,11 +397,11 @@ describe(@"TRSTrustbadgeView", ^{
 					return @{@"trustbadgeView" : view};
 				});
 				
-				it(@"returns a TRSErrorDomainTrustbadgeInvalidAPIToken error code", ^{
+				it(@"returns a TRSErrorDomainInvalidAPIToken error code", ^{
 					waitUntil(^(DoneCallback done) {
 						[view loadTrustbadgeWithSuccessBlock:nil
 												failureBlock:^(NSError *error) {
-													expect(error.code).to.equal(TRSErrorDomainTrustbadgeInvalidAPIToken);
+													expect(error.code).to.equal(TRSErrorDomainInvalidAPIToken);
 													done();
 												}];
 					});
