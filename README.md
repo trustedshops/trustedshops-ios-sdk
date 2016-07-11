@@ -6,10 +6,11 @@
 [![License](https://img.shields.io/cocoapods/l/Trustbadge.svg?style=flat)](http://cocoapods.org/pods/Trustbadge)
 [![Platform](https://img.shields.io/cocoapods/p/Trustbadge.svg?style=flat)](http://cocoapods.org/pods/Trustbadge)
 
-Integrate our SDK into your shopping app and boost your conversion with **Trustbadge**, **Customer Reviews** and **Buyer Protection**:
-* Show the Trustbadge in any view and size and provide additional information along with a link to your certificate
-* Show your shop's customer rating and reviews
-* Integrate the Trusted Shops buyer protection and review collecting services
+By integrate our SDK into your shopping app you can leverage the following features included in your Trusted Shops membership: 
+* **Trustbadge**: Show the Trustbadge in any view and size and provide additional information along with a link to your certificate
+* **Customer Reviews**: Show your shop's customer rating and reviews
+* **Product Reviews**: Show your product ratings and reviews
+* **Buyer Protection**: Integrate the Trusted Shops buyer protection and review collecting services
 
 ![TrustedShopsiOSSDK](Screenshots/iOS-SDK.png "Boost your conversion with Trustbadge and buyer protection")
 
