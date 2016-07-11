@@ -192,7 +192,7 @@
 		[self.tappedLoadButtons addObject:sender];
 	} failureBlock:^(NSError *error) {
 		NSLog(@"Error loading the TRSProductSimpleRatingView: %@", error);
-		[sender didLoadView:psrView forParent:nil sender:nil];
+		[self didLoadView:psrView forParent:nil sender:nil];
 	}];
 }
 
@@ -210,7 +210,7 @@
 		[self.tappedLoadButtons addObject:sender];
 	} failureBlock:^(NSError *error) {
 		NSLog(@"Error loading the TRSProductRatingView (2 line): %@", error);
-		[sender didLoadView:pr2lView forParent:nil sender:nil];
+		[self didLoadView:pr2lView forParent:nil sender:nil];
 	}];
 }
 - (IBAction)loadProductRatingOneLine:(id)sender {
@@ -228,7 +228,7 @@
 		[self.tappedLoadButtons addObject:sender];
 	} failureBlock:^(NSError *error) {
 		NSLog(@"Error loading the TRSProductRatingView (2 line): %@", error);
-		[sender didLoadView:pr1lView forParent:nil sender:nil];
+		[self didLoadView:pr1lView forParent:nil sender:nil];
 	}];
 }
 @end
