@@ -6,7 +6,7 @@
 [![License](https://img.shields.io/cocoapods/l/Trustbadge.svg?style=flat)](http://cocoapods.org/pods/Trustbadge)
 [![Platform](https://img.shields.io/cocoapods/p/Trustbadge.svg?style=flat)](http://cocoapods.org/pods/Trustbadge)
 
-By integrate our SDK into your shopping app you can leverage the following features included in your Trusted Shops membership: 
+By integrating our SDK into your shopping app you can leverage the following features included in your Trusted Shops membership: 
 * **Trustbadge**: Show the Trustbadge in any view and size and provide additional information along with a link to your certificate
 * **Customer Reviews**: Show your shop's customer rating and reviews
 * **Product Reviews**: Show your product ratings and reviews
