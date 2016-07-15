@@ -20,7 +20,7 @@ NSString * const TRSPublicAPIEndPointDebug = @"api-qa.trustedshops.com";
 
 @implementation NSURL (TRSURLExtensions)
 
-#pragma mark - Getting a shops profile URL
+#pragma mark - Getting a shop's profile URL
 
 + (NSDictionary *)urlList {
 	return @{
@@ -73,14 +73,14 @@ NSString * const TRSPublicAPIEndPointDebug = @"api-qa.trustedshops.com";
 
 + (NSURL *)shopGradeAPIURLForTSID:(NSString *)tsID andAPIEndPoint:(NSString *)apiEndPoint {
 	return [NSURL URLWithString:
-			[NSString stringWithFormat:@"https://%@/rest/public/v2/shops/%@/quality/reviews.json", apiEndPoint, tsID]];
+			[NSString stringWithFormat:@"https://%@/shops/%@/mobiles/v1/sdks/ios/quality/reviews.json", apiEndPoint, tsID]];
 }
 
 + (NSURL *)shopGradeAPIURLForTSID:(NSString *)tsID debug:(BOOL)debug {
 	if (debug) {
-		return [NSURL shopGradeAPIURLForTSID:tsID andAPIEndPoint:TRSPublicAPIEndPointDebug];
+		return [NSURL shopGradeAPIURLForTSID:tsID andAPIEndPoint:TRSAPIEndPointDebug];
 	} else {
-		return [NSURL shopGradeAPIURLForTSID:tsID andAPIEndPoint:TRSPublicAPIEndPoint];
+		return [NSURL shopGradeAPIURLForTSID:tsID andAPIEndPoint:TRSAPIEndPoint];
 	}
 }
 

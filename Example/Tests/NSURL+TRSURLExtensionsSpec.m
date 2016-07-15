@@ -87,8 +87,8 @@ describe(@"NSURL+TRSURLExtensions", ^{
 		it(@"has the correct prefix", ^{
 			NSString *urlStringDebug = [shopGradeAPIURLDebug absoluteString];
 			NSString *urlString = [shopGradeAPIURL absoluteString];
-			expect([urlStringDebug hasPrefix:[NSString stringWithFormat:@"https://%@", TRSPublicAPIEndPointDebug]]).to.equal(YES);
-			expect([urlString hasPrefix:[NSString stringWithFormat:@"https://%@", TRSPublicAPIEndPoint]]).to.equal(YES);
+			expect([urlStringDebug hasPrefix:[NSString stringWithFormat:@"https://%@", TRSAPIEndPointDebug]]).to.equal(YES);
+			expect([urlString hasPrefix:[NSString stringWithFormat:@"https://%@", TRSAPIEndPoint]]).to.equal(YES);
 		});
 		
 		it(@"contains the shop's TSID", ^{

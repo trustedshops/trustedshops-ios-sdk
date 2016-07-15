@@ -6,13 +6,13 @@
 //
 //
 
-FOUNDATION_EXPORT NSString * const TRSAPIEndPoint;
-FOUNDATION_EXPORT NSString * const TRSAPIEndPointDebug;
-FOUNDATION_EXPORT NSString * const TRSTrustcardTemplateURLString;
-FOUNDATION_EXPORT NSString * const TRSTrustcardTemplateURLStringDebug;
-FOUNDATION_EXPORT NSString * const TRSEndPoint; // this is used by the checkout process
+FOUNDATION_EXPORT NSString * const TRSAPIEndPoint; // for trustmark (TRSTrustbadgeView data), product grade, shop grade
+FOUNDATION_EXPORT NSString * const TRSAPIEndPointDebug; // dito
+FOUNDATION_EXPORT NSString * const TRSTrustcardTemplateURLString; // for the trustcard's template (on click of TRSTrustbadgeView)
+FOUNDATION_EXPORT NSString * const TRSTrustcardTemplateURLStringDebug; // dito
+FOUNDATION_EXPORT NSString * const TRSEndPoint; // this is used by the checkout process (directly used in TRSCheckoutViewController.m)
 FOUNDATION_EXPORT NSString * const TRSEndPointDebug; // dito
-FOUNDATION_EXPORT NSString * const TRSPublicAPIEndPoint; // used to get a shop's grade, etc.
+FOUNDATION_EXPORT NSString * const TRSPublicAPIEndPoint; // not used atm
 FOUNDATION_EXPORT NSString * const TRSPublicAPIEndPointDebug; // dito
 
 #import <Foundation/Foundation.h>
