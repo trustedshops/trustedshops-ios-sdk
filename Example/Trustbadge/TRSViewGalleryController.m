@@ -132,7 +132,7 @@
 	CGRect srFrame = self.shopRatingPlaceholder.frame;
 	srFrame.origin = CGPointZero;
 	TRSShopRatingView *srView = [[TRSShopRatingView alloc] initWithFrame:srFrame];
-	srView.tsID = @"X330A2E7D449E31E467D2F53A55DDD070"; // the swiss demo shop again
+	srView.tsID = @"X6A4AACCD2C75E430381B2E1C4CLASSIC"; // test classic for now
 	srView.apiToken = @"notneededatm";
 	srView.debugMode = YES;
 	[self willLoadAView];
@@ -149,7 +149,7 @@
 	CGRect sgFrame = self.shopGradePlaceholder.frame;
 	sgFrame.origin = CGPointZero;
 	TRSShopGradeView *sgView = [[TRSShopGradeView alloc] initWithFrame:sgFrame];
-	sgView.tsID = @"X330A2E7D449E31E467D2F53A55DDD070"; // the swiss demo shop again
+	sgView.tsID = @"X6A4AACCD2C75E430381B2E1C4CLASSIC"; // test classic for now
 	sgView.apiToken = @"notneededatm";
 	sgView.debugMode = YES;
 	[self willLoadAView];
@@ -166,7 +166,7 @@
 	CGRect ssrFrame = self.shopSimpleRatingPlaceholder.frame;
 	ssrFrame.origin = CGPointZero;
 	TRSShopSimpleRatingView *ssrView = [[TRSShopSimpleRatingView alloc] initWithFrame:ssrFrame];
-	ssrView.tsID = @"X330A2E7D449E31E467D2F53A55DDD070"; // the swiss demo shop again
+	ssrView.tsID = @"X6A4AACCD2C75E430381B2E1C4CLASSIC"; // test classic for now
 	ssrView.apiToken = @"notneededatm";
 	ssrView.debugMode = YES;
 	[self willLoadAView];
