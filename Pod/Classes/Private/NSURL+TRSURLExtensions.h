@@ -30,5 +30,7 @@ FOUNDATION_EXPORT NSString * const TRSPublicAPIEndPointDebug; // dito
 
 + (NSURL *)productGradeAPIURLForTSID:(NSString *)tsID skuHash:(NSString *)skuHash debug:(BOOL)debug;
 
++ (NSURL *)productReviewAPIURLForTSID:(NSString *)tsID skuHash:(NSString *)skuHash debug:(BOOL)debug;
+
 + (NSURL *)localizedTrustcardURLWithColorString:(NSString *)hexString debug:(BOOL)debug;
 @end

@@ -100,6 +100,22 @@ NSString * const TRSPublicAPIEndPointDebug = @"api-qa.trustedshops.com";
 	}
 }
 
+#pragma mark - Getting a product's individual reviews
+
++ (NSURL *)productReviewAPIURLForTSID:(NSString *)tsID skuHash:(NSString *)skuHash andAPIEndPoint:(NSString *)apiEndPoint {
+	return [NSURL URLWithString:
+			[NSString stringWithFormat:
+			 @"https://%@/shops/%@/products/skus/%@/productreviewstickers/v1/reviews.json", apiEndPoint, tsID, skuHash]];
+}
+
++ (NSURL *)productReviewAPIURLForTSID:(NSString *)tsID skuHash:(NSString *)skuHash debug:(BOOL)debug {
+	if (debug) {
+		return [NSURL productReviewAPIURLForTSID:tsID skuHash:skuHash andAPIEndPoint:TRSAPIEndPointDebug];
+	} else {
+		return [NSURL productReviewAPIURLForTSID:tsID skuHash:skuHash andAPIEndPoint:TRSAPIEndPoint];
+	}
+}
+
 #pragma mark - Getting a URL for displaying our custom mobile trustcard (with parameters)
 
 + (NSURL *)localizedTrustcardURLWithColorString:(NSString *)hexString debug:(BOOL)debug {

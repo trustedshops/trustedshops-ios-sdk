@@ -10,6 +10,8 @@
 #import "TRSNetworkAgent+Commons.h"
 #import "TRSErrors.h"
 #import "NSURL+TRSURLExtensions.h"
+#import "TRSProductReview.h"
+#import "TRSCriteria.h"
 
 @implementation TRSNetworkAgent (ProductGrade)
 
@@ -19,19 +21,7 @@
 												   success:(void (^)(NSDictionary *gradeData))success
 												   failure:(void (^)(NSError *error))failure {
 	
-	if (![self didReturnErrorForTSID:trustedShopsID apiToken:apiToken failureBlock:failure]) {
-		
-		NSString *skuHash = [self hashForSKU:SKU];
-		
-		if (!skuHash) {
-			if (failure) {
-				NSError *myError = [NSError errorWithDomain:TRSErrorDomain
-													   code:TRSErrorDomainMissingSKU
-												   userInfo:nil];
-				failure(myError);
-			}
-			return nil;
-		}
+	if (![self didReturnErrorForTSID:trustedShopsID apiToken:apiToken SKU:SKU failureBlock:failure]) {
 		
 		void (^successBlock)(NSData *data) = ^(NSData *data) {
 			NSDictionary *jsonData = [NSJSONSerialization JSONObjectWithData:data
@@ -85,7 +75,7 @@
 			}
 		};
 		
-		return [self GET:[NSURL productGradeAPIURLForTSID:trustedShopsID skuHash:skuHash debug:self.debugMode]
+		return [self GET:[NSURL productGradeAPIURLForTSID:trustedShopsID skuHash:[self hashForSKU:SKU] debug:self.debugMode]
 			   authToken:apiToken
 				 success:successBlock
 				 failure:failureBlock];
@@ -93,17 +83,94 @@
 	return nil;
 }
 
-// a helper method to create a has from the SKU
-- (NSString *)hashForSKU:(NSString *)SKU{
-	if (!SKU) {
-		return nil;
+- (NSURLSessionDataTask *)getProductReviewsForTrustedShopsID:(NSString *)trustedShopsID
+													apiToken:(NSString *)apiToken
+														 SKU:(NSString *)SKU
+													 success:(void (^)(NSArray *reviews))success
+													 failure:(void (^)(NSError *error))failure {
+	
+	if (![self didReturnErrorForTSID:trustedShopsID apiToken:apiToken SKU:SKU failureBlock:failure]) {
+		
+		void (^successBlock)(NSData *data) = ^(NSData *data) {
+			NSDictionary *jsonData = [NSJSONSerialization JSONObjectWithData:data
+																	 options:kNilOptions
+																	   error:nil];
+			NSString *uid, *comment, *dateString, *criteriaTypeString, *markString, *critMarkString;
+			NSNumber *mark, *criteriaMark;
+			NSDate *creationDate;
+			TRSCriteria *criteria;
+			TRSCriteriaType criteriaType;
+			NSArray *actuallyRelevant, *criteriaArray;
+			NSDateFormatter *dateFormatter = [NSDateFormatter new];
+			dateFormatter.dateFormat = @"yyyy-MM-dd'T'HH:mm:ssZ";
+			TRSProductReview *oneReview;
+			NSMutableArray *results, *myCriteriaArray;
+			BOOL invalid = NO;
+			@try {
+				actuallyRelevant = jsonData[@"response"][@"data"][@"product"][@"reviews"];
+				if (actuallyRelevant) {
+					results = [[NSMutableArray alloc] initWithCapacity:actuallyRelevant.count];
+					for (NSDictionary *iter in actuallyRelevant) {
+						uid = iter[@"UID"];
+						comment = iter[@"comment"];
+						dateString = iter[@"creationDate"];
+						creationDate = [dateFormatter dateFromString:dateString];
+						markString = iter[@"mark"];
+						mark = [NSNumber numberWithFloat:[markString floatValue]];
+						criteriaArray = iter[@"criteria"];
+						myCriteriaArray = [[NSMutableArray alloc] initWithCapacity:criteriaArray.count];
+						for (NSDictionary *crit in criteriaArray) {
+							critMarkString = crit[@"mark"];
+							criteriaMark = [NSNumber numberWithFloat:[critMarkString floatValue]];
+							criteriaTypeString = crit[@"type"];
+							criteriaType = [TRSCriteria criteriaTypeFromString:criteriaTypeString];
+							criteria = [[TRSCriteria alloc] initWithMark:criteriaMark type:criteriaType];
+							[myCriteriaArray addObject:criteria];
+						}
+						
+						oneReview = [[TRSProductReview alloc] initWithCreationDate:creationDate
+																		   comment:comment
+																			  mark:mark
+																			   UID:uid
+																		  criteria:[NSArray arrayWithArray:myCriteriaArray]];
+						[results addObject:oneReview];
+					}
+				} else {
+					invalid = YES;
+				}
+			} @catch (NSException *exception) {
+				invalid = YES;
+			}
+			if (invalid) {
+				if (failure) {
+					NSError *invalidDataError = [NSError errorWithDomain:TRSErrorDomain
+																	code:TRSErrorDomainInvalidData
+																userInfo:nil];
+					failure(invalidDataError);
+				}
+				return;
+			}
+			
+			if (success) success([NSArray arrayWithArray:results]);
+			return;
+		};
+		
+		void (^failureBlock)(NSData *data, NSHTTPURLResponse *response, NSError *error) = ^(NSData *data, NSHTTPURLResponse *response, NSError *error) {
+			if (failure) {
+				if (!error) {
+					error = [self standardErrorForResponseCode:response.statusCode];
+				}
+				
+				failure(error);
+			}
+		};
+		
+		return [self GET:[NSURL productReviewAPIURLForTSID:trustedShopsID skuHash:[self hashForSKU:SKU] debug:self.debugMode]
+			   authToken:apiToken
+				 success:successBlock
+				 failure:failureBlock];
 	}
-	const char *inUTF8 = [SKU UTF8String];
-	NSMutableString *asHex = [NSMutableString string];
-	while (*inUTF8) {
-		[asHex appendFormat:@"%02X", *inUTF8++ & 0x00FF];
-	}
-	return [NSString stringWithString:asHex];
+	return nil;
 }
 
 @end

@@ -32,6 +32,9 @@
 		1D7A18021D1A86A500AC33CC /* TRSShopGradeViewSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D7A18011D1A86A500AC33CC /* TRSShopGradeViewSpec.m */; };
 		1D82627D1CD776A000AE71B4 /* TRSDatePickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D82627A1CD776A000AE71B4 /* TRSDatePickerViewController.m */; };
 		1D82627E1CD776A000AE71B4 /* TRSPickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D82627C1CD776A000AE71B4 /* TRSPickerViewController.m */; };
+		1D867C051D3CBBAF008AD80E /* productReviews.data in Resources */ = {isa = PBXBuildFile; fileRef = 1D867C041D3CBBAF008AD80E /* productReviews.data */; };
+		1D867C071D3CC005008AD80E /* TRSCriteriaSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D867C061D3CC005008AD80E /* TRSCriteriaSpec.m */; };
+		1D867C091D3CC541008AD80E /* TRSProductReviewSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D867C081D3CC541008AD80E /* TRSProductReviewSpec.m */; };
 		1D88A8511D06D6A5005AD070 /* TRSViewGalleryController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D88A8501D06D6A5005AD070 /* TRSViewGalleryController.m */; };
 		1D9A6FC61CCA5565006D97A9 /* TRSProductSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D9A6FC51CCA5565006D97A9 /* TRSProductSpec.m */; };
 		1D9D0E181D19463B00295294 /* TRSStarsViewSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D9D0E171D19463B00295294 /* TRSStarsViewSpec.m */; };
@@ -108,6 +111,9 @@
 		1D82627A1CD776A000AE71B4 /* TRSDatePickerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TRSDatePickerViewController.m; sourceTree = "<group>"; };
 		1D82627B1CD776A000AE71B4 /* TRSPickerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TRSPickerViewController.h; sourceTree = "<group>"; };
 		1D82627C1CD776A000AE71B4 /* TRSPickerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TRSPickerViewController.m; sourceTree = "<group>"; };
+		1D867C041D3CBBAF008AD80E /* productReviews.data */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = productReviews.data; sourceTree = "<group>"; };
+		1D867C061D3CC005008AD80E /* TRSCriteriaSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TRSCriteriaSpec.m; sourceTree = "<group>"; };
+		1D867C081D3CC541008AD80E /* TRSProductReviewSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TRSProductReviewSpec.m; sourceTree = "<group>"; };
 		1D88A84F1D06D6A5005AD070 /* TRSViewGalleryController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TRSViewGalleryController.h; sourceTree = "<group>"; };
 		1D88A8501D06D6A5005AD070 /* TRSViewGalleryController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TRSViewGalleryController.m; sourceTree = "<group>"; };
 		1D9A6FC51CCA5565006D97A9 /* TRSProductSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TRSProductSpec.m; sourceTree = "<group>"; };
@@ -238,6 +244,7 @@
 				1DEFBAEB1CA0049A00B61B05 /* NSURL+TRSURLExtensionsSpec.m */,
 				1D6695561CD2328300AA0E4E /* TRSCheckoutViewControllerSpec.m */,
 				1D69A5A21CC791D2001A93EE /* TRSConsumerSpec.m */,
+				1D867C061D3CC005008AD80E /* TRSCriteriaSpec.m */,
 				1D445D071D2D08FD00A5B099 /* TRSNetworkAgent+ProductGradeSpec.m */,
 				1D6FAE561D2AAA3C0007BF7E /* TRSNetworkAgent+ShopGradeSpec.m */,
 				84795A531B5E68EC0091EA49 /* TRSNetworkAgent+TrustbadgeSpec.m */,
@@ -246,6 +253,7 @@
 				1D445D0F1D2D29A400A5B099 /* TRSPrivateBasicDataViewSpec.m */,
 				1D445D111D2D4F7800A5B099 /* TRSProductBaseViewSpec.m */,
 				1D153A271D2E4C3D005CE5F6 /* TRSProductRatingViewSpec.m */,
+				1D867C081D3CC541008AD80E /* TRSProductReviewSpec.m */,
 				1D7032051D2E3893001CF7ED /* TRSProductSimpleRatingViewSpec.m */,
 				1D9A6FC51CCA5565006D97A9 /* TRSProductSpec.m */,
 				1D7A18011D1A86A500AC33CC /* TRSShopGradeViewSpec.m */,
@@ -334,6 +342,7 @@
 				1D445D091D2D0C9700A5B099 /* productGrade.data */,
 				1D445D0B1D2D0CCC00A5B099 /* productGrade-badrequest.response */,
 				1D445D0D1D2D0D0700A5B099 /* productGrade-notfound.response */,
+				1D867C041D3CBBAF008AD80E /* productReviews.data */,
 			);
 			path = Fixtures;
 			sourceTree = "<group>";
@@ -456,6 +465,7 @@
 				1D6FDCF31D13FBFF00884C2A /* shopGrade-badrequest.response in Resources */,
 				1D445D0E1D2D0D0700A5B099 /* productGrade-notfound.response in Resources */,
 				1D445D0C1D2D0CCC00A5B099 /* productGrade-badrequest.response in Resources */,
+				1D867C051D3CBBAF008AD80E /* productReviews.data in Resources */,
 				1D5DC05D1CA2E87B006899CA /* trustbadge-badtoken.response in Resources */,
 				1D6695591CD23E8600AA0E4E /* checkout_unit_test.html in Resources */,
 				8409D6861B66205700001627 /* trustbadge-notfound.response in Resources */,
@@ -592,8 +602,10 @@
 				1D5E2FCE1CB64DC1002C69C0 /* UIColor+TRSColorsSpec.m in Sources */,
 				1D7A18021D1A86A500AC33CC /* TRSShopGradeViewSpec.m in Sources */,
 				1D445D081D2D08FD00A5B099 /* TRSNetworkAgent+ProductGradeSpec.m in Sources */,
+				1D867C091D3CC541008AD80E /* TRSProductReviewSpec.m in Sources */,
 				1D4ACE891D2E3CA600FF3A87 /* TRSProductSimpleRatingViewSpec.m in Sources */,
 				1D69A5A51CC791D2001A93EE /* TRSOrderSpec.m in Sources */,
+				1D867C071D3CC005008AD80E /* TRSCriteriaSpec.m in Sources */,
 				1D9D0E1A1D19520600295294 /* TRSShopSimpleRatingViewSpec.m in Sources */,
 				845E62DA1B7B80D40051329C /* TRSTrustbadgeSDKPrivatSpec.m in Sources */,
 				84795A551B5E6B800091EA49 /* TRSNetworkAgent+TrustbadgeSpec.m in Sources */,

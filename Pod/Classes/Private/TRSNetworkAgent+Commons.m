@@ -23,6 +23,25 @@
 	return NO;
 }
 
+- (BOOL)didReturnErrorForTSID:(NSString *)tsID
+					 apiToken:(NSString *)apiToken
+						  SKU:(NSString *)SKU
+				 failureBlock:(void (^)(NSError *error))failure {
+	BOOL retVal = [self didReturnErrorForTSID:tsID apiToken:apiToken failureBlock:failure];
+	if (!retVal) {
+		NSString *skuHash = [self hashForSKU:SKU];
+		if (!skuHash) {
+			NSError *myError = [NSError errorWithDomain:TRSErrorDomain
+												   code:TRSErrorDomainMissingSKU
+											   userInfo:nil];
+			if (failure)
+				failure(myError);
+			retVal = YES;
+		}
+	}
+	return retVal;
+}
+
 - (NSError *)standardErrorForResponseCode:(NSInteger)code {
 	NSError *retVal = nil;
 	switch (code) {
@@ -51,6 +70,18 @@
 		} break;
 	}
 	return retVal;
+}
+
+- (NSString *)hashForSKU:(NSString *)SKU{
+	if (!SKU) {
+		return nil;
+	}
+	const char *inUTF8 = [SKU UTF8String];
+	NSMutableString *asHex = [NSMutableString string];
+	while (*inUTF8) {
+		[asHex appendFormat:@"%02X", *inUTF8++ & 0x00FF];
+	}
+	return [NSString stringWithString:asHex];
 }
 
 @end

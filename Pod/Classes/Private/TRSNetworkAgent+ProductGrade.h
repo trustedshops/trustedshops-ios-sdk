@@ -16,4 +16,10 @@
 												   success:(void (^)(NSDictionary *gradeData))success
 												   failure:(void (^)(NSError *error))failure;
 
+- (NSURLSessionDataTask *)getProductReviewsForTrustedShopsID:(NSString *)trustedShopsID
+													apiToken:(NSString *)apiToken
+														 SKU:(NSString *)SKU
+													 success:(void (^)(NSArray *reviews))success
+													 failure:(void (^)(NSError *error))failure;
+
 @end
