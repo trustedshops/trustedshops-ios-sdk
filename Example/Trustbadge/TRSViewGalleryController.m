@@ -217,9 +217,9 @@
 	CGRect psrFrame = self.productSimpleRatingPlaceholder.frame;
 	psrFrame.origin = CGPointZero;
 	TRSProductSimpleRatingView *psrView = [[TRSProductSimpleRatingView alloc] initWithFrame:psrFrame
-																			 trustedShopsID:@"X795C603C56D8D47D63C27CBFD94698A4"
+																			 trustedShopsID:@"X6A4AACCD2C75E430381B2E1C4CLASSIC"
 																				   apiToken:@"notneededatm"
-																						SKU:@"20610"];
+																						SKU:@"ART1234"];
 	psrView.debugMode = YES;
 	[self willLoadAView];
 	[psrView loadViewDataFromBackendWithSuccessBlock:^{
@@ -227,6 +227,7 @@
 		TRSProduct *theProduct = [[TRSProduct alloc] initWithUrl:[NSURL URLWithString:@"https://example.com"]
 															name:@"someName"
 															 SKU:psrView.SKU];
+		theProduct.debugMode = YES;
 		[theProduct loadReviewsFromBackendWithTrustedShopsID:psrView.tsID
 													apiToken:psrView.apiToken
 												successBlock:^{
@@ -252,9 +253,9 @@
 	CGRect pr2lFrame = self.productRatingTwoLinesPlaceholder.frame;
 	pr2lFrame.origin = CGPointZero;
 	TRSProductRatingView *pr2lView = [[TRSProductRatingView alloc] initWithFrame:pr2lFrame
-																  trustedShopsID:@"X795C603C56D8D47D63C27CBFD94698A4"
+																  trustedShopsID:@"X6A4AACCD2C75E430381B2E1C4CLASSIC"
 																		apiToken:@"notneededatm"
-																			 SKU:@"20610"];
+																			 SKU:@"ART1234"];
 	pr2lView.debugMode = YES;
 	[self willLoadAView];
 	[pr2lView loadViewDataFromBackendWithSuccessBlock:^{
@@ -262,6 +263,7 @@
 		TRSProduct *theProduct = [[TRSProduct alloc] initWithUrl:[NSURL URLWithString:@"https://example.com"]
 															name:@"someName"
 															 SKU:pr2lView.SKU];
+		theProduct.debugMode = YES;
 		[theProduct loadReviewsFromBackendWithTrustedShopsID:pr2lView.tsID
 													apiToken:pr2lView.apiToken
 												successBlock:^{
@@ -287,9 +289,9 @@
 	CGRect pr1lFrame = self.productRatingOneLinePlaceholder.frame;
 	pr1lFrame.origin = CGPointZero;
 	TRSProductRatingView *pr1lView = [[TRSProductRatingView alloc] initWithFrame:pr1lFrame
-																  trustedShopsID:@"X795C603C56D8D47D63C27CBFD94698A4"
+																  trustedShopsID:@"X6A4AACCD2C75E430381B2E1C4CLASSIC"
 																		apiToken:@"notneededatm"
-																			 SKU:@"20610"];
+																			 SKU:@"ART1234"];
 	pr1lView.debugMode = YES;
 	pr1lView.useOnlyOneLine = YES;
 	[self willLoadAView];
@@ -298,6 +300,7 @@
 		TRSProduct *theProduct = [[TRSProduct alloc] initWithUrl:[NSURL URLWithString:@"https://example.com"]
 															name:@"someName"
 															 SKU:pr1lView.SKU];
+		theProduct.debugMode = YES;
 		[theProduct loadReviewsFromBackendWithTrustedShopsID:pr1lView.tsID
 													apiToken:pr1lView.apiToken
 												successBlock:^{
