@@ -31,7 +31,7 @@ Trustbadge is available through [CocoaPods](http://cocoapods.org). To install
 it, simply add the following line to your Podfile:
 
 ```ruby
-pod "Trustbadge", "~> 0.5"
+pod "Trustbadge", "~> 0.6"
 ```
 
 #### Example project ####
@@ -50,7 +50,8 @@ To run the example project, clone the repo, and run `pod install` from the Examp
 2.Initialize the view with your Trusted Shops ID
 
 ```objc
-TRSTrustbadgeView *myTrustbadgeView = [[TRSTrustbadgeView alloc] initWithTrustedShopsID:@"YOUR-TRUSTED-SHOPS-ID" apiToken:@"SEE-BELOW-FOR-THIS"];
+TRSTrustbadgeView *myTBView = [[TRSTrustbadgeView alloc] initWithTrustedShopsID:@"YOUR-TRUSTED-SHOPS-ID" 
+                                                                       apiToken:@"SEE-BELOW-FOR-THIS"];
 ```
 
 In order to get your Trusted Shops ID authorized please see the "Authorization" section below.
@@ -99,10 +100,10 @@ myShopGradeView.apiToken = @"THIS-IS-NOT-NEEDED-ATM"; // however, this must not 
 
 ```objc
 [myShopGradeView loadShopGradeWithSuccessBlock:^{
-[someParentView addSubview:myShopGradeView]; // assume someParentView is initiated somewhere else
+    [someParentView addSubview:myShopGradeView]; // assume someParentView is initiated somewhere else
 } failureBlock:^(NSError *error) {
-NSLog(@"Error loading the TRSShopRatingView: %@", error);
-// your error handling
+    NSLog(@"Error loading the TRSShopRatingView: %@", error);
+    // your error handling
 }];
 ```
 
@@ -129,7 +130,10 @@ They work like the other views; here's how to set up `TRSProductRatingView` with
 
 ```objc
 CGRect myFrame = someContainerView.frame;
-TRSProductRatingView *myProductRatingView = [[TRSProductRatingView alloc] initWithFrame:myFrame trustedShopsID:@"YOUR-TRUSTED-SHOPS-ID" apiToken:@"THIS-IS-NOT-NEEDED-ATM" SKU:@"YOUR-PRODUCTS-SKU"];
+TRSProductRatingView *myPRView = [[TRSProductRatingView alloc] initWithFrame:myFrame 
+                                                              trustedShopsID:@"YOUR-TRUSTED-SHOPS-ID" 
+                                                                    apiToken:@"THIS-IS-NOT-NEEDED-ATM" 
+                                                                         SKU:@"YOUR-PRODUCT'S-SKU"];
 // like with other views, the apiToken is not enforced at the moment, but must not be nil!
 myProductRatingView.useOnlyOneLine = YES;
 myProductRatingView.debugMode = YES; // works similar to other views of the SDK
@@ -139,14 +143,40 @@ myProductRatingView.debugMode = YES; // works similar to other views of the SDK
 
 ```objc
 [myProductRatingView loadViewDataFromBackendWithSuccessBlock:^{
-[someContainerView addSubview:myProductRatingView];
+    [someContainerView addSubview:myProductRatingView];
 } failureBlock:^(NSError *error) {
-NSLog(@"Error loading the TRSProductRatingView: %@", error);
-// your error handling
+    NSLog(@"Error loading the TRSProductRatingView: %@", error);
+    // your error handling
 }];
 ```
 
 Customization and debug mode work the same as for the shop review views. See the [documentation](#documentation) for further information.
+
+You can also access the data of customers' individual ratings, i.e. a list of all the comments and grades that customers made.
+Since this can be quite a bit we leave it to you to decide how you want to present this data to your app users.
+
+To load the list of all individual customer reviews & comments, do the following:
+
+```objc
+// Note that the SKU must obviously be present in the TS database.
+TRSProduct *myProduct = [[TRSProduct alloc] initWithUrl:[NSURL URLWithString:@"https://example.com"] 
+                                                   name:@"Example Name"
+                                                    SKU:@"a valid SKU identifier"];
+[myProduct loadReviewsFromBackendWithTrustedShopsID:@"YOUR-TRUSTED-SHOPS-ID"
+                                           apiToken:@"THIS-IS-NOT-NEEDED-ATM"
+                                       successBlock:^{
+                                           // process the retrieved data, for example:
+                                           self.myOwnClassesPropertyForReviews = myProduct.reviews;
+                                       } failure:^(NSError * _Nullable error) {
+                                           NSLog(@"Culd not load the reviews, error: %@", error);
+                                           // your error handling code goes here
+                                       }];
+```
+
+The objects in the `reviews` array are of the type `TRSProductReview`, see the [documentation](#documentation) for further information.
+You might also want to check the Example project to see how to display these reviews in detail.
+Again, you can use the `debugMode` property to avoid loading the data from the production environment of the Trusted Shops
+backend (though be aware your own shop might not be present then, use the data provided in the Example project in this case).
 
 - - - -
 
@@ -158,29 +188,29 @@ To use this feature your app needs to add a few lines of code right after your c
 
 ```objc
 // create a TRSOrder object
-TRSOrder *anOrder = [TRSOrder 
-TRSOrderWithTrustedShopsID:@"your TS-ID"                     // your TS-ID
-apiToken:@"any string for now"             // just use any non-nil, non-empty string
-email:@"customer@example.com"           // your customer's email
-ordernr:@"0815XYZ"                        // a unique identifier for the order
-amount:[NSNumber numberWithDouble:28.73] // the total price as NSNumber
-curr:@"EUR"                            // the currency, see documentation for valid values
-paymentType:@"PREPAYMENT"                     // see documentation for valid values
-deliveryDate:nil];                             // this field is optional
+TRSOrder *anOrder = [TRSOrder TRSOrderWithTrustedShopsID:@"your TS-ID"                     // your TS-ID
+                                                apiToken:@"any string for now"             // just use any non-nil, non-empty string
+                                                   email:@"customer@example.com"           // your customer's email
+                                                 ordernr:@"0815XYZ"                        // a unique identifier for the order
+                                                  amount:[NSNumber numberWithDouble:28.73] // the total price as NSNumber
+                                                    curr:@"EUR"                            // the currency, see documentation for valid values
+                                             paymentType:@"PREPAYMENT"                     // see documentation for valid values
+                                            deliveryDate:nil];                             // this field is optional
 
 // optionally specify the products your customer bought
-TRSProduct *aProduct = [[TRSProduct alloc] 
-initWithUrl:[NSURL URLWithString:@"http://www.example.com"]
-name:@"The product's name" 
-SKU:@"a valid SKU identifier"];
+TRSProduct *aProduct = [[TRSProduct alloc] initWithUrl:[NSURL URLWithString:@"http://www.example.com"]
+                                                  name:@"The product's name" 
+                                                   SKU:@"a valid SKU identifier"];
+
 anOrder.tsCheckoutProductItems = @[aProduct];
 anOrder.debugMode = YES; // see below for information on this! 
 
 // Send the order data to Trusted Shops
-// This will display a (modal) webView that displays content based on the services you bought from Trusted Shops.
-// E.g., it will display a window to allow the user to purchase a guarantee. Users can always just dismiss it, of course.
+// This will display a (modal) webView that displays content based on the services you bought from 
+// Trusted Shops. E.g., it will display a window to allow the user to purchase a guarantee. Users can 
+// always just dismiss it, of course.
 [anOrder finishWithCompletionBlock:^(NSError *error) {
-// handle errors and/or further process the order accoding to your app's needs
+    // handle errors and/or further process the order accoding to your app's needs
 };
 ```
 
@@ -194,7 +224,7 @@ If you are developing your application and want to test this SDK feature __pleas
 ## 6. About this SDK ##
 
 #### Documentation ####
-The latest documentation can be found at [cocoadocs](http://cocoadocs.org/docsets/Trustbadge/0.5.0/).
+The latest documentation can be found at [cocoadocs](http://cocoadocs.org/docsets/Trustbadge/0.6.0/).
 All headers are documented according to the [appledoc](http://appledoc.gentlebytes.com/appledoc/) syntax, so you can also use that to directly include the docsets into your XCode.
 
 #### Authorization ####

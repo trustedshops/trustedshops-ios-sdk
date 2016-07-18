@@ -1,5 +1,14 @@
 # Trustbadge
 
+## Version 0.6.0
+
+* Added a means to load all individual customer reviews of a given product (in TRSProduct)
+* Added all necessary classes to handle this data
+* Modified the example project to show how this can be used
+* Consistently used a test shop TSID in the Example project (exception: the seal, since the test shop is not certified)
+* Updated API Endpoint for shop grades to an SDK specific one (other endpoints will be updated in a fix, soon)
+* Moved TRSStarsView to public classes so it can be easily used to show, e.g., individual product reviews
+
 ## Version 0.5.0
 
 * Added two abstract view classes: A general base class for views loading data from TS and a subclass of that, still abstract, specializing in loading product review data

@@ -172,7 +172,7 @@
 		84C2BC2E1B78C25000F54653 /* TRSTrustbadgeViewSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TRSTrustbadgeViewSpec.m; sourceTree = "<group>"; };
 		84D2C8781B678693005AE982 /* TRSTrustbadgeSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TRSTrustbadgeSpec.m; sourceTree = "<group>"; };
 		A1CA5AD3059E7771ECEAF3C7 /* Pods_Trustbadge_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Trustbadge_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		A5D0B7243460D20672FD13F0 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
+		A5D0B7243460D20672FD13F0 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; usesTabs = 0; };
 		A7E543C1C81905B3C9C3C66B /* Pods-Trustbadge_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Trustbadge_Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-Trustbadge_Tests/Pods-Trustbadge_Tests.release.xcconfig"; sourceTree = "<group>"; };
 		B345D279C87FB7B0EA8DE8FE /* Pods-Trustbadge_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Trustbadge_Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Trustbadge_Tests/Pods-Trustbadge_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
