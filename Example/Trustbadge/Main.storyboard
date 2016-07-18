@@ -568,16 +568,35 @@
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="600" height="674"/>
                     <connections>
+                        <outlet property="productRatingOneLineGestureRecognizer" destination="jLP-ca-sVW" id="hFk-9X-6Cy"/>
                         <outlet property="productRatingOneLinePlaceholder" destination="5CN-nC-Thr" id="5rA-hC-dT1"/>
+                        <outlet property="productRatingTwoLinesGestureRecognizer" destination="qqn-yD-MmQ" id="RdJ-XJ-gNv"/>
                         <outlet property="productRatingTwoLinesPlaceholder" destination="bjr-9A-vbN" id="l7b-LE-UWg"/>
+                        <outlet property="productSimpleRatingGestureRecognizer" destination="7vp-UK-iG9" id="MCZ-ys-gcn"/>
                         <outlet property="productSimpleRatingPlaceholder" destination="ho4-Em-N1w" id="O1G-Qd-HEn"/>
                         <outlet property="sealPlaceholder" destination="yni-5K-Lr0" id="Of5-I0-KV1"/>
                         <outlet property="shopGradePlaceholder" destination="YIZ-j4-c6M" id="gRu-hg-ROK"/>
                         <outlet property="shopRatingPlaceholder" destination="NGe-xa-Gey" id="VhG-Ye-M6z"/>
                         <outlet property="shopSimpleRatingPlaceholder" destination="jRq-gA-JaK" id="TWD-un-wya"/>
+                        <segue destination="d8s-yE-7jL" kind="show" identifier="showProductReviewsSegue" id="ssq-9L-zcb"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="c1w-qW-88s" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="7vp-UK-iG9">
+                    <connections>
+                        <action selector="showProductReviews:" destination="Do0-2H-yQi" id="lAR-RN-sAn"/>
+                    </connections>
+                </tapGestureRecognizer>
+                <tapGestureRecognizer id="qqn-yD-MmQ">
+                    <connections>
+                        <action selector="showProductReviews:" destination="Do0-2H-yQi" id="Q6b-PP-8XM"/>
+                    </connections>
+                </tapGestureRecognizer>
+                <tapGestureRecognizer id="jLP-ca-sVW">
+                    <connections>
+                        <action selector="showProductReviews:" destination="Do0-2H-yQi" id="7jR-bM-459"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="349" y="1246"/>
         </scene>
@@ -693,6 +712,58 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3gm-5E-ydD" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1121" y="544"/>
+        </scene>
+        <!--Product Reviews Table View Controller-->
+        <scene sceneID="dY2-Z4-hbf">
+            <objects>
+                <tableViewController id="d8s-yE-7jL" customClass="TRSProductReviewsTableViewController" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="100" sectionHeaderHeight="28" sectionFooterHeight="28" id="aTQ-LW-sum">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="674"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="productReviewsCell" id="BJb-Gg-Pyf">
+                                <rect key="frame" x="0.0" y="92" width="600" height="100"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="BJb-Gg-Pyf" id="nPS-Cn-aXB">
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="99"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <textView clipsSubviews="YES" userInteractionEnabled="NO" tag="2" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" delaysContentTouches="NO" canCancelContentTouches="NO" bouncesZoom="NO" editable="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="8dO-28-2ve">
+                                            <rect key="frame" x="8" y="23" width="584" height="68"/>
+                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                            <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                        </textView>
+                                        <view tag="1" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aqI-iH-KqU">
+                                            <rect key="frame" x="8" y="8" width="75" height="15"/>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="15" id="KpZ-2F-a1O"/>
+                                                <constraint firstAttribute="width" constant="75" id="tmi-L8-i3V"/>
+                                            </constraints>
+                                        </view>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="8dO-28-2ve" firstAttribute="top" secondItem="aqI-iH-KqU" secondAttribute="bottom" id="ahX-um-C2a"/>
+                                        <constraint firstItem="8dO-28-2ve" firstAttribute="leading" secondItem="nPS-Cn-aXB" secondAttribute="leadingMargin" id="dka-U6-DdD"/>
+                                        <constraint firstItem="aqI-iH-KqU" firstAttribute="leading" secondItem="nPS-Cn-aXB" secondAttribute="leadingMargin" id="kwK-WA-xyQ"/>
+                                        <constraint firstAttribute="trailingMargin" secondItem="8dO-28-2ve" secondAttribute="trailing" id="pm0-k2-PZT"/>
+                                        <constraint firstItem="8dO-28-2ve" firstAttribute="bottom" secondItem="nPS-Cn-aXB" secondAttribute="bottomMargin" id="rKa-87-eYU"/>
+                                        <constraint firstItem="aqI-iH-KqU" firstAttribute="top" secondItem="nPS-Cn-aXB" secondAttribute="topMargin" id="stB-lo-rMD"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="d8s-yE-7jL" id="zxO-rq-2ig"/>
+                            <outlet property="delegate" destination="d8s-yE-7jL" id="OaI-Fn-Sa0"/>
+                        </connections>
+                    </tableView>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="k33-LN-TPh" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1121" y="1246"/>
         </scene>
     </scenes>
     <resources>

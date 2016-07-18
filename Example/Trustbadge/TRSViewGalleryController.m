@@ -7,18 +7,23 @@
 //
 
 #import "TRSViewGalleryController.h"
+#import "TRSProductReviewsTableViewController.h"
 @import Trustbadge.TRSTrustbadgeView;
 @import Trustbadge.TRSShopRatingView;
 @import Trustbadge.TRSShopGradeView;
 @import Trustbadge.TRSShopSimpleRatingView;
+@import Trustbadge.TRSProductBaseView;
 @import Trustbadge.TRSProductSimpleRatingView;
 @import Trustbadge.TRSProductRatingView;
+@import Trustbadge.TRSProduct;
 
 @interface TRSViewGalleryController ()
 
 @property (nonatomic, strong) NSMutableArray *loadedViews;
 @property (nonatomic, strong) NSMutableArray *tappedLoadButtons;
 @property (nonatomic, assign) NSUInteger loadingViewsCount;
+@property (nonatomic, strong) NSMutableDictionary *productReviews;
+@property (nonatomic, assign) BOOL dontResetViews;
 
 @property (weak, nonatomic) IBOutlet UIView *sealPlaceholder;
 - (IBAction)loadSeal:(id)sender;
@@ -34,12 +39,17 @@
 
 @property (weak, nonatomic) IBOutlet UIView *productSimpleRatingPlaceholder;
 - (IBAction)loadProductSimpleRating:(id)sender;
+@property (strong, nonatomic) IBOutlet UITapGestureRecognizer *productSimpleRatingGestureRecognizer;
 
 @property (weak, nonatomic) IBOutlet UIView *productRatingTwoLinesPlaceholder;
 - (IBAction)loadProductRatingTwoLines:(id)sender;
+@property (strong, nonatomic) IBOutlet UITapGestureRecognizer *productRatingTwoLinesGestureRecognizer;
 
 @property (weak, nonatomic) IBOutlet UIView *productRatingOneLinePlaceholder;
 - (IBAction)loadProductRatingOneLine:(id)sender;
+@property (strong, nonatomic) IBOutlet UITapGestureRecognizer *productRatingOneLineGestureRecognizer;
+
+- (IBAction)showProductReviews:(id)sender;
 
 @end
 
@@ -53,23 +63,28 @@
 	
 	self.loadedViews = [NSMutableArray new];
 	self.tappedLoadButtons = [NSMutableArray new];
+	self.productReviews = [NSMutableDictionary new];
 	self.loadingViewsCount = 0;
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
 	[super viewWillDisappear:animated];
 	
-	// remove all loaded views
-	for (UIView *view in self.loadedViews) {
-		[view removeFromSuperview];
+	if (!self.dontResetViews) {
+		// remove all loaded views
+		for (UIView *view in self.loadedViews) {
+			[view removeFromSuperview];
+		}
+		[self.loadedViews removeAllObjects];
+		
+		// re-enable load buttons
+		for (id sender in self.tappedLoadButtons) {
+			[sender setEnabled:YES];
+		}
+		[self.tappedLoadButtons removeAllObjects];
+	} else {
+		self.dontResetViews = NO;
 	}
-	[self.loadedViews removeAllObjects];
-	
-	// re-enable load buttons
-	for (id sender in self.tappedLoadButtons) {
-		[sender setEnabled:YES];
-	}
-	[self.tappedLoadButtons removeAllObjects];
 }
 
 - (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
@@ -94,7 +109,7 @@
 	}
 }
 
-- (void)didLoadView:(UIView *)view forParent:(UIView *)parent sender:(id)sender{
+- (void)didLoadView:(UIView *)view forParent:(UIView *)parent sender:(id)sender reviews:(NSArray *)reviews {
 	if (parent) { // on success
 		[self.loadedViews addObject:view];
 		[parent addSubview:view];
@@ -102,12 +117,31 @@
 			[self.tappedLoadButtons addObject:sender];
 			[sender setEnabled:NO];
 		}
+		if (reviews && [view isKindOfClass:[TRSProductBaseView class]]) {
+			self.productReviews[((TRSProductBaseView *)view).SKU] = reviews;
+		}
 	}
 	
 	self.loadingViewsCount--;
 	if (self.loadingViewsCount <= 0) {
 		UIViewController *neighbor = [self.tabBarController.viewControllers firstObject];
 		neighbor.tabBarItem.enabled = YES;
+	}
+}
+
+- (void)didLoadView:(UIView *)view forParent:(UIView *)parent sender:(id)sender {
+	[self didLoadView:view forParent:parent sender:sender reviews:nil];
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+	if ([sender isKindOfClass:[UITapGestureRecognizer class]]) {
+		UIView *sourceView = [(UITapGestureRecognizer *)sender view];
+		if ([sourceView isKindOfClass:[TRSProductBaseView class]]) {
+			NSArray *reviews = self.productReviews[[(TRSProductBaseView *)sourceView SKU]];
+			if (reviews) {
+				[(TRSProductReviewsTableViewController *)[segue destinationViewController] setReviewsToShow:reviews];
+			}
+		}
 	}
 }
 
@@ -178,6 +212,7 @@
 		[self didLoadView:ssrView forParent:nil sender:nil];
 	}];
 }
+
 - (IBAction)loadProductSimpleRating:(id)sender {
 	CGRect psrFrame = self.productSimpleRatingPlaceholder.frame;
 	psrFrame.origin = CGPointZero;
@@ -188,8 +223,25 @@
 	psrView.debugMode = YES;
 	[self willLoadAView];
 	[psrView loadViewDataFromBackendWithSuccessBlock:^{
-		[self didLoadView:psrView forParent:self.productSimpleRatingPlaceholder sender:sender];
-		[self.tappedLoadButtons addObject:sender];
+		
+		TRSProduct *theProduct = [[TRSProduct alloc] initWithUrl:[NSURL URLWithString:@"https://example.com"]
+															name:@"someName"
+															 SKU:psrView.SKU];
+		[theProduct loadReviewsFromBackendWithTrustedShopsID:psrView.tsID
+													apiToken:psrView.apiToken
+												successBlock:^{
+													[self didLoadView:psrView
+															forParent:self.productSimpleRatingPlaceholder
+															   sender:sender
+															  reviews:theProduct.reviews];
+													psrView.userInteractionEnabled = YES;
+													[psrView addGestureRecognizer:self.productSimpleRatingGestureRecognizer];
+													[self.tappedLoadButtons addObject:sender];
+												} failureBlock:^(NSError * _Nullable error) {
+													NSLog(@"Error loading the TRSProductReview array (2 line): %@", error);
+													[self didLoadView:psrView forParent:self.productSimpleRatingPlaceholder sender:sender];
+													[self.tappedLoadButtons addObject:sender];
+												}];
 	} failureBlock:^(NSError *error) {
 		NSLog(@"Error loading the TRSProductSimpleRatingView: %@", error);
 		[self didLoadView:psrView forParent:nil sender:nil];
@@ -206,13 +258,31 @@
 	pr2lView.debugMode = YES;
 	[self willLoadAView];
 	[pr2lView loadViewDataFromBackendWithSuccessBlock:^{
-		[self didLoadView:pr2lView forParent:self.productRatingTwoLinesPlaceholder sender:sender];
-		[self.tappedLoadButtons addObject:sender];
+		
+		TRSProduct *theProduct = [[TRSProduct alloc] initWithUrl:[NSURL URLWithString:@"https://example.com"]
+															name:@"someName"
+															 SKU:pr2lView.SKU];
+		[theProduct loadReviewsFromBackendWithTrustedShopsID:pr2lView.tsID
+													apiToken:pr2lView.apiToken
+												successBlock:^{
+													[self didLoadView:pr2lView
+															forParent:self.productRatingTwoLinesPlaceholder
+															   sender:sender
+															  reviews:theProduct.reviews];
+													pr2lView.userInteractionEnabled = YES;
+													[pr2lView addGestureRecognizer:self.productRatingTwoLinesGestureRecognizer];
+													[self.tappedLoadButtons addObject:sender];
+												} failureBlock:^(NSError * _Nullable error) {
+													NSLog(@"Error loading the TRSProductReview array (2 line): %@", error);
+													[self didLoadView:pr2lView forParent:self.productRatingTwoLinesPlaceholder sender:sender];
+													[self.tappedLoadButtons addObject:sender];
+												}];
 	} failureBlock:^(NSError *error) {
 		NSLog(@"Error loading the TRSProductRatingView (2 line): %@", error);
 		[self didLoadView:pr2lView forParent:nil sender:nil];
 	}];
 }
+
 - (IBAction)loadProductRatingOneLine:(id)sender {
 	CGRect pr1lFrame = self.productRatingOneLinePlaceholder.frame;
 	pr1lFrame.origin = CGPointZero;
@@ -224,11 +294,35 @@
 	pr1lView.useOnlyOneLine = YES;
 	[self willLoadAView];
 	[pr1lView loadViewDataFromBackendWithSuccessBlock:^{
-		[self didLoadView:pr1lView forParent:self.productRatingOneLinePlaceholder sender:sender];
-		[self.tappedLoadButtons addObject:sender];
+		
+		TRSProduct *theProduct = [[TRSProduct alloc] initWithUrl:[NSURL URLWithString:@"https://example.com"]
+															name:@"someName"
+															 SKU:pr1lView.SKU];
+		[theProduct loadReviewsFromBackendWithTrustedShopsID:pr1lView.tsID
+													apiToken:pr1lView.apiToken
+												successBlock:^{
+													[self didLoadView:pr1lView
+															forParent:self.productRatingOneLinePlaceholder
+															   sender:sender
+															  reviews:theProduct.reviews];
+													pr1lView.userInteractionEnabled = YES;
+													[pr1lView addGestureRecognizer:self.productRatingOneLineGestureRecognizer];
+													[self.tappedLoadButtons addObject:sender];
+												} failureBlock:^(NSError * _Nullable error) {
+													NSLog(@"Error loading the TRSProductReview array (2 line): %@", error);
+													[self didLoadView:pr1lView forParent:self.productRatingOneLinePlaceholder sender:sender];
+													[self.tappedLoadButtons addObject:sender];
+												}];
 	} failureBlock:^(NSError *error) {
 		NSLog(@"Error loading the TRSProductRatingView (2 line): %@", error);
 		[self didLoadView:pr1lView forParent:nil sender:nil];
 	}];
+}
+
+#pragma mark - Actions for transitioning to product reviews VC
+
+- (IBAction)showProductReviews:(id)sender {
+	self.dontResetViews = YES;
+	[self performSegueWithIdentifier:@"showProductReviewsSegue" sender:sender];
 }
 @end

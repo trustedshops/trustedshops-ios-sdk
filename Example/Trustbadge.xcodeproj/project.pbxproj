@@ -36,6 +36,7 @@
 		1D867C071D3CC005008AD80E /* TRSCriteriaSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D867C061D3CC005008AD80E /* TRSCriteriaSpec.m */; };
 		1D867C091D3CC541008AD80E /* TRSProductReviewSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D867C081D3CC541008AD80E /* TRSProductReviewSpec.m */; };
 		1D88A8511D06D6A5005AD070 /* TRSViewGalleryController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D88A8501D06D6A5005AD070 /* TRSViewGalleryController.m */; };
+		1D8B07851D3CE3E500A4A8F9 /* TRSProductReviewsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D8B07841D3CE3E500A4A8F9 /* TRSProductReviewsTableViewController.m */; };
 		1D9A6FC61CCA5565006D97A9 /* TRSProductSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D9A6FC51CCA5565006D97A9 /* TRSProductSpec.m */; };
 		1D9D0E181D19463B00295294 /* TRSStarsViewSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D9D0E171D19463B00295294 /* TRSStarsViewSpec.m */; };
 		1D9D0E1A1D19520600295294 /* TRSShopSimpleRatingViewSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D9D0E191D19520600295294 /* TRSShopSimpleRatingViewSpec.m */; };
@@ -116,6 +117,8 @@
 		1D867C081D3CC541008AD80E /* TRSProductReviewSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TRSProductReviewSpec.m; sourceTree = "<group>"; };
 		1D88A84F1D06D6A5005AD070 /* TRSViewGalleryController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TRSViewGalleryController.h; sourceTree = "<group>"; };
 		1D88A8501D06D6A5005AD070 /* TRSViewGalleryController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TRSViewGalleryController.m; sourceTree = "<group>"; };
+		1D8B07831D3CE3E500A4A8F9 /* TRSProductReviewsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TRSProductReviewsTableViewController.h; sourceTree = "<group>"; };
+		1D8B07841D3CE3E500A4A8F9 /* TRSProductReviewsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TRSProductReviewsTableViewController.m; sourceTree = "<group>"; };
 		1D9A6FC51CCA5565006D97A9 /* TRSProductSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TRSProductSpec.m; sourceTree = "<group>"; };
 		1D9D0E171D19463B00295294 /* TRSStarsViewSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TRSStarsViewSpec.m; sourceTree = "<group>"; };
 		1D9D0E191D19520600295294 /* TRSShopSimpleRatingViewSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TRSShopSimpleRatingViewSpec.m; sourceTree = "<group>"; };
@@ -310,6 +313,8 @@
 				1D82627C1CD776A000AE71B4 /* TRSPickerViewController.m */,
 				1D88A84F1D06D6A5005AD070 /* TRSViewGalleryController.h */,
 				1D88A8501D06D6A5005AD070 /* TRSViewGalleryController.m */,
+				1D8B07831D3CE3E500A4A8F9 /* TRSProductReviewsTableViewController.h */,
+				1D8B07841D3CE3E500A4A8F9 /* TRSProductReviewsTableViewController.m */,
 				840574731B8210A5006F9778 /* Supporting Files */,
 				1D5FF3581CABE7850034AC45 /* Launch Screen.storyboard */,
 			);
@@ -577,6 +582,7 @@
 				1D82627D1CD776A000AE71B4 /* TRSDatePickerViewController.m in Sources */,
 				8405746B1B821067006F9778 /* TRSAppDelegate.m in Sources */,
 				8405746E1B821067006F9778 /* TRSViewController.m in Sources */,
+				1D8B07851D3CE3E500A4A8F9 /* TRSProductReviewsTableViewController.m in Sources */,
 				1D82627E1CD776A000AE71B4 /* TRSPickerViewController.m in Sources */,
 				840574691B821067006F9778 /* main.m in Sources */,
 				1D88A8511D06D6A5005AD070 /* TRSViewGalleryController.m in Sources */,
