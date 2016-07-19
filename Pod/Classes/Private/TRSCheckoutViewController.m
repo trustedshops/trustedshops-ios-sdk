@@ -16,7 +16,7 @@
 #import "NSURL+TRSURLExtensions.h"
 @import WebKit;
 
-static const CGSize minContentViewSize = {288.0, 339.0}; // for now: this is more or less defined by the displayed card...
+static const CGSize minContentViewSize = {300.0, 300.0}; // This is an initial size, see resizePopinToSize
 
 @interface TRSCheckoutViewController () <WKNavigationDelegate, WKScriptMessageHandler>
 
@@ -161,12 +161,14 @@ decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
 }
 
 - (void)resizePopinToSize:(CGSize)newSize {
+	// this method ensures the height is adapted after load (see also userContentController:)
+	// the shown cards take the width of the window they're presented in and fill that, resulting in the height
+	// growing dynamically if needed. we here then animate that to resize accordingly.
+	// the default dimension of the webview (defined as minContentViewSize) should result in views typically only enlarging
 	CGSize currentSize = self.view.frame.size;
 	CGSize maxSize = [[UIScreen mainScreen] bounds].size;
 	maxSize.height -= 50.0; // ensure parent view is always a bit smaller!
-	newSize.width = MAX(currentSize.width, newSize.width); // only enlarge, don't shrink
 	newSize.width = MIN(maxSize.width, newSize.width); // don't go larger than the parent VC's view's size!
-	newSize.height = MAX(currentSize.height, newSize.height);
 	newSize.height = MIN(maxSize.height, newSize.height);
 	
 	self.view.contentMode = UIViewContentModeRedraw;
