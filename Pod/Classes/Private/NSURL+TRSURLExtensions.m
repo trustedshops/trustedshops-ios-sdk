@@ -89,7 +89,7 @@ NSString * const TRSPublicAPIEndPointDebug = @"api-qa.trustedshops.com";
 + (NSURL *)productGradeAPIURLForTSID:(NSString *)tsID skuHash:(NSString *)skuHash andAPIEndPoint:(NSString *)apiEndPoint {
 	return [NSURL URLWithString:
 			[NSString stringWithFormat:
-			 @"https://%@/shops/%@/products/skus/%@/productstickersummaries/v1/quality/reviews.json", apiEndPoint, tsID, skuHash]];
+			 @"https://%@/shops/%@/products/skus/%@/mobiles/v1/sdks/ios/quality/reviews.json", apiEndPoint, tsID, skuHash]];
 }
 
 + (NSURL *)productGradeAPIURLForTSID:(NSString *)tsID skuHash:(NSString *)skuHash debug:(BOOL)debug {
@@ -105,7 +105,7 @@ NSString * const TRSPublicAPIEndPointDebug = @"api-qa.trustedshops.com";
 + (NSURL *)productReviewAPIURLForTSID:(NSString *)tsID skuHash:(NSString *)skuHash andAPIEndPoint:(NSString *)apiEndPoint {
 	return [NSURL URLWithString:
 			[NSString stringWithFormat:
-			 @"https://%@/shops/%@/products/skus/%@/productreviewstickers/v1/reviews.json", apiEndPoint, tsID, skuHash]];
+			 @"https://%@/shops/%@/products/skus/%@/mobiles/v1/sdks/ios/reviews.json", apiEndPoint, tsID, skuHash]];
 }
 
 + (NSURL *)productReviewAPIURLForTSID:(NSString *)tsID skuHash:(NSString *)skuHash debug:(BOOL)debug {
