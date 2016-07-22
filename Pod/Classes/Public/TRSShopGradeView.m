@@ -25,6 +25,7 @@
 #import "NSNumberFormatter+TRSFormatter.h"
 #import "TRSTrustbadgeSDKPrivate.h"
 #import "NSURL+TRSURLExtensions.h"
+#import "NSString+TRSStringOperations.h"
 
 // minSize should be around {100.0, 60.0}, but that also depends on the text label (e.g. it's ~110 for "BEFRIEDIGEND")
 CGFloat const kTRSShopGradingViewMinHeight = 60.0;
@@ -132,7 +133,7 @@ NSString *const kTRSShopGradeViewDebugModeKey = @"kTRSShopGradeViewDebugModeKey"
 	
 	[[TRSNetworkAgent sharedAgent] getShopGradeForTrustedShopsID:self.tsID apiToken:self.apiToken success:^(NSDictionary *gradeData) {
 
-		self.gradeText = gradeData[@"overallMarkDescription"];
+		self.gradeText = [gradeData[@"overallMarkDescription"] readableMarkDescription];
 		self.gradeNumber = gradeData[@"overallMark"];
 		self.reviewCount = gradeData[@"activeReviewCount"];
 		self.targetMarketISO3 = gradeData[@"targetMarketISO3"];
@@ -263,7 +264,7 @@ NSString *const kTRSShopGradeViewDebugModeKey = @"kTRSShopGradeViewDebugModeKey"
 	[super layoutSubviews];
 	[self sizeToFit];
 	self.starPlaceholder.frame = [self frameForStars];
-	self.gradeAsTextLabel.text = self.gradeText; // note: localization is done remotely by the API
+	self.gradeAsTextLabel.text = [self.gradeText uppercaseString];
 	self.gradeAsNumbersLabel.text = [self gradeNumberString];
 	self.gradeAsTextLabel.frame = [self frameForGradeAsText];
 	self.gradeAsNumbersLabel.frame = [self frameForGradeAsNumbers];

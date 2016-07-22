@@ -10,6 +10,7 @@
 #import "TRSPrivateBasicDataView+Private.h"
 #import "TRSNetworkAgent+ProductGrade.h"
 #import "TRSErrors.h"
+#import "NSString+TRSStringOperations.h"
 #import <OCMock/OCMock.h>
 #import <Specta/Specta.h>
 
@@ -155,7 +156,7 @@ context(@"helper methods", ^{
 			expect(view.uuid).to.equal(@"someUUID");
 			expect(view.totalReviewCount).to.equal(@1344);
 			expect(view.overallMark).to.equal(@4.86);
-			expect(view.overallMarkDescription).to.equal(@"EXCELLENT");
+			expect(view.overallMarkDescription).to.equal([@"EXCELLENT" readableMarkDescription]);
 		});
 		
 		it(@"returns NO for mismatching SKU and doesn't set internal data", ^{

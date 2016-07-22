@@ -24,6 +24,7 @@
 		1D6695591CD23E8600AA0E4E /* checkout_unit_test.html in Resources */ = {isa = PBXBuildFile; fileRef = 1D6695581CD23E8600AA0E4E /* checkout_unit_test.html */; };
 		1D69A5A41CC791D2001A93EE /* TRSConsumerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D69A5A21CC791D2001A93EE /* TRSConsumerSpec.m */; };
 		1D69A5A51CC791D2001A93EE /* TRSOrderSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D69A5A31CC791D2001A93EE /* TRSOrderSpec.m */; };
+		1D6D505A1D424C26004A5431 /* NSString+TRSStringOperationsSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D6D50591D424C26004A5431 /* NSString+TRSStringOperationsSpec.m */; };
 		1D6FAE571D2AAA3C0007BF7E /* TRSNetworkAgent+ShopGradeSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D6FAE561D2AAA3C0007BF7E /* TRSNetworkAgent+ShopGradeSpec.m */; };
 		1D6FDCF11D13F9CC00884C2A /* shopGrade.data in Resources */ = {isa = PBXBuildFile; fileRef = 1D6FDCF01D13F9CC00884C2A /* shopGrade.data */; };
 		1D6FDCF31D13FBFF00884C2A /* shopGrade-badrequest.response in Resources */ = {isa = PBXBuildFile; fileRef = 1D6FDCF21D13FBFF00884C2A /* shopGrade-badrequest.response */; };
@@ -100,6 +101,7 @@
 		1D6695581CD23E8600AA0E4E /* checkout_unit_test.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = checkout_unit_test.html; sourceTree = "<group>"; };
 		1D69A5A21CC791D2001A93EE /* TRSConsumerSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TRSConsumerSpec.m; sourceTree = "<group>"; };
 		1D69A5A31CC791D2001A93EE /* TRSOrderSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TRSOrderSpec.m; sourceTree = "<group>"; };
+		1D6D50591D424C26004A5431 /* NSString+TRSStringOperationsSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+TRSStringOperationsSpec.m"; sourceTree = "<group>"; };
 		1D6FAE561D2AAA3C0007BF7E /* TRSNetworkAgent+ShopGradeSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "TRSNetworkAgent+ShopGradeSpec.m"; sourceTree = "<group>"; };
 		1D6FDCF01D13F9CC00884C2A /* shopGrade.data */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = shopGrade.data; sourceTree = "<group>"; };
 		1D6FDCF21D13FBFF00884C2A /* shopGrade-badrequest.response */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "shopGrade-badrequest.response"; sourceTree = "<group>"; };
@@ -244,6 +246,7 @@
 				8409D6801B66204800001627 /* Fixtures */,
 				840B2B611B45712C009E1D6D /* NSNumber+TRSRatingSpec.m */,
 				845E83DC1B8323C3001D5EDC /* NSNumberFormatter+TRSFormatterSpec.m */,
+				1D6D50591D424C26004A5431 /* NSString+TRSStringOperationsSpec.m */,
 				1DEFBAEB1CA0049A00B61B05 /* NSURL+TRSURLExtensionsSpec.m */,
 				1D6695561CD2328300AA0E4E /* TRSCheckoutViewControllerSpec.m */,
 				1D69A5A21CC791D2001A93EE /* TRSConsumerSpec.m */,
@@ -619,6 +622,7 @@
 				1D69A5A41CC791D2001A93EE /* TRSConsumerSpec.m in Sources */,
 				1D9A6FC61CCA5565006D97A9 /* TRSProductSpec.m in Sources */,
 				84C2BC2F1B78C25000F54653 /* TRSTrustbadgeViewSpec.m in Sources */,
+				1D6D505A1D424C26004A5431 /* NSString+TRSStringOperationsSpec.m in Sources */,
 				1D445D121D2D4F7800A5B099 /* TRSProductBaseViewSpec.m in Sources */,
 				1D445D101D2D29A400A5B099 /* TRSPrivateBasicDataViewSpec.m in Sources */,
 				84D2C8791B678694005AE982 /* TRSTrustbadgeSpec.m in Sources */,

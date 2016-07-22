@@ -15,6 +15,7 @@
 #import "TRSErrors.h"
 #import "TRSStarsView.h"
 #import "TRSTrustbadgeSDKPrivate.h"
+#import "NSString+TRSStringOperations.h"
 
 @interface TRSShopRatingView (PrivateTests)
 
@@ -157,7 +158,7 @@ describe(@"TRSShopRatingView", ^{
 					expect(testView.gradeNumber).to.equal(@4.87);
 					expect(testView.reviewCount).to.equal(@5);
 					expect(testView.targetMarketISO3).to.equal(@"CHE");
-					expect(testView.gradeText).to.equal(@"EXCELLENT");
+					expect(testView.gradeText).to.equal([@"EXCELLENT" readableMarkDescription]);
 					expect(testView.languageISO2).to.equal(@"de");
 					
 					[OHHTTPStubs removeStub:myStub];

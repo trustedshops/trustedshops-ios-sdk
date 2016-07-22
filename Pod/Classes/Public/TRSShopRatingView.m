@@ -14,6 +14,7 @@
 #import "NSNumberFormatter+TRSFormatter.h"
 #import "TRSTrustbadgeSDKPrivate.h"
 #import "NSURL+TRSURLExtensions.h"
+#import "NSString+TRSStringOperations.h"
 
 CGFloat const kTRSShopRatingViewMinHeight = 40.0;
 NSString *const kTRSShopRatingViewFontName = @"Arial"; // ensure this is on the system!
@@ -119,7 +120,7 @@ NSString *const kTRSShopRatingViewDebugModeKey = @"kTRSShopRatingViewDebugModeKe
 	
 	[[TRSNetworkAgent sharedAgent] getShopGradeForTrustedShopsID:self.tsID apiToken:self.apiToken success:^(NSDictionary *gradeData) {
 		
-		self.gradeText = gradeData[@"overallMarkDescription"];
+		self.gradeText = [gradeData[@"overallMarkDescription"] readableMarkDescription];
 		self.gradeNumber = gradeData[@"overallMark"];
 		self.reviewCount = gradeData[@"activeReviewCount"];
 		self.targetMarketISO3 = gradeData[@"targetMarketISO3"];

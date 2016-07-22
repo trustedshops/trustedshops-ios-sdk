@@ -39,6 +39,8 @@ NSString *const kTRSTechnicalMarkVeryPoor = @"VERY_POOR";
 	} else if ([self isEqualToString:kTRSTechnicalMarkVeryPoor]) {
 		retVal = TRSLocalizedString(@"Very poor", @"The readable string for the 'kTRSTechnicalMarkVeryPoor' mark.");
 	}
+	
+	return retVal;
 }
 
 @end

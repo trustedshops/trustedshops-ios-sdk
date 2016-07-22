@@ -10,6 +10,7 @@
 #import "TRSProductBaseView+Private.h"
 #import "TRSNetworkAgent+ProductGrade.h"
 #import "TRSErrors.h"
+#import "NSString+TRSStringOperations.h"
 #import "TRSPrivateBasicDataView+Private.h" // internally give me access to the private methods of my base view...
 
 NSString *const kTRSProductBaseViewSKUKey = @"kTRSProductBaseViewSKUKey";
@@ -58,7 +59,7 @@ NSString *const kTRSProductBaseViewSKUKey = @"kTRSProductBaseViewSKUKey";
 		self.uuid = myData[@"uuid"];
 		self.totalReviewCount = myData[@"totalReviewCount"];
 		self.overallMark = myData[@"overallMark"];
-		self.overallMarkDescription = myData[@"overallMarkDescription"];
+		self.overallMarkDescription = [myData[@"overallMarkDescription"] readableMarkDescription];
 	} else {
 		NSLog(@"data setup failed - returned SKU doesn't match");
 		return NO;
