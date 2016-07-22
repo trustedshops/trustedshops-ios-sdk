@@ -11,10 +11,10 @@ if [ $# -eq 0 ]
     exit 1    
 fi
 
-genstrings -s TRSLocalizedString -o ./Pod/Assets/en.lproj $1
-genstrings -s TRSLocalizedString -o ./Pod/Assets/de.lproj $1
-genstrings -s TRSLocalizedString -o ./Pod/Assets/es.lproj $1
-genstrings -s TRSLocalizedString -o ./Pod/Assets/fr.lproj $1
-genstrings -s TRSLocalizedString -o ./Pod/Assets/it.lproj $1
-genstrings -s TRSLocalizedString -o ./Pod/Assets/nl.lproj $1
-genstrings -s TRSLocalizedString -o ./Pod/Assets/pl.lproj $1
+genstrings -s TRSLocalizedString -o ./Pod/Assets/en.lproj "$@"
+genstrings -s TRSLocalizedString -o ./Pod/Assets/de.lproj "$@"
+genstrings -s TRSLocalizedString -o ./Pod/Assets/es.lproj "$@"
+genstrings -s TRSLocalizedString -o ./Pod/Assets/fr.lproj "$@"
+genstrings -s TRSLocalizedString -o ./Pod/Assets/it.lproj "$@"
+genstrings -s TRSLocalizedString -o ./Pod/Assets/nl.lproj "$@"
+genstrings -s TRSLocalizedString -o ./Pod/Assets/pl.lproj "$@"
