@@ -165,7 +165,6 @@ decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
 	// the shown cards take the width of the window they're presented in and fill that, resulting in the height
 	// growing dynamically if needed. we here then animate that to resize accordingly.
 	// the default dimension of the webview (defined as minContentViewSize) should result in views typically only enlarging
-	CGSize currentSize = self.view.frame.size;
 	CGSize maxSize = [[UIScreen mainScreen] bounds].size;
 	maxSize.height -= 50.0; // ensure parent view is always a bit smaller!
 	newSize.width = MIN(maxSize.width, newSize.width); // don't go larger than the parent VC's view's size!
