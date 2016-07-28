@@ -4,6 +4,8 @@
 # It's used like genstrings alone, but does the correct replacement for our custom macro to get localized strings
 # and creates/modifies the strings files for all our used languages.
 # There might be a better way to do this, but for now it works for the pod development.
+# Note that each basically recreates the strings files, so already existing translations need to be re-added.
+# This can be done by merging them with previous versions (if git is configured to merge UTF-16 files, use that).
 
 if [ $# -eq 0 ]
   then

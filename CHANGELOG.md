@@ -1,5 +1,13 @@
 # Trustbadge
 
+##Version 0.6.1
+
+* Changed API endpoints for product reviews in the internal API for better load balance on our servers
+* Added localization data for the various strings used by the SDK ("Reviews", ...)
+* Added a public category for NSString that uses the localiations to transform rating strings delivered from the API to human readable, localized strings (that can be used in the UI)
+* Fixed resizing behavior of the checkout cards - the lightbox now resizes according to the cards' needs and doesn't cutt off content or leave white space anymore
+* Used shorter deprecation mark in errors to reduce cluttering of the appledoc generated documentation (this is a workaround for appledoc not understanding __deprecated)
+
 ## Version 0.6.0
 
 * Added a means to load all individual customer reviews of a given product (in TRSProduct)

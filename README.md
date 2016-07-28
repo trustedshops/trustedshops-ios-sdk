@@ -152,7 +152,7 @@ myProductRatingView.debugMode = YES; // works similar to other views of the SDK
 
 Customization and debug mode work the same as for the shop review views. See the [documentation](#documentation) for further information.
 
-You can also access the data of customers' individual ratings, i.e. a list of all the comments and grades that customers made.
+You can also access the data of customers' individual ratings, i.e. a list of all the comments and grades that customers gave.
 Since this can be quite a bit we leave it to you to decide how you want to present this data to your app users.
 
 To load the list of all individual customer reviews & comments, do the following:
@@ -224,7 +224,7 @@ If you are developing your application and want to test this SDK feature __pleas
 ## 6. About this SDK ##
 
 #### Documentation ####
-The latest documentation can be found at [cocoadocs](http://cocoadocs.org/docsets/Trustbadge/0.6.0/).
+The latest documentation can be found at [cocoadocs](http://cocoadocs.org/docsets/Trustbadge/0.6.1/).
 All headers are documented according to the [appledoc](http://appledoc.gentlebytes.com/appledoc/) syntax, so you can also use that to directly include the docsets into your XCode.
 
 #### Authorization ####

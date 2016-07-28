@@ -1,4 +1,5 @@
 #import "TRSTrustbadgeView.h"
+#import "TRSStarsView.h"
 #import "TRSShopSimpleRatingView.h"
 #import "TRSShopRatingView.h"
 #import "TRSShopGradeView.h"
@@ -12,3 +13,4 @@
 #import "TRSErrors.h"
 #import "TRSCriteria.h"
 #import "TRSConsumer.h"
+#import "NSString+TRSStringOperations.h"
