@@ -153,7 +153,9 @@ decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
 	if ([message.body isKindOfClass:[NSString class]] && [message.body isEqualToString:@"closed"]) {
 		[self.presentingPopinViewController dismissCurrentPopinControllerAnimated:YES completion:nil];
 	}
-	if ([message.body isKindOfClass:[NSDictionary class]] && [[message.body objectForKey:@"message"] isEqualToString:@"prepared"]) {
+	if ([message.body isKindOfClass:[NSDictionary class]] &&
+		([[message.body objectForKey:@"message"] isEqualToString:@"prepared"] ||
+		 [[message.body objectForKey:@"message"] isEqualToString:@"call_done"])) {
 		NSNumber *theWidth = [message.body objectForKey:@"width"];
 		NSNumber *theHeight = [message.body objectForKey:@"height"];
 		[self resizePopinToSize:CGSizeMake(theWidth.floatValue, theHeight.floatValue)];
