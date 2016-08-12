@@ -1,6 +1,10 @@
 # Trustbadge
 
-##Version 0.6.1
+## Version 0.6.2
+
+* Fixed UI of the checkout card: For some shop options the card did not resize properly since the underlying java script did not send an according event. It now has a specific event and acts on that.
+
+## Version 0.6.1
 
 * Changed API endpoints for product reviews in the internal API for better load balance on our servers
 * Added localization data for the various strings used by the SDK ("Reviews", ...)
