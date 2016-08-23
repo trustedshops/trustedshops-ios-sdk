@@ -1,5 +1,9 @@
 # Trustbadge
 
+## Version 0.6.3
+
+* Changed an API endpoint so that the SDK pulls also the trustmark (for the seal) from a specific place created for it alone.
+
 ## Version 0.6.2
 
 * Fixed UI of the checkout card: For some shop options the card did not resize properly since the underlying java script did not send an according event. It now has a specific event and acts on that.

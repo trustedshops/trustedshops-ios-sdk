@@ -224,7 +224,7 @@ If you are developing your application and want to test this SDK feature __pleas
 ## 6. About this SDK ##
 
 #### Documentation ####
-The latest documentation can be found at [cocoadocs](http://cocoadocs.org/docsets/Trustbadge/0.6.2/).
+The latest documentation can be found at [cocoadocs](http://cocoadocs.org/docsets/Trustbadge/0.6.3/).
 All headers are documented according to the [appledoc](http://appledoc.gentlebytes.com/appledoc/) syntax, so you can also use that to directly include the docsets into your XCode.
 
 #### Authorization ####
