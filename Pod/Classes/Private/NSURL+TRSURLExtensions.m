@@ -58,7 +58,7 @@ NSString * const TRSPublicAPIEndPointDebug = @"api-qa.trustedshops.com";
 
 + (NSURL *)trustMarkAPIURLForTSID:(NSString *)tsID andAPIEndPoint:(NSString *)apiEndPoint {
 	return [NSURL URLWithString:
-			[NSString stringWithFormat:@"https://%@/shops/%@/mobiles/v1/sdks/trustmarks.json", apiEndPoint, tsID]];
+			[NSString stringWithFormat:@"https://%@/shops/%@/mobiles/v1/sdks/ios/trustmarks.json", apiEndPoint, tsID]];
 }
 
 + (NSURL *)trustMarkAPIURLForTSID:(NSString *)tsID debug:(BOOL)debug {
