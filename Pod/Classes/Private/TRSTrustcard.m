@@ -15,16 +15,16 @@ static NSString * const TRSCertHTMLName = @"trustinfos"; // not used atm
 #import "NSURL+TRSURLExtensions.h"
 #import "UIColor+TRSColors.h"
 #import "TRSNetworkAgent+Trustbadge.h"
+#import "TRSShop.h"
 @import CoreText;
-//@import WebKit;
+@import WebKit;
 #import "UIViewController+MaryPopin.h"
+
+static const CGSize minContentViewSize = {300.0, 380.0}; // This is a size used during initialization
 
 @interface TRSTrustcard () <UIWebViewDelegate>
 
-@property (weak, nonatomic) IBOutlet UIButton *certButton;
-@property (weak, nonatomic) IBOutlet UIButton *okButton;
-@property (weak, nonatomic) IBOutlet UIWebView *webView;
-// TODO: switch to the newer WKWebView class, but beware of Interface Builder when doing so
+@property (weak, nonatomic) WKWebView *webView; // just for convenience, our view is actually the webView (so this can be weak)
 
 @property (weak, nonatomic) TRSTrustbadge *displayedTrustbadge;
 // this is weak to avoid a retain cycle (it's our owner), used for temporary stuff
@@ -33,41 +33,20 @@ static NSString * const TRSCertHTMLName = @"trustinfos"; // not used atm
 
 @implementation TRSTrustcard
 
-- (void)viewWillAppear:(BOOL)animated {
-	[super viewWillAppear:animated];
-	
-	NSString *colorString = @"F37000"; // fallback value: our orange
-	if (self.themeColor) {
-		colorString = [[self.themeColor hexString] capitalizedString];
-	}
-	
-	NSMutableURLRequest *myrequest = [[TRSNetworkAgent sharedAgent] localizedURLRequestForTrustcardWithColorString:colorString];
-	[self.webView loadRequest:myrequest];
-	// TODO: ensure the caching works as expected, even for app-restart etc.
-	
-	// TODO: implement fallback mechanism if the URL is not reachable (means also including local files)
 
-	// set the color of the buttons
-	if (self.themeColor) {
-		[self.okButton setTitleColor:self.themeColor forState:UIControlStateNormal];
-		[self.certButton setTitleColor:self.themeColor forState:UIControlStateNormal];
-	}
-	
+- (void)loadView {
+	WKWebViewConfiguration *config = [[WKWebViewConfiguration alloc] init];
+	WKUserContentController *ucController = [[WKUserContentController alloc] init]; // will probably later be used for scripts
+	[ucController addScriptMessageHandler:self name:@"trs_ios_listener"];
+	[ucController addUserScript:[[WKUserScript alloc] initWithSource:[self noZoomScriptString]
+													   injectionTime:WKUserScriptInjectionTimeAtDocumentEnd
+													forMainFrameOnly:YES]];
+	config.userContentController = ucController;
+	self.view = [[WKWebView alloc] initWithFrame:CGRectMake(0.0, 0.0, minContentViewSize.width, minContentViewSize.height)
+								   configuration:config];
+	self.webView = (WKWebView *) self.view;
+	self.webView.navigationDelegate = self;
 	self.webView.scrollView.scrollEnabled = NO;
-}
-
-- (IBAction)buttonTapped:(id)sender {
-	if ([sender tag] == 1 && self.displayedTrustbadge) { // the tag is set in Interface Builder, it's the certButton
-		NSURL *targetURL = [NSURL profileURLForShop:self.displayedTrustbadge.shop];
-		[[UIApplication sharedApplication] openURL:targetURL];
-	}
-	// this does nothing unless the view is modally presented (otherwise presenting VC is nil)
-//	[self.presentingViewController dismissViewControllerAnimated:YES completion:^{
-//		self.displayedTrustbadge = nil; // not necessary, but we wanna be nice & cleaned up
-//	}];
-	[self.presentingPopinViewController dismissCurrentPopinControllerAnimated:YES completion:^{
-		self.displayedTrustbadge = nil;
-	}];
 }
 
 - (void)showInLightboxForTrustbadge:(TRSTrustbadge *)trustbadge withPresentingViewController:(UIViewController *)presenter {
@@ -79,72 +58,100 @@ static NSString * const TRSCertHTMLName = @"trustinfos"; // not used atm
 		self.displayedTrustbadge = trustbadge;
 		presenter = mainWindow.rootViewController;
 	}
-	[self setPopinOptions:BKTPopinDisableAutoDismiss];
+	
+	// ensure our view is loaded
+	[self view];
+	
+	NSString *devFile = [TRSTrustbadgeBundle() pathForResource:@"trustcard_page" ofType:@"html"];
+	NSURL *sampleURL = [NSURL fileURLWithPath:devFile];
+	NSURLRequest *request = [NSURLRequest requestWithURL:sampleURL];
+	[self.webView loadRequest:request];
+	self.automaticallyAdjustsScrollViewInsets = NO; // fixes issue with nav bars & nav controllers as rootVC
+
 	[presenter presentPopinController:self animated:YES completion:nil];
 }
 
-#pragma mark - UIWebViewDelegate
+#pragma mark - WebView Delegation methods
 
-//- (void)webViewDidFinishLoad:(UIWebView *)webView {
-//	NSLog(@"Web view's scroll contentsize width & height are: %f, %f",
-//		  self.webView.scrollView.contentSize.width, self.webView.scrollView.contentSize.height);
-	// this method can/should be used to resize the view in case the content in the webView is too small...
-	// TODO: figure out a good size together with a designer, put mostly into the html & make it dynamic!
-	
-	// try out code:
-	
-//	NSString *heightJS = [webView stringByEvaluatingJavaScriptFromString:@"document.getElementById(\"body\").scrollHeight;"];
-//	NSLog(@"heightJS is: %@", heightJS);
-//	NSString *widthJS = [webView stringByEvaluatingJavaScriptFromString:@"document.getElementById(\"body\").scrollWidth;"];
-//	NSLog(@"widthJS: %@", widthJS);
-	
-//	CGRect viewFrame = self.view.frame;
-//	viewFrame.size.height = self.webView.scrollView.contentSize.height + 30; // 30 is the size of the buttons, i.e. bottom space
-//	self.view.frame = viewFrame;
-//}
+- (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction
+decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
+	if ([navigationAction.request.URL isFileURL]) { // this is the case only on first loading the card
+		decisionHandler(WKNavigationActionPolicyAllow);
+	} else { // this covers all links going out of the card (to the certificate and reviews and such)
+		NSURL *buttonURL = navigationAction.request.URL;
+		[[UIApplication sharedApplication] openURL:buttonURL];
+		[self.presentingPopinViewController dismissCurrentPopinControllerAnimated:YES completion:nil];
+		// standard case: we opened the target in safari, so cancel it here.
+		decisionHandler(WKNavigationActionPolicyCancel);
+	}
+}
 
-#pragma mark - Font helper methods
+- (void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation {
+	NSString *jsCall = [self jsInjectionStringForID];
+	[webView evaluateJavaScript:jsCall completionHandler:^(id _Nullable result, NSError * _Nullable error) {
+		// if this ever happens, we're probably screwed...
+		if (error && !(error.domain == WKErrorDomain && error.code == WKErrorJavaScriptResultTypeIsUnsupported)) {
+			NSLog(@"JavaScript error: Could not inject the trustbadge; string: '%@', error: %@", jsCall, error);
+		}
+	}];
+}
 
-// note, these are currently not used with the webView, but we will keep them for now.
-// also, the font asset will be used by the webview, probably
-+ (UIFont *)openFontAwesomeWithSize:(CGFloat)size
-{
-	// UIFont actually does accept negative sizes it seems, but the documentation says we shouldn't do this.
-	if (size <= 0) {
+- (void)userContentController:(WKUserContentController *)userContentController
+	  didReceiveScriptMessage:(WKScriptMessage *)message {
+	
+	if ([message.body isKindOfClass:[NSDictionary class]] && ([[message.body objectForKey:@"message"] isEqualToString:@"resize"])) {
+		NSNumber *theWidth = [message.body objectForKey:@"width"];
+		NSNumber *theHeight = [message.body objectForKey:@"height"];
+		// TODO: add proper resizing code based on values here
+		NSLog(@"cards width: %@ and height: %@", theWidth, theHeight);
+		[self resizePopinToSize:CGSizeMake(theWidth.floatValue, theHeight.floatValue)];
+	}
+}
+
+- (void)resizePopinToSize:(CGSize)newSize {
+	// this method ensures the height is adapted after load (see also userContentController:didReceiveScriptMessage:)
+	// it's basically the same as in TRSCheckoutViewController, but has a different "safety check" for height
+	// and it tests whether an actual change is required first (to prevent a re-layouting cycle should the trustcard
+	// react to a change of its view bounds with another change and so forth...)
+	CGSize maxSize = [[UIScreen mainScreen] bounds].size;
+	maxSize.height -= 30.0; // ensure parent view is always a bit smaller in height!
+	newSize.width = MIN(maxSize.width, newSize.width); // don't go larger than the parent VC's view's size!
+	newSize.height = MIN(maxSize.height, newSize.height);
+	
+	if (newSize.height != self.view.bounds.size.height || newSize.width != self.view.bounds.size.width) {
+		self.view.contentMode = UIViewContentModeRedraw;
+		[UIView animateWithDuration:0.1 animations:^{
+			self.view.bounds = CGRectMake(0.0, 0.0, newSize.width, newSize.height);
+		}];
+	}
+}
+
+#pragma mark - JavaScript helper methods
+
+- (NSString *)jsInjectionStringForID {
+	NSString *tsId = self.displayedTrustbadge.shop.tsId;
+	if (!tsId || [tsId isEqualToString:@""]) {
 		return nil;
-	}
-	NSString *fontName = @"fontawesome";
-	UIFont *font = [UIFont fontWithName:fontName size:size];
-	if (!font) {
-		[TRSTrustcard dynamicallyLoadFontNamed:fontName];
-		font = [UIFont fontWithName:fontName size:size];
-		
-		// safe fallback
-		if (!font) font = [UIFont systemFontOfSize:size];
-	}
-	
-	return font;
-}
-
-+ (void)dynamicallyLoadFontNamed:(NSString *)name
-{
-	NSURL *url = [TRSTrustbadgeBundle() URLForResource:name withExtension:@"ttf"];
-	NSData *fontData = [NSData dataWithContentsOfURL:url];
-	if (fontData) {
-		CFErrorRef error;
-		CGDataProviderRef provider = CGDataProviderCreateWithCFData((CFDataRef)fontData);
-		CGFontRef font = CGFontCreateWithDataProvider(provider);
-		if (! CTFontManagerRegisterGraphicsFont(font, &error)) {
-			CFStringRef errorDescription = CFErrorCopyDescription(error);
-			NSLog(@"Failed to load font: %@", errorDescription);
-			CFRelease(errorDescription);
-		}
-		if (font) {
-			CFRelease(font);
-		}
-		CFRelease(provider);
+	} else {
+		return [NSString stringWithFormat:@"injectTrustbadge('%@', '%@')", tsId, self.debugMode ? TRSEndPointDebug : TRSEndPoint];
 	}
 }
 
+- (NSString *)additionalJSCommands {
+	return
+	@"document.getElementById(\"MobileCoveringLayer_db8d3657bdbe440c985ae127463eaad4\").style.background = \"#ffdc0f\";"
+	 "document.getElementById(\"tscard4_db8d3657bdbe440c985ae127463eaad4\").style.boxShadow = \"none\";"
+	 "document.getElementById(\"Container_db8d3657bdbe440c985ae127463eaad4\").style.boxShadow = \"none\";"
+	 "window.trustbadge.showCard()";
+}
+
+- (NSString *)noZoomScriptString {
+	return
+	@"var meta = document.createElement('meta');"
+	 "meta.name = 'viewport';"
+	 "meta.content = 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no';"
+	 "var head = document.getElementsByTagName('head')[0];"
+	 "head.appendChild(meta);";
+}
 
 @end
