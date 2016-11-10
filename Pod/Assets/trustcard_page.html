@@ -8,31 +8,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
 		#tscard4_db8d3657bdbe440c985ae127463eaad4 {
-			margin:0;
-			padding:0;
-			border-bottom: 0!important;
+			bottom: 0!important;
 			box-shadow: none!important;
 		}
 		#MobileCoveringLayer_db8d3657bdbe440c985ae127463eaad4 {
-			margin:0;
-			padding:0;
 			background-color: #ffdc0f!important;
 		}
 		#Container_db8d3657bdbe440c985ae127463eaad4 {
-			margin:0;
-			padding:0;
 			box-shadow: none!important;
 		}
 		body {
-			margin:0;
-			padding:0;
-			background-color: #ffdc0f;
+			margin:0!important;
+			padding:0!important;
+			background-color: #ffdc0f!important;
 		}
     </style>
     <script>
 		
 	/* This will be used in the future to determine resizing */
-	window.addEventListener("trustbadge_event_trustcard_size_defined", function(){
+	window.addEventListener("trustbadge_event_size_changed", function(){
 							sendResizeMessage();
 							});
 		
@@ -57,7 +51,9 @@
     }
 	
 	function showAndAdaptCard() {
+		/* window.setTimeout(function(){ window.trustbadge.showCard();}, 500); */
 		window.trustbadge.showCard();
+		/* window.setTimeout(sendResizeMessage, 100); */
 	}
 	
 	function sendResizeMessage() {
