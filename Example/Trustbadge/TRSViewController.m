@@ -42,10 +42,11 @@
 		[self.myTrustbadgeView removeFromSuperview];
 		self.myTrustbadgeView = [[TRSTrustbadgeView alloc] initWithTrustedShopsID:self.tsIDField.text
 																		 apiToken:@"THIS IS NOT NEEDED ATM"];
-		self.myTrustbadgeView.customColor = [UIColor colorWithRed:(54.0 / 255.0)
-															green:(203.0 / 255.0)
-															 blue:(118.0 / 255.0)
-															alpha:1.0];
+		// custom colors are now deprecated
+//		self.myTrustbadgeView.customColor = [UIColor colorWithRed:(54.0 / 255.0)
+//															green:(203.0 / 255.0)
+//															 blue:(118.0 / 255.0)
+//															alpha:1.0];
 		self.myTrustbadgeView.debugMode = YES; // CAREFUL when changing this!
 		[self.nibPlaceholder addSubview:self.myTrustbadgeView];
 		[self.myTrustbadgeView loadTrustbadgeWithFailureBlock:^(NSError *error) {

@@ -70,7 +70,8 @@ context(@"sizing and drawing", ^{
 																				 SKU:@"20610"];
 			// important: give the view a fake label to work with!
 			UILabel *fake = [UILabel new];
-			fake.text = @"4.89/5.00 (312.123.344 Bewertungen)"; // use a long ass label to catch all cases
+			// use a long ass label to catch all cases
+			fake.text = NSLocalizedString(@"4.89/5.00 (312.123.344 Bewertungen)", @"used in unit tests, do not localize");
 			view.gradeLabel = fake;
 			
 			CGSize output = [view sizeThatFits:input];
