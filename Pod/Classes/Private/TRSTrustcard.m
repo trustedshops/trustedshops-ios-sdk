@@ -24,10 +24,13 @@ static const CGSize minContentViewSize = {300.0, 380.0}; // This is a size used 
 
 @interface TRSTrustcard () <UIWebViewDelegate>
 
-@property (weak, nonatomic) WKWebView *webView; // just for convenience, our view is actually the webView (so this can be weak)
+@property (weak, nonatomic) WKWebView *webView;
+// just for convenience, our view is actually the webView (so this can be weak)
 
 @property (weak, nonatomic) TRSTrustbadge *displayedTrustbadge;
 // this is weak to avoid a retain cycle (it's our owner), used for temporary stuff
+
+@property (strong, nonatomic) NSTimer *resizingTimer; // used to watch content & resize)
 
 @end
 
@@ -71,12 +74,43 @@ static const CGSize minContentViewSize = {300.0, 380.0}; // This is a size used 
 	[presenter presentPopinController:self animated:YES completion:nil];
 }
 
+#pragma mark - Timer to resize with web content (needed for bad latency)
+
+// this is initialized on the first load (see webView:decidePolicyForNavigationAction:decisionHandler:
+- (void)checkContentSizeForFiringTimer:(NSTimer *)timer {
+	// in most cases this will do nothing...
+	[self.webView evaluateJavaScript:@"getCardSize()" completionHandler:^(id _Nullable result, NSError * _Nullable error) {
+		if (error && !(error.domain == WKErrorDomain && error.code == WKErrorJavaScriptResultTypeIsUnsupported)) {
+			NSLog(@"JavaScript error: Could not inject get the card's size, error: %@", error);
+		} else {
+			NSNumber *width = result[@"width"];
+			NSNumber *height = result[@"height"];
+			if (width.floatValue != -1 && height.floatValue != -1) {
+				[self resizePopinToSize:CGSizeMake(width.floatValue, height.floatValue)];
+			}
+		}
+	}];
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+	[self.resizingTimer invalidate];
+	self.resizingTimer = nil;
+}
+
 #pragma mark - WebView Delegation methods
 
 - (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction
 decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
 	if ([navigationAction.request.URL isFileURL]) { // this is the case only on first loading the card
+		
+		// initialize the timer to keep an eye on content size
+		self.resizingTimer = [NSTimer scheduledTimerWithTimeInterval:0.3
+															  target:self
+															selector:@selector(checkContentSizeForFiringTimer:)
+															userInfo:nil
+															 repeats:YES];
 		decisionHandler(WKNavigationActionPolicyAllow);
+		
 	} else { // this covers all links going out of the card (to the certificate and reviews and such)
 		NSURL *buttonURL = navigationAction.request.URL;
 		[[UIApplication sharedApplication] openURL:buttonURL];
@@ -102,8 +136,6 @@ decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
 	if ([message.body isKindOfClass:[NSDictionary class]] && ([[message.body objectForKey:@"message"] isEqualToString:@"resize"])) {
 		NSNumber *theWidth = [message.body objectForKey:@"width"];
 		NSNumber *theHeight = [message.body objectForKey:@"height"];
-		// TODO: add proper resizing code based on values here
-		NSLog(@"cards width: %@ and height: %@", theWidth, theHeight);
 		[self resizePopinToSize:CGSizeMake(theWidth.floatValue, theHeight.floatValue)];
 	}
 }
