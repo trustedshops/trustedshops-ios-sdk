@@ -84,12 +84,12 @@
 
 }
 
-- (NSMutableURLRequest *)localizedURLRequestForTrustcardWithColorString:(NSString *)hexString {
-	NSURL *cardURL = [NSURL localizedTrustcardURLWithColorString:hexString
-														   debug:self.debugMode];
-	return [[NSMutableURLRequest alloc] initWithURL:cardURL
-										cachePolicy:NSURLRequestUseProtocolCachePolicy
-									timeoutInterval:10.0];
-}
+//- (NSMutableURLRequest *)localizedURLRequestForTrustcardWithColorString:(NSString *)hexString {
+//	NSURL *cardURL = [NSURL localizedTrustcardURLWithColorString:hexString
+//														   debug:self.debugMode];
+//	return [[NSMutableURLRequest alloc] initWithURL:cardURL
+//										cachePolicy:NSURLRequestUseProtocolCachePolicy
+//									timeoutInterval:10.0];
+//}
 
 @end

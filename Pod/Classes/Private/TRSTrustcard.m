@@ -6,9 +6,6 @@
 //
 //
 
-static NSString * const TRSCertLocalFallback = @"trustcardfallback"; // not used atm
-static NSString * const TRSCertHTMLName = @"trustinfos"; // not used atm
-
 #import "TRSTrustcard.h"
 #import "TRSTrustbadge.h"
 #import "TRSTrustbadgeSDKPrivate.h"
@@ -167,14 +164,6 @@ decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
 	} else {
 		return [NSString stringWithFormat:@"injectTrustbadge('%@', '%@')", tsId, self.debugMode ? TRSEndPointDebug : TRSEndPoint];
 	}
-}
-
-- (NSString *)additionalJSCommands {
-	return
-	@"document.getElementById(\"MobileCoveringLayer_db8d3657bdbe440c985ae127463eaad4\").style.background = \"#ffdc0f\";"
-	 "document.getElementById(\"tscard4_db8d3657bdbe440c985ae127463eaad4\").style.boxShadow = \"none\";"
-	 "document.getElementById(\"Container_db8d3657bdbe440c985ae127463eaad4\").style.boxShadow = \"none\";"
-	 "window.trustbadge.showCard()";
 }
 
 - (NSString *)noZoomScriptString {
