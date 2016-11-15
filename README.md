@@ -21,7 +21,8 @@ Our SDK supports the following languages: DE, EN, FR, ES, IT, NL, PL.
 3. [Display Customer Reviews](#3-display-customer-reviews)
 4. [Display Product Reviews](#4-display-product-reviews)
 5. [Integration of Buyer Protection after Checkout](#5-integration-of-buyer-protection-after-checkout)
-6. [About this SDK](#6-about-this-sdk)
+6. [Audit and Authorization](#6-audit-and-authorization)
+7. [About this SDK](#7-about-this-sdk)
 
 - - - -
 
@@ -228,17 +229,18 @@ If you are developing your application and want to test this SDK feature __pleas
 
 - - - -
 
-## 6. About this SDK ##
+## 6. Audit and Authorization ##
+To use this SDK in your own mobile app Trusted Shops needs to audit and authorize your app.<br>
+
+Please contact your customer success manager directly or via [members@trustedshops.com](mailto:members@trustedshops.com) to start the process.
+
+- - - -
+
+## 7. About this SDK ##
 
 #### Documentation ####
 The latest documentation can be found at [cocoadocs](http://cocoadocs.org/docsets/Trustbadge/0.7.0/).
 All headers are documented according to the [appledoc](http://appledoc.gentlebytes.com/appledoc/) syntax, so you can also use that to directly include the docsets into your XCode.
-
-#### Authorization ####
-To use this SDK in your own mobile app Trusted Shops needs to authorize your app.<br>
-Please contact us via [productfeedback@trustedshops.com](mailto:productfeedback@trustedshops.com) to get your apps authorized.  
-
-For testing and certification purposes the following TS-ID can be used: ```X330A2E7D449E31E467D2F53A55DDD070```
 
 #### Data Privacy ####
 Our SDK does not send or collect any user related data without prior permission from the buyer. Only if the buyer opt-in after checkout or opted-in to take advantage of the Trusted Shops guarantee in general, order information are stored for guarantee handling. Before opt-in e-mail addresses are transmitted in irreversible hashed encryption.
