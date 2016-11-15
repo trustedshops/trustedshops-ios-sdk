@@ -10,16 +10,13 @@
 #import "TRSTrustbadge.h"
 #import "TRSTrustbadgeSDKPrivate.h"
 #import "NSURL+TRSURLExtensions.h"
-#import "UIColor+TRSColors.h"
-#import "TRSNetworkAgent+Trustbadge.h"
 #import "TRSShop.h"
-@import CoreText;
 @import WebKit;
 #import "UIViewController+MaryPopin.h"
 
 static const CGSize minContentViewSize = {300.0, 380.0}; // This is a size used during initialization
 
-@interface TRSTrustcard () <UIWebViewDelegate>
+@interface TRSTrustcard () <WKNavigationDelegate, WKScriptMessageHandler>
 
 @property (weak, nonatomic) WKWebView *webView;
 // just for convenience, our view is actually the webView (so this can be weak)
@@ -27,7 +24,7 @@ static const CGSize minContentViewSize = {300.0, 380.0}; // This is a size used 
 @property (weak, nonatomic) TRSTrustbadge *displayedTrustbadge;
 // this is weak to avoid a retain cycle (it's our owner), used for temporary stuff
 
-@property (strong, nonatomic) NSTimer *resizingTimer; // used to watch content & resize)
+@property (strong, nonatomic) NSTimer *resizingTimer; // used to watch content & resize
 
 @end
 
@@ -89,6 +86,24 @@ static const CGSize minContentViewSize = {300.0, 380.0}; // This is a size used 
 	}];
 }
 
+- (void)resizePopinToSize:(CGSize)newSize {
+	// this method ensures the height is adapted after load (see also userContentController:didReceiveScriptMessage:)
+	// it's basically the same as in TRSCheckoutViewController, but has a different "safety check" for height
+	// and it tests whether an actual change is required first (to prevent a re-layouting cycle should the trustcard
+	// react to a change of its view bounds with another change and so forth...)
+	CGSize maxSize = [[UIScreen mainScreen] bounds].size;
+	maxSize.height -= 30.0; // ensure parent view is always a bit smaller in height!
+	newSize.width = MIN(maxSize.width, newSize.width); // don't go larger than the parent VC's view's size!
+	newSize.height = MIN(maxSize.height, newSize.height);
+	
+	if (newSize.height != self.view.bounds.size.height || newSize.width != self.view.bounds.size.width) {
+		self.view.contentMode = UIViewContentModeRedraw;
+		[UIView animateWithDuration:0.1 animations:^{
+			self.view.bounds = CGRectMake(0.0, 0.0, newSize.width, newSize.height);
+		}];
+	}
+}
+
 - (void)viewWillDisappear:(BOOL)animated {
 	[self.resizingTimer invalidate];
 	self.resizingTimer = nil;
@@ -134,24 +149,6 @@ decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
 		NSNumber *theWidth = [message.body objectForKey:@"width"];
 		NSNumber *theHeight = [message.body objectForKey:@"height"];
 		[self resizePopinToSize:CGSizeMake(theWidth.floatValue, theHeight.floatValue)];
-	}
-}
-
-- (void)resizePopinToSize:(CGSize)newSize {
-	// this method ensures the height is adapted after load (see also userContentController:didReceiveScriptMessage:)
-	// it's basically the same as in TRSCheckoutViewController, but has a different "safety check" for height
-	// and it tests whether an actual change is required first (to prevent a re-layouting cycle should the trustcard
-	// react to a change of its view bounds with another change and so forth...)
-	CGSize maxSize = [[UIScreen mainScreen] bounds].size;
-	maxSize.height -= 30.0; // ensure parent view is always a bit smaller in height!
-	newSize.width = MIN(maxSize.width, newSize.width); // don't go larger than the parent VC's view's size!
-	newSize.height = MIN(maxSize.height, newSize.height);
-	
-	if (newSize.height != self.view.bounds.size.height || newSize.width != self.view.bounds.size.width) {
-		self.view.contentMode = UIViewContentModeRedraw;
-		[UIView animateWithDuration:0.1 animations:^{
-			self.view.bounds = CGRectMake(0.0, 0.0, newSize.width, newSize.height);
-		}];
 	}
 }
 

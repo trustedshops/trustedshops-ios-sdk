@@ -39,6 +39,4 @@
 												 success:(void (^)(TRSTrustbadge *trustbadge))success
 												 failure:(void (^)(NSError *error))failure;
 
-- (NSMutableURLRequest *)localizedURLRequestForTrustcardWithColorString:(NSString *)hexString;
-
 @end

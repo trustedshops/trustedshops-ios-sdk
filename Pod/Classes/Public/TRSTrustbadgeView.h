@@ -106,7 +106,7 @@
  the the `TRSTrustbadgeView`). This color is used for the buttons at the card's bottom and
  for the checkmark, lock and discussion symbols. The default color to use is #F37000
  
- @deprecated As of version 0.7.0 the trustcard is the same as is used webshops. This more interactive version does not support custom colors.
+ @deprecated As of version 0.7.0 the trustcard is the same as is used in webshops. This more interactive version does not support custom colors.
  */
 @property (nonatomic, strong) UIColor *customColor DEPRECATED_ATTRIBUTE;
 

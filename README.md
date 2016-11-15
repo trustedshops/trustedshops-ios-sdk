@@ -35,28 +35,28 @@ pod "Trustbadge", "~> 0.7"
 ```
 
 #### Example project ####
-To run the example project, clone the repo, and run `pod install` from the Example directory first. You can use `pod try Trustbadge` to try out the trustbadge.
+To run the example project, clone the repo, and run `pod install` from the Example directory first. Alternatively, you can also use `pod try Trustbadge` to try out the trustbadge.
 
 - - - -
 
 ## 2. Display Trustbadge ##
 
-1.Import the header
+1.&nbsp;Import the header
 
 ```objc
 #import <Trustbadge/Trustbadge.h>
 ```
 
-2.Initialize the view with your Trusted Shops ID
+2.&nbsp;Initialize the view with your Trusted Shops ID
 
 ```objc
-TRSTrustbadgeView *myTBView = [[TRSTrustbadgeView alloc] initWithTrustedShopsID:@"YOUR-TRUSTED-SHOPS-ID" 
+TRSTrustbadgeView *myTBView = [[TRSTrustbadgeView alloc] initWithTrustedShopsID:@"YOUR-AUTHED-TRUSTED-SHOPS-ID" 
                                                                        apiToken:@"SEE-BELOW-FOR-THIS"];
 ```
 
-In order to get your Trusted Shops ID authorized please see the "Authorization" section below.
+In order to __get your own Trusted Shops ID authorized__ please see the "Authorization" part in the [About](#6-about-this-sdk) section below.
 
-3.Load the trustbadge data from our backend to properly display the view
+3.&nbsp;Load the trustbadge data from our backend to properly display the view
 
 ```objc
 [myTrustbadgeView loadTrustbadgeWithFailureBlock:nil];
@@ -67,7 +67,14 @@ or
 ```
 
 You may provide blocks that are called on success and/or failure (the failure block expects an `NSError` parameter).
-You can also specify a `UIColor` to customize the appearance of the trustcard that is displayed when the user taps on the trustbadge.
+
+~~You can also specify a `UIColor` to customize the appearance of the trustcard that is displayed when the user taps on the trustbadge.~~ Custom colors are deprecated as of version 0.7.0 of the SDK. 
+Setting the corresponding property does not lead to any different UI of the trustcard.
+Note that, however, the trustcard is now the same that is displayed in your webshop, so the look is more consistent over the various media that may show your certificate. 
+This also means that the trustcard includes more interactive behavior for your customer, depending on what services you booked at Trusted Shops. 
+For example, the trustcard may show not just a link to your certificate, but also display sample reviews given by your customers. 
+It also explains the buyer protection (depending on services) inline, so customers won't leave your app while checking up on that.
+
 By default the trustbadge relies on your application's root `UIViewController` to modally display the information about your certificate. To change that set the `trustcardPresentingViewController` to a different `UIViewController`.
 
 The trustbadge also has a `debugMode` property that, if set to `YES`, makes it load data from the Trusted Shops development API instead of the production API (the above example TS-ID works for debug and normal mode). Note that your shop's TS-ID might not be present on this API, if you need to debug with your own shop's TS-ID please contact Trusted Shops (see below).
@@ -88,7 +95,7 @@ The SDK contains three additional views to display your shop's grade and rating 
 
 They work similar to the `TRSTrustbadgeView` (`TRSShopGradeView` is an example, the other views work the same):
 
-1.Initialize the views and set their credentials
+1.&nbsp;Initialize the views and set their credentials
 
 ```objc
 TRSShopGradeView *myShopGradeView = [TRSShopGradeView new];
@@ -96,7 +103,7 @@ myShopGradeView.tsID = @"YOUR-TRUSTED-SHOPS-ID";
 myShopGradeView.apiToken = @"THIS-IS-NOT-NEEDED-ATM"; // however, this must not be nil!
 ```
 
-2.Load the data from our backend so they display something meaningful
+2.&nbsp;Load the data from our backend so they display something meaningful
 
 ```objc
 [myShopGradeView loadShopGradeWithSuccessBlock:^{
@@ -126,7 +133,7 @@ The latter has two different modes, so product reviews can be shown in three dif
 
 They work like the other views; here's how to set up `TRSProductRatingView` with one line as an example:
 
-1.Initialize the view and set its credentials
+1.&nbsp;Initialize the view and set its credentials
 
 ```objc
 CGRect myFrame = someContainerView.frame;
@@ -139,7 +146,7 @@ myProductRatingView.useOnlyOneLine = YES;
 myProductRatingView.debugMode = YES; // works similar to other views of the SDK
 ```
 
-2.Load the data from our backend so it displays the grade
+2.&nbsp;Load the data from our backend so it displays the grade
 
 ```objc
 [myProductRatingView loadViewDataFromBackendWithSuccessBlock:^{
