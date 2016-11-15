@@ -33,10 +33,11 @@
 
 - (void)showTrustcardWithPresentingViewController:(UIViewController *)presenter {
 	if (!self.trustcard) { // init the VC displaying the card. it will figure everything out
-		self.trustcard = [[TRSTrustcard alloc] initWithNibName:@"Trustcard" bundle:TRSTrustbadgeBundle()];
+		self.trustcard = [[TRSTrustcard alloc] initWithNibName:nil bundle:nil];
 	}
 	
 	self.trustcard.themeColor = self.customColor;
+	self.trustcard.debugMode = self.debugMode;
 	
 	// tell it to display the data (the trustbadge is a weak property, so we're fine)
 	[self.trustcard showInLightboxForTrustbadge:self withPresentingViewController:presenter];

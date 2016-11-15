@@ -1,5 +1,9 @@
 # Trustbadge
 
+## Version 0.7.0
+
+* Changed the popup card that is shown when the user clicks on the seal image to the standard trustcard that is also used in web shops. What exactly is shown on that card also depends on what services the shop has booked at Trusted Shops.
+
 ## Version 0.6.3
 
 * Changed an API endpoint so that the SDK pulls also the trustmark (for the seal) from a specific place created for it alone.

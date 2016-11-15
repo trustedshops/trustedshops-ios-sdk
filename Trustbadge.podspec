@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = "Trustbadge"
-  s.version          = "0.6.3"
+  s.version          = "0.7.0"
   s.summary          = "Trusted Shops SDK for iOS"
   s.description      = <<-DESC
                        Use the Trustbadge and Trusted Shops guarantee in your iOS app.

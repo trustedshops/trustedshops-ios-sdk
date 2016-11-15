@@ -109,6 +109,7 @@
 		[self displaySealAsOffline:NO afterDelay:0.0];
 		
 		self.trustbadge = theTrustbadge;
+		self.trustbadge.debugMode = self.debugMode;
 		self.trustbadge.customColor = _customColor;
 		
 		if (success) { // don't these lines look kinda sick? shifting brackets... :)

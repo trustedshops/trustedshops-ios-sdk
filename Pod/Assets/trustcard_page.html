@@ -1,0 +1,81 @@
+<!doctype html>
+<html class="no-js" lang="">
+<head>
+    <base href="https://www.trustedshops.com">
+    <meta charset="utf-8">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+		#tscard4_db8d3657bdbe440c985ae127463eaad4 {
+			bottom: 0!important;
+			box-shadow: none!important;
+		}
+		#MobileCoveringLayer_db8d3657bdbe440c985ae127463eaad4 {
+			background-color: #ffdc0f!important;
+		}
+		#Container_db8d3657bdbe440c985ae127463eaad4 {
+			box-shadow: none!important;
+		}
+		body {
+			margin:0!important;
+			padding:0!important;
+			background-color: #ffdc0f!important;
+		}
+    </style>
+    <script>
+		
+	/* This will be used in the future to determine resizing */
+	window.addEventListener("trustbadge_event_maximized_size_changed", function() { sendResizeMessage(); } );
+	window.addEventListener("trustbadge_event_maximized", function() { window.setTimeout(sendResizeMessage, 100); } );
+	window.addEventListener("trustbadge_event_minimized", function() { sendResizeMessage(); } );
+	
+    function injectTrustbadge(tsId, endPoint) {
+		var _tsid = tsId;
+		var endPoint = endPoint || 'widgets.trustedshops.com';
+		_tsConfig = {
+			'variant': 'reviews',
+			'config': 'SDK_IOS',
+			'sourceUrl': '//' + endPoint + '/'
+		};
+		var _ts = document.createElement('script');
+		_ts.type = 'text/javascript';
+		_ts.charset = 'utf-8';
+		_ts.async = true;
+		_ts.src = '//'+ endPoint + '/js/' + _tsid + '.js';
+		var __ts = document.getElementsByTagName('script')[0];
+		
+		_ts.addEventListener('load', showAndAdaptCard,false);
+		
+		__ts.parentNode.insertBefore(_ts, __ts);
+    }
+	
+	function showAndAdaptCard() {
+		/* window.setTimeout(function(){ window.trustbadge.showCard();}, 500); */
+		window.trustbadge.showCard();
+		/* window.setTimeout(sendResizeMessage, 100); */
+	}
+	
+	function sendResizeMessage() {
+		var _cardWidth = document.getElementById("tscard4_db8d3657bdbe440c985ae127463eaad4").offsetWidth;
+		var _cardHeight = document.getElementById("tscard4_db8d3657bdbe440c985ae127463eaad4").offsetHeight;
+		var _resizeMessage = {"message" : "resize", "width" : _cardWidth, "height" : _cardHeight};
+		window.webkit.messageHandlers.trs_ios_listener.postMessage(_resizeMessage);
+	}
+	
+	function getCardSize() {
+		var _cWidth = -1;
+		var _cHeight = -1;
+		var cardElement = document.getElementById("tscard4_db8d3657bdbe440c985ae127463eaad4");
+		if (cardElement !== null) {
+			var _cWidth = cardElement.offsetWidth;
+			var _cHeight = cardElement.offsetHeight;
+		}
+		return {"width" : _cWidth, "height" : _cHeight};
+	}
+	
+    </script>
+</head>
+<body>
+</body>
+</html>

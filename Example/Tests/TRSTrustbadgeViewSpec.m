@@ -555,7 +555,8 @@ describe(@"TRSTrustbadgeView", ^{
 			testColor1 = nil;
 			testColor2 = nil;
 		});
-		
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 		it(@"correctly sets a color", ^{
 			[testView setCustomColor:testColor1];
 			expect(testView.customColor).to.equal(testColor1);
@@ -582,6 +583,7 @@ describe(@"TRSTrustbadgeView", ^{
 			testView.customColor = testColor1;
 			OCMVerifyAll(mockedBadge);
 		});
+#pragma clang diagnostic pop
 	});
 	
 	context(@"private readwrite properties", ^{

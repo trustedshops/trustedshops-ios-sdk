@@ -18,7 +18,7 @@ context(@"label width and height helpers", ^{
 	__block CGFloat height;
 	beforeAll(^{
 		testLabel = [UILabel new];
-		testLabel.text = @"This is a test";
+		testLabel.text = NSLocalizedString(@"This is a test", @"used in unit tests, do not localize");
 		[testLabel sizeToFit];
 		height = testLabel.bounds.size.height + 10.0; // just use some random value
 	});
@@ -118,7 +118,8 @@ context(@"label width and height helpers", ^{
 		
 		it(@"returns correct values for already sized label", ^{
 			UILabel *alreadySized = [UILabel new];
-			alreadySized.text = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"; // from the class
+			alreadySized.text = NSLocalizedString(@"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ",
+												  @"used in unit tests, do not localize"); // from the class
 			alreadySized.font = [UIFont systemFontOfSize:26.0];
 			[alreadySized sizeToFit];
 			CGFloat optSizeRet = alreadySized.font.pointSize - 1.0; //hardcoded in class cause it looks better

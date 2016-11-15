@@ -116,20 +116,4 @@ NSString * const TRSPublicAPIEndPointDebug = @"api-qa.trustedshops.com";
 	}
 }
 
-#pragma mark - Getting a URL for displaying our custom mobile trustcard (with parameters)
-
-+ (NSURL *)localizedTrustcardURLWithColorString:(NSString *)hexString debug:(BOOL)debug {
-	NSString *preferredLocalization = [[[NSBundle mainBundle] preferredLocalizations] firstObject];
-	NSDictionary *languageDic = [NSLocale componentsFromLocaleIdentifier:preferredLocalization];
-	NSString *langCode = [languageDic objectForKey:((NSString *)kCFLocaleLanguageCode)]; // explicit cast to avoid a pod lint warning...
-	// note: In the demo application this will always be simply @"en", because we don't have other (full) localizations.
-	
-	NSString *urlString;
-	urlString = debug ? TRSTrustcardTemplateURLStringDebug : TRSTrustcardTemplateURLString;
-	urlString = [urlString stringByReplacingOccurrencesOfString:@"%ll" withString:langCode];
-	urlString = [urlString stringByReplacingOccurrencesOfString:@"%cccccc" withString:hexString];
-	
-	return [NSURL URLWithString:urlString];
-}
-
 @end

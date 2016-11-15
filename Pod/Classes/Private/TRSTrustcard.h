@@ -15,6 +15,7 @@
 @property (nonatomic, weak) UIColor *themeColor;
 
 - (void)showInLightboxForTrustbadge:(TRSTrustbadge *)trustbadge withPresentingViewController:(UIViewController *)presenter;
-- (IBAction)buttonTapped:(id)sender;
+
+@property (nonatomic, assign) BOOL debugMode;
 
 @end

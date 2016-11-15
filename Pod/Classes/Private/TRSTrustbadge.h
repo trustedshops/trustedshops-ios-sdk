@@ -24,5 +24,6 @@
 
 @property (nonatomic, strong) TRSShop *shop;
 @property (nonatomic, weak) UIColor *customColor;
+@property (nonatomic, assign) BOOL debugMode;
 
 @end
