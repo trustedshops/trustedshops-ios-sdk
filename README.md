@@ -55,7 +55,7 @@ TRSTrustbadgeView *myTBView = [[TRSTrustbadgeView alloc] initWithTrustedShopsID:
                                                                        apiToken:@"SEE-BELOW-FOR-THIS"];
 ```
 
-In order to __get your own Trusted Shops ID authorized__ please see the "Authorization" part in the [About](#6-about-this-sdk) section below.
+In order to __get your own Trusted Shops ID authorized__ please see the "[Audit and Authorization](#6-audit-and-authorization)" section below.
 
 3.&nbsp;Load the trustbadge data from our backend to properly display the view
 
