@@ -131,12 +131,8 @@
 			
 			// TODO: figure out membership status in checkout object & set state there.
 			self.consumer.membershipStatus = TRSMemberKnown;
-			
-			if (canceled) {
-				self.insuranceState = TRSUserDeclinedInsurance;
-			} else {
-				self.insuranceState = TRSInsured;
-			}
+			// TODO: figure out a way to properly communicate insurance state (or drop this feature completely).
+			self.insuranceState = TRSInsuranceStateHandledExternally;
 			
 			self.nextActionFlag = TRSNoNextActions;
 			

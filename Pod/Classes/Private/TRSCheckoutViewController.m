@@ -42,7 +42,7 @@ static const CGSize minContentViewSize = {300.0, 300.0}; // This is an initial s
 }
 
 - (void)loadView { // keep in mind this is only called once for each instance!
-	self.tappedToCancel = YES; // we assume every close anywhere is a cancel unless explcitly said otherwise
+	self.tappedToCancel = YES; // we assume every close anywhere is a cancel unless explicitly said otherwise
 	WKWebViewConfiguration *config = [[WKWebViewConfiguration alloc] init];
 	WKUserContentController *ucController = [[WKUserContentController alloc] init];
 	[ucController addScriptMessageHandler:self name:@"trs_ios_listener"];
@@ -182,14 +182,18 @@ decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
 
 - (BOOL)constructJavaScriptStringsForOrder:(TRSOrder *)order {
 	// validation note: actually, the order class already ensures needed values are present
-	if (!order.consumer.email || !order.ordernr || !order.curr || !order.amount ||
+	if (!order.ordernr || !order.curr || !order.amount ||
 		!order.paymentType || !order.tsID) {
 		return NO;
 	}
 	
-	self.jsStrings = [[NSMutableArray alloc] initWithCapacity:8];
-	[self.jsStrings addObject:[[TRSCheckoutViewController baseJS][@"email"]
-							   stringByReplacingOccurrencesOfString:@"%s" withString:order.consumer.email]];
+	NSUInteger stringCount = order.consumer.email ? 8 : 7;
+	
+	self.jsStrings = [[NSMutableArray alloc] initWithCapacity:stringCount];
+	if (stringCount == 8) {
+		[self.jsStrings addObject:[[TRSCheckoutViewController baseJS][@"email"]
+								   stringByReplacingOccurrencesOfString:@"%s" withString:order.consumer.email]];
+	}
 	[self.jsStrings addObject:[[TRSCheckoutViewController baseJS][@"ordernr"]
 							   stringByReplacingOccurrencesOfString:@"%s" withString:order.ordernr]];
 	[self.jsStrings addObject:[[TRSCheckoutViewController baseJS][@"curr"]

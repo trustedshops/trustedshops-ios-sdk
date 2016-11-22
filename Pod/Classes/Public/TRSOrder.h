@@ -59,7 +59,10 @@ typedef NS_ENUM(NSUInteger, TRSInsuranceState) {
 	/** The order is fully insured. Currently not used. */
 	TRSFullyInsured,
 	/** The user declined insuring the order */
-	TRSUserDeclinedInsurance
+	TRSUserDeclinedInsurance,
+	/** The state of the insurance was handled externally, usually in the browser. The SDK itself has no information 
+	 whether the user accepted or not. */
+	TRSInsuranceStateHandledExternally
 };
 
 /**
