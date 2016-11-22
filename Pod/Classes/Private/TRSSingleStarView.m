@@ -34,7 +34,7 @@ NSString *const kTRSSingleStarViewInactiveStarColorKey = @"kTRSSingleStarViewIna
 		} else if (percentFilled.doubleValue < 0.0) {
 			percentFilled = @0;
 		}
-		self.percentFilled = percentFilled;
+		_percentFilled = percentFilled;
 		[self finishInit];
 	}
 	return self;
@@ -47,10 +47,10 @@ NSString *const kTRSSingleStarViewInactiveStarColorKey = @"kTRSSingleStarViewIna
 - (instancetype)initWithCoder:(NSCoder *)coder {
 	self = [super initWithCoder:coder];
 	if (self) {
-		self.percentFilled = [coder decodeObjectForKey:kTRSSingleStarViewPercentFilledKey];
+		_percentFilled = [coder decodeObjectForKey:kTRSSingleStarViewPercentFilledKey];
 		[self finishInit];
-		self.activeStarColor = [coder decodeObjectForKey:kTRSSingleStarViewActiveStarColorKey];
-		self.inactiveStarColor = [coder decodeObjectForKey:kTRSSingleStarViewInactiveStarColorKey];
+		_activeStarColor = [coder decodeObjectForKey:kTRSSingleStarViewActiveStarColorKey];
+		_inactiveStarColor = [coder decodeObjectForKey:kTRSSingleStarViewInactiveStarColorKey];
 	}
 	return self;
 }

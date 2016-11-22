@@ -69,9 +69,9 @@
 	// first get the image, we'll need that in any case:
 	UIImage *sealImage = [UIImage imageWithContentsOfFile:
 						  [TRSTrustbadgeBundle() pathForResource:@"iOS-SDK-Seal" ofType:@"png"]];
-	self.sealImageView = [[UIImageView alloc] initWithImage:sealImage];
+	_sealImageView = [[UIImageView alloc] initWithImage:sealImage];
 	// prepare the contentView (needed for autolayout, see helper below)
-	self.contentView = [[UIView alloc] initWithFrame:self.frame];
+	_contentView = [[UIView alloc] initWithFrame:self.frame];
 	[self addSubview:_contentView];
 	[_contentView addSubview:_sealImageView];
 	
@@ -83,13 +83,13 @@
 	_contentView.backgroundColor = [UIColor clearColor];
 	
 	// also set the offline marker label view, but then make it invisible
-	self.offlineMarker = [[UILabel alloc] init];
-	self.offlineMarker.text = @"OFFLINE";
-	[self.offlineMarker setFrame:self.sealImageView.frame];
-	[self.offlineMarker setTextAlignment:NSTextAlignmentCenter];
-	[self.offlineMarker setAdjustsFontSizeToFitWidth:YES];
-	[self.offlineMarker setHidden:YES];
-	[self addSubview:self.offlineMarker];
+	_offlineMarker = [[UILabel alloc] init];
+	_offlineMarker.text = @"OFFLINE";
+	[_offlineMarker setFrame:_sealImageView.frame];
+	[_offlineMarker setTextAlignment:NSTextAlignmentCenter];
+	[_offlineMarker setAdjustsFontSizeToFitWidth:YES];
+	[_offlineMarker setHidden:YES];
+	[self addSubview:_offlineMarker];
 	
 	// set the default color:
 	_customColor = [UIColor colorWithRed:(243.0 / 255.0) green:(112.0 / 255.0) blue:(0.0 / 255.0) alpha:1.0];

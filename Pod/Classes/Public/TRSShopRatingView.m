@@ -60,12 +60,12 @@ NSString *const kTRSShopRatingViewDebugModeKey = @"kTRSShopRatingViewDebugModeKe
 	self = [super initWithCoder:coder];
 	if (self) {
 		[self finishInit];
-		self.activeStarColor = [coder decodeObjectForKey:kTRSShopRatingViewActiveStarColorKey];
-		self.inactiveStarColor = [coder decodeObjectForKey:kTRSShopRatingViewInactiveStarColorKey];
-		self.alignment = [coder decodeIntegerForKey:kTRSShopRatingViewAlignmentKey];
-		self.tsID = [coder decodeObjectForKey:kTRSShopRatingViewTSIDKey];
-		self.apiToken = [coder decodeObjectForKey:kTRSShopRatingViewApiTokenKey];
-		self.debugMode = [coder decodeBoolForKey:kTRSShopRatingViewDebugModeKey];
+		_activeStarColor = [coder decodeObjectForKey:kTRSShopRatingViewActiveStarColorKey];
+		_inactiveStarColor = [coder decodeObjectForKey:kTRSShopRatingViewInactiveStarColorKey];
+		_alignment = [coder decodeIntegerForKey:kTRSShopRatingViewAlignmentKey];
+		_tsID = [coder decodeObjectForKey:kTRSShopRatingViewTSIDKey];
+		_apiToken = [coder decodeObjectForKey:kTRSShopRatingViewApiTokenKey];
+		_debugMode = [coder decodeBoolForKey:kTRSShopRatingViewDebugModeKey];
 	}
 	return self;
 }
@@ -88,16 +88,16 @@ NSString *const kTRSShopRatingViewDebugModeKey = @"kTRSShopRatingViewDebugModeKe
 	
 	[self sizeToFit];
 	
-	self.starPlaceholder = [[UIView alloc] initWithFrame:[self frameForStars]];
-	self.starPlaceholder.backgroundColor = [UIColor clearColor];
-	[self addSubview:self.starPlaceholder];
+	_starPlaceholder = [[UIView alloc] initWithFrame:[self frameForStars]];
+	_starPlaceholder.backgroundColor = [UIColor clearColor];
+	[self addSubview:_starPlaceholder];
 	
-	self.gradeLabel = [[UILabel alloc] initWithFrame:[self frameForGradeLabel]];
-	self.gradeLabel.backgroundColor = [UIColor clearColor];
-	self.gradeLabel.font = [UIFont fontWithName:kTRSShopRatingViewFontName size:self.gradeLabel.font.pointSize]; // size irrelevant
-	self.gradeLabel.text = @"-.--/-.-- (----)";
-	self.gradeLabel.textAlignment = self.alignment;
-	[self addSubview:self.gradeLabel];
+	_gradeLabel = [[UILabel alloc] initWithFrame:[self frameForGradeLabel]];
+	_gradeLabel.backgroundColor = [UIColor clearColor];
+	_gradeLabel.font = [UIFont fontWithName:kTRSShopRatingViewFontName size:_gradeLabel.font.pointSize]; // size irrelevant
+	_gradeLabel.text = @"-.--/-.-- (----)";
+	_gradeLabel.textAlignment = _alignment;
+	[self addSubview:_gradeLabel];
 	
 }
 

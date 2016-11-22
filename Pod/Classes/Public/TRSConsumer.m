@@ -19,11 +19,11 @@
 - (instancetype)initWithEmail:(NSString *)email {
 	self = [super init];
 	if (self) {
-		if (![self isValidEmail:email]) {
+		if (email && ![self isValidEmail:email]) {
 			return nil;
 		}
-		self.email = email;
-		self.membershipStatus = TRSMemberUnverified;
+		_email = email;
+		_membershipStatus = TRSMemberUnverified;
 	}
 	return self;
 }

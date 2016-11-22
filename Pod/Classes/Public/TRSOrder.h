@@ -187,7 +187,7 @@ typedef NS_ENUM(NSUInteger, TRSNextActionFlag) {
 /**
  The designated initializer.
  
- All method arguments except the delivery date are mandatory, otherwise the method returns nil.
+ All method arguments except email and the delivery date are mandatory, otherwise the method returns nil.
  
  @param trustedShopsID Your Trusted Shops ID.
  @param apiToken The token to authenticate your app for the (remote) API at Trusted Shops. Currently can be any `NSString`.
@@ -203,7 +203,7 @@ typedef NS_ENUM(NSUInteger, TRSNextActionFlag) {
  */
 - (nullable instancetype)initWithTrustedShopsID:(nonnull NSString *)trustedShopsID
 									   apiToken:(nonnull NSString *)apiToken
-										  email:(nonnull NSString *)email
+										  email:(nullable NSString *)email
 										ordernr:(nonnull NSString *)orderNo
 										 amount:(nonnull NSNumber *)amount
 										   curr:(nonnull NSString *)currency
@@ -216,7 +216,7 @@ typedef NS_ENUM(NSUInteger, TRSNextActionFlag) {
  A convenience method for creating a `TRSOrder` object.
  
  This method calls the designated initializer.
- All method arguments except the delivery date are mandatory, otherwise the method returns nil.
+ All method arguments except email and the delivery date are mandatory, otherwise the method returns nil.
  
  @param trustedShopsID Your Trusted Shops ID.
  @param apiToken The token to authenticate your app for the (remote) API at Trusted Shops. Currently can be any `NSString`.
@@ -232,7 +232,7 @@ typedef NS_ENUM(NSUInteger, TRSNextActionFlag) {
  */
 + (nullable instancetype)TRSOrderWithTrustedShopsID:(nonnull NSString *)trustedShopsID
 										   apiToken:(nonnull NSString *)apiToken
-											  email:(nonnull NSString *)email
+											  email:(nullable NSString *)email
 											ordernr:(nonnull NSString *)orderNo
 											 amount:(nonnull NSNumber *)amount
 											   curr:(nonnull NSString *)currency

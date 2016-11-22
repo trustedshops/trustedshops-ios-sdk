@@ -47,11 +47,11 @@ NSString *const kTRSShopSimpleRatingViewDebugModeKey = @"kTRSShopSimpleRatingVie
 	self = [super initWithCoder:coder];
 	if (self) {
 		[self finishInit];
-		self.activeStarColor = [coder decodeObjectForKey:kTRSShopSimpleRatingViewActiveStarColorKey];
-		self.inactiveStarColor = [coder decodeObjectForKey:kTRSShopSimpleRatingViewInactiveStarColorKey];
-		self.tsID = [coder decodeObjectForKey:kTRSShopSimpleRatingViewTSIDKey];
-		self.apiToken = [coder decodeObjectForKey:kTRSShopSimpleRatingViewApiTokenKey];
-		self.debugMode = [coder decodeBoolForKey:kTRSShopSimpleRatingViewDebugModeKey];
+		_activeStarColor = [coder decodeObjectForKey:kTRSShopSimpleRatingViewActiveStarColorKey];
+		_inactiveStarColor = [coder decodeObjectForKey:kTRSShopSimpleRatingViewInactiveStarColorKey];
+		_tsID = [coder decodeObjectForKey:kTRSShopSimpleRatingViewTSIDKey];
+		_apiToken = [coder decodeObjectForKey:kTRSShopSimpleRatingViewApiTokenKey];
+		_debugMode = [coder decodeBoolForKey:kTRSShopSimpleRatingViewDebugModeKey];
 	}
 	return self;
 }
@@ -71,9 +71,9 @@ NSString *const kTRSShopSimpleRatingViewDebugModeKey = @"kTRSShopSimpleRatingVie
 	
 	[self sizeToFit];
 	
-	self.starPlaceholder = [[UIView alloc] initWithFrame:[self frameForStars]];
-	self.starPlaceholder.backgroundColor = [UIColor clearColor];
-	[self addSubview:self.starPlaceholder];
+	_starPlaceholder = [[UIView alloc] initWithFrame:[self frameForStars]];
+	_starPlaceholder.backgroundColor = [UIColor clearColor];
+	[self addSubview:_starPlaceholder];
 	
 }
 

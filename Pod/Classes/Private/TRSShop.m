@@ -26,12 +26,12 @@
 			return nil;
 		}
 		
-		self.trustMark = [[TRSTrustMark alloc] initWithDictionary:shopInfo[@"trustMark"]];
-		self.languageISO2 = shopInfo[@"languageISO2"] ? shopInfo[@"languageISO2"] : @"en";
-		self.targetMarketISO3 = shopInfo[@"targetMarketISO3"] ? shopInfo[@"targetMarketISO3"] : @"EUO";
-		self.tsId = shopInfo[@"tsId"];
-		self.url = shopInfo[@"url"];
-		self.name = shopInfo[@"name"];
+		_trustMark = [[TRSTrustMark alloc] initWithDictionary:shopInfo[@"trustMark"]];
+		_languageISO2 = shopInfo[@"languageISO2"] ? shopInfo[@"languageISO2"] : @"en";
+		_targetMarketISO3 = shopInfo[@"targetMarketISO3"] ? shopInfo[@"targetMarketISO3"] : @"EUO";
+		_tsId = shopInfo[@"tsId"];
+		_url = shopInfo[@"url"];
+		_name = shopInfo[@"name"];
 	}
 	return self;
 }

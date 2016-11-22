@@ -39,8 +39,8 @@ NSString *const kTRSStarsViewInactiveStarColorKey = @"kTRSStarsViewInactiveStarC
 		} else if (rating.doubleValue < 0.0) {
 			rating = @0;
 		}
-		self.integralOfRating = [rating trs_integralPart];
-		self.fractionalOfRating = [rating trs_fractionalPart];
+		_integralOfRating = [rating trs_integralPart];
+		_fractionalOfRating = [rating trs_fractionalPart];
 		[self finishInit];
 	}
 	return self;
@@ -57,11 +57,11 @@ NSString *const kTRSStarsViewInactiveStarColorKey = @"kTRSStarsViewInactiveStarC
 - (instancetype)initWithCoder:(NSCoder *)coder {
 	self = [super initWithCoder:coder];
 	if (self) {
-		self.integralOfRating = [coder decodeObjectForKey:kTRSStarsViewIntegralOfRatingKey];
-		self.fractionalOfRating = [coder decodeObjectForKey:kTRSStarsViewFractionalOfRatingKey];
+		_integralOfRating = [coder decodeObjectForKey:kTRSStarsViewIntegralOfRatingKey];
+		_fractionalOfRating = [coder decodeObjectForKey:kTRSStarsViewFractionalOfRatingKey];
 		[self finishInit];
-		self.activeStarColor = [coder decodeObjectForKey:kTRSStarsViewActiveStarColorKey];
-		self.inactiveStarColor = [coder decodeObjectForKey:kTRSStarsViewInactiveStarColorKey];
+		_activeStarColor = [coder decodeObjectForKey:kTRSStarsViewActiveStarColorKey];
+		_inactiveStarColor = [coder decodeObjectForKey:kTRSStarsViewInactiveStarColorKey];
 	}
 	return self;
 }
@@ -79,12 +79,12 @@ NSString *const kTRSStarsViewInactiveStarColorKey = @"kTRSStarsViewInactiveStarC
 	
 	// create the stars (our bounds now have the correct aspect ratio)
 	CGFloat starLength = self.bounds.size.height;
-	self.starViews = [self createStarsWithLength:starLength];
-	for (UIView *star in self.starViews) {
+	_starViews = [self createStarsWithLength:starLength];
+	for (UIView *star in _starViews) {
 		[self addSubview:star];
 	}
-	_activeStarColor = [(TRSSingleStarView *)self.starViews.firstObject activeStarColor];
-	_inactiveStarColor = [(TRSSingleStarView *)self.starViews.firstObject inactiveStarColor];
+	_activeStarColor = [(TRSSingleStarView *)_starViews.firstObject activeStarColor];
+	_inactiveStarColor = [(TRSSingleStarView *)_starViews.firstObject inactiveStarColor];
 }
 
 #pragma mark - Convenience initializers
