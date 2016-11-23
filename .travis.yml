@@ -18,4 +18,4 @@ script:
 - set -o pipefail && travis_retry xcodebuild test -workspace Example/Trustbadge.xcworkspace -scheme Trustbadge_Example -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone SE' -derivedDataPath ${TRAVIS_BUILD_DIR}/myDerivedData ONLY_ACTIVE_ARCH=YES GCC_INSTRUMENT_PROGRAM_FLOW_ARCS=YES GCC_GENERATE_TEST_COVERAGE_FILES=YES | xcpretty -c
 - pod lib lint --quick
 
-after_success: slather coverage -c -s -t --ignore '../*' -b ${TRAVIS_BUILD_DIR}/myDerivedData --verbose
+after_success: slather coverage -c -s -t --ignore '../*' -b ${TRAVIS_BUILD_DIR}/myDerivedData --input-format profdata --verbose
