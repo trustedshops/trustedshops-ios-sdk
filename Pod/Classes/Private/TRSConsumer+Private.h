@@ -13,7 +13,6 @@
 
 @interface TRSConsumer ()
 
-@property (nonatomic, readwrite, copy, nonnull) NSString *email;
 @property (nonatomic, readwrite, assign) TRSMembershipStatus membershipStatus;
 
 @end

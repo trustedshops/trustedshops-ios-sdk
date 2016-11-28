@@ -35,8 +35,8 @@ NSString *const kTRSProductSimpleRatingViewInactiveColorKey = @"kTRSProductSimpl
 - (instancetype)initWithCoder:(NSCoder *)aDecoder {
 	self = [super initWithCoder:aDecoder]; // this also calls finishInit!
 	if (self) {
-		self.activeStarColor = [aDecoder decodeObjectForKey:kTRSProductSimpleRatingViewActiveColorKey];
-		self.inactiveStarColor = [aDecoder decodeObjectForKey:kTRSProductSimpleRatingViewInactiveColorKey];
+		_activeStarColor = [aDecoder decodeObjectForKey:kTRSProductSimpleRatingViewActiveColorKey];
+		_inactiveStarColor = [aDecoder decodeObjectForKey:kTRSProductSimpleRatingViewInactiveColorKey];
 	}
 	return self;
 }
@@ -115,9 +115,9 @@ NSString *const kTRSProductSimpleRatingViewInactiveColorKey = @"kTRSProductSimpl
 	
 	[self sizeToFit];
 	
-	self.starsPlaceholder = [[UIView alloc] initWithFrame:[self frameForStars]];
-	self.starsPlaceholder.backgroundColor = [UIColor clearColor];
-	[self addSubview:self.starsPlaceholder];
+	_starsPlaceholder = [[UIView alloc] initWithFrame:[self frameForStars]];
+	_starsPlaceholder.backgroundColor = [UIColor clearColor];
+	[self addSubview:_starsPlaceholder];
 }
 
 - (void)finishLoading {

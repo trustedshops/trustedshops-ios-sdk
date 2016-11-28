@@ -72,11 +72,11 @@ NSString *const kTRSShopGradeViewDebugModeKey = @"kTRSShopGradeViewDebugModeKey"
 	self = [super initWithCoder:coder];
 	if (self) {
 		[self finishInit];
-		self.activeStarColor = [coder decodeObjectForKey:kTRSShopGradeViewActiveStarColorKey];
-		self.inactiveStarColor = [coder decodeObjectForKey:kTRSShopGradeViewInactiveStarColorKey];
-		self.tsID = [coder decodeObjectForKey:kTRSShopGradeViewTSIDKey];
-		self.apiToken = [coder decodeObjectForKey:kTRSShopGradeViewApiTokenKey];
-		self.debugMode = [coder decodeBoolForKey:kTRSShopGradeViewDebugModeKey];
+		_activeStarColor = [coder decodeObjectForKey:kTRSShopGradeViewActiveStarColorKey];
+		_inactiveStarColor = [coder decodeObjectForKey:kTRSShopGradeViewInactiveStarColorKey];
+		_tsID = [coder decodeObjectForKey:kTRSShopGradeViewTSIDKey];
+		_apiToken = [coder decodeObjectForKey:kTRSShopGradeViewApiTokenKey];
+		_debugMode = [coder decodeBoolForKey:kTRSShopGradeViewDebugModeKey];
 	}
 	return self;
 }
@@ -96,22 +96,22 @@ NSString *const kTRSShopGradeViewDebugModeKey = @"kTRSShopGradeViewDebugModeKey"
 	
 	[self sizeToFit];
 	
-	self.starPlaceholder = [[UIView alloc] initWithFrame:[self frameForStars]];
-	self.starPlaceholder.backgroundColor = [UIColor clearColor];
-	[self addSubview:self.starPlaceholder];
+	_starPlaceholder = [[UIView alloc] initWithFrame:[self frameForStars]];
+	_starPlaceholder.backgroundColor = [UIColor clearColor];
+	[self addSubview:_starPlaceholder];
 	
-	self.gradeAsTextLabel = [[UILabel alloc] initWithFrame:[self frameForGradeAsText]];
-	self.gradeAsTextLabel.font = [UIFont fontWithName:kTRSShopGradingViewFontName size:self.gradeAsTextLabel.font.pointSize];
-	self.gradeAsTextLabel.text = @"---";
-	self.gradeAsTextLabel.textAlignment = NSTextAlignmentCenter;
-	self.gradeAsTextLabel.backgroundColor = [UIColor clearColor];
-	[self addSubview:self.gradeAsTextLabel];
+	_gradeAsTextLabel = [[UILabel alloc] initWithFrame:[self frameForGradeAsText]];
+	_gradeAsTextLabel.font = [UIFont fontWithName:kTRSShopGradingViewFontName size:_gradeAsTextLabel.font.pointSize];
+	_gradeAsTextLabel.text = @"---";
+	_gradeAsTextLabel.textAlignment = NSTextAlignmentCenter;
+	_gradeAsTextLabel.backgroundColor = [UIColor clearColor];
+	[self addSubview:_gradeAsTextLabel];
 	
-	self.gradeAsNumbersLabel = [[UILabel alloc] initWithFrame:[self frameForGradeAsNumbers]];
-	self.gradeAsNumbersLabel.font = [UIFont fontWithName:kTRSShopGradingViewFontName size:self.gradeAsNumbersLabel.font.pointSize];
-	self.gradeAsNumbersLabel.text = @"-.--/-.--";
-	self.gradeAsNumbersLabel.textAlignment = NSTextAlignmentCenter;
-	[self addSubview:self.gradeAsNumbersLabel];
+	_gradeAsNumbersLabel = [[UILabel alloc] initWithFrame:[self frameForGradeAsNumbers]];
+	_gradeAsNumbersLabel.font = [UIFont fontWithName:kTRSShopGradingViewFontName size:_gradeAsNumbersLabel.font.pointSize];
+	_gradeAsNumbersLabel.text = @"-.--/-.--";
+	_gradeAsNumbersLabel.textAlignment = NSTextAlignmentCenter;
+	[self addSubview:_gradeAsNumbersLabel];
 }
 
 #pragma mark - Loading data from TS Backend

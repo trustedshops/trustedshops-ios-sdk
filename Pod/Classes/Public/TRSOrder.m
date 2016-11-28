@@ -71,19 +71,19 @@
 			return nil;
 		}
 		
-		self.tsID = trustedShopsID;
-		self.apiToken = apiToken;
-		self.consumer = consumer;
-		self.ordernr = orderNo;
-		self.amount = amount;
-		self.curr = currency;
-		self.paymentType = paymentType;
-		self.deliveryDate = estDeliveryDate;
+		_tsID = trustedShopsID;
+		_apiToken = apiToken;
+		_consumer = consumer;
+		_ordernr = orderNo;
+		_amount = amount;
+		_curr = currency;
+		_paymentType = paymentType;
+		_deliveryDate = estDeliveryDate;
 		
-		self.insuranceState = TRSInsuranceStateUnknown;
-		self.nextActionFlag = TRSValidationPending;
+		_insuranceState = TRSInsuranceStateUnknown;
+		_nextActionFlag = TRSValidationPending;
 		
-		self.orderState = TRSOrderUnprocessed;
+		_orderState = TRSOrderUnprocessed;
 		if (![self areFieldsComplete]) return nil;
 	}
 	return self;
@@ -131,12 +131,8 @@
 			
 			// TODO: figure out membership status in checkout object & set state there.
 			self.consumer.membershipStatus = TRSMemberKnown;
-			
-			if (canceled) {
-				self.insuranceState = TRSUserDeclinedInsurance;
-			} else {
-				self.insuranceState = TRSInsured;
-			}
+			// TODO: figure out a way to properly communicate insurance state (or drop this feature completely).
+			self.insuranceState = TRSInsuranceStateHandledExternally;
 			
 			self.nextActionFlag = TRSNoNextActions;
 			

@@ -43,17 +43,17 @@ typedef NS_ENUM(NSUInteger, TRSMembershipStatus) {
  You can create your own `TRSConsumer` objects, but currently there is no way for you to change its 
  `TRSMembershipStatus` outside of the purchase process.
  
- @param email The email address of the consumer. Must not be `nil`.
+ @param email The email address of the consumer.
  @see [TRSOrder initWithTrustedShopsID:apiToken:email:ordernr:amount:curr:paymentType:deliveryDate:]
  */
-- (nullable instancetype)initWithEmail:(nonnull NSString *)email NS_DESIGNATED_INITIALIZER;
+- (nullable instancetype)initWithEmail:(nullable NSString *)email NS_DESIGNATED_INITIALIZER;
 
 /**
  The email address of the consumer.
  
- During the purchase process, we use it to identify the consumer in our database. Set on initialiation, can't be `nil`.
+ During the purchase process, we use it to identify the consumer in our database. Set on initialiation.
  */
-@property (nonatomic, readonly, nonnull) NSString *email;
+@property (nonatomic, copy, nullable) NSString *email;
 /**
  The membership status the consumer has at Trusted Shops.
  

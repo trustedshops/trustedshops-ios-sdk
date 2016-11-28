@@ -1,17 +1,21 @@
-osx_image: xcode7.3
+osx_image: xcode8.1
 language: objective-c
 
 cache:
 - bundler
 - cocoapods
 
+before_install:
+- export IOS_SIMULATOR_UDID=`instruments -s devices | grep "iPhone SE (10.1" | awk -F '[ ]' '{print $4}' | awk -F '[\[]' '{print $2}' | sed 's/.$//'`
+- echo $IOS_SIMULATOR_UDID
+- open -a "simulator" --args -CurrentDeviceUDID $IOS_SIMULATOR_UDID
+
 install:
 - bundle install
-# - bundle exec pod repo update --silent
 - bundle exec pod install --project-directory=Example
 
 script:
-- set -o pipefail && xcodebuild test -workspace Example/Trustbadge.xcworkspace -scheme Trustbadge_Example -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone 6s' -derivedDataPath ${TRAVIS_BUILD_DIR}/myDerivedData ONLY_ACTIVE_ARCH=YES GCC_INSTRUMENT_PROGRAM_FLOW_ARCS=YES GCC_GENERATE_TEST_COVERAGE_FILES=YES | xcpretty -c
+- set -o pipefail && travis_retry xcodebuild test -workspace Example/Trustbadge.xcworkspace -scheme Trustbadge_Example -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone SE' -derivedDataPath ${TRAVIS_BUILD_DIR}/myDerivedData ONLY_ACTIVE_ARCH=YES GCC_INSTRUMENT_PROGRAM_FLOW_ARCS=YES GCC_GENERATE_TEST_COVERAGE_FILES=YES | xcpretty -c
 - pod lib lint --quick
 
-after_success: slather coverage -c -s -t --ignore '../*' -b ${TRAVIS_BUILD_DIR}/myDerivedData --verbose
+after_success: slather coverage -c -s -t --ignore '../*' -b ${TRAVIS_BUILD_DIR}/myDerivedData --input-format profdata --verbose

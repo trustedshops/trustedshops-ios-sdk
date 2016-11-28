@@ -1,5 +1,9 @@
 # Trustbadge
 
+## Version 0.8.0
+
+* The eMail is now optional for TRSOrder objects (and thus also for TRSCustomer objects). This allows processing orders for which the App does not collect an email address itself (for example in-app purchases). See updated README file. 
+
 ## Version 0.7.0
 
 * Changed the popup card that is shown when the user clicks on the seal image to the standard trustcard that is also used in web shops. What exactly is shown on that card also depends on what services the shop has booked at Trusted Shops.

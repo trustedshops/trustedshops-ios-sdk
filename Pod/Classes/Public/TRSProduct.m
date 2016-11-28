@@ -26,9 +26,9 @@
 		if ([name isEqualToString:@""] || [SKU isEqualToString:@""]) {
 			return nil;
 		}
-		self.url = url;
-		self.name = name;
-		self.SKU = SKU;
+		_url = url;
+		_name = name;
+		_SKU = SKU;
 	}
 	return self;
 }

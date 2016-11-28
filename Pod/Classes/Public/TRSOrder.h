@@ -59,7 +59,10 @@ typedef NS_ENUM(NSUInteger, TRSInsuranceState) {
 	/** The order is fully insured. Currently not used. */
 	TRSFullyInsured,
 	/** The user declined insuring the order */
-	TRSUserDeclinedInsurance
+	TRSUserDeclinedInsurance,
+	/** The state of the insurance was handled externally, usually in the browser. The SDK itself has no information 
+	 whether the user accepted or not. */
+	TRSInsuranceStateHandledExternally
 };
 
 /**
@@ -93,6 +96,11 @@ typedef NS_ENUM(NSUInteger, TRSNextActionFlag) {
  a member at Trusted Shops.
  Since this requires user interaction, the calls to do so will open a lightbox in the UI and display the needed
  information for the user & process necessary interaction in a webview.
+ An exception to this behavior is when the provided information is incomplete. Then a more elaborate interaction is 
+ required, so the app switches to mobile Safari & displays a regular webpage for the user to enter missing and/or 
+ additional information. An example for this would be if you cannot provide an email address.
+ Another case would be if the given currency doesn't match the settings of your account at Trusted Shops (so you
+ should provide the correct currency that matches your shop/MyTS account).
  */
 @interface TRSOrder : NSObject
 
@@ -187,11 +195,11 @@ typedef NS_ENUM(NSUInteger, TRSNextActionFlag) {
 /**
  The designated initializer.
  
- All method arguments except the delivery date are mandatory, otherwise the method returns nil.
+ All method arguments except email and the delivery date are mandatory, otherwise the method returns nil.
  
  @param trustedShopsID Your Trusted Shops ID.
  @param apiToken The token to authenticate your app for the (remote) API at Trusted Shops. Currently can be any `NSString`.
- @param email The email your customer used to make the purchase.
+ @param email The email your customer used to make the purchase. Specify `nil` if you don't have it.
  @param orderNo A string uniquely representing the order that was made.
  @param amount The actual value of the purchase. Typically a float or double greater than 0 and with 2 digits after the decimal point.
  @param currency A string denoting the purchase the transaction was made in, e.g. `@"EUR"`.
@@ -203,7 +211,7 @@ typedef NS_ENUM(NSUInteger, TRSNextActionFlag) {
  */
 - (nullable instancetype)initWithTrustedShopsID:(nonnull NSString *)trustedShopsID
 									   apiToken:(nonnull NSString *)apiToken
-										  email:(nonnull NSString *)email
+										  email:(nullable NSString *)email
 										ordernr:(nonnull NSString *)orderNo
 										 amount:(nonnull NSNumber *)amount
 										   curr:(nonnull NSString *)currency
@@ -216,11 +224,11 @@ typedef NS_ENUM(NSUInteger, TRSNextActionFlag) {
  A convenience method for creating a `TRSOrder` object.
  
  This method calls the designated initializer.
- All method arguments except the delivery date are mandatory, otherwise the method returns nil.
+ All method arguments except email and the delivery date are mandatory, otherwise the method returns nil.
  
  @param trustedShopsID Your Trusted Shops ID.
  @param apiToken The token to authenticate your app for the (remote) API at Trusted Shops. Currently can be any `NSString`.
- @param email The email your customer used to make the purchase.
+ @param email The email your customer used to make the purchase. Specify `nil` if you don't have it.
  @param orderNo A string uniquely representing the order that was made.
  @param amount The actual value of the purchase. Typically a float or double greater than 0 and with 2 digits after the decimal point.
  @param currency A string denoting the purchase the transaction was made in, e.g. `@"EUR"`.
@@ -232,7 +240,7 @@ typedef NS_ENUM(NSUInteger, TRSNextActionFlag) {
  */
 + (nullable instancetype)TRSOrderWithTrustedShopsID:(nonnull NSString *)trustedShopsID
 										   apiToken:(nonnull NSString *)apiToken
-											  email:(nonnull NSString *)email
+											  email:(nullable NSString *)email
 											ordernr:(nonnull NSString *)orderNo
 											 amount:(nonnull NSNumber *)amount
 											   curr:(nonnull NSString *)currency
@@ -264,6 +272,8 @@ typedef NS_ENUM(NSUInteger, TRSNextActionFlag) {
  to be shown to the user, informing them about their status at Trusted Shops, the guarantee, etc.
  After the user has finished interacting with that dialog the onCompletion block will be called with
  `nil` as its `error` parameter.
+ If the provided information is incomplete (e.g. no email is specified), the app switches to mobile Safari
+ instead and displays a more elaborate page there for the user to provide missing information.
  @param onCompletion A block that is called after the object has been sent to the Trusted Shops API. 
  Its `error` parameter will be nil unless an error occured.
  @see validateWithCompletionBlock:

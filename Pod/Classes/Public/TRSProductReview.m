@@ -28,17 +28,17 @@
 	
 	self = [super init];
 	if (self) {
-		self.creationDate = creationDate;
-		self.comment = comment;
+		_creationDate = creationDate;
+		_comment = comment;
 		if (!mark || [mark floatValue] < 1.0f) {
-			self.mark = @1;
+			_mark = @1;
 		} else if ([mark floatValue] > 5.0f) {
-			self.mark = @5;
+			_mark = @5;
 		} else {
-			self.mark = mark;
+			_mark = mark;
 		}
-		self.UID = UID;
-		self.criteria = criteria;
+		_UID = UID;
+		_criteria = criteria;
 	}
 	return self;
 }

@@ -32,7 +32,7 @@ Trustbadge is available through [CocoaPods](http://cocoapods.org). To install
 it, simply add the following line to your Podfile:
 
 ```ruby
-pod "Trustbadge", "~> 0.7"
+pod "Trustbadge", "~> 0.8"
 ```
 
 #### Example project ####
@@ -198,7 +198,7 @@ To use this feature your app needs to add a few lines of code right after your c
 // create a TRSOrder object
 TRSOrder *anOrder = [TRSOrder TRSOrderWithTrustedShopsID:@"your TS-ID"                     // your TS-ID
                                                 apiToken:@"any string for now"             // just use any non-nil, non-empty string
-                                                   email:@"customer@example.com"           // your customer's email
+                                                   email:@"customer@example.com"           // your customer's email, or nil if you don't have it
                                                  ordernr:@"0815XYZ"                        // a unique identifier for the order
                                                   amount:[NSNumber numberWithDouble:28.73] // the total price as NSNumber
                                                     curr:@"EUR"                            // the currency, see documentation for valid values
@@ -223,7 +223,10 @@ anOrder.debugMode = YES; // see below for information on this!
 ```
 
 For a more detailed description of the methods and objects handling this process, see the SDK documentation.
-Please be aware that in some use-cases the user may be referred to an external (mobile) website opening on Safari (for example if this is the first time they purchase a Trusted Shops guarantee). The modal WebView closes in these instances, so once they get back they can keep on using your app as usual. Like is the case with the `TRSTrustbadgeView`, you can specify a `customPresentingViewController` object to manage the presentation of the displayed dialogue boxes during the finish process.
+Please be aware that in some use-cases the user may be referred to an external (mobile) website opening on Safari. This is only done when further input is required by the user that can't be properly shown in the displayed popup. For example, if you can't provide the user's email address to the SDK (for instance because the purchased goods are in-app purchases), they are referred to a site to enter it themselves (Trusted Shops needs this information for a proper checkout process).
+The modal WebView closes in these cases, so once users get back they can keep on using your app as usual. 
+You should only leave out the email address if you really don't have it, as this results in the best user experience during checkout (users won't leave your app).
+Like is the case with the `TRSTrustbadgeView`, you can specify a `customPresentingViewController` object to manage the presentation of the displayed dialogue boxes during the finish process.
 
 If you are developing your application and want to test this SDK feature __please be aware that unless the order object's `debugMode` property is set to `YES`, the generated data is sent to the Trusted Shops production database!__
 
@@ -239,7 +242,7 @@ Please contact your customer success manager directly or via [members@trustedsho
 ## 7. About this SDK ##
 
 #### Documentation ####
-The latest documentation can be found at [cocoadocs](http://cocoadocs.org/docsets/Trustbadge/0.7.0/).
+The latest documentation can be found at [cocoadocs](http://cocoadocs.org/docsets/Trustbadge/0.8.0/).
 All headers are documented according to the [appledoc](http://appledoc.gentlebytes.com/appledoc/) syntax, so you can also use that to directly include the docsets into your XCode.
 
 #### Data Privacy ####

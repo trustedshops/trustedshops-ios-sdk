@@ -65,7 +65,7 @@
 - (IBAction)submitTestOrder:(id)sender {
 	// if we don't have all the needed data, just do nothing
 	if (   !self.orderNoField.text || [self.orderNoField.text isEqualToString:@""]  ||
-		   !self.emailField.text   || [self.emailField.text isEqualToString:@""]    ||
+//		   !self.emailField.text   || [self.emailField.text isEqualToString:@""]    ||
 		   !self.amountField.text  || [self.amountField.text isEqualToString:@""]     ) {
 		NSLog(@"Input error: some needed fields are empty");
 		return;
@@ -79,9 +79,12 @@
 		date = [dateFormatter dateFromString:self.estDeliveryDateField.text];
 	}
 	
+	NSString *email = self.emailField.text; // this has already been validated by updateUI / dismissKeyboard:
+	email = !email || [email isEqualToString:@""] ? nil : email;
+	
 	TRSOrder *anOrder = [[TRSOrder alloc] initWithTrustedShopsID:self.tsIDField.text
 														apiToken:@"NOT NEEDED AT THE ATM"
-														   email:self.emailField.text
+														   email:email
 														 ordernr:self.orderNoField.text
 														  amount:[NSNumber numberWithDouble:amount]
 															curr:self.currencyField.text
@@ -96,7 +99,8 @@
 		NSLog(@"%@uccessfully validated anOrder", error ? @"Uns" : @"S");
 	}];
 	[anOrder finishWithCompletionBlock:^(NSError * _Nullable error) {
-		NSLog(@"Finished anOrder, user %@ insurance", anOrder.insuranceState == TRSUserDeclinedInsurance ? @"declined or already has" : @"bought");
+		NSLog(@"Finished anOrder, user insurance %@",
+			  anOrder.insuranceState == TRSInsuranceStateHandledExternally ? @"handled externally" : @"unknown");
 	}];
 }
 
@@ -146,6 +150,9 @@
 }
 
 - (NSString *)validateEmailString:(NSString *)email {
+	if (!email || [email isEqualToString:@""]) {
+		return @"";
+	}
 	if ([email containsString:@"@"]) { // does it have an @ in it?
 		NSMutableArray *delimited = [[email componentsSeparatedByString:@"@"] mutableCopy];
 		if (![[delimited lastObject] containsString:@"."]) { // a delimiter for the toplevel domain?
@@ -170,7 +177,7 @@
 
 - (void)checkSubmitButtonState {
 	if (   !self.orderNoField.text || [self.orderNoField.text isEqualToString:@""]  ||
-		   !self.emailField.text   || [self.emailField.text isEqualToString:@""]    ||
+//		   !self.emailField.text   || [self.emailField.text isEqualToString:@""]    ||
 		   !self.amountField.text  || [self.amountField.text isEqualToString:@""]     ) {
 		self.submitButton.enabled = NO;
 	} else {

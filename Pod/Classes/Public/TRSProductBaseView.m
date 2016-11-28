@@ -22,7 +22,7 @@ NSString *const kTRSProductBaseViewSKUKey = @"kTRSProductBaseViewSKUKey";
 - (instancetype)initWithFrame:(CGRect)frame trustedShopsID:(NSString *)tsID apiToken:(NSString *)apiToken SKU:(NSString *)SKU {
 	self = [super initWithFrame:frame trustedShopsID:tsID apiToken:apiToken];
 	if (self) {
-		self.SKU = SKU;
+		_SKU = SKU;
 	}
 	return self;
 }
@@ -35,7 +35,7 @@ NSString *const kTRSProductBaseViewSKUKey = @"kTRSProductBaseViewSKUKey";
 - (instancetype)initWithCoder:(NSCoder *)aDecoder {
 	self = [super initWithCoder:aDecoder];
 	if (self) {
-		self.SKU = [aDecoder decodeObjectForKey:kTRSProductBaseViewSKUKey];
+		_SKU = [aDecoder decodeObjectForKey:kTRSProductBaseViewSKUKey];
 	}
 	return self;
 }

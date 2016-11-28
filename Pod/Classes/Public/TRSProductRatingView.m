@@ -41,7 +41,7 @@ NSString *const kTRSProductRatingViewUseOnlyOneLineKey = @"kTRSProductRatingView
 - (instancetype)initWithCoder:(NSCoder *)aDecoder {
 	self = [super initWithCoder:aDecoder]; // this also calls finishInit!
 	if (self) {
-		self.useOnlyOneLine = [aDecoder decodeBoolForKey:kTRSProductRatingViewUseOnlyOneLineKey];
+		_useOnlyOneLine = [aDecoder decodeBoolForKey:kTRSProductRatingViewUseOnlyOneLineKey];
 	}
 	return self;
 }
@@ -236,15 +236,15 @@ NSString *const kTRSProductRatingViewUseOnlyOneLineKey = @"kTRSProductRatingView
 
 - (void)finishInit {
 	[super finishInit]; // can use super in this case, inits starsPlaceholder
-	self.useOnlyOneLine = NO;
+	_useOnlyOneLine = NO;
 	_alignment = NSTextAlignmentNatural;
 	
-	self.oneLineString = @"(-) -.--/-.--";
-	self.twoLineString = @"-.--/-.-- (----)";
-	self.gradeLabel = [[UILabel alloc] initWithFrame:[self frameForGrade]];
-	self.gradeLabel.backgroundColor = [UIColor clearColor];
+	_oneLineString = @"(-) -.--/-.--";
+	_twoLineString = @"-.--/-.-- (----)";
+	_gradeLabel = [[UILabel alloc] initWithFrame:[self frameForGrade]];
+	_gradeLabel.backgroundColor = [UIColor clearColor];
 	// we don't need a default value for the label, that's done in layoutSubviews
-	[self addSubview:self.gradeLabel];
+	[self addSubview:_gradeLabel];
 }
 
 - (void)finishLoading {

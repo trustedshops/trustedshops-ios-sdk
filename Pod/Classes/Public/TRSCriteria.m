@@ -21,13 +21,13 @@
 	self = [super init];
 	if (self) {
 		if ([mark floatValue] > 5.0f) {
-			self.mark = @5;
+			_mark = @5;
 		} else if ([mark floatValue] < 1.0f) {
-			self.mark = @1;
+			_mark = @1;
 		} else {
-			self.mark = mark;
+			_mark = mark;
 		}
-		self.type = type;
+		_type = type;
 	}
 	return self;
 }

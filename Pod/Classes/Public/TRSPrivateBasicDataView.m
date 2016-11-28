@@ -23,8 +23,8 @@ NSString *const kTRSPrivateBasicDataViewDebugModeKey = @"kTRSPrivateBasicDataVie
 	self = [super initWithFrame:frame];
 	if (self) {
 		[self finishInit];
-		self.tsID = tsID;
-		self.apiToken = apiToken;
+		_tsID = tsID;
+		_apiToken = apiToken;
 	}
 	return self;
 }
@@ -38,9 +38,9 @@ NSString *const kTRSPrivateBasicDataViewDebugModeKey = @"kTRSPrivateBasicDataVie
 	self = [super initWithCoder:aDecoder];
 	if (self) {
 		[self finishInit];
-		self.tsID = [aDecoder decodeObjectForKey:kTRSPrivateBasicDataViewTSIDKey];
-		self.apiToken = [aDecoder decodeObjectForKey:kTRSPrivateBasicDataViewApiTokenKey];
-		self.debugMode = [aDecoder decodeBoolForKey:kTRSPrivateBasicDataViewDebugModeKey];
+		_tsID = [aDecoder decodeObjectForKey:kTRSPrivateBasicDataViewTSIDKey];
+		_apiToken = [aDecoder decodeObjectForKey:kTRSPrivateBasicDataViewApiTokenKey];
+		_debugMode = [aDecoder decodeBoolForKey:kTRSPrivateBasicDataViewDebugModeKey];
 	}
 	return self;
 }

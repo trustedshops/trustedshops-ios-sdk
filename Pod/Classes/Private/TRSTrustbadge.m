@@ -27,7 +27,7 @@
         return nil;
     }
 
-	self.shop = [[TRSShop alloc] initWithDictionary:json[@"response"][@"data"][@"shop"]];
+	_shop = [[TRSShop alloc] initWithDictionary:json[@"response"][@"data"][@"shop"]];
     return self;
 }
 

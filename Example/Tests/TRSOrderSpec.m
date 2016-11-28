@@ -289,7 +289,7 @@ describe(@"TRSOrder", ^{
 					void (^aCallback)(NSError * _Nullable error) = ^void(NSError * _Nullable error) {
 						expect(error).to.beNil();
 						expect(helperPointer.nextActionFlag).to.equal(TRSNoNextActions);
-						expect(helperPointer.insuranceState).to.equal(TRSInsured);
+						expect(helperPointer.insuranceState).to.equal(TRSInsuranceStateHandledExternally);
 						expect(helperPointer.orderState & TRSOrderProcessed).to.equal(TRSOrderProcessed);
 						expect(helperPointer.consumer.membershipStatus).to.equal(TRSMemberKnown);
 					};
@@ -324,7 +324,7 @@ describe(@"TRSOrder", ^{
 					void (^aCallback)(NSError * _Nullable error) = ^void(NSError * _Nullable error) {
 						expect(error).to.beNil();
 						expect(helperPointer.nextActionFlag).to.equal(TRSNoNextActions);
-						expect(helperPointer.insuranceState).to.equal(TRSUserDeclinedInsurance);
+						expect(helperPointer.insuranceState).to.equal(TRSInsuranceStateHandledExternally);
 						expect(helperPointer.orderState & TRSOrderProcessed).to.equal(TRSOrderProcessed);
 						expect(helperPointer.consumer.membershipStatus).to.equal(TRSMemberKnown);
 					};
