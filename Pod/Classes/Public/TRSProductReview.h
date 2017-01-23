@@ -50,6 +50,6 @@
 /**
  The `init` method is unavaiable on `TRSProductReview`s.
  */
-- (nullable instancetype)init __attribute__((unavailable("You cannot create an instance through init - please use initWithCreationDate:comment:mark:UID:criteria:")));
+- (nonnull instancetype)init __attribute__((unavailable("You cannot create an instance through init - please use initWithCreationDate:comment:mark:UID:criteria:")));
 
 @end

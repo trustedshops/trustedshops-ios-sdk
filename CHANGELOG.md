@@ -1,5 +1,9 @@
 # Trustbadge
 
+## Version 0.8.1
+
+* Changed the nullability specifier in some unavailable init methods (see e.g. TRSOrder.h) to nonnull. This way swift projects using the pod won't give warnings for mismatched specifiers. This has no other effect.
+
 ## Version 0.8.0
 
 * The eMail is now optional for TRSOrder objects (and thus also for TRSCustomer objects). This allows processing orders for which the App does not collect an email address itself (for example in-app purchases). See updated README file. 
