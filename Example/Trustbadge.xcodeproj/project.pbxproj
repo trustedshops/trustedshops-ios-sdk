@@ -417,7 +417,7 @@
 			isa = PBXProject;
 			attributes = {
 				CLASSPREFIX = TRS;
-				LastUpgradeCheck = 0810;
+				LastUpgradeCheck = 0820;
 				ORGANIZATIONNAME = "Trusted Shops GmbH";
 				TargetAttributes = {
 					6003F589195388D20070C39A = {

@@ -71,7 +71,7 @@
 /**
  The `init` method is unavaiable on `TRSProduct`s.
  */
-- (nullable instancetype)init __attribute__((unavailable("You cannot create an instance through init - please use initWithUrl:name:SKU: instead")));
+- (nonnull instancetype)init __attribute__((unavailable("You cannot create an instance through init - please use initWithUrl:name:SKU: instead")));
 
 /**
  The designated initializer.
