@@ -1,5 +1,9 @@
 # Trustbadge
 
+## Version 0.8.2
+
+* Fixed a bug that could lead to a crash when a shop without any reviews tried to load a TRSShopRatingView or a TRSShopGradeView. From now on "zero grade" views are possible.
+
 ## Version 0.8.1
 
 * Changed the nullability specifier in some unavailable init methods (see e.g. TRSOrder.h) to nonnull. This way swift projects using the pod won't give warnings for mismatched specifiers. This has no other effect.
