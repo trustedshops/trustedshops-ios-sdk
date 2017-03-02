@@ -10,6 +10,8 @@
 #import "TRSTrustbadge.h"
 #import "NSURL+TRSURLExtensions.h"
 #import <OHHTTPStubs/OHHTTPStubs.h>
+#import <OHHTTPStubs/OHPathHelpers.h>
+#import <OHHTTPStubs/OHHTTPStubsResponse+HTTPMessage.h>
 #import <OCMock/OCMock.h>
 #import <Specta/Specta.h>
 

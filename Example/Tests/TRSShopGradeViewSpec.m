@@ -10,6 +10,7 @@
 #import <Expecta/Expecta.h>
 #import <OCMock/OCMock.h>
 #import <OHHTTPStubs/OHHTTPStubs.h>
+#import <OHHTTPStubs/OHHTTPStubsResponse+HTTPMessage.h>
 #import "TRSNetworkAgent+Trustbadge.h"
 #import "NSURL+TRSURLExtensions.h"
 #import "TRSErrors.h"
