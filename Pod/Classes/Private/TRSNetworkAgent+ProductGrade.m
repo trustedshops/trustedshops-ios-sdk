@@ -12,6 +12,7 @@
 #import "NSURL+TRSURLExtensions.h"
 #import "TRSProductReview.h"
 #import "TRSCriteria.h"
+#import "NSString+TRSStringOperations.h"
 
 @implementation TRSNetworkAgent (ProductGrade)
 
@@ -59,7 +60,7 @@
 									 @"uuid" : uuid,
 									 @"totalReviewCount" : totalReviewCount,
 									 @"overallMark" : overallMark,
-									 @"overallMarkDescription" : overallMarkDescription};
+									 @"overallMarkDescription" : overallMarkDescription ? overallMarkDescription : kTRSTechnicalMarkNA};
 			
 			if (success) success(retVal);
 			return;

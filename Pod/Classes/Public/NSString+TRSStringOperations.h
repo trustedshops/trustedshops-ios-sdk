@@ -28,6 +28,10 @@ FOUNDATION_EXPORT NSString *const kTRSTechnicalMarkPoor;
  The mark string representing the 'very poor' mark description (worst grade).
  */
 FOUNDATION_EXPORT NSString *const kTRSTechnicalMarkVeryPoor;
+/**
+ The mark string used for grades that haven't been calculated yet due to lack of reviews.
+ */
+FOUNDATION_EXPORT NSString *const kTRSTechnicalMarkNA;
 
 /**
  The `TRSStringOperations` category adds (at the moment) a single method to `NSString` that allows
@@ -42,6 +46,7 @@ FOUNDATION_EXPORT NSString *const kTRSTechnicalMarkVeryPoor;
  
  If `self` is not equal to one of the strings defined in the constants defined in `NSString+TRSStringConversions.h`
  the method returns `nil`.
+ Note that for `kTRSTechnicalMarkNA` it returns an empty string!
  
  @returns A localized, human readable representation of the string or `nil`.
  */

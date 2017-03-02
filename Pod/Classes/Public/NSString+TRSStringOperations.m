@@ -14,6 +14,7 @@ NSString *const kTRSTechnicalMarkGood = @"GOOD";
 NSString *const kTRSTechnicalMarkFair = @"FAIR";
 NSString *const kTRSTechnicalMarkPoor = @"POOR";
 NSString *const kTRSTechnicalMarkVeryPoor = @"VERY_POOR";
+NSString *const kTRSTechnicalMarkNA = @"NOT_AVAILABLE";
 
 @implementation NSString (TRSStringOperations)
 
@@ -38,6 +39,8 @@ NSString *const kTRSTechnicalMarkVeryPoor = @"VERY_POOR";
 		retVal = TRSLocalizedString(@"Poor", @"The readable string for the 'kTRSTechnicalMarkPoor' mark.");
 	} else if ([self isEqualToString:kTRSTechnicalMarkVeryPoor]) {
 		retVal = TRSLocalizedString(@"Very poor", @"The readable string for the 'kTRSTechnicalMarkVeryPoor' mark.");
+	} else if ([self isEqualToString:kTRSTechnicalMarkNA]) {
+		retVal = TRSLocalizedString(@"Not rated yet", @"The readable string for the 'kTRSTechnicalMarkNA' mark.");
 	}
 	
 	return retVal;

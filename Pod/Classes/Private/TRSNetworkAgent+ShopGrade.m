@@ -10,6 +10,7 @@
 #import "TRSErrors.h"
 #import "TRSNetworkAgent+Commons.h"
 #import "NSURL+TRSURLExtensions.h"
+#import "NSString+TRSStringOperations.h"
 
 @implementation TRSNetworkAgent (ShopGrade)
 
@@ -50,7 +51,7 @@
 				}
 				return;
 			}
-			NSDictionary *retVal = @{@"overallMarkDescription" : markDesc,
+			NSDictionary *retVal = @{@"overallMarkDescription" : markDesc ? markDesc : kTRSTechnicalMarkNA,
 									 @"overallMark" : mark,
 									 @"activeReviewCount" : revCount,
 									 @"targetMarketISO3" : targetMarket,

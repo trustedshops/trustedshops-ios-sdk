@@ -43,7 +43,7 @@ typedef NS_ENUM(NSUInteger, TRSErrorCode) {
 	/** A call to the API could not be made due to missing TSID or client token (or both were missing). No remote connection was made.
 	 @deprecated use `TRSErrorDomainMissingTSIDOrAPIToken` instead. */
 	TRSErrorDomainTrustbadgeMissingTSIDOrAPIToken __deprecated = TRSErrorDomainMissingTSIDOrAPIToken,
-	/** A product grade view was set up without an SKU. Bo remote connection was made. */
+	/** A product grade view was set up without an SKU. No remote connection was made. */
 	TRSErrorDomainMissingSKU,
 	/** The processOrder:onCompletion: method could not find a root view controller to present its popup */
 	TRSErrorDomainProcessOrderNeedsRootViewController,

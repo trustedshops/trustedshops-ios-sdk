@@ -525,6 +525,28 @@ describe(@"TRSShopRatingView", ^{
 			NSString *localizedReviewsName = TRSLocalizedString(@"Reviews", nil);
 			expect([showntext containsString:localizedReviewsName]).to.beTruthy();
 		});
+		it(@"loads the plural string for 0 reviews", ^{
+			// other case is covered by above test
+			TRSShopRatingView *testView = [TRSShopRatingView new];
+			testView.debugMode = YES;
+			[testView sizeToFit];
+			testView.reviewCount = @0;
+			[testView layoutSubviews];
+			NSString *showntext = testView.gradeLabel.text;
+			NSString *localizedReviewsName = TRSLocalizedString(@"Reviews", nil);
+			expect([showntext containsString:localizedReviewsName]).to.beTruthy();
+		});
+		it(@"loads the singular string for 1 review", ^{
+			// other case is covered by above test
+			TRSShopRatingView *testView = [TRSShopRatingView new];
+			testView.debugMode = YES;
+			[testView sizeToFit];
+			testView.reviewCount = @1;
+			[testView layoutSubviews];
+			NSString *showntext = testView.gradeLabel.text;
+			NSString *localizedReviewsName = TRSLocalizedString(@"Review", nil);
+			expect([showntext containsString:localizedReviewsName]).to.beTruthy();
+		});
 	});
 	
 	describe(@"-frameForStars", ^{
