@@ -17,7 +17,7 @@
  `loadViewDataFromBackendWithSuccessBlock:failureBlock:`), you should not use it directly. 
  It serves as a superclass for `TRSProductSimpleRatingView` and `TRSProductRatingView`
  and does not show anything on its own, even when the data was.
- Instead, it will log out statements to the console when you try to call loadViewDataFromBackendWithSuccessBlock:failureBlock:
+ Instead, it will log out statements to the console when you try to call `loadViewDataFromBackendWithSuccessBlock:failureBlock:`
  informing you that it won't do anything with the retrieved data.
  */
 @interface TRSProductBaseView : TRSPrivateBasicDataView
@@ -26,6 +26,36 @@
  The SKU (stock keeping unit) that identifies the product in the Trusted Shops database (together with the tsID).
  */
 @property (nonatomic, copy) NSString *SKU;
+
+/**
+ The name as it is defined for this product in the Trusted Shops database. This is `nil` before
+ `loadViewDataFromBackendWithSuccessBlock:failureBlock:` is called.
+ */
+@property (readonly) NSString *name;
+
+/**
+ A uuid as it is defined for this product in the Trusted Shops database. This is `nil` before
+ `loadViewDataFromBackendWithSuccessBlock:failureBlock:` is called.
+ */
+@property (readonly) NSString *uuid;
+
+/**
+ The total amount of reviews for this product in the Trusted Shops database. This is `nil` before
+ `loadViewDataFromBackendWithSuccessBlock:failureBlock:` is called.
+ */
+@property (readonly) NSNumber *totalReviewCount;
+
+/**
+ The overall mark as it was calculated for this product in the Trusted Shops database. This is `nil` before
+ `loadViewDataFromBackendWithSuccessBlock:failureBlock:` is called.
+ */
+@property (readonly) NSNumber *overallMark;
+
+/**
+ A human readable, localized description of the overall mark for this product. This is `nil` before
+ `loadViewDataFromBackendWithSuccessBlock:failureBlock:` is called.
+ */
+@property (readonly) NSString *overallMarkDescription;
 
 /**
  The designated initializer for all views displaying product grade and rating data.

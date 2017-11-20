@@ -15,7 +15,7 @@ NSString *const kTRSPrivateBasicDataViewTSIDKey = @"kTRSPrivateBasicDataViewTSID
 NSString *const kTRSPrivateBasicDataViewApiTokenKey = @"kTRSPrivateBasicDataViewApiTokenKey";
 NSString *const kTRSPrivateBasicDataViewDebugModeKey = @"kTRSPrivateBasicDataViewDebugModeKey";
 
-// the class extension is defined in TRSPrivateBasicDataViewLoading.h !
+// the class extension is defined in TRSPrivateBasicDataView+Private.h !
 
 @implementation TRSPrivateBasicDataView
 

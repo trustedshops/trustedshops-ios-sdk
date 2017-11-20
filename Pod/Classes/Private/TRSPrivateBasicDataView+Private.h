@@ -11,15 +11,13 @@
  It is part of the abstract TRSPrivateBasicDataView class, however, and all classes inheriting from that
  should import this header along with the public one in their .m file.
  
- How the class is supposed to be used:
- This serves as a base class for any views accessing the Trsuted Shops backend. It can't work on its own, since
+ How the class importing this private interface is supposed to be used:
+ It serves as a base class for any views accessing the Trsuted Shops backend. It can't work on its own, since
  there is no general view data in the backend. Different views should use different categories of TRSNetworkAgent
  to obtain their relevant data, but the general loading mechanism and template methods for layout and data
  preparation are provided by this class.
  
- Various methods to override are not defined in this header (to keep them invisible from any public views),
- but in the TRSPrivateBasicDataViewLoading protocol. These methods are to be overridden by subclasses (except 5), which
- you can override, but don't have to). In summry those are:
+ These methods are to be overridden by subclasses (except 5, which you can override, but don't have to):
  
  1: (void)finishInit;
  2: (BOOL)setupData:(id)data;
@@ -42,7 +40,7 @@
  to the superclass
  
  4) is not to be confused with loadViewDataFromBackendWithSuccessBlock:failureBlock: !
- Here you should invoke whatever category method of TRSNetworkAgent is respinsbile for fetching the data your view subclass
+ Here you should invoke whatever category method of TRSNetworkAgent is responsbile for fetching the data your view subclass
  needs! On success respectively error you MUST invoke the corresponding block that is passed to this method! (Most likely
  you can just pass the blocks to your category method, if that has corresponding parameters.)
  
@@ -52,7 +50,9 @@
  "unknown error" to be logged. (note that this is just useful for logging, the actual error handlers still
  propagate the error to the relevant failure blocks).
  
- With these methods overridden, any subclass view will work like the following:
+ NONE of those methods are to be called by yourself, this is done by the public base implementation in TRSPrivateBasicDataView.
+ 
+ With them properly overridden, any subclass view will work like the following:
  Regardless how it is initialized, finishInit takes care of how it looks right after initialization and before
  data is loaded (note that also initWithCoder calls this before all properties are decoded).
  After init, the view can be loaded with loadViewDataFromBackendWithSuccessBlock:failureBlock:. The method prepares
