@@ -1,5 +1,10 @@
 # Trustbadge
 
+## Version 0.8.3
+
+* Fixed an issues with a method that is not available before iOS 9.
+* Redesigned the various view classes so their rating related data is now readable from outside the classes.
+
 ## Version 0.8.2
 
 * Fixed a bug that could lead to a crash when a shop without any reviews tried to load a TRSShopRatingView or a TRSShopGradeView. From now on "zero grade" views are possible.
