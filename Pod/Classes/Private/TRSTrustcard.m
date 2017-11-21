@@ -74,7 +74,7 @@ static const CGSize minContentViewSize = {300.0, 380.0}; // This is a size used 
 - (void)checkContentSizeForFiringTimer:(NSTimer *)timer {
 	// in most cases this will do nothing...
 	[self.webView evaluateJavaScript:@"getCardSize()" completionHandler:^(id _Nullable result, NSError * _Nullable error) {
-		if (error && !(error.domain == WKErrorDomain && error.code == WKErrorJavaScriptResultTypeIsUnsupported)) {
+		if (error) {
 			NSLog(@"JavaScript error: Could not inject get the card's size, error: %@", error);
 		} else {
 			NSNumber *width = result[@"width"];
@@ -136,7 +136,7 @@ decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
 	NSString *jsCall = [self jsInjectionStringForID];
 	[webView evaluateJavaScript:jsCall completionHandler:^(id _Nullable result, NSError * _Nullable error) {
 		// if this ever happens, we're probably screwed...
-		if (error && !(error.domain == WKErrorDomain && error.code == WKErrorJavaScriptResultTypeIsUnsupported)) {
+		if (error) {
 			NSLog(@"JavaScript error: Could not inject the trustbadge; string: '%@', error: %@", jsCall, error);
 		}
 	}];

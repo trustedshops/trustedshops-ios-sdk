@@ -222,8 +222,7 @@ NSString *const kTRSProductRatingViewUseOnlyOneLineKey = @"kTRSProductRatingView
 	NSTextAlignment myAlign = self.alignment;
 	// first figure out what natural means, also treat justified in the same way!
 	if (myAlign == NSTextAlignmentNatural || myAlign == NSTextAlignmentJustified) {
-		if ([UIView userInterfaceLayoutDirectionForSemanticContentAttribute:self.semanticContentAttribute]
-			== UIUserInterfaceLayoutDirectionLeftToRight) {
+		if ([TRSViewCommons isLeftToRightInterfaceDirection:self]) {
 			myAlign = NSTextAlignmentLeft;
 		} else {
 			myAlign = NSTextAlignmentRight;

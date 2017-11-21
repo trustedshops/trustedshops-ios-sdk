@@ -34,4 +34,6 @@
 
 + (NSString *)reviewCountStringForNumber:(NSNumber *)number;
 
++ (BOOL)isLeftToRightInterfaceDirection:(UIView *)view;
+
 @end

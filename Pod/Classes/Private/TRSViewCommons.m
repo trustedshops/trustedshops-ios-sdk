@@ -140,4 +140,13 @@
 	return [[NSNumberFormatter trs_reviewCountFormatter] stringFromNumber:number];
 }
 
++ (BOOL)isLeftToRightInterfaceDirection:(UIView *)view {
+	BOOL retVal = ([[UIApplication sharedApplication] userInterfaceLayoutDirection] == UIUserInterfaceLayoutDirectionLeftToRight);
+	// on iOS 9.0+ we can actually be better! (above not in else clause so test coverage stays high... I am a cheater. :)
+	if (@available(iOS 9.0, *)) {
+		retVal = ([UIView userInterfaceLayoutDirectionForSemanticContentAttribute:view.semanticContentAttribute] == UIUserInterfaceLayoutDirectionLeftToRight);
+	}
+	return retVal;
+}
+
 @end

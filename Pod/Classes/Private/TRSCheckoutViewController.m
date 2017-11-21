@@ -137,7 +137,7 @@ decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
 		for (NSString *jsCall in self.jsStrings) {
 			[webView evaluateJavaScript:jsCall completionHandler:^(id _Nullable result, NSError * _Nullable error) {
 				// if this ever happens, we're probably screwed...
-				if (error && !(error.domain == WKErrorDomain && error.code == WKErrorJavaScriptResultTypeIsUnsupported)) {
+				if (error) {
 					NSLog(@"JavaScript error: Could not evaluate string: '%@', error: %@", jsCall, error);
 				}
 			}];
