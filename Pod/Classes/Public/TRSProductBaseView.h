@@ -40,7 +40,7 @@
 @property (readonly) NSString *uuid;
 
 /**
- The total amount of reviews for this product in the Trusted Shops database. This is `nil` before
+ The total number of reviews for this product in the Trusted Shops database. This is `nil` before
  `loadViewDataFromBackendWithSuccessBlock:failureBlock:` is called.
  */
 @property (readonly) NSNumber *totalReviewCount;

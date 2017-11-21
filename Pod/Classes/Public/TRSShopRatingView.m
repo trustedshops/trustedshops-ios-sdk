@@ -36,9 +36,9 @@ NSString *const kTRSShopRatingViewDebugModeKey = @"kTRSShopRatingViewDebugModeKe
 @property (nonatomic, strong) TRSStarsView *starsView;
 @property (nonatomic, strong) UILabel *gradeLabel;
 
-@property (nonatomic, strong) NSNumber *gradeNumber;
-@property (nonatomic, strong) NSNumber *reviewCount;
-@property (nonatomic, copy) NSString *gradeText; // atm this not actually displayed in the view
+@property (nonatomic, readwrite, strong) NSNumber *overallMark;
+@property (nonatomic, readwrite, strong) NSNumber *totalReviewCount;
+@property (nonatomic, readwrite, copy) NSString *overallMarkDescription; // atm this not actually displayed in the view
 @property (nonatomic, copy) NSString *targetMarketISO3;
 @property (nonatomic, copy) NSString *languageISO2;
 
@@ -120,9 +120,9 @@ NSString *const kTRSShopRatingViewDebugModeKey = @"kTRSShopRatingViewDebugModeKe
 	
 	[[TRSNetworkAgent sharedAgent] getShopGradeForTrustedShopsID:self.tsID apiToken:self.apiToken success:^(NSDictionary *gradeData) {
 		
-		self.gradeText = [gradeData[@"overallMarkDescription"] readableMarkDescription];
-		self.gradeNumber = gradeData[@"overallMark"];
-		self.reviewCount = gradeData[@"activeReviewCount"];
+		self.overallMarkDescription = [gradeData[@"overallMarkDescription"] readableMarkDescription];
+		self.overallMark = gradeData[@"overallMark"];
+		self.totalReviewCount = gradeData[@"activeReviewCount"];
 		self.targetMarketISO3 = gradeData[@"targetMarketISO3"];
 		self.languageISO2 = gradeData[@"languageISO2"];
 		
@@ -130,7 +130,7 @@ NSString *const kTRSShopRatingViewDebugModeKey = @"kTRSShopRatingViewDebugModeKe
 		// we might get the wrong frame for this. Once it loads from the backend that's not to important,
 		// but if the request is e.g. cached, it might screw us.
 		dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.02 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-			self.starsView = [[TRSStarsView alloc] initWithFrame:self.starPlaceholder.bounds rating:self.gradeNumber];
+			self.starsView = [[TRSStarsView alloc] initWithFrame:self.starPlaceholder.bounds rating:self.overallMark];
 			self.starsView.activeStarColor = _activeStarColor;
 			self.starsView.inactiveStarColor = _inactiveStarColor;
 			[self.starPlaceholder addSubview:self.starsView];
@@ -261,12 +261,12 @@ NSString *const kTRSShopRatingViewDebugModeKey = @"kTRSShopRatingViewDebugModeKe
 	[self sizeToFit];
 	self.starPlaceholder.frame = [self frameForStars];
 	NSString *unit;
-	if (self.reviewCount.unsignedIntegerValue != 1) {
+	if (self.totalReviewCount.unsignedIntegerValue != 1) {
 		unit = TRSLocalizedString(@"Reviews", @"Used in the shop grading views' grade label (plural)") ;
 	} else {
 		unit = TRSLocalizedString(@"Review", @"Used in the shop grading views' grade label (singular)") ;
 	}
-	self.gradeLabel.text = [NSString stringWithFormat:@"%@ (%@ %@)", [self gradeNumberString], [self reviewCount], unit];
+	self.gradeLabel.text = [NSString stringWithFormat:@"%@ (%@ %@)", [self gradeNumberString], [self totalReviewCount], unit];
 	self.gradeLabel.frame = [self frameForGradeLabel];
 	CGFloat optimalSize = [TRSViewCommons optimalHeightForFontInLabel:self.gradeLabel];
 	self.gradeLabel.attributedText = [TRSViewCommons attributedGradeStringFromString:self.gradeLabel.text
@@ -325,13 +325,13 @@ NSString *const kTRSShopRatingViewDebugModeKey = @"kTRSShopRatingViewDebugModeKe
 
 - (NSString *)gradeNumberString {
 	NSNumberFormatter *trsFormatter = [NSNumberFormatter trs_trustbadgeRatingFormatter];
-	NSString *first = [trsFormatter stringFromNumber:self.gradeNumber];
+	NSString *first = [trsFormatter stringFromNumber:self.overallMark];
 	NSString *second = [trsFormatter stringFromNumber:@5];
 	return [NSString stringWithFormat:@"%@/%@", first, second];
 }
 
 - (NSString *)reviewCountString {
-	return [[NSNumberFormatter trs_reviewCountFormatter] stringFromNumber:self.reviewCount];
+	return [[NSNumberFormatter trs_reviewCountFormatter] stringFromNumber:self.totalReviewCount];
 }
 
 @end

@@ -25,7 +25,7 @@ NSString *const kTRSShopSimpleRatingViewDebugModeKey = @"kTRSShopSimpleRatingVie
 @property (nonatomic, strong) UIView *starPlaceholder;
 @property (nonatomic, strong) TRSStarsView * starsView;
 
-@property (nonatomic, strong) NSNumber *gradeNumber;
+@property (nonatomic, readwrite, strong) NSNumber *overallMark;
 @property (nonatomic, copy) NSString *targetMarketISO3;
 @property (nonatomic, copy) NSString *languageISO2;
 
@@ -96,7 +96,7 @@ NSString *const kTRSShopSimpleRatingViewDebugModeKey = @"kTRSShopSimpleRatingVie
 	
 	[[TRSNetworkAgent sharedAgent] getShopGradeForTrustedShopsID:self.tsID apiToken:self.apiToken success:^(NSDictionary *gradeData) {
 		
-		self.gradeNumber = gradeData[@"overallMark"];
+		self.overallMark = gradeData[@"overallMark"];
 		self.targetMarketISO3 = gradeData[@"targetMarketISO3"];
 		self.languageISO2 = gradeData[@"languageISO2"];
 		
@@ -104,7 +104,7 @@ NSString *const kTRSShopSimpleRatingViewDebugModeKey = @"kTRSShopSimpleRatingVie
 		// we might get the wrong frame for this. Once it loads from the backend that's not too important,
 		// but if the request is e.g. cached, it might screw us.
 		dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.02 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-			self.starsView = [[TRSStarsView alloc] initWithFrame:self.starPlaceholder.bounds rating:self.gradeNumber];
+			self.starsView = [[TRSStarsView alloc] initWithFrame:self.starPlaceholder.bounds rating:self.overallMark];
 			self.starsView.activeStarColor = _activeStarColor;
 			self.starsView.inactiveStarColor = _inactiveStarColor;
 			[self.starPlaceholder addSubview:self.starsView];
