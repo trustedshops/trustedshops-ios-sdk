@@ -136,9 +136,14 @@ decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
 	if (!self.didInjectParameters && self.jsStrings) {
 		for (NSString *jsCall in self.jsStrings) {
 			[webView evaluateJavaScript:jsCall completionHandler:^(id _Nullable result, NSError * _Nullable error) {
-				// if this ever happens, we're probably screwed...
 				if (error) {
-					NSLog(@"JavaScript error: Could not evaluate string: '%@', error: %@", jsCall, error);
+					// we don't care about unsupported result types (no result used). Other errors are logged and
+					// probably mess us up (since they indicate the necessary objects can't be injected).
+					if (@available(iOS 9.0, *)) {
+						if (error.code != WKErrorJavaScriptResultTypeIsUnsupported) {
+							NSLog(@"JavaScript error: Could not evaluate string: '%@', error: %@", jsCall, error);
+						}
+					}
 				}
 			}];
 		}
