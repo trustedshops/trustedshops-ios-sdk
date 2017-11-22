@@ -79,6 +79,24 @@ FOUNDATION_EXPORT CGFloat const kTRSShopRatingViewMinHeight;
 @property (nonatomic, assign) BOOL debugMode;
 
 /**
+ The overall mark as it was calculated for this shop in the Trusted Shops database. This is `nil` before
+ `loadShopRatingWithSuccessBlock:failureBlock:` or `loadShopRatingWithFailureBlock:` is called.
+ */
+@property (readonly) NSNumber *overallMark;
+
+/**
+ The total number of reviews for this shop in the Trusted Shops database. This is `nil` before
+ `loadShopRatingWithSuccessBlock:failureBlock:` or `loadShopRatingWithFailureBlock:` is called.
+ */
+@property (readonly) NSNumber *totalReviewCount;
+
+/**
+ A human readable, localized description of the overall mark for this shop. This is `nil` before
+ `loadShopRatingWithSuccessBlock:failureBlock:` or `loadShopRatingWithFailureBlock:` is called.
+ */
+@property (readonly) NSString *overallMarkDescription;
+
+/**
  Loads the grade data from the remote API.
  
  This method fetches the needed data from the Trusted Shops backend and must be called for the view to actually

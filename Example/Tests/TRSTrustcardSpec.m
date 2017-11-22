@@ -109,7 +109,7 @@ describe(@"TRSTrustcard", ^{
 			// stub the webView evaluate method so it doesn't actually try to evaluate anything (without content)
 			NSError *fakeError = [NSError errorWithDomain:WKErrorDomain code:WKErrorJavaScriptResultTypeIsUnsupported userInfo:nil];
 			id mockedError = OCMPartialMock(fakeError);
-			OCMExpect([mockedError code]);
+			OCMExpect([mockedError description]); // I log the error, which results in an implicit call to this... kinda hacky, but okay...
 			OCMStub([(WKWebView *)mockView evaluateJavaScript:[OCMArg any] completionHandler:([OCMArg invokeBlockWithArgs:[NSNull null], mockedError, nil])]);
 			[testCard checkContentSizeForFiringTimer:testCard.resizingTimer];
 			OCMVerifyAll(mockedError);
@@ -176,7 +176,7 @@ describe(@"TRSTrustcard", ^{
 			// stub the webView evaluate method so it doesn't actually try to evaluate anything (without content)
 			NSError *fakeError = [NSError errorWithDomain:WKErrorDomain code:WKErrorJavaScriptResultTypeIsUnsupported userInfo:nil];
 			id mockedError = OCMPartialMock(fakeError);
-			OCMExpect([mockedError code]);
+			OCMExpect([mockedError description]); // since I just log, I rely on this...
 			OCMStub([(WKWebView *)mockView evaluateJavaScript:[OCMArg any] completionHandler:([OCMArg invokeBlockWithArgs:[NSNull null], mockedError, nil])]);
 			[testCard webView:testCard.webView didFinishNavigation:nil]; // the navigation object isn't really used...
 			OCMVerifyAll(mockedError);

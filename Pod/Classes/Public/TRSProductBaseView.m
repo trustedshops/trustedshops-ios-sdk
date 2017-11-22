@@ -14,8 +14,14 @@
 #import "TRSPrivateBasicDataView+Private.h" // internally give me access to the private methods of my base view...
 
 NSString *const kTRSProductBaseViewSKUKey = @"kTRSProductBaseViewSKUKey";
+NSString *const kTRSProductBaseViewNameKey = @"kTRSProductBaseViewNameKey";
+NSString *const kTRSProductBaseViewUuidKey = @"kTRSProductBaseViewUuidKey";
+NSString *const kTRSProductBaseViewTotalReviewCountKey = @"kTRSProductBaseViewTotalReviewCountKey";
+NSString *const kTRSProductBaseViewOverallMarkKey = @"kTRSProductBaseViewOverallMarkKey";
+NSString *const kTRSProductBaseViewOverallMarkDescriptionKey = @"kTRSProductBaseViewOverallMarkDescriptionKey";
 
-// the class extension is in TRSProductBaseView+Private.h !
+// the class extension making the properties to be loaded writeable is in TRSProductBaseView+Private.h,
+// also TRSPrivateBasicDataView+Private.h contains the private methods required for the view loading mechanism to work.
 
 @implementation TRSProductBaseView
 
@@ -36,6 +42,11 @@ NSString *const kTRSProductBaseViewSKUKey = @"kTRSProductBaseViewSKUKey";
 	self = [super initWithCoder:aDecoder];
 	if (self) {
 		_SKU = [aDecoder decodeObjectForKey:kTRSProductBaseViewSKUKey];
+		_name = [aDecoder decodeObjectForKey:kTRSProductBaseViewNameKey];
+		_uuid = [aDecoder decodeObjectForKey:kTRSProductBaseViewUuidKey];
+		_totalReviewCount = [aDecoder decodeObjectForKey:kTRSProductBaseViewTotalReviewCountKey];
+		_overallMark = [aDecoder decodeObjectForKey:kTRSProductBaseViewOverallMarkKey];
+		_overallMarkDescription = [aDecoder decodeObjectForKey:kTRSProductBaseViewOverallMarkDescriptionKey];
 	}
 	return self;
 }
@@ -43,6 +54,11 @@ NSString *const kTRSProductBaseViewSKUKey = @"kTRSProductBaseViewSKUKey";
 - (void)encodeWithCoder:(NSCoder *)aCoder {
 	[super encodeWithCoder:aCoder];
 	[aCoder encodeObject:self.SKU forKey:kTRSProductBaseViewSKUKey];
+	[aCoder encodeObject:self.name forKey:kTRSProductBaseViewNameKey];
+	[aCoder encodeObject:self.uuid forKey:kTRSProductBaseViewUuidKey];
+	[aCoder encodeObject:self.totalReviewCount forKey:kTRSProductBaseViewTotalReviewCountKey];
+	[aCoder encodeObject:self.overallMark forKey:kTRSProductBaseViewOverallMarkKey];
+	[aCoder encodeObject:self.overallMarkDescription forKey:kTRSProductBaseViewOverallMarkDescriptionKey];
 }
 
 #pragma mark - Methods supposed to be overridden in subclasses (TRSPrivateBasicDataView+Private header)

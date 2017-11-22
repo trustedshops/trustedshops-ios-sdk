@@ -25,9 +25,9 @@
 @property (nonatomic, strong) UILabel *gradeAsTextLabel;
 @property (nonatomic, strong) UILabel *gradeAsNumbersLabel;
 
-@property (nonatomic, strong) NSNumber *gradeNumber;
-@property (nonatomic, strong) NSNumber *reviewCount;
-@property (nonatomic, copy) NSString *gradeText;
+@property (nonatomic, strong) NSNumber *overallMark;
+@property (nonatomic, strong) NSNumber *totalReviewCount;
+@property (nonatomic, copy) NSString *overallMarkDescription;
 @property (nonatomic, copy) NSString *targetMarketISO3;
 @property (nonatomic, copy) NSString *languageISO2;
 
@@ -149,16 +149,16 @@ describe(@"TRSShopGradeView", ^{
 				});
 				// see class for this: we have an artificial delay, so we need to wait before checking for changes!
 				dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-					expect(testView.gradeNumber).to.beKindOf([NSNumber class]);
-					expect(testView.reviewCount).to.beKindOf([NSNumber class]);
+					expect(testView.overallMark).to.beKindOf([NSNumber class]);
+					expect(testView.totalReviewCount).to.beKindOf([NSNumber class]);
 					expect(testView.targetMarketISO3).to.beKindOf([NSString class]);
-					expect(testView.gradeText).to.beKindOf([NSString class]);
+					expect(testView.overallMarkDescription).to.beKindOf([NSString class]);
 					expect(testView.languageISO2).to.beKindOf([NSString class]);
 					// this data is defined in the file shopGrade.data!
-					expect(testView.gradeNumber).to.equal(@4.87);
-					expect(testView.reviewCount).to.equal(@5);
+					expect(testView.overallMark).to.equal(@4.87);
+					expect(testView.totalReviewCount).to.equal(@5);
 					expect(testView.targetMarketISO3).to.equal(@"CHE");
-					expect(testView.gradeText).to.equal([@"EXCELLENT" readableMarkDescription]);
+					expect(testView.overallMarkDescription).to.equal([@"EXCELLENT" readableMarkDescription]);
 					expect(testView.languageISO2).to.equal(@"de");
 					
 					[OHHTTPStubs removeStub:myStub];
@@ -201,10 +201,10 @@ describe(@"TRSShopGradeView", ^{
 				});
 				// see class for this: we have an artificial delay, so we need to wait before checking for changes!
 				dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-					expect(testView.gradeNumber).to.beNil();
-					expect(testView.reviewCount).to.beNil();
+					expect(testView.overallMark).to.beNil();
+					expect(testView.totalReviewCount).to.beNil();
 					expect(testView.targetMarketISO3).to.beNil();
-					expect(testView.gradeText).to.beNil();
+					expect(testView.overallMarkDescription).to.beNil();
 					expect(testView.languageISO2).to.beNil();
 					[OHHTTPStubs removeStub:myStub];
 				});
@@ -235,10 +235,10 @@ describe(@"TRSShopGradeView", ^{
 				});
 				// see class for this: we have an artificial delay, so we need to wait before checking for changes!
 				dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-					expect(testView.gradeNumber).to.beNil();
-					expect(testView.reviewCount).to.beNil();
+					expect(testView.overallMark).to.beNil();
+					expect(testView.totalReviewCount).to.beNil();
 					expect(testView.targetMarketISO3).to.beNil();
-					expect(testView.gradeText).to.beNil();
+					expect(testView.overallMarkDescription).to.beNil();
 					expect(testView.languageISO2).to.beNil();
 					[OHHTTPStubs removeStub:myStub];
 				});
@@ -270,10 +270,10 @@ describe(@"TRSShopGradeView", ^{
 				});
 				// see class for this: we have an artificial delay, so we need to wait before checking for changes!
 				dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-					expect(testView.gradeNumber).to.beNil();
-					expect(testView.reviewCount).to.beNil();
+					expect(testView.overallMark).to.beNil();
+					expect(testView.totalReviewCount).to.beNil();
 					expect(testView.targetMarketISO3).to.beNil();
-					expect(testView.gradeText).to.beNil();
+					expect(testView.overallMarkDescription).to.beNil();
 					expect(testView.languageISO2).to.beNil();
 					[OHHTTPStubs removeStub:myStub];
 				});
@@ -309,10 +309,10 @@ describe(@"TRSShopGradeView", ^{
 				});
 				// see class for this: we have an artificial delay, so we need to wait before checking for changes!
 				dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-					expect(testView.gradeNumber).to.beNil();
-					expect(testView.reviewCount).to.beNil();
+					expect(testView.overallMark).to.beNil();
+					expect(testView.totalReviewCount).to.beNil();
 					expect(testView.targetMarketISO3).to.beNil();
-					expect(testView.gradeText).to.beNil();
+					expect(testView.overallMarkDescription).to.beNil();
 					expect(testView.languageISO2).to.beNil();
 					[OHHTTPStubs removeStub:myStub];
 				});
@@ -342,10 +342,10 @@ describe(@"TRSShopGradeView", ^{
 				});
 				// see class for this: we have an artificial delay, so we need to wait before checking for changes!
 				dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-					expect(testView.gradeNumber).to.beNil();
-					expect(testView.reviewCount).to.beNil();
+					expect(testView.overallMark).to.beNil();
+					expect(testView.totalReviewCount).to.beNil();
 					expect(testView.targetMarketISO3).to.beNil();
-					expect(testView.gradeText).to.beNil();
+					expect(testView.overallMarkDescription).to.beNil();
 					expect(testView.languageISO2).to.beNil();
 					[OHHTTPStubs removeStub:myStub];
 				});
@@ -375,10 +375,10 @@ describe(@"TRSShopGradeView", ^{
 				});
 				// see class for this: we have an artificial delay, so we need to wait before checking for changes!
 				dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-					expect(testView.gradeNumber).to.beNil();
-					expect(testView.reviewCount).to.beNil();
+					expect(testView.overallMark).to.beNil();
+					expect(testView.totalReviewCount).to.beNil();
 					expect(testView.targetMarketISO3).to.beNil();
-					expect(testView.gradeText).to.beNil();
+					expect(testView.overallMarkDescription).to.beNil();
 					expect(testView.languageISO2).to.beNil();
 					[OHHTTPStubs removeStub:myStub];
 				});
@@ -500,8 +500,8 @@ describe(@"TRSShopGradeView", ^{
 			TRSStarsView *fakeStars = [[TRSStarsView alloc] initWithRating:@5];
 			id starsMock = OCMPartialMock(fakeStars);
 			testView.starsView = starsMock;
-			testView.gradeText = @"Test";
-			testView.gradeNumber = @4.67;
+			testView.overallMarkDescription = @"Test";
+			testView.overallMark = @4.67;
 			OCMExpect([starsMock setFrame:testView.starPlaceholder.bounds]);
 			[testView layoutSubviews];
 			OCMVerifyAll(starsMock);
@@ -512,7 +512,7 @@ describe(@"TRSShopGradeView", ^{
 		it(@"returns a nicely formatted string for the reviewCount", ^{
 			TRSShopGradeView *view = [TRSShopGradeView new];
 			view.debugMode = YES;
-			view.gradeNumber = @4.78;
+			view.overallMark = @4.78;
 			NSString *result = [view gradeNumberString];
 			expect(result).to.equal(@"4.78/5.00"); // basically just the separator...
 		});

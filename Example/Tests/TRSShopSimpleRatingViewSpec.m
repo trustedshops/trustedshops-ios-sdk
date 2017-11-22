@@ -21,7 +21,7 @@
 @property (nonatomic, strong) UIView *starPlaceholder;
 @property (nonatomic, strong) TRSStarsView *starsView;
 
-@property (nonatomic, strong) NSNumber *gradeNumber;
+@property (nonatomic, strong) NSNumber *overallMark;
 @property (nonatomic, copy) NSString *targetMarketISO3;
 @property (nonatomic, copy) NSString *languageISO2;
 
@@ -141,11 +141,11 @@ describe(@"TRSShopSimpleRatingView", ^{
 				});
 				// see class for this: we have an artificial delay, so we need to wait before checking for changes!
 				dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-					expect(testView.gradeNumber).to.beKindOf([NSNumber class]);
+					expect(testView.overallMark).to.beKindOf([NSNumber class]);
 					expect(testView.targetMarketISO3).to.beKindOf([NSString class]);
 					expect(testView.languageISO2).to.beKindOf([NSString class]);
 					// this data is defined in the file shopGrade.data!
-					expect(testView.gradeNumber).to.equal(@4.87);
+					expect(testView.overallMark).to.equal(@4.87);
 					expect(testView.targetMarketISO3).to.equal(@"CHE");
 					expect(testView.languageISO2).to.equal(@"de");
 					
@@ -189,7 +189,7 @@ describe(@"TRSShopSimpleRatingView", ^{
 				});
 				// see class for this: we have an artificial delay, so we need to wait before checking for changes!
 				dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-					expect(testView.gradeNumber).to.beNil();
+					expect(testView.overallMark).to.beNil();
 					expect(testView.targetMarketISO3).to.beNil();
 					expect(testView.languageISO2).to.beNil();
 					[OHHTTPStubs removeStub:myStub];
@@ -221,7 +221,7 @@ describe(@"TRSShopSimpleRatingView", ^{
 				});
 				// see class for this: we have an artificial delay, so we need to wait before checking for changes!
 				dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-					expect(testView.gradeNumber).to.beNil();
+					expect(testView.overallMark).to.beNil();
 					expect(testView.targetMarketISO3).to.beNil();
 					expect(testView.languageISO2).to.beNil();
 					[OHHTTPStubs removeStub:myStub];
@@ -254,7 +254,7 @@ describe(@"TRSShopSimpleRatingView", ^{
 				});
 				// see class for this: we have an artificial delay, so we need to wait before checking for changes!
 				dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-					expect(testView.gradeNumber).to.beNil();
+					expect(testView.overallMark).to.beNil();
 					expect(testView.targetMarketISO3).to.beNil();
 					expect(testView.languageISO2).to.beNil();
 					[OHHTTPStubs removeStub:myStub];
@@ -291,7 +291,7 @@ describe(@"TRSShopSimpleRatingView", ^{
 				});
 				// see class for this: we have an artificial delay, so we need to wait before checking for changes!
 				dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-					expect(testView.gradeNumber).to.beNil();
+					expect(testView.overallMark).to.beNil();
 					expect(testView.targetMarketISO3).to.beNil();
 					expect(testView.languageISO2).to.beNil();
 					[OHHTTPStubs removeStub:myStub];
@@ -322,7 +322,7 @@ describe(@"TRSShopSimpleRatingView", ^{
 				});
 				// see class for this: we have an artificial delay, so we need to wait before checking for changes!
 				dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-					expect(testView.gradeNumber).to.beNil();
+					expect(testView.overallMark).to.beNil();
 					expect(testView.targetMarketISO3).to.beNil();
 					expect(testView.languageISO2).to.beNil();
 					[OHHTTPStubs removeStub:myStub];
@@ -353,7 +353,7 @@ describe(@"TRSShopSimpleRatingView", ^{
 				});
 				// see class for this: we have an artificial delay, so we need to wait before checking for changes!
 				dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-					expect(testView.gradeNumber).to.beNil();
+					expect(testView.overallMark).to.beNil();
 					expect(testView.targetMarketISO3).to.beNil();
 					expect(testView.languageISO2).to.beNil();
 					[OHHTTPStubs removeStub:myStub];

@@ -62,6 +62,12 @@ FOUNDATION_EXPORT CGFloat const kTRSShopSimpleRatingViewMinHeight;
 @property (nonatomic, assign) BOOL debugMode;
 
 /**
+ The overall mark as it was calculated for this shop in the Trusted Shops database. This is `nil` before
+ `loadShopSimpleRatingWithSuccessBlock:failureBlock:` or `loadShopSimpleRatingWithFailureBlock:` is called.
+ */
+@property (readonly) NSNumber *overallMark;
+
+/**
  Loads the grade data from the remote API.
  
  This method fetches the needed data from the Trusted Shops backend and must be called for the view to actually

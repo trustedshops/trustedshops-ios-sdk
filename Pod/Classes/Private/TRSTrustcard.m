@@ -74,9 +74,8 @@ static const CGSize minContentViewSize = {300.0, 380.0}; // This is a size used 
 - (void)checkContentSizeForFiringTimer:(NSTimer *)timer {
 	// in most cases this will do nothing...
 	[self.webView evaluateJavaScript:@"getCardSize()" completionHandler:^(id _Nullable result, NSError * _Nullable error) {
-		if (error && !(error.domain == WKErrorDomain && error.code == WKErrorJavaScriptResultTypeIsUnsupported)) {
-			NSLog(@"JavaScript error: Could not inject get the card's size, error: %@", error);
-		} else {
+		if (!error && result && [result isKindOfClass:[NSDictionary class]]) {
+			// update: we won't log any failure in resizing anymore, as that can often happen due to lag
 			NSNumber *width = result[@"width"];
 			NSNumber *height = result[@"height"];
 			if (width.floatValue != -1 && height.floatValue != -1) {
@@ -136,7 +135,7 @@ decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
 	NSString *jsCall = [self jsInjectionStringForID];
 	[webView evaluateJavaScript:jsCall completionHandler:^(id _Nullable result, NSError * _Nullable error) {
 		// if this ever happens, we're probably screwed...
-		if (error && !(error.domain == WKErrorDomain && error.code == WKErrorJavaScriptResultTypeIsUnsupported)) {
+		if (error) {
 			NSLog(@"JavaScript error: Could not inject the trustbadge; string: '%@', error: %@", jsCall, error);
 		}
 	}];
