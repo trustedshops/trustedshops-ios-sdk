@@ -29,7 +29,7 @@
 																	 options:kNilOptions
 																	   error:nil];
 			id sku, name, uuid, totalReviewCount, overallMark, overallMarkDescription;
-			NSDictionary *actuallyRelevant;
+			NSDictionary *actuallyRelevant, *retVal;
 			BOOL invalid = NO;
 			@try {
 				actuallyRelevant = jsonData[@"response"][@"data"][@"product"];
@@ -40,6 +40,12 @@
 					totalReviewCount = actuallyRelevant[@"qualityIndicators"][@"reviewIndicator"][@"totalReviewCount"];
 					overallMark = actuallyRelevant[@"qualityIndicators"][@"reviewIndicator"][@"overallMark"];
 					overallMarkDescription = actuallyRelevant[@"qualityIndicators"][@"reviewIndicator"][@"overallMarkDescription"];
+					retVal = @{@"sku" : sku,
+							   @"name" : name,
+							   @"uuid" : uuid,
+							   @"totalReviewCount" : totalReviewCount,
+							   @"overallMark" : overallMark,
+							   @"overallMarkDescription" : overallMarkDescription ? overallMarkDescription : kTRSTechnicalMarkNA};
 				} else {
 					invalid = YES;
 				}
@@ -55,12 +61,6 @@
 				}
 				return;
 			}
-			NSDictionary *retVal = @{@"sku" : sku,
-									 @"name" : name,
-									 @"uuid" : uuid,
-									 @"totalReviewCount" : totalReviewCount,
-									 @"overallMark" : overallMark,
-									 @"overallMarkDescription" : overallMarkDescription ? overallMarkDescription : kTRSTechnicalMarkNA};
 			
 			if (success) success(retVal);
 			return;

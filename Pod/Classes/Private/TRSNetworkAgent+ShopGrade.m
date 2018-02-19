@@ -26,7 +26,7 @@
 																	 options:kNilOptions
 																	   error:nil];
 			id markDesc, mark, revCount, targetMarket, language;
-			NSDictionary *actuallyRelevant;
+			NSDictionary *actuallyRelevant, *retVal;
 			BOOL invalid = NO;
 			@try {
 				actuallyRelevant = jsonData[@"response"][@"data"][@"shop"];
@@ -36,6 +36,11 @@
 					revCount = actuallyRelevant[@"qualityIndicators"][@"reviewIndicator"][@"activeReviewCount"];
 					targetMarket = actuallyRelevant[@"targetMarketISO3"];
 					language = actuallyRelevant[@"languageISO2"];
+					retVal = @{@"overallMarkDescription" : markDesc ? markDesc : kTRSTechnicalMarkNA,
+							   @"overallMark" : mark,
+							   @"activeReviewCount" : revCount,
+							   @"targetMarketISO3" : targetMarket,
+							   @"languageISO2" : language};
 				} else {
 					invalid = YES;
 				}
@@ -51,11 +56,6 @@
 				}
 				return;
 			}
-			NSDictionary *retVal = @{@"overallMarkDescription" : markDesc ? markDesc : kTRSTechnicalMarkNA,
-									 @"overallMark" : mark,
-									 @"activeReviewCount" : revCount,
-									 @"targetMarketISO3" : targetMarket,
-									 @"languageISO2" : language};
 			
 			if (success) success(retVal);
 			return;
