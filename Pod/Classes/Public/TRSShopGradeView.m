@@ -144,8 +144,8 @@ NSString *const kTRSShopGradeViewDebugModeKey = @"kTRSShopGradeViewDebugModeKey"
 		// but if the request is e.g. cached, it might screw us.
 		dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.02 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
 			self.starsView = [[TRSStarsView alloc] initWithFrame:self.starPlaceholder.bounds rating:self.overallMark];
-			self.starsView.activeStarColor = _activeStarColor;
-			self.starsView.inactiveStarColor = _inactiveStarColor;
+			self.starsView.activeStarColor = self->_activeStarColor;
+			self.starsView.inactiveStarColor = self->_inactiveStarColor;
 			[self.starPlaceholder addSubview:self.starsView];
 			if (success) {
 				success();

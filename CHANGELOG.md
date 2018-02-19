@@ -1,5 +1,9 @@
 # Trustbadge
 
+## Version 0.8.4
+* Fixed an issue that could lead to a crash when the backend provided incomplete product review data
+* Fixed an issue that could lead to a crash when the backend provided incomplete shop review data
+
 ## Version 0.8.3
 
 * Fixed an issues with a method that is not available before iOS 9.

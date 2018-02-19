@@ -110,7 +110,7 @@
 		
 		self.trustbadge = theTrustbadge;
 		self.trustbadge.debugMode = self.debugMode;
-		self.trustbadge.customColor = _customColor;
+		self.trustbadge.customColor = self->_customColor;
 		
 		if (success) { // don't these lines look kinda sick? shifting brackets... :)
 			success();

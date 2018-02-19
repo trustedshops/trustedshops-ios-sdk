@@ -1,0 +1,9 @@
+HTTP/1.1 400 Bad Request
+Date: Fri, 25 Jun 2016 11:36:17 GMT
+Server: Apache
+Access-Control-Allow-Origin: *
+Connection: close
+Transfer-Encoding: identity
+Content-Type: application/json
+
+{"response":{"code":200,"data":{"product":{"sku":"123456","name":"somename","uuid":"4de34cfbcb359f8b4550c5306728be7a"}},"message":"SUCCESS","responseInfo":{"apiVersion":"2.4.18"},"status":"SUCCESS"}}

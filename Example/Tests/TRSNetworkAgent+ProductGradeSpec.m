@@ -174,6 +174,41 @@ describe(@"TRSNetworkAgent+ProductGrade", ^{
 			
 		});
 		
+		context(@"when receiving an incomplete response", ^{
+			
+			__block NSString *trustedShopsID;
+			beforeEach(^{
+				trustedShopsID = @"123123123";
+				NSString *file = OHPathForFileInBundle(@"productGrade-incomplete.response", [NSBundle bundleForClass:[self class]]);
+				NSData *messageData = [NSData dataWithContentsOfFile:file];
+				OHHTTPStubsResponse *response = [OHHTTPStubsResponse responseWithHTTPMessageData:messageData];
+				
+				[OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+					return [request.URL isEqual:[NSURL productGradeAPIURLForTSID:@"123123123" skuHash:skuHash debug:YES]];
+				}
+									withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
+										return response;
+									}];
+			});
+			
+			afterEach(^{
+				[OHHTTPStubs removeAllStubs];
+			});
+			
+			it(@"passes a custom error code (Invalid data)", ^{
+				waitUntil(^(DoneCallback done) {
+					[agent getProductGradeForTrustedShopsID:@"123123123"
+												   apiToken:@"apiToken"
+														SKU:sku success:nil
+													failure:^(NSError *error) {
+														expect(error.code).to.equal(TRSErrorDomainInvalidData);
+														done();
+													}];
+				});
+			});
+			
+		});
+		
 		context(@"when receiving a not found error", ^{
 			
 			__block NSString *trustedShopsID;

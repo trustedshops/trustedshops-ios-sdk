@@ -101,6 +101,8 @@
 		1D6695581CD23E8600AA0E4E /* checkout_unit_test.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = checkout_unit_test.html; sourceTree = "<group>"; };
 		1D69A5A21CC791D2001A93EE /* TRSConsumerSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TRSConsumerSpec.m; sourceTree = "<group>"; };
 		1D69A5A31CC791D2001A93EE /* TRSOrderSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TRSOrderSpec.m; sourceTree = "<group>"; };
+		1D6BB066203AF4330080B26E /* productGrade-incomplete.response */ = {isa = PBXFileReference; lastKnownFileType = text; path = "productGrade-incomplete.response"; sourceTree = "<group>"; };
+		1D6BB067203AF4F40080B26E /* shopGrade-incomplete.data */ = {isa = PBXFileReference; lastKnownFileType = text; path = "shopGrade-incomplete.data"; sourceTree = "<group>"; };
 		1D6D50591D424C26004A5431 /* NSString+TRSStringOperationsSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+TRSStringOperationsSpec.m"; sourceTree = "<group>"; };
 		1D6FAE561D2AAA3C0007BF7E /* TRSNetworkAgent+ShopGradeSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "TRSNetworkAgent+ShopGradeSpec.m"; sourceTree = "<group>"; };
 		1D6FDCF01D13F9CC00884C2A /* shopGrade.data */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = shopGrade.data; sourceTree = "<group>"; };
@@ -346,9 +348,11 @@
 				1D6695581CD23E8600AA0E4E /* checkout_unit_test.html */,
 				1D6FDCF01D13F9CC00884C2A /* shopGrade.data */,
 				1D6FDCF21D13FBFF00884C2A /* shopGrade-badrequest.response */,
+				1D6BB067203AF4F40080B26E /* shopGrade-incomplete.data */,
 				1D6FDCF41D13FD8000884C2A /* shopGrade-notfound.response */,
 				1D445D091D2D0C9700A5B099 /* productGrade.data */,
 				1D445D0B1D2D0CCC00A5B099 /* productGrade-badrequest.response */,
+				1D6BB066203AF4330080B26E /* productGrade-incomplete.response */,
 				1D445D0D1D2D0D0700A5B099 /* productGrade-notfound.response */,
 				1D867C041D3CBBAF008AD80E /* productReviews.data */,
 			);
