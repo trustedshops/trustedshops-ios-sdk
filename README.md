@@ -32,7 +32,7 @@ Trustbadge is available through [CocoaPods](http://cocoapods.org). To install
 it, simply add the following line to your Podfile:
 
 ```ruby
-pod "Trustbadge", "~> 0.8.3"
+pod "Trustbadge", "~> 0.8.4"
 ```
 
 #### Example project ####
@@ -78,7 +78,10 @@ It also explains the buyer protection (depending on services) inline, so custome
 
 By default the trustbadge relies on your application's root `UIViewController` to modally display the information about your certificate. To change that set the `trustcardPresentingViewController` to a different `UIViewController`.
 
-The trustbadge also has a `debugMode` property that, if set to `YES`, makes it load data from the Trusted Shops development API instead of the production API (the above example TS-ID works for debug and normal mode). Note that your shop's TS-ID might not be present on this API, if you need to debug with your own shop's TS-ID please contact Trusted Shops (see below).
+The trustbadge also has a `debugMode` property that, if set to `YES`, makes it load data from the Trusted Shops development API instead of the production API (the above example TS-ID works for debug and normal mode).
+Note that your shop's TS-ID might not be present on this API.
+If you need to debug with your own shop's TS-ID please contact Trusted Shops (see below) or use one of the sample TS-IDs in the Example project of the pod
+for trying things out with the debug flag.
 
 - - - -
 
@@ -229,6 +232,8 @@ You should only leave out the email address if you really don't have it, as this
 Like is the case with the `TRSTrustbadgeView`, you can specify a `customPresentingViewController` object to manage the presentation of the displayed dialogue boxes during the finish process.
 
 If you are developing your application and want to test this SDK feature __please be aware that unless the order object's `debugMode` property is set to `YES`, the generated data is sent to the Trusted Shops production database!__
+Also, if you are already using your own authorized TS-ID, it is very likely that it is not part of the QA environment and you will get an error.
+If that is the case, you should use one of the sample TS-IDs that are part of the Example project of the pod together with the debug flag.
 
 - - - -
 
@@ -237,12 +242,17 @@ To use this SDK in your own mobile app Trusted Shops needs to audit and authoriz
 
 Please contact your customer success manager directly or via [members@trustedshops.com](mailto:members@trustedshops.com) to start the process.
 
+Note that an authorized TS-ID is usually only present on our production backend, so if you use the debug flag on any object with an already
+authorized TS-ID you might get an error (the data on QA is periodically updated with an anonymized dump from our production server).
+If you encounter this during development, temporarily use one of the TS-IDs from the Example project to test your code with the debug flag.
+
 - - - -
 
 ## 7. About this SDK ##
 
 #### Documentation ####
-The latest documentation can be found at [cocoadocs](http://cocoadocs.org/docsets/Trustbadge/0.8.3/).
+~~The latest documentation can be found at [cocoadocs](http://cocoadocs.org/docsets/Trustbadge/0.8.2/).~~
+Cocoadocs is unfortunately no longer actively maintained, please rely on the source or appledoc directly. Thanks go to [Orta](http://orta.io) for providing this service for so long!
 All headers are documented according to the [appledoc](http://appledoc.gentlebytes.com/appledoc/) syntax, so you can also use that to directly include the docsets into your XCode.
 
 #### Data Privacy ####

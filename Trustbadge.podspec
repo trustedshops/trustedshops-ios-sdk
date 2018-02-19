@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = "Trustbadge"
-  s.version          = "0.8.3"
+  s.version          = "0.8.4"
   s.summary          = "Trusted Shops SDK for iOS"
   s.description      = <<-DESC
                        Use the Trustbadge and Trusted Shops guarantee in your iOS app.
@@ -13,7 +13,7 @@ Pod::Spec.new do |s|
   s.platform     = :ios, '8.0'
   s.requires_arc = true
 
-  s.dependency 'MaryPopin', '~> 1.4.2'
+  s.dependency 'MaryPopin', '~> 1.4.3'
 
   s.source_files        = 'Pod/Classes/**/*'
   s.public_header_files = 'Pod/Classes/Public/*.h'
