@@ -1,5 +1,7 @@
 # Trusted Shops SDK for iOS #
 
+> ⚠️ This project is no longer supported, maintained and has been replaced by [trustedshops-public/etrusted-ios-trustbadge-library](https://github.com/trustedshops-public/etrusted-ios-trustbadge-library).
+
 [![CI Status](https://travis-ci.org/trustedshops/trustedshops-ios-sdk.svg?branch=master)](https://travis-ci.org/trustedshops/trustedshops-ios-sdk)
 [![Coverage Status](https://coveralls.io/repos/github/trustedshops/trustedshops-ios-sdk/badge.svg?branch=master)](https://coveralls.io/github/trustedshops/trustedshops-ios-sdk?branch=master)
 [![Version](https://img.shields.io/cocoapods/v/Trustbadge.svg?style=flat)](http://cocoapods.org/pods/Trustbadge)
